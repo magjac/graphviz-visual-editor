@@ -31,9 +31,9 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
-            News
+            Graphviz Visual Editor
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">Help</Button>
         </Toolbar>
       </AppBar>
     </div>
