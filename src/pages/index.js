@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 import ButtonAppBar from '../ButtonAppBar';
+import Graph from '../Graph';
 
 const styles = theme => ({
   root: {
@@ -62,6 +63,7 @@ class Index extends React.Component {
         <Button variant="contained" color="secondary" onClick={this.handleClick}>
           Super Secret Password
         </Button>
+        <Graph dotSrc='digraph {a -> b}' />
       </div>
     );
   }
