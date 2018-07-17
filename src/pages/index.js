@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
+import ButtonAppBar from '../ButtonAppBar';
 
 const styles = theme => ({
   root: {
@@ -40,6 +41,8 @@ class Index extends React.Component {
 
     return (
       <div className={classes.root}>
+        <ButtonAppBar>
+        </ButtonAppBar>
         <Dialog open={open} onClose={this.handleClose}>
           <DialogTitle>Super Secret Password</DialogTitle>
           <DialogContent>
