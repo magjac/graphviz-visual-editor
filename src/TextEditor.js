@@ -28,6 +28,7 @@ class TextEditor extends React.Component {
         <TextField
           id="dotSrc"
           multiline
+          fullWidth
           rows="4"
           value={this.props.dotSrc}
           onChange={this.handleChange()}
