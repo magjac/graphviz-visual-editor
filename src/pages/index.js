@@ -34,7 +34,13 @@ class Index extends React.Component {
       <div className={classes.root}>
         <ButtonAppBar>
         </ButtonAppBar>
-        <Grid container spacing={24}>
+        <Grid container
+          spacing={24}
+          style={{
+            margin: 0,
+            width: '100%',
+          }}
+        >
           <Grid item xs={6}>
             <Paper className={classes.paper}>
               <TextEditor
