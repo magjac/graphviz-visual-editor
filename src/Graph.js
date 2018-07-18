@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { select } from 'd3-selection';
+import { transition } from 'd3-transition';
 import 'd3-graphviz';
 
 const styles = {
@@ -34,6 +35,7 @@ class Graph extends React.Component {
 
   createGraph() {
     this.graphviz = select(this.node).graphviz()
+      .transition(() => transition().duration(1000))
       .onerror(this.handleError);
     this.graphviz.renderDot(this.props.dotSrc);
   }
