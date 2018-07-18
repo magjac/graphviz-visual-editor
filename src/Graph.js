@@ -28,8 +28,13 @@ class Graph extends React.Component {
     this.createGraph()
   }
 
+  handleError(errorMessage) {
+    // FIXME
+  }
+
   createGraph() {
-    this.graphviz = select(this.node).graphviz();
+    this.graphviz = select(this.node).graphviz()
+      .onerror(this.handleError);
     this.graphviz.renderDot(this.props.dotSrc);
   }
 

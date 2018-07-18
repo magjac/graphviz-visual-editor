@@ -11,6 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
 import ButtonAppBar from '../ButtonAppBar';
 import Graph from '../Graph';
+import TextEditor from '../TextEditor';
 
 const styles = theme => ({
   root: {
@@ -21,6 +22,9 @@ const styles = theme => ({
 class Index extends React.Component {
   state = {
     open: false,
+    dotSrc: `strict digraph {
+  a -> b
+}`,
   };
 
   handleClose = () => {
@@ -34,6 +38,12 @@ class Index extends React.Component {
       open: true,
     });
   };
+
+  handleTextChange = (text) => {
+    this.setState({
+      dotSrc: text
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -63,7 +73,11 @@ class Index extends React.Component {
         <Button variant="contained" color="secondary" onClick={this.handleClick}>
           Super Secret Password
         </Button>
-        <Graph dotSrc='digraph {a -> b}' />
+        <TextEditor
+          dotSrc={this.state.dotSrc}
+          onTextChange={this.handleTextChange}
+        />
+        <Graph dotSrc={this.state.dotSrc} />
       </div>
     );
   }
