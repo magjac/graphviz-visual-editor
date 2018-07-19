@@ -57,7 +57,10 @@ class Index extends React.Component {
           </Grid>
           <Grid item xs={6}>
             <Paper className={classes.paper}>
-              <Graph dotSrc={this.state.dotSrc} />
+              <Graph
+                dotSrc={this.state.dotSrc}
+                onTextChange={this.handleTextChange}
+              />
             </Paper>
           </Grid>
         </Grid>
