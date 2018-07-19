@@ -36,7 +36,11 @@ class Graph extends React.Component {
   createGraph() {
     this.graphviz = d3_select(this.node).graphviz()
       .transition(() => d3_transition().duration(1000))
-      .onerror(this.handleError);
+      .onerror(this.handleError)
+      .on('initEnd', () => this.renderGraph.call(this));
+  }
+
+  renderGraph() {
     this.graphviz.renderDot(this.props.dotSrc);
   }
 

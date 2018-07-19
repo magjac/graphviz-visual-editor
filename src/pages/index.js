@@ -32,6 +32,8 @@ class Index extends React.Component {
 
     return (
       <div className={classes.root}>
+        {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
+        <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar>
         </ButtonAppBar>
         <Grid container
