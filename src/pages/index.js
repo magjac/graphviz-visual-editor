@@ -7,6 +7,8 @@ import withRoot from '../withRoot';
 import ButtonAppBar from '../ButtonAppBar';
 import Graph from '../Graph';
 import TextEditor from '../TextEditor';
+import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
+import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 
 const styles = theme => ({
   root: {
@@ -17,7 +19,9 @@ const styles = theme => ({
 class Index extends React.Component {
   state = {
     dotSrc: `strict digraph {
-  a -> b
+    a [shape="ellipse" style="filled" fillcolor="` + d3_schemeCategory10[0] + `"]
+    b [shape="polygon" style="filled" fillcolor="` + d3_schemeCategory10[1] + `"]
+    a -> b [fillcolor="` + d3_schemePaired[0] + `" color="` + d3_schemePaired[1] + `"]
 }`,
   };
 
