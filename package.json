@@ -10,6 +10,7 @@
     "d3-transition": "^1.1.1",
     "prop-types": "latest",
     "react": "latest",
+    "react-ace": "^6.1.4",
     "react-dom": "latest",
     "react-scripts": "latest"
   },
