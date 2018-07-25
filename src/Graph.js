@@ -151,6 +151,7 @@ class Graph extends React.Component {
     var nodes = d3_selectAll(".node");
     var edges = d3_selectAll(".edge");
 
+    d3_select(window).on("resize", this.resizeSVG.bind(this));
     d3_select(document).on("click", this.handleClickOutside.bind(this));
     d3_select(document).on("keyup", this.handleKeyUpOutside.bind(this));
     d3_select(document).on("mousemove", this.handleMouseMove.bind(this));
@@ -398,6 +399,14 @@ class Graph extends React.Component {
     }
   }
 
+  resizeSVG() {
+    let width = this.node.parentElement.clientWidth;
+    let height = this.node.parentElement.clientHeight;
+    d3_select(this.node).selectWithoutDataPropagation("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
+  };
   render() {
     return <div ref={node => this.node = node}>
            </div>;
