@@ -22,6 +22,7 @@ class TextEditor extends React.Component {
           height="calc(100vh - 64px - 2 * 12px)"
           // half viewport width - 2 * padding
           width="calc(50vw - 2 * 12px)"
+          wrapEnabled
           editorProps={{
             $blockScrolling: true
           }}
