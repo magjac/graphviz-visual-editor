@@ -23,6 +23,7 @@ class TextEditor extends React.Component {
           // half viewport width - 2 * padding
           width="calc(50vw - 2 * 12px)"
           wrapEnabled
+          showPrintMargin={false}
           editorProps={{
             $blockScrolling: true
           }}
