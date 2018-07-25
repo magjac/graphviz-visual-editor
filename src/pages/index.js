@@ -14,6 +14,10 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
   },
+  paper: {
+    // viewport height - app bar - 2 * padding
+    height: "calc(100vh - 64px - 2 * 12px)",
+  }
 });
 
 class Index extends React.Component {

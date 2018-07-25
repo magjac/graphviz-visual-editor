@@ -18,6 +18,8 @@ class TextEditor extends React.Component {
           onChange={this.handleChange}
           name="UNIQUE_ID_OF_DIV"
           value={this.props.dotSrc}
+          // viewport height - app bar - 2 * padding
+          height="calc(100vh - 64px - 2 * 12px)"
           editorProps={{
             $blockScrolling: true
           }}

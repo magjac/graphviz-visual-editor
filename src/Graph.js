@@ -128,12 +128,16 @@ class Graph extends React.Component {
   }
 
   createGraph() {
+    let width = this.node.parentElement.clientWidth;
+    let height = this.node.parentElement.clientHeight;
     if (this.rendering) {
         this.pendingUpdate = true;
         return;
     }
     this.rendering = true;
     this.graphviz = d3_select(this.node).graphviz()
+      .width(width)
+      .height(height)
       .transition(() => d3_transition().duration(1000))
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
