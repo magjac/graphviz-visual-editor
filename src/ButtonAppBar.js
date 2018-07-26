@@ -25,15 +25,29 @@ function ButtonAppBar(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+      >
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+          >
             <MenuIcon />
           </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
+          <Typography
+            variant="title"
+            color="inherit"
+            className={classes.flex}
+          >
             Graphviz Visual Editor
           </Typography>
-          <Button color="inherit">Help</Button>
+          <Button
+            color="inherit"
+          >
+            Help
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
