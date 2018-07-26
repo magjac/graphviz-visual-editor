@@ -130,6 +130,7 @@ class Graph extends React.Component {
   createGraph() {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
+    let fit = this.props.fit;
     if (this.rendering) {
         this.pendingUpdate = true;
         return;
@@ -138,6 +139,7 @@ class Graph extends React.Component {
     this.graphviz = d3_select(this.node).graphviz()
       .width(width)
       .height(height)
+      .fit(fit)
       .transition(() => d3_transition().duration(1000))
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
@@ -402,10 +404,16 @@ class Graph extends React.Component {
   resizeSVG() {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
-    d3_select(this.node).selectWithoutDataPropagation("svg")
+    let fit = this.props.fit;
+    let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+
+    svg
       .attr("width", width)
-      .attr("height", height)
-      .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
+      .attr("height", height);
+    if (!fit) {
+      svg
+        .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
+    }
   };
   render() {
     return <div ref={node => this.node = node}>

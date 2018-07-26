@@ -10,6 +10,7 @@ class MainMenu extends React.Component {
 
   handleSettings = () => {
     this.props.onMenuClose();
+    this.props.onSettingsClick();
   };
 
   render() {

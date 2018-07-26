@@ -8,6 +8,7 @@ import ButtonAppBar from '../ButtonAppBar';
 import Graph from '../Graph';
 import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
+import SettingsDialog from '../SettingsDialog';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 
@@ -29,6 +30,8 @@ class Index extends React.Component {
     a -> b [fillcolor="` + d3_schemePaired[0] + `" color="` + d3_schemePaired[1] + `"]
 }`,
     menuIsOpen: false,
+    settingsDialogIsOpen: false,
+    fitGraph : false,
   };
 
   handleTextChange = (text) => {
@@ -50,6 +53,23 @@ class Index extends React.Component {
     });
   }
 
+  handleSettingsClick = () => {
+    this.setState({
+      settingsDialogIsOpen: true,
+    });
+  }
+  handleSettingsClose = () => {
+    this.setState({
+      settingsDialogIsOpen: false,
+    });
+  }
+
+  handleFitGraphSwitchChange = (fitGraph) => {
+    this.setState({
+      fitGraph: fitGraph,
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -65,6 +85,13 @@ class Index extends React.Component {
           anchorEl={this.state.menuAnchorEl}
           open={this.state.menuIsOpen}
           onMenuClose={this.handleMenuClose}
+          onSettingsClick={this.handleSettingsClick}
+        />
+        <SettingsDialog
+          open={this.state.settingsDialogIsOpen}
+          fitGraph={this.state.fitGraph}
+          onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
+          onSettingsClose={this.handleSettingsClose}
         />
         <Grid container
           spacing={24}
@@ -85,6 +112,7 @@ class Index extends React.Component {
             <Paper className={classes.paper}>
               <Graph
                 dotSrc={this.state.dotSrc}
+                fit={this.state.fitGraph}
                 onTextChange={this.handleTextChange}
               />
             </Paper>
