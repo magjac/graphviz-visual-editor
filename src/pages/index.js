@@ -7,6 +7,7 @@ import withRoot from '../withRoot';
 import ButtonAppBar from '../ButtonAppBar';
 import Graph from '../Graph';
 import TextEditor from '../TextEditor';
+import MainMenu from '../MainMenu';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 
@@ -27,11 +28,25 @@ class Index extends React.Component {
     b [shape="polygon" style="filled" fillcolor="` + d3_schemeCategory10[1] + `"]
     a -> b [fillcolor="` + d3_schemePaired[0] + `" color="` + d3_schemePaired[1] + `"]
 }`,
+    menuIsOpen: false,
   };
 
   handleTextChange = (text) => {
     this.setState({
       dotSrc: text
+    });
+  }
+
+  handleMenuButtonClick = (anchorEl) => {
+    this.setState({
+      menuIsOpen: true,
+      menuAnchorEl: anchorEl,
+    });
+  }
+
+  handleMenuClose = () => {
+    this.setState({
+      menuIsOpen: false,
     });
   }
 
@@ -42,8 +57,15 @@ class Index extends React.Component {
       <div className={classes.root}>
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
-        <ButtonAppBar>
+        <ButtonAppBar
+          onMenuButtonClick={this.handleMenuButtonClick}
+        >
         </ButtonAppBar>
+        <MainMenu
+          anchorEl={this.state.menuAnchorEl}
+          open={this.state.menuIsOpen}
+          onMenuClose={this.handleMenuClose}
+        />
         <Grid container
           spacing={24}
           style={{
