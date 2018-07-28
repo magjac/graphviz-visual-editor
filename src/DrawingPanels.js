@@ -51,6 +51,19 @@ class DrawingPanels extends React.Component {
     const { classes } = this.props;
     const { expanded } = this.state;
 
+    const shapes = [
+      'ellipse',
+      'circle',
+      'oval',
+      'polygon',
+      'triangle',
+      'egg',
+      'point',
+      'plaintext',
+      'plain',
+      'diamond',
+    ];
+
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={expanded === 'nodeShapePanel'} onChange={this.handleChange('nodeShapePanel')}>
@@ -59,39 +72,11 @@ class DrawingPanels extends React.Component {
             <Typography className={classes.secondaryHeading}>node shapes</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.columns}>
-            <div className={classes.column} onClick={this.handleNodeShapeClick('ellipse')}>
-              ellipse
+          {shapes.map((shape) =>
+            <div key={shape} className={classes.column} onClick={this.handleNodeShapeClick(shape)}>
+              {shape}
             </div>
-            <div className={classes.column}>
-              box
-            </div>
-            <div className={classes.column}>
-              circle
-            </div>
-            <div className={classes.column}>
-              oval
-            </div>
-            <div className={classes.column}>
-              polygon
-            </div>
-            <div className={classes.column}>
-              triangle
-            </div>
-            <div className={classes.column}>
-              egg
-            </div>
-            <div className={classes.column}>
-              point
-            </div>
-            <div className={classes.column}>
-              plaintext
-            </div>
-            <div className={classes.column}>
-              plain
-            </div>
-            <div className={classes.column}>
-              diamond
-            </div>
+          )}
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'arrowHeadPanel'} onChange={this.handleChange('arrowHeadPanel')}>

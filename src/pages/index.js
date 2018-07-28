@@ -56,6 +56,12 @@ class Index extends React.Component {
     });
   }
 
+  handleModeChange = (mode) => {
+    this.setState({
+      mode: mode,
+    });
+  }
+
   handleSettingsClick = () => {
     this.setState({
       settingsDialogIsOpen: true,
@@ -133,7 +139,7 @@ class Index extends React.Component {
             <Paper className={classes.paper}>
               <TextEditor
                 // allocated viewport width - 2 * padding
-                width={`calc(${columns.textEditor * 100 / 12 * 0.8}vw - 2 * 12px)`}
+                width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
                 dotSrc={this.state.dotSrc}
                 onTextChange={this.handleTextChange}
               />
