@@ -151,8 +151,9 @@ class Graph extends React.Component {
   }
 
   addEventHandlers() {
-    var nodes = d3_selectAll(".node");
-    var edges = d3_selectAll(".edge");
+    var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    var nodes = svg.selectAll(".node");
+    var edges = svg.selectAll(".edge");
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
     d3_select(document).on("click", this.handleClickOutside.bind(this));
