@@ -24,7 +24,7 @@ const styles = {
 function ButtonAppBar(props) {
   const { classes } = props;
 
-  var handleClick = (event) => {
+  var handleMenuButtonClick = (event) => {
     props.onMenuButtonClick(event.currentTarget);
   };
 
@@ -38,7 +38,7 @@ function ButtonAppBar(props) {
             className={classes.menuButton}
             color="inherit"
             aria-label="Menu"
-            onClick={handleClick}
+            onClick={handleMenuButtonClick}
           >
             <MenuIcon />
           </IconButton>
