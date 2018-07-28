@@ -12,7 +12,8 @@
     "react": "latest",
     "react-ace": "^6.1.4",
     "react-dom": "latest",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "typeface-roboto": "0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
