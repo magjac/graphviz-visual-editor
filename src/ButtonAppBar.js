@@ -28,6 +28,14 @@ function ButtonAppBar(props) {
     props.onMenuButtonClick(event.currentTarget);
   };
 
+  var handleBrowseClick = (event) => {
+    props.onModeChange('browse');
+  };
+
+  var handleDrawClick = (event) => {
+    props.onModeChange('draw');
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -49,6 +57,18 @@ function ButtonAppBar(props) {
           >
             Graphviz Visual Editor
           </Typography>
+          <Button
+            color="inherit"
+            onClick={handleBrowseClick}
+          >
+            Browse
+          </Button>
+          <Button
+            color="inherit"
+            onClick={handleDrawClick}
+          >
+            Draw
+          </Button>
           <Button
             color="inherit"
           >

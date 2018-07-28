@@ -20,8 +20,7 @@ class TextEditor extends React.Component {
           value={this.props.dotSrc}
           // viewport height - app bar - 2 * padding
           height="calc(100vh - 64px - 2 * 12px)"
-          // half viewport width - 2 * padding
-          width="calc(50vw - 2 * 12px)"
+          width={this.props.width}
           wrapEnabled
           showPrintMargin={false}
           editorProps={{

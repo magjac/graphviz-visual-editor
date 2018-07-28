@@ -33,6 +33,7 @@ class Index extends React.Component {
 }`,
     menuIsOpen: false,
     settingsDialogIsOpen: false,
+    mode: 'browse',
     fitGraph : false,
   };
 
@@ -86,12 +87,27 @@ class Index extends React.Component {
   render() {
     const { classes } = this.props;
 
+    var columns;
+    if (this.state.mode === 'draw') {
+      columns = {
+        textEditor: 3,
+        drawPanel: 3,
+        graph: 6,
+      }
+    } else { /* browse */
+      columns = {
+        textEditor: 6,
+        drawPanel: false,
+        graph: 6,
+      }
+    }
     return (
       <div className={classes.root}>
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
           onMenuButtonClick={this.handleMenuButtonClick}
+          onModeChange={this.handleModeChange}
         >
         </ButtonAppBar>
         <MainMenu
@@ -113,15 +129,26 @@ class Index extends React.Component {
             width: '100%',
           }}
         >
-          <Grid item xs={6}>
+          <Grid item xs={columns.textEditor}>
             <Paper className={classes.paper}>
               <TextEditor
+                // allocated viewport width - 2 * padding
+                width={`calc(${columns.textEditor * 100 / 12 * 0.8}vw - 2 * 12px)`}
                 dotSrc={this.state.dotSrc}
                 onTextChange={this.handleTextChange}
               />
             </Paper>
           </Grid>
-          <Grid item xs={3}>
+          {this.state.mode === 'draw' && (
+              <Grid item xs={columns.drawPanel}>
+                <Paper className={classes.paper}>
+                  <DrawingPanels
+                    onNodeShapeClick={this.handleNodeShapeClick}
+                  />
+                </Paper>
+              </Grid>
+          )}
+          <Grid item xs={columns.graph}>
             <Paper className={classes.paper}>
               <Graph
                 dotSrc={this.state.dotSrc}
@@ -130,11 +157,6 @@ class Index extends React.Component {
                 registerDrawNode={this.registerDrawNode}
               />
             </Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <DrawingPanels
-              onNodeShapeClick={this.handleNodeShapeClick}
-            />
           </Grid>
         </Grid>
       </div>
