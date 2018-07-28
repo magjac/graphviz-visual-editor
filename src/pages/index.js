@@ -10,6 +10,7 @@ import Graph from '../Graph';
 import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
 import SettingsDialog from '../SettingsDialog';
+import DrawingPanels from '../DrawingPanels';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 
@@ -71,6 +72,17 @@ class Index extends React.Component {
     });
   }
 
+  handleNodeShapeClick = (shape) => {
+    let x0 = 100;
+    let y0 = -100;
+    let nodeName = 'hej';
+    this.drawNode(x0, y0, nodeName, {shape: shape});
+  }
+
+  registerDrawNode = (drawNode) => {
+    this.drawNode = drawNode;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -109,14 +121,20 @@ class Index extends React.Component {
               />
             </Paper>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
             <Paper className={classes.paper}>
               <Graph
                 dotSrc={this.state.dotSrc}
                 fit={this.state.fitGraph}
                 onTextChange={this.handleTextChange}
+                registerDrawNode={this.registerDrawNode}
               />
             </Paper>
+          </Grid>
+          <Grid item xs={3}>
+            <DrawingPanels
+              onNodeShapeClick={this.handleNodeShapeClick}
+            />
           </Grid>
         </Grid>
       </div>

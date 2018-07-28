@@ -143,6 +143,7 @@ class Graph extends React.Component {
       .transition(() => d3_transition().duration(1000))
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
+    this.props.registerDrawNode(this.graphviz.drawNode.bind(this.graphviz));
   }
 
   renderGraph() {
