@@ -6,6 +6,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {shapes} from './shapes';
 
 const styles = theme => ({
   root: {
@@ -51,19 +52,6 @@ class DrawingPanels extends React.Component {
     const { classes } = this.props;
     const { expanded } = this.state;
 
-    const shapes = [
-      'ellipse',
-      'circle',
-      'oval',
-      'polygon',
-      'triangle',
-      'egg',
-      'point',
-      'plaintext',
-      'plain',
-      'diamond',
-    ];
-
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={expanded === 'nodeShapePanel'} onChange={this.handleChange('nodeShapePanel')}>
@@ -72,11 +60,15 @@ class DrawingPanels extends React.Component {
             <Typography className={classes.secondaryHeading}>node shapes</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.columns}>
-          {shapes.map((shape) =>
-            <div key={shape} className={classes.column} onClick={this.handleNodeShapeClick(shape)}>
-              {shape}
-            </div>
-          )}
+            {Object.keys(shapes).map((shape) =>
+              <div
+                dangerouslySetInnerHTML={{__html: shapes[shape]}}
+                key={shape}
+                className={classes.column}
+                onClick={this.handleNodeShapeClick(shape)}
+              >
+              </div>
+            )}
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'arrowHeadPanel'} onChange={this.handleChange('arrowHeadPanel')}>
