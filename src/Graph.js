@@ -418,7 +418,9 @@ class Graph extends React.Component {
     }
   };
   render() {
-    return <div ref={node => this.node = node}>
+    return <div
+             ref={node => this.node = node}
+           >
            </div>;
   }
 }
