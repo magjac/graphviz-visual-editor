@@ -48,6 +48,10 @@ class DrawingPanels extends React.Component {
     this.props.onNodeShapeClick(shape);
   };
 
+  handleNodeShapeDragStart = shape => (event) => {
+    event.dataTransfer.setData("text", shape)
+  };
+
   render() {
     const { classes } = this.props;
     const { expanded } = this.state;
@@ -66,6 +70,8 @@ class DrawingPanels extends React.Component {
                 key={shape}
                 className={classes.column}
                 onClick={this.handleNodeShapeClick(shape)}
+                draggable="true"
+                onDragStart={this.handleNodeShapeDragStart(shape)}
               >
               </div>
             )}

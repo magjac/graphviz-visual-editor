@@ -417,9 +417,32 @@ class Graph extends React.Component {
         .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
     }
   };
+
+  handleNodeShapeDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  handleNodeShapeDrop = (event) => {
+    event.preventDefault();
+    let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
+    let node = graph0.node();
+    var svg = node.ownerSVGElement;
+    var point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    point = point.matrixTransform(node.getScreenCTM().inverse());
+    var [x0, y0] = [point.x, point.y];
+    let shape = event.dataTransfer.getData("text")
+    let nodeName = shape;
+    this.graphviz.drawNode(x0, y0, nodeName, {shape: shape});
+  };
+
   render() {
     return <div
              ref={node => this.node = node}
+             draggable="true"
+             onDragOver={this.handleNodeShapeDragOver}
+             onDrop={this.handleNodeShapeDrop.bind(this)}
            >
            </div>;
   }
