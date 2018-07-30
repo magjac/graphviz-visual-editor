@@ -35,6 +35,7 @@ class Graph extends React.Component {
     this.selectedNode = d3_select(null);
     this.selectedNodeStroke = null;
     this.selectedNodeFill = null;
+    this.lastNodeShape = null;
     this.nodeIndex = null;
     this.edgeIndex = null;
     this.pendingUpdate = false;
@@ -196,7 +197,7 @@ class Graph extends React.Component {
       } else {
         this.nodeIndex += 1;
       }
-      var shape = this.shapes[this.nodeIndex % this.shapes.length];
+      var shape = this.getLastNodeShape();
       var numLetters = 'z'.charCodeAt(0) - 'a'.charCodeAt(0) + 1;
       var letter = String.fromCharCode('a'.charCodeAt(0) + (this.nodeIndex % numLetters));
       var digit = Math.floor(this.nodeIndex / numLetters) || '';
@@ -372,6 +373,10 @@ class Graph extends React.Component {
     }
   }
 
+  getLastNodeShape() {
+    return this.lastNodeShape;
+  }
+
   resizeSVG() {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
@@ -407,6 +412,7 @@ class Graph extends React.Component {
     let nodeName = attributes.shape;
     this.graphviz.drawNode(x0, y0, nodeName, attributes);
     this.graphviz.insertDrawnNode(nodeName);
+    this.lastNodeShape = attributes.shape;
     let dotSrcLines = this.props.dotSrc.split('\n');
     dot.insertNode(dotSrcLines, nodeName, attributes);
     this.props.onTextChange(dotSrcLines.join('\n'));
