@@ -9,6 +9,7 @@ import { mouse as d3_mouse} from 'd3-selection';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import 'd3-graphviz';
+import * as dot from './dot'
 
 const styles = {
   root: {
@@ -206,19 +207,7 @@ class Graph extends React.Component {
         .drawNode(x0, y0, nodeName, attributes)
         .insertDrawnNode(nodeName);
       var dotSrcLines = this.props.dotSrc.split('\n');
-      var attributesString = ''
-      for (var name of Object.keys(attributes)) {
-        if (attributes[name] !== null) {
-          let re = '^[a-zA-Z\\x80-\\xff_][a-zA-Z\\x80-\\xff_0-9]*$';
-          let value = attributes[name];
-          if (!value.match(re)) {
-            value = '"' + value + '"';
-          }
-          attributesString += ' ' + name + '=' + value;
-        }
-      }
-      var newNodeString = '    ' + nodeName + ' [' + attributesString + ']';
-      dotSrcLines.splice(-1, 0, newNodeString);
+      dot.insertNode(dotSrcLines, nodeName, attributes);
       this.props.onTextChange(dotSrcLines.join('\n'));
     }
   }
@@ -276,11 +265,12 @@ class Graph extends React.Component {
       var endNodeName = endNode.selectWithoutDataPropagation("title").text();
       this.graphviz
         .insertDrawnEdge(startNodeName + '->' + endNodeName);
-      var fillcolor = d3_schemePaired[(this.edgeIndex * 2) % 12];
-      var color = d3_schemePaired[(this.edgeIndex * 2 + 1) % 12];
+      let attributes = {
+        color: d3_schemePaired[(this.edgeIndex * 2 + 1) % 12],
+        fillcolor: d3_schemePaired[(this.edgeIndex * 2) % 12],
+      };
       var dotSrcLines = this.props.dotSrc.split('\n');
-      var newEdgeString = '    ' + startNodeName + ' -> ' + endNodeName + ' [color="' + color + '"; fillcolor="' + fillcolor + '"]';
-      dotSrcLines.splice(-1, 0, newEdgeString);
+      dot.insertEdge(dotSrcLines, startNodeName, endNodeName, attributes);
       this.props.onTextChange(dotSrcLines.join('\n'));
     }
     this.isDrawingEdge = false;
@@ -346,14 +336,7 @@ class Graph extends React.Component {
       var edgeName = this.selectedEdge.selectWithoutDataPropagation("title").text();
       edgeName = edgeName.replace('->', ' -> ');
       var dotSrcLines = this.props.dotSrc.split('\n');
-      while (true) {
-        var i = dotSrcLines.findIndex(function (element, index) {
-          return element.indexOf(edgeName) >= 0;
-        });
-        if (i < 0)
-          break;
-        dotSrcLines.splice(i, 1);
-      }
+      dot.deleteEdge(dotSrcLines, edgeName);
       this.props.onTextChange(dotSrcLines.join('\n'));
     }
   }
@@ -378,27 +361,7 @@ class Graph extends React.Component {
     if (this.selectedNode.size() !== 0) {
       var nodeName = this.selectedNode.selectWithoutDataPropagation("title").text();
       var dotSrcLines = this.props.dotSrc.split('\n');
-      while (true) {
-        var i = dotSrcLines.findIndex(function (element, index) {
-          var trimmedElement = element.trim();
-          if (trimmedElement === nodeName) {
-            return true;
-          }
-          if (trimmedElement.indexOf(nodeName + ' ') === 0) {
-            return true;
-          }
-          if (trimmedElement.indexOf(' ' + nodeName + ' ') >= 0) {
-            return true;
-          }
-          if (trimmedElement.indexOf(' ' + nodeName, trimmedElement.length - nodeName.length - 1) >= 0) {
-            return true;
-          }
-          return false;
-        });
-        if (i < 0)
-          break;
-        dotSrcLines.splice(i, 1);
-      }
+      dot.deleteNode(dotSrcLines, nodeName);
       this.props.onTextChange(dotSrcLines.join('\n'));
     }
   }
