@@ -132,6 +132,9 @@ class Graph extends React.Component {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
     let fit = this.props.fit;
+    if (this.props.dotSrc.length === 0) {
+      return;
+    }
     if (this.rendering) {
         this.pendingUpdate = true;
         return;
