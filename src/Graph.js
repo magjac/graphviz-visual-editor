@@ -192,16 +192,8 @@ class Graph extends React.Component {
     if (event.which === 2) {
       var graph0 = d3_select(nodes[i]).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
       var [x0, y0] = d3_mouse(graph0.node());
-      if (this.nodeIndex === null) {
-        this.nodeIndex = d3_selectAll('.node').size();
-      } else {
-        this.nodeIndex += 1;
-      }
       var shape = this.getLastNodeShape();
-      var numLetters = 'z'.charCodeAt(0) - 'a'.charCodeAt(0) + 1;
-      var letter = String.fromCharCode('a'.charCodeAt(0) + (this.nodeIndex % numLetters));
-      var digit = Math.floor(this.nodeIndex / numLetters) || '';
-      var nodeName = letter + digit;
+      var nodeName = this.getNextNodeId();
       var fillcolor = d3_schemeCategory10[this.nodeIndex % 10];
       var color = 'black';
       var attributes = {
@@ -373,6 +365,15 @@ class Graph extends React.Component {
     }
   }
 
+  getNextNodeId() {
+    if (this.nodeIndex === null) {
+      this.nodeIndex = d3_selectAll('.node').size();
+    } else {
+      this.nodeIndex += 1;
+    }
+    return 'n' + this.nodeIndex;
+  }
+
   getLastNodeShape() {
     return this.lastNodeShape;
   }
@@ -409,7 +410,7 @@ class Graph extends React.Component {
     let attributes = {
       shape: event.dataTransfer.getData("text"),
     }
-    let nodeName = attributes.shape;
+    let nodeName = this.getNextNodeId();
     this.graphviz.drawNode(x0, y0, nodeName, attributes);
     this.graphviz.insertDrawnNode(nodeName);
     this.lastNodeShape = attributes.shape;
