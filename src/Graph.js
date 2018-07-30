@@ -25,6 +25,7 @@ class Graph extends React.Component {
     super(props);
     this.state = {};
     this.createGraph = this.createGraph.bind(this)
+    this.renderGraph = this.renderGraph.bind(this)
     this.isDrawingEdge = false;
     this.isDrawingNode = false;
     this.startNode = null;
@@ -116,7 +117,7 @@ class Graph extends React.Component {
   }
 
   componentDidUpdate() {
-    this.createGraph()
+    this.renderGraph()
   }
 
   handleError(errorMessage) {
@@ -129,6 +130,13 @@ class Graph extends React.Component {
   }
 
   createGraph() {
+    this.graphviz = d3_select(this.node).graphviz()
+      .onerror(this.handleError.bind(this))
+      .on('initEnd', () => this.renderGraph.call(this));
+    this.props.registerDrawNode(this.graphviz.drawNode.bind(this.graphviz));
+  }
+
+  renderGraph() {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
     let fit = this.props.fit;
@@ -140,18 +148,12 @@ class Graph extends React.Component {
         return;
     }
     this.rendering = true;
-    this.graphviz = d3_select(this.node).graphviz()
+    this.graphviz
       .width(width)
       .height(height)
       .fit(fit)
       .transition(() => d3_transition().duration(1000))
-      .onerror(this.handleError.bind(this))
-      .on('initEnd', () => this.renderGraph.call(this));
-    this.props.registerDrawNode(this.graphviz.drawNode.bind(this.graphviz));
-  }
-
-  renderGraph() {
-    this.graphviz.renderDot(this.props.dotSrc, this.addEventHandlers.bind(this));
+      .renderDot(this.props.dotSrc, this.addEventHandlers.bind(this))
   }
 
   addEventHandlers() {
@@ -172,7 +174,7 @@ class Graph extends React.Component {
     this.rendering = false;
     if (this.pendingUpdate) {
       this.pendingUpdate = false;
-      this.createGraph();
+      this.renderGraph();
     }
   }
 
