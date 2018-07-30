@@ -395,9 +395,15 @@ class Graph extends React.Component {
     point.y = event.clientY;
     point = point.matrixTransform(node.getScreenCTM().inverse());
     var [x0, y0] = [point.x, point.y];
-    let shape = event.dataTransfer.getData("text")
-    let nodeName = shape;
-    this.graphviz.drawNode(x0, y0, nodeName, {shape: shape});
+    let attributes = {
+      shape: event.dataTransfer.getData("text"),
+    }
+    let nodeName = attributes.shape;
+    this.graphviz.drawNode(x0, y0, nodeName, attributes);
+    this.graphviz.insertDrawnNode(nodeName);
+    let dotSrcLines = this.props.dotSrc.split('\n');
+    dot.insertNode(dotSrcLines, nodeName, attributes);
+    this.props.onTextChange(dotSrcLines.join('\n'));
   };
 
   render() {
