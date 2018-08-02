@@ -407,6 +407,13 @@ class Graph extends React.Component {
   };
 
   insertNodeWithCurrentAttributes(x0, y0, attributes) {
+    if (x0 == null || y0 == null) {
+      let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
+      let node = graph0.node();
+      let bbox = node.getBBox();
+      x0 = x0 || bbox.x + bbox.width / 2;
+      y0 = y0 || bbox.y + bbox.height / 2;
+    }
     Object.assign(this.currentNodeAttributes, attributes);
     let nodeName = this.getNextNodeId();
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
