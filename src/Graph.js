@@ -216,6 +216,15 @@ class Graph extends React.Component {
       this.deleteSelectedNode.call(this);
       this.graphviz.removeDrawnEdge();
     }
+    if (event.ctrlKey && event.key === 'c') {
+      if (this.selectedNode.size() > 0) {
+          let nodeName = this.selectedNode.selectWithoutDataPropagation("title").text();
+          this.currentNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
+      }
+    }
+    if (event.ctrlKey && event.key === 'v') {
+      this.insertNodeWithCurrentAttributes(null, null, this.currentNodeAttributes);
+    }
     this.isDrawingEdge = false;
   }
 

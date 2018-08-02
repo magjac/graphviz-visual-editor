@@ -58,6 +58,15 @@ export default class DotGraph {
     this.dotSrc = this.dotSrcLines.join('\n');
   }
 
+  getNodeAttributes(nodeName) {
+    let node = this.nodes.filter(node => node.node_id.id === nodeName)[0];
+    let attributes = node.attr_list.reduce(function(attrs, attr, i) {
+      attrs[attr.id] = attr.eq;
+      return attrs;
+    }, {});
+    return attributes;
+  }
+
   parseDot() {
     this.ast = parser(this.dotSrc)[0];
     let children = this.ast.children;
