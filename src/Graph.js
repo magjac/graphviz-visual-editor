@@ -6,7 +6,6 @@ import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
 import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
-import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import 'd3-graphviz';
 import * as dot from './dot'
@@ -35,7 +34,10 @@ class Graph extends React.Component {
     this.selectedNode = d3_select(null);
     this.selectedNodeStroke = null;
     this.selectedNodeFill = null;
-    this.lastNodeShape = null;
+    this.currentNodeAttributes = {
+      style: 'filled',
+      fillcolor: 'transparent'
+    }
     this.nodeIndex = null;
     this.edgeIndex = null;
     this.pendingUpdate = false;
@@ -135,7 +137,7 @@ class Graph extends React.Component {
     this.graphviz = d3_select(this.node).graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
-    this.props.registerDrawNode(this.graphviz.drawNode.bind(this.graphviz));
+    this.props.registerInsertNode(this.insertNodeWithCurrentAttributes.bind(this));
   }
 
   renderGraph() {
@@ -192,22 +194,7 @@ class Graph extends React.Component {
     if (event.which === 2) {
       var graph0 = d3_select(nodes[i]).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
       var [x0, y0] = d3_mouse(graph0.node());
-      var shape = this.getLastNodeShape();
-      var nodeName = this.getNextNodeId();
-      var fillcolor = d3_schemeCategory10[this.nodeIndex % 10];
-      var color = 'black';
-      var attributes = {
-        shape: shape,
-        style: 'filled',
-        fillcolor: fillcolor,
-        color: color,
-      };
-      this.graphviz
-        .drawNode(x0, y0, nodeName, attributes)
-        .insertDrawnNode(nodeName);
-      var dotSrcLines = this.props.dotSrc.split('\n');
-      dot.insertNode(dotSrcLines, nodeName, attributes);
-      this.props.onTextChange(dotSrcLines.join('\n'));
+      this.insertNodeWithCurrentAttributes(x0, y0, this.currentNodeAttributes);
     }
   }
 
@@ -374,10 +361,6 @@ class Graph extends React.Component {
     return 'n' + this.nodeIndex;
   }
 
-  getLastNodeShape() {
-    return this.lastNodeShape;
-  }
-
   resizeSVG() {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
@@ -410,14 +393,24 @@ class Graph extends React.Component {
     let attributes = {
       shape: event.dataTransfer.getData("text"),
     }
-    let nodeName = this.getNextNodeId();
-    this.graphviz.drawNode(x0, y0, nodeName, attributes);
+    this.insertNodeWithCurrentAttributes(x0, y0, attributes);
+  }
+
+  insertNode(x0, y0, nodeName, attributes) {
+   // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
+    let attributesCopy = Object.assign({}, attributes);
+    this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
     this.graphviz.insertDrawnNode(nodeName);
-    this.lastNodeShape = attributes.shape;
     let dotSrcLines = this.props.dotSrc.split('\n');
     dot.insertNode(dotSrcLines, nodeName, attributes);
     this.props.onTextChange(dotSrcLines.join('\n'));
   };
+
+  insertNodeWithCurrentAttributes(x0, y0, attributes) {
+    Object.assign(this.currentNodeAttributes, attributes);
+    let nodeName = this.getNextNodeId();
+    this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
+  }
 
   render() {
     return <div

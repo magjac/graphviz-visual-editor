@@ -80,14 +80,13 @@ class Index extends React.Component {
   }
 
   handleNodeShapeClick = (shape) => {
-    let x0 = 100;
-    let y0 = -100;
-    let nodeName = 'hej';
-    this.drawNode(x0, y0, nodeName, {shape: shape});
+    let x0 = null;
+    let y0 = null;
+    this.insertNode(x0, y0, {shape: shape});
   }
 
-  registerDrawNode = (drawNode) => {
-    this.drawNode = drawNode;
+  registerInsertNode = (insertNode) => {
+    this.insertNode = insertNode;
   }
 
   render() {
@@ -160,7 +159,7 @@ class Index extends React.Component {
                 dotSrc={this.state.dotSrc}
                 fit={this.state.fitGraph}
                 onTextChange={this.handleTextChange}
-                registerDrawNode={this.registerDrawNode}
+                registerInsertNode={this.registerInsertNode}
               />
             </Paper>
           </Grid>

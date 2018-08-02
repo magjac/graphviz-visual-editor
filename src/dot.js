@@ -48,7 +48,7 @@ export function deleteEdge(dotSrcLines, edgeName) {
 function toAttributesString(attributes) {
   var attributesString = ''
   for (var name of Object.keys(attributes)) {
-    if (attributes[name] !== null) {
+    if (attributes[name] != null) {
       let re = '^[a-zA-Z\\x80-\\xff_][a-zA-Z\\x80-\\xff_0-9]*$';
       let value = attributes[name];
       if (!value.match(re)) {
