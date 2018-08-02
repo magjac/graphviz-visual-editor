@@ -8,7 +8,7 @@ import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import 'd3-graphviz';
-import * as dot from './dot'
+import DotGraph from './dot'
 
 const styles = {
   root: {
@@ -161,6 +161,8 @@ class Graph extends React.Component {
   }
 
   addEventHandlers() {
+    this.dotGraph = new DotGraph(this.props.dotSrc);
+
     var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
     var nodes = svg.selectAll(".node");
     var edges = svg.selectAll(".edge");
@@ -255,9 +257,8 @@ class Graph extends React.Component {
         color: d3_schemePaired[(this.edgeIndex * 2 + 1) % 12],
         fillcolor: d3_schemePaired[(this.edgeIndex * 2) % 12],
       };
-      var dotSrcLines = this.props.dotSrc.split('\n');
-      dot.insertEdge(dotSrcLines, startNodeName, endNodeName, attributes);
-      this.props.onTextChange(dotSrcLines.join('\n'));
+      this.dotGraph.insertEdge(startNodeName, endNodeName, attributes);
+      this.props.onTextChange(this.dotGraph.dotSrc);
     }
     this.isDrawingEdge = false;
   }
@@ -321,9 +322,8 @@ class Graph extends React.Component {
     if (this.selectedEdge.size() !== 0) {
       var edgeName = this.selectedEdge.selectWithoutDataPropagation("title").text();
       edgeName = edgeName.replace('->', ' -> ');
-      var dotSrcLines = this.props.dotSrc.split('\n');
-      dot.deleteEdge(dotSrcLines, edgeName);
-      this.props.onTextChange(dotSrcLines.join('\n'));
+      this.dotGraph.deleteEdge(edgeName);
+      this.props.onTextChange(this.dotGraph.dotSrc);
     }
   }
 
@@ -346,9 +346,8 @@ class Graph extends React.Component {
     this.selectedNode.style("display", "none");
     if (this.selectedNode.size() !== 0) {
       var nodeName = this.selectedNode.selectWithoutDataPropagation("title").text();
-      var dotSrcLines = this.props.dotSrc.split('\n');
-      dot.deleteNode(dotSrcLines, nodeName);
-      this.props.onTextChange(dotSrcLines.join('\n'));
+      this.dotGraph.deleteNode(nodeName);
+      this.props.onTextChange(this.dotGraph.dotSrc);
     }
   }
 
@@ -401,9 +400,8 @@ class Graph extends React.Component {
     let attributesCopy = Object.assign({}, attributes);
     this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
     this.graphviz.insertDrawnNode(nodeName);
-    let dotSrcLines = this.props.dotSrc.split('\n');
-    dot.insertNode(dotSrcLines, nodeName, attributes);
-    this.props.onTextChange(dotSrcLines.join('\n'));
+    this.dotGraph.insertNode(nodeName, attributes);
+    this.props.onTextChange(this.dotGraph.dotSrc);
   };
 
   insertNodeWithCurrentAttributes(x0, y0, attributes) {
