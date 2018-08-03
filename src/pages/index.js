@@ -40,7 +40,7 @@ class Index extends React.Component {
       dotSrc: dotSrc,
       menuIsOpen: false,
       settingsDialogIsOpen: false,
-      mode: 'browse',
+      mode: localStorage.getItem('mode') || 'browse',
       fitGraph : false,
     };
   }
@@ -69,6 +69,7 @@ class Index extends React.Component {
     this.setState({
       mode: mode,
     });
+    localStorage.setItem('mode', mode);
   }
 
   handleSettingsClick = () => {
