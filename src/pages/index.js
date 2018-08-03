@@ -28,12 +28,16 @@ class Index extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      dotSrc: `strict digraph {
+    let dotSrc = localStorage.getItem('dotSrc');
+    if (dotSrc == null) {
+      dotSrc = `strict digraph {
     a [shape="ellipse" style="filled" fillcolor="` + d3_schemeCategory10[0] + `"]
     b [shape="polygon" style="filled" fillcolor="` + d3_schemeCategory10[1] + `"]
     a -> b [fillcolor="` + d3_schemePaired[0] + `" color="` + d3_schemePaired[1] + `"]
-}`,
+}`;
+    }
+    this.state = {
+      dotSrc: dotSrc,
       menuIsOpen: false,
       settingsDialogIsOpen: false,
       mode: 'browse',
@@ -45,6 +49,7 @@ class Index extends React.Component {
     this.setState({
       dotSrc: text
     });
+    localStorage.setItem('dotSrc', text);
   }
 
   handleMenuButtonClick = (anchorEl) => {
