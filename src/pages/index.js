@@ -25,17 +25,21 @@ const styles = theme => ({
 });
 
 class Index extends React.Component {
-  state = {
-    dotSrc: `strict digraph {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      dotSrc: `strict digraph {
     a [shape="ellipse" style="filled" fillcolor="` + d3_schemeCategory10[0] + `"]
     b [shape="polygon" style="filled" fillcolor="` + d3_schemeCategory10[1] + `"]
     a -> b [fillcolor="` + d3_schemePaired[0] + `" color="` + d3_schemePaired[1] + `"]
 }`,
-    menuIsOpen: false,
-    settingsDialogIsOpen: false,
-    mode: 'browse',
-    fitGraph : false,
-  };
+      menuIsOpen: false,
+      settingsDialogIsOpen: false,
+      mode: 'browse',
+      fitGraph : false,
+    };
+  }
 
   handleTextChange = (text) => {
     this.setState({
