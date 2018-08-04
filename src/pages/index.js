@@ -41,7 +41,7 @@ class Index extends React.Component {
       menuIsOpen: false,
       settingsDialogIsOpen: false,
       mode: localStorage.getItem('mode') || 'browse',
-      fitGraph : false,
+      fitGraph : localStorage.getItem('fitGraph') === 'true',
     };
   }
 
@@ -87,6 +87,7 @@ class Index extends React.Component {
     this.setState({
       fitGraph: fitGraph,
     });
+    localStorage.setItem('fitGraph', fitGraph.toString());
   }
 
   handleNodeShapeClick = (shape) => {
