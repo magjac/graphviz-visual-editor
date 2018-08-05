@@ -11,6 +11,7 @@ import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
 import SettingsDialog from '../SettingsDialog';
 import DrawingPanels from '../DrawingPanels';
+import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 
@@ -41,7 +42,9 @@ class Index extends React.Component {
       menuIsOpen: false,
       settingsDialogIsOpen: false,
       mode: localStorage.getItem('mode') || 'browse',
+      formatDrawerIsOpen: (localStorage.getItem('formatDrawerIsOpen') || 'false') === 'true',
       fitGraph : localStorage.getItem('fitGraph') === 'true',
+      defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
     };
   }
 
@@ -72,6 +75,20 @@ class Index extends React.Component {
     localStorage.setItem('mode', mode);
   }
 
+  handleFormatClick = () => {
+    this.setState({
+      formatDrawerIsOpen: true,
+    });
+    localStorage.setItem('formatDrawerIsOpen', 'true');
+  }
+
+  handleFormatDrawerClose = () => {
+    this.setState({
+      formatDrawerIsOpen: false,
+    });
+    localStorage.setItem('formatDrawerIsOpen', 'false');
+  }
+
   handleSettingsClick = () => {
     this.setState({
       settingsDialogIsOpen: true,
@@ -94,6 +111,33 @@ class Index extends React.Component {
     let x0 = null;
     let y0 = null;
     this.insertNode(x0, y0, {shape: shape});
+  }
+
+  handleNodeStyleChange = (style) => {
+    this.setState(prevState => ({
+      defaultNodeAttributes: {
+          ...prevState.defaultNodeAttributes,
+        style: style,
+      },
+    }));
+  }
+
+  handleNodeColorChange = (color) => {
+    this.setState(prevState => ({
+      defaultNodeAttributes: {
+          ...prevState.defaultNodeAttributes,
+        color: color,
+      },
+    }));
+  }
+
+  handleNodeFillColorChange = (color) => {
+    this.setState(prevState => ({
+      defaultNodeAttributes: {
+          ...prevState.defaultNodeAttributes,
+        fillcolor: color,
+      },
+    }));
   }
 
   registerInsertNode = (insertNode) => {
@@ -124,6 +168,7 @@ class Index extends React.Component {
         <ButtonAppBar
           onMenuButtonClick={this.handleMenuButtonClick}
           onModeChange={this.handleModeChange}
+          onFormatClick={this.handleFormatClick}
         >
         </ButtonAppBar>
         <MainMenu
@@ -147,6 +192,14 @@ class Index extends React.Component {
         >
           <Grid item xs={columns.textEditor}>
             <Paper className={classes.paper}>
+              <FormatDrawer
+                open={this.state.formatDrawerIsOpen}
+                defaultNodeAttributes={this.state.defaultNodeAttributes}
+                onFormatDrawerClose={this.handleFormatDrawerClose}
+                onNodeStyleChange={this.handleNodeStyleChange}
+                onNodeColorChange={this.handleNodeColorChange}
+                onNodeFillColorChange={this.handleNodeFillColorChange}
+              />
               <TextEditor
                 // allocated viewport width - 2 * padding
                 width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
@@ -169,6 +222,7 @@ class Index extends React.Component {
               <Graph
                 dotSrc={this.state.dotSrc}
                 fit={this.state.fitGraph}
+                defaultNodeAttributes={this.state.defaultNodeAttributes}
                 onTextChange={this.handleTextChange}
                 registerInsertNode={this.registerInsertNode}
               />

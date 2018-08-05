@@ -36,6 +36,10 @@ function ButtonAppBar(props) {
     props.onModeChange('draw');
   };
 
+  var handleFormatClick = (event) => {
+    props.onFormatClick('draw');
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -68,6 +72,12 @@ function ButtonAppBar(props) {
             onClick={handleDrawClick}
           >
             Draw
+          </Button>
+          <Button
+            color="inherit"
+            onClick={handleFormatClick}
+          >
+            Format
           </Button>
           <Button
             color="inherit"

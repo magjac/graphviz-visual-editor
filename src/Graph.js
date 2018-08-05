@@ -421,6 +421,7 @@ class Graph extends React.Component {
       x0 = x0 || bbox.x + bbox.width / 2;
       y0 = y0 || bbox.y + bbox.height / 2;
     }
+    this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
     Object.assign(this.currentNodeAttributes, attributes);
     let nodeName = this.getNextNodeId();
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
