@@ -50,7 +50,11 @@ class Index extends React.Component {
 
   setPersistentState = (updater) => {
     this.setState(updater, function (updater) {
-      let obj = updater(this.state);
+      if (typeof updater === 'function') {
+        var obj = updater(this.state);
+      } else {
+        obj = updater;
+      }
       Object.keys(obj).forEach((key) => {
         let value = obj[key];
         if (typeof value === 'boolean') {
@@ -65,10 +69,9 @@ class Index extends React.Component {
   }
 
   handleTextChange = (text) => {
-    this.setState({
+    this.setPersistentState({
       dotSrc: text
     });
-    localStorage.setItem('dotSrc', text);
   }
 
   handleMenuButtonClick = (anchorEl) => {
@@ -85,24 +88,21 @@ class Index extends React.Component {
   }
 
   handleModeChange = (mode) => {
-    this.setState({
+    this.setPersistentState({
       mode: mode,
     });
-    localStorage.setItem('mode', mode);
   }
 
   handleFormatClick = () => {
-    this.setState({
+    this.setPersistentState({
       formatDrawerIsOpen: true,
     });
-    localStorage.setItem('formatDrawerIsOpen', 'true');
   }
 
   handleFormatDrawerClose = () => {
-    this.setState({
+    this.setPersistentState({
       formatDrawerIsOpen: false,
     });
-    localStorage.setItem('formatDrawerIsOpen', 'false');
   }
 
   handleSettingsClick = () => {
@@ -117,10 +117,9 @@ class Index extends React.Component {
   }
 
   handleFitGraphSwitchChange = (fitGraph) => {
-    this.setState({
+    this.setPersistentState({
       fitGraph: fitGraph,
     });
-    localStorage.setItem('fitGraph', fitGraph.toString());
   }
 
   handleNodeShapeClick = (shape) => {
