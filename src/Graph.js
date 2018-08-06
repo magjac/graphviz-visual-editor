@@ -37,12 +37,6 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
     this.isDrawingNode = false;
     this.startNode = null;
-    this.selectedEdge = d3_select(null);
-    this.selectedEdgeFill = null;
-    this.selectedEdgeStroke = null;
-    this.selectedNode = d3_select(null);
-    this.selectedNodeStroke = null;
-    this.selectedNodeFill = null;
     this.selectedComponents = d3_selectAll(null);
     this.selectedComponentsFill = [];
     this.selectedComponentsStroke = [];
@@ -214,8 +208,6 @@ class Graph extends React.Component {
     }
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectEdge();
-    this.unSelectNode();
     this.unSelectComponents();
     if (event.which === 2) {
       var graph0 = d3_select(nodes[i]).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
@@ -232,19 +224,16 @@ class Graph extends React.Component {
     event.preventDefault();
     if (event.key === 'Escape') {
       this.graphviz.removeDrawnEdge();
-      this.unSelectEdge();
-      this.unSelectNode();
       this.unSelectComponents();
     }
     if (event.key === 'Delete') {
-      this.deleteSelectedEdge.call(this);
-      this.deleteSelectedNode.call(this);
       this.deleteSelectedComponents.call(this);
       this.graphviz.removeDrawnEdge();
     }
     if (event.ctrlKey && event.key === 'c') {
-      if (this.selectedNode.size() > 0) {
-          let nodeName = this.selectedNode.selectWithoutDataPropagation("title").text();
+      let nodes = this.selectedComponents.filter('.node');
+      if (nodes.size() > 0) {
+          let nodeName = nodes.selectWithoutDataPropagation("title").text();
           this.currentNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
       }
     }
@@ -272,9 +261,8 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if (!this.isDrawingEdge && event.which === 1) {
-      this.unSelectEdge();
       this.unSelectComponents();
-      this.selectNode(d3_select(nodes[i]));
+      this.selectComponents(d3_select(nodes[i]));
     }
   }
 
@@ -282,7 +270,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectEdge();
+    this.unSelectComponents();
     if (this.isDrawingEdge) {
       var endNode = d3_select(nodes[i]);
       var startNodeName = this.startNode.selectWithoutDataPropagation("title").text();
@@ -303,8 +291,6 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectEdge();
-    this.unSelectNode();
     this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
     this.startNode = d3_select(nodes[i]);
@@ -327,17 +313,14 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectNode();
     this.unSelectComponents();
-    this.selectEdge(d3_select(nodes[i]));
+    this.selectComponents(d3_select(nodes[i]));
   }
 
   handleRightClickOutside(d, i, nodes) {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectEdge();
-    this.unSelectNode();
     this.unSelectComponents();
   }
 
@@ -409,61 +392,10 @@ class Graph extends React.Component {
       });
       this.selectComponents(components);
       this.selectArea = null;
-     }
-   }
-
-  selectEdge(edge) {
-    this.unSelectEdge();
-    this.selectedEdge = edge;
-    this.selectedEdgeFill = this.selectedEdge.selectAll('polygon').attr("fill");
-    this.selectedEdgeStroke = this.selectedEdge.selectAll('polygon').attr("stroke");
-    this.selectedEdge.selectAll('path, polygon').attr("stroke", "red");
-    this.selectedEdge.selectAll('polygon').attr("fill", "red");
-  }
-
-  unSelectEdge() {
-    this.selectedEdge.selectAll('path, polygon').attr("stroke", this.selectedEdgeStroke);
-    this.selectedEdge.selectAll('polygon').attr("fill", this.selectedEdgeFill);
-    this.selectedEdge = d3_select(null);
-  }
-
-  deleteSelectedEdge() {
-    this.selectedEdge.style("display", "none");
-    if (this.selectedEdge.size() !== 0) {
-      var edgeName = this.selectedEdge.selectWithoutDataPropagation("title").text();
-      edgeName = edgeName.replace('->', ' -> ');
-      this.dotGraph.deleteEdge(edgeName);
-      this.props.onTextChange(this.dotGraph.dotSrc);
-    }
-  }
-
-  selectNode(node) {
-    this.unSelectNode();
-    this.selectedNode = node;
-    this.selectedNodeFill = this.selectedNode.selectAll('polygon, ellipse').attr("fill");
-    this.selectedNodeStroke = this.selectedNode.selectAll('polygon, ellipse').attr("stroke");
-    this.selectedNode.selectAll('polygon, ellipse').attr("stroke", "red");
-    this.selectedNode.selectAll('polygon, ellipse').attr("fill", "red");
-  }
-
-  unSelectNode() {
-    this.selectedNode.selectAll('polygon, ellipse').attr("stroke", this.selectedNodeStroke);
-    this.selectedNode.selectAll('polygon, ellipse').attr("fill", this.selectedNodeFill);
-    this.selectedNode = d3_select(null);
-  }
-
-  deleteSelectedNode() {
-    this.selectedNode.style("display", "none");
-    if (this.selectedNode.size() !== 0) {
-      var nodeName = this.selectedNode.selectWithoutDataPropagation("title").text();
-      this.dotGraph.deleteNode(nodeName);
-      this.props.onTextChange(this.dotGraph.dotSrc);
     }
   }
 
   selectComponents(components) {
-    this.unSelectEdge();
-    this.unSelectNode();
     this.unSelectComponents();
     this.selectedComponents = components;
     let self = this;
@@ -550,7 +482,7 @@ class Graph extends React.Component {
   }
 
   insertNode(x0, y0, nodeName, attributes) {
-   // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
+    // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
     let attributesCopy = Object.assign({}, attributes);
     this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
     this.graphviz.insertDrawnNode(nodeName);
