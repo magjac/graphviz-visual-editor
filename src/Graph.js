@@ -161,6 +161,13 @@ class Graph extends React.Component {
   }
 
   addEventHandlers() {
+    this.graphviz._zoomBehavior.filter(function () {
+      if (d3_event.type === 'mousedown' && !d3_event.ctrlKey) {
+        return false;
+      } else {
+        return true;
+      }
+    });
     this.dotGraph = new DotGraph(this.props.dotSrc);
 
     var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
