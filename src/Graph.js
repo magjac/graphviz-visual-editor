@@ -443,6 +443,9 @@ class Graph extends React.Component {
     } else {
       this.nodeIndex += 1;
     }
+    while (this.dotGraph.getNodeAttributes('n' + this.nodeIndex)) {
+      this.nodeIndex += 1;
+    }
     return 'n' + this.nodeIndex;
   }
 

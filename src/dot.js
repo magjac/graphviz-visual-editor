@@ -60,6 +60,9 @@ export default class DotGraph {
 
   getNodeAttributes(nodeName) {
     let node = this.nodes.filter(node => node.node_id.id === nodeName)[0];
+    if (!node) {
+      return null;
+    }
     let attributes = node.attr_list.reduce(function(attrs, attr, i) {
       attrs[attr.id] = attr.eq;
       return attrs;
