@@ -19,6 +19,15 @@ const styles = {
   },
 };
 
+const componentElements = [
+  'ellipse',
+  'polygon',
+  'path',
+  'polyline',
+];
+const componentElementsString = componentElements.join(',');
+
+
 class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +43,10 @@ class Graph extends React.Component {
     this.selectedNode = d3_select(null);
     this.selectedNodeStroke = null;
     this.selectedNodeFill = null;
+    this.selectedComponents = d3_selectAll(null);
+    this.selectedComponentsFill = [];
+    this.selectedComponentsStroke = [];
+    this.selectArea = null;
     this.currentNodeAttributes = {
       style: 'filled',
       fillcolor: 'transparent'
@@ -179,6 +192,9 @@ class Graph extends React.Component {
     d3_select(document).on("keyup", this.handleKeyUpOutside.bind(this));
     d3_select(document).on("mousemove", this.handleMouseMove.bind(this));
     d3_select(document).on("contextmenu", this.handleRightClickOutside.bind(this));
+    svg.on("mousedown", this.handleMouseDownSvg.bind(this));
+    svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
+    svg.on("mouseup", this.handleMouseUpSvg.bind(this));
     nodes.on("click mousedown", this.handleClickNode.bind(this));
     nodes.on("dblclick", this.handleDblClickNode.bind(this));
     nodes.on("contextmenu", this.handleRightClickNode.bind(this));
@@ -200,6 +216,7 @@ class Graph extends React.Component {
     event.stopPropagation();
     this.unSelectEdge();
     this.unSelectNode();
+    this.unSelectComponents();
     if (event.which === 2) {
       var graph0 = d3_select(nodes[i]).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
       var [x0, y0] = d3_mouse(graph0.node());
@@ -217,10 +234,12 @@ class Graph extends React.Component {
       this.graphviz.removeDrawnEdge();
       this.unSelectEdge();
       this.unSelectNode();
+      this.unSelectComponents();
     }
     if (event.key === 'Delete') {
       this.deleteSelectedEdge.call(this);
       this.deleteSelectedNode.call(this);
+      this.deleteSelectedComponents.call(this);
       this.graphviz.removeDrawnEdge();
     }
     if (event.ctrlKey && event.key === 'c') {
@@ -254,6 +273,7 @@ class Graph extends React.Component {
     event.stopPropagation();
     if (!this.isDrawingEdge && event.which === 1) {
       this.unSelectEdge();
+      this.unSelectComponents();
       this.selectNode(d3_select(nodes[i]));
     }
   }
@@ -285,6 +305,7 @@ class Graph extends React.Component {
     event.stopPropagation();
     this.unSelectEdge();
     this.unSelectNode();
+    this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
     this.startNode = d3_select(nodes[i]);
     var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
@@ -307,6 +328,7 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.unSelectNode();
+    this.unSelectComponents();
     this.selectEdge(d3_select(nodes[i]));
   }
 
@@ -316,7 +338,79 @@ class Graph extends React.Component {
     event.stopPropagation();
     this.unSelectEdge();
     this.unSelectNode();
+    this.unSelectComponents();
   }
+
+  handleMouseDownSvg(d, i, nodes) {
+    var event = d3_event;
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.selectArea) {
+      this.selectArea.selection.remove();
+    }
+    var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
+    var [x0, y0] = d3_mouse(graph0.node());
+    this.selectArea = {x0: x0, y0: y0};
+    this.selectArea.selection = graph0.append("rect")
+      .attr("x", x0)
+      .attr("y", y0)
+      .attr("width", 0)
+      .attr("height", 0)
+      .attr("fill", '#99ccff')
+      .attr("stroke", '#0000dd')
+      .style('stroke-width', 0.5)
+      .style('fill-opacity', 0.3);
+  }
+
+  handleMouseMoveSvg(d, i, nodes) {
+    var event = d3_event;
+    if (this.selectArea) {
+      event.preventDefault();
+      event.stopPropagation();
+      var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
+      let {x0, y0} = this.selectArea;
+      var [x1, y1] = d3_mouse(graph0.node());
+      let x = Math.min(x0, x1);
+      let y = Math.min(y0, y1);
+      let width = Math.abs(x1 - x0);
+      let height = Math.abs(y1 - y0);
+      this.selectArea.selection
+        .attr("x", x)
+        .attr("y", y)
+        .attr("width", width)
+        .attr("height", height);
+    }
+  }
+
+  handleMouseUpSvg(d, i, nodes) {
+    var event = d3_event;
+    if (this.selectArea) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.selectArea.selection.remove();
+      var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
+      let {x0, y0} = this.selectArea;
+      var [x1, y1] = d3_mouse(graph0.node());
+      let x = Math.min(x0, x1);
+      let y = Math.min(y0, y1);
+      let width = Math.abs(x1 - x0);
+      let height = Math.abs(y1 - y0);
+      if (width === 0 && height === 0) {
+        return;
+      }
+      let components = graph0.selectAll('.node,.edge');
+      components = components.filter(function(d, i) {
+        let bbox = this.getBBox();
+        if (bbox.x < x || bbox.x + bbox.width > x + width)
+          return false
+        if (bbox.y < y || bbox.y + bbox.height > y + height)
+          return false
+        return true
+      });
+      this.selectComponents(components);
+      this.selectArea = null;
+     }
+   }
 
   selectEdge(edge) {
     this.unSelectEdge();
@@ -365,6 +459,50 @@ class Graph extends React.Component {
       this.dotGraph.deleteNode(nodeName);
       this.props.onTextChange(this.dotGraph.dotSrc);
     }
+  }
+
+  selectComponents(components) {
+    this.unSelectEdge();
+    this.unSelectNode();
+    this.unSelectComponents();
+    this.selectedComponents = components;
+    let self = this;
+    components.each(function(d, i) {
+      let component = d3_select(this);
+      let componentElements = component.selectAll(componentElementsString);
+      self.selectedComponentsFill[i] = componentElements.attr("fill");
+      self.selectedComponentsStroke[i] = componentElements.attr("stroke");
+      componentElements.attr("stroke", "red");
+      componentElements.attr("fill", "red");
+    });
+    this.selectedComponents = components;
+  }
+
+  unSelectComponents() {
+    let self = this;
+    this.selectedComponents.each(function(d, i) {
+      let component = d3_select(this);
+      let componentElements = component.selectAll(componentElementsString);
+      componentElements.attr("stroke", self.selectedComponentsStroke[i]);
+      componentElements.attr("fill", self.selectedComponentsFill[i]);
+    });
+    this.selectedComponents = d3_selectAll(null);
+  }
+
+  deleteSelectedComponents() {
+    this.selectedComponents.style("display", "none");
+    let self = this;
+    this.selectedComponents.each(function(d, i) {
+      let component = d3_select(this);
+      var componentName = component.selectWithoutDataPropagation("title").text();
+      if (component.attr('class') === 'node') {
+        self.dotGraph.deleteNode(componentName);
+      } else {
+        componentName = componentName.replace('->', ' -> ');
+        self.dotGraph.deleteEdge(componentName);
+      }
+    });
+    this.props.onTextChange(this.dotGraph.dotSrc);
   }
 
   getNextNodeId() {
