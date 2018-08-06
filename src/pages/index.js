@@ -48,6 +48,22 @@ class Index extends React.Component {
     };
   }
 
+  setPersistentState = (updater) => {
+    this.setState(updater, function (updater) {
+      let obj = updater(this.state);
+      Object.keys(obj).forEach((key) => {
+        let value = obj[key];
+        if (typeof value === 'boolean') {
+          value = value.toString();
+        }
+        else if (typeof value === 'object') {
+          value = JSON.stringify(value);
+        }
+        localStorage.setItem(key, value);
+      });
+    }.bind(this, updater));
+  }
+
   handleTextChange = (text) => {
     this.setState({
       dotSrc: text
@@ -114,7 +130,7 @@ class Index extends React.Component {
   }
 
   handleNodeStyleChange = (style) => {
-    this.setState(prevState => ({
+    this.setPersistentState(prevState => ({
       defaultNodeAttributes: {
           ...prevState.defaultNodeAttributes,
         style: style,
@@ -123,7 +139,7 @@ class Index extends React.Component {
   }
 
   handleNodeColorChange = (color) => {
-    this.setState(prevState => ({
+    this.setPersistentState(prevState => ({
       defaultNodeAttributes: {
           ...prevState.defaultNodeAttributes,
         color: color,
@@ -132,7 +148,7 @@ class Index extends React.Component {
   }
 
   handleNodeFillColorChange = (color) => {
-    this.setState(prevState => ({
+    this.setPersistentState(prevState => ({
       defaultNodeAttributes: {
           ...prevState.defaultNodeAttributes,
         fillcolor: color,
