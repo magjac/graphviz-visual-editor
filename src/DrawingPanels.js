@@ -49,8 +49,20 @@ class DrawingPanels extends React.Component {
   };
 
   handleNodeShapeDragStart = shape => (event) => {
+    let graphviz = this.props.getGraphvizInstance();
+    this.props.onNodeShapeDragStart(-100, 100, shape);
+    let node = graphviz._drawnNode.g;
+    let bbox = node.node().getBBox();
+    let scale = node.node().getCTM().a;
+    node.attr("transform", `scale(${scale})`);
+    event.dataTransfer.setDragImage(node.node(), bbox.width / 2 * scale * 4 / 3, bbox.height / 2 * scale * 4 / 3);
     event.dataTransfer.setData("text", shape)
   };
+
+  handleNodeShapeDragEnd = shape => (event) => {
+    let graphviz = this.props.getGraphvizInstance();
+    graphviz.removeDrawnNode();
+  }
 
   render() {
     const { classes } = this.props;
@@ -72,6 +84,7 @@ class DrawingPanels extends React.Component {
                 onClick={this.handleNodeShapeClick(shape)}
                 draggable="true"
                 onDragStart={this.handleNodeShapeDragStart(shape)}
+                onDragEnd={this.handleNodeShapeDragEnd(shape)}
               >
               </div>
             )}

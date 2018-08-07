@@ -128,6 +128,14 @@ class Index extends React.Component {
     this.insertNode(x0, y0, {shape: shape});
   }
 
+  handleNodeShapeDragStart = (x0, y0, shape) => {
+    this.drawNode(x0, y0, {shape: shape});
+  }
+
+  getGraphvizInstance = () => {
+    return this.graph.graphviz;
+  }
+
   handleNodeStyleChange = (style) => {
     this.setPersistentState(prevState => ({
       defaultNodeAttributes: {
@@ -155,8 +163,11 @@ class Index extends React.Component {
     }));
   }
 
-  registerInsertNode = (insertNode) => {
+  registerInsertNode = (insertNode, graph, drawNode) => {
+    // FIXME: horrible way of registering callbacks
     this.insertNode = insertNode;
+    this.drawNode = drawNode;
+    this.graph = graph;
   }
 
   render() {
@@ -228,6 +239,8 @@ class Index extends React.Component {
                 <Paper className={classes.paper}>
                   <DrawingPanels
                     onNodeShapeClick={this.handleNodeShapeClick}
+                    onNodeShapeDragStart={this.handleNodeShapeDragStart}
+                    getGraphvizInstance={this.getGraphvizInstance}
                   />
                 </Paper>
               </Grid>

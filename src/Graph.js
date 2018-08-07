@@ -45,6 +45,7 @@ class Graph extends React.Component {
       style: 'filled',
       fillcolor: 'transparent'
     }
+    this.currentNodeName = null;
     this.nodeIndex = null;
     this.edgeIndex = null;
     this.pendingUpdate = false;
@@ -144,7 +145,11 @@ class Graph extends React.Component {
     this.graphviz = d3_select(this.node).graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
-    this.props.registerInsertNode(this.insertNodeWithCurrentAttributes.bind(this));
+    this.props.registerInsertNode(
+      this.insertNodeWithCurrentAttributes.bind(this),
+      this,
+      this.drawNodeWithCurrentAttributes.bind(this),
+    );
   }
 
   renderGraph() {
@@ -470,6 +475,7 @@ class Graph extends React.Component {
 
   handleNodeShapeDrop = (event) => {
     event.preventDefault();
+    this.graphviz._drawnNode.g.attr("transform", null);
     let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
     let node = graph0.node();
     var svg = node.ownerSVGElement;
@@ -478,20 +484,50 @@ class Graph extends React.Component {
     point.y = event.clientY;
     point = point.matrixTransform(node.getScreenCTM().inverse());
     var [x0, y0] = [point.x, point.y];
-    let attributes = {
-      shape: event.dataTransfer.getData("text"),
-    }
-    this.insertNodeWithCurrentAttributes(x0, y0, attributes);
+    this.updateAndInsertDrawnNodeWithCurrentAttributes(x0, y0, {});
   }
+
+  drawNode(x0, y0, nodeName, attributes) {
+    // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
+    let attributesCopy = Object.assign({}, attributes);
+    this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
+  };
+
+  updateAndInsertDrawnNodeWithCurrentAttributes(x0, y0, attributes) {
+    let nodeName = this.currentNodeName;
+    attributes = Object.assign(this.currentNodeAttributes, attributes);
+    // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
+    let attributesCopy = Object.assign({}, attributes);
+    this.graphviz.updateDrawnNode(x0, y0, nodeName, attributesCopy);
+    this.graphviz.insertDrawnNode(nodeName);
+    this.graphviz._drawnNode = null;
+    this.dotGraph.insertNode(nodeName, attributes);
+    this.props.onTextChange(this.dotGraph.dotSrc);
+  };
 
   insertNode(x0, y0, nodeName, attributes) {
     // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
     let attributesCopy = Object.assign({}, attributes);
     this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
     this.graphviz.insertDrawnNode(nodeName);
+    this.graphviz._drawnNode = null;
     this.dotGraph.insertNode(nodeName, attributes);
     this.props.onTextChange(this.dotGraph.dotSrc);
   };
+
+  drawNodeWithCurrentAttributes(x0, y0, attributes) {
+    if (x0 == null || y0 == null) {
+      let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
+      let node = graph0.node();
+      let bbox = node.getBBox();
+      x0 = x0 || bbox.x + bbox.width / 2;
+      y0 = y0 || bbox.y + bbox.height / 2;
+    }
+    this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
+    Object.assign(this.currentNodeAttributes, attributes);
+    this.currentNodeName = this.getNextNodeId();
+    this.drawNode(x0, y0, this.currentNodeName, this.currentNodeAttributes);
+  }
 
   insertNodeWithCurrentAttributes(x0, y0, attributes) {
     if (x0 == null || y0 == null) {
@@ -504,6 +540,7 @@ class Graph extends React.Component {
     this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
     Object.assign(this.currentNodeAttributes, attributes);
     let nodeName = this.getNextNodeId();
+    this.currentNodeName = nodeName;
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
   }
 
