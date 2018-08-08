@@ -6,6 +6,19 @@ A web application for interactive visual editing of [Graphviz](http://www.graphv
 
 That said, it's perfectly possible to use it in its current state :smiley:.
 
+## Installation ##
+
+Until the first npm release has been made, the project must be cloned from GitHub:
+```
+git clone https://github.com/magjac/graphviz-visual-editor",
+cd graphviz-visual-editor
+npm install
+make
+npm run start
+```
+
+**NOTE:** The *make* stage emits a few warnings. Ignore them.
+
 ## Implemented Features ##
 
 * Render a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) repesentation.
