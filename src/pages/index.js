@@ -38,6 +38,7 @@ class Index extends React.Component {
 }`;
     }
     this.state = {
+      initialized: false,
       dotSrc: dotSrc,
       menuIsOpen: false,
       settingsDialogIsOpen: false,
@@ -170,11 +171,17 @@ class Index extends React.Component {
     this.graph = graph;
   }
 
+  handleGraphInitialized = () => {
+    this.setState({
+      graphInitialized: true,
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
     var columns;
-    if (this.state.mode === 'draw') {
+    if (this.state.mode === 'draw' && this.state.graphInitialized) {
       columns = {
         textEditor: 3,
         drawPanel: 3,
@@ -234,7 +241,7 @@ class Index extends React.Component {
               />
             </Paper>
           </Grid>
-          {this.state.mode === 'draw' && (
+          {this.state.mode === 'draw' && this.state.graphInitialized && (
               <Grid item xs={columns.drawPanel}>
                 <Paper className={classes.paper}>
                   <DrawingPanels
@@ -253,6 +260,7 @@ class Index extends React.Component {
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 onTextChange={this.handleTextChange}
                 registerInsertNode={this.registerInsertNode}
+                onInitialized={this.handleGraphInitialized}
               />
             </Paper>
           </Grid>

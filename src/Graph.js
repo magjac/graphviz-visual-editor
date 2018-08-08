@@ -175,6 +175,10 @@ class Graph extends React.Component {
   handleRenderGraphReady() {
     this.addEventHandlers();
     this.rendering = false;
+    if (!this.renderGraphReady) {
+      this.renderGraphReady = true;
+      this.props.onInitialized();
+    }
     if (this.pendingUpdate) {
       this.pendingUpdate = false;
       this.renderGraph();
