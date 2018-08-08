@@ -23,5 +23,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "."
+  "homepage": ".",
+  "devDependencies": {
+    "markdown-to-html": "0.0.13"
+  }
 }
