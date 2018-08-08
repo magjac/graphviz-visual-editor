@@ -169,7 +169,16 @@ class Graph extends React.Component {
       .height(height)
       .fit(fit)
       .transition(() => d3_transition().duration(1000))
-      .renderDot(this.props.dotSrc, this.addEventHandlers.bind(this))
+      .renderDot(this.props.dotSrc, this.handleRenderGraphReady.bind(this))
+  }
+
+  handleRenderGraphReady() {
+    this.addEventHandlers();
+    this.rendering = false;
+    if (this.pendingUpdate) {
+      this.pendingUpdate = false;
+      this.renderGraph();
+    }
   }
 
   addEventHandlers() {
@@ -199,11 +208,6 @@ class Graph extends React.Component {
     nodes.on("contextmenu", this.handleRightClickNode.bind(this));
     edges.on("click mousedown", this.handleClickEdge.bind(this));
 
-    this.rendering = false;
-    if (this.pendingUpdate) {
-      this.pendingUpdate = false;
-      this.renderGraph();
-    }
   }
 
   handleClickOutside(d, i, nodes) {
