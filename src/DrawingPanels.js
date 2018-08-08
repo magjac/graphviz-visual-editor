@@ -27,7 +27,7 @@ const styles = theme => ({
   },
   column: {
     flexBasis: '25%',
-    flexGrow: '0',
+    flexGrow: '1',
     flexShrink: '0',
     textAlign: 'start',
   },
