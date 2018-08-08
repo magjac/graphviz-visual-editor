@@ -10,14 +10,16 @@ export default class DotGraph {
   insertNode(nodeName, attributes) {
     var attributesString = toAttributesString(attributes);
     var newNodeString = '    ' + nodeName + ' [' + attributesString + ']';
-    this.dotSrcLines.splice(-1, 0, newNodeString);
+    let line = this.dotSrcLines.lastIndexOf('}');
+    this.dotSrcLines.splice(line, 0, newNodeString);
     this.dotSrc = this.dotSrcLines.join('\n');
   }
 
   insertEdge(startNodeName, endNodeName, attributes) {
     var attributesString = toAttributesString(attributes);
     var newEdgeString = '    ' + startNodeName + ' -> ' + endNodeName + ' [' + attributesString + ']';
-    this.dotSrcLines.splice(-1, 0, newEdgeString);
+    let line = this.dotSrcLines.lastIndexOf('}');
+    this.dotSrcLines.splice(line, 0, newEdgeString);
     this.dotSrc = this.dotSrcLines.join('\n');
   }
 
