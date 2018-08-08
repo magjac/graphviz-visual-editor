@@ -145,11 +145,9 @@ class Graph extends React.Component {
     this.graphviz = d3_select(this.node).graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
-    this.props.registerInsertNode(
-      this.insertNodeWithCurrentAttributes.bind(this),
-      this,
-      this.drawNodeWithCurrentAttributes.bind(this),
-    );
+    this.props.registerNodeShapeClick(this.handleNodeShapeClick);
+    this.props.registerNodeShapeDragStart(this.handleNodeShapeDragStart);
+    this.props.registerNodeShapeDragEnd(this.handleNodeShapeDragEnd);
   }
 
   renderGraph() {
@@ -477,6 +475,22 @@ class Graph extends React.Component {
     }
   };
 
+  handleNodeShapeClick = (event, shape) => {
+    let x0 = null;
+    let y0 = null;
+    this.insertNodeWithCurrentAttributes(x0, y0, {shape: shape});
+  }
+
+  handleNodeShapeDragStart = (event, shape) => {
+    this.drawNodeWithCurrentAttributes(-100, 100, {shape: shape});
+    let node = this.graphviz._drawnNode.g;
+    let bbox = node.node().getBBox();
+    let scale = node.node().getCTM().a;
+    node.attr("transform", `scale(${scale})`);
+    event.dataTransfer.setDragImage(node.node(), bbox.width / 2 * scale * 4 / 3, bbox.height / 2 * scale * 4 / 3);
+    event.dataTransfer.setData("text", shape)
+  }
+
   handleNodeShapeDragOver = (event) => {
     event.preventDefault();
   };
@@ -493,6 +507,10 @@ class Graph extends React.Component {
     point = point.matrixTransform(node.getScreenCTM().inverse());
     var [x0, y0] = [point.x, point.y];
     this.updateAndInsertDrawnNodeWithCurrentAttributes(x0, y0, {});
+  }
+
+  handleNodeShapeDragEnd = (event, shape) => {
+    this.graphviz.removeDrawnNode();
   }
 
   drawNode(x0, y0, nodeName, attributes) {
