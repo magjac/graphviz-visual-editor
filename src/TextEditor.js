@@ -10,6 +10,16 @@ class TextEditor extends React.Component {
   };
 
   render() {
+    var annotations = null;
+    if (this.props.errorMessage) {
+      let row = this.props.errorMessage.replace(/.*error in line ([0-9]*) .*\n/, '$1') - 1;
+      annotations = [{
+        row: row,
+        column: 0,
+        text: this.props.error.message,
+        type: "error",
+      }];
+    }
     return (
       <div>
         <AceEditor
@@ -26,6 +36,7 @@ class TextEditor extends React.Component {
           editorProps={{
             $blockScrolling: true
           }}
+          annotations={annotations}
         />
       </div>
     );

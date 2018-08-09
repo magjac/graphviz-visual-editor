@@ -46,6 +46,7 @@ class Index extends React.Component {
       formatDrawerIsOpen: (localStorage.getItem('formatDrawerIsOpen') || 'false') === 'true',
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
+      errorMessage: null,
     };
   }
 
@@ -72,6 +73,9 @@ class Index extends React.Component {
   handleTextChange = (text) => {
     this.setPersistentState({
       dotSrc: text
+    });
+    this.setState({
+      errorMessage: null,
     });
   }
 
@@ -174,6 +178,12 @@ class Index extends React.Component {
     });
   }
 
+  handleError = (errorMessage) => {
+    this.setState({
+      errorMessage: errorMessage,
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -235,6 +245,7 @@ class Index extends React.Component {
                 width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
                 dotSrc={this.state.dotSrc}
                 onTextChange={this.handleTextChange}
+                errorMessage={this.state.errorMessage}
               />
             </Paper>
           </Grid>
@@ -260,6 +271,7 @@ class Index extends React.Component {
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}
                 onInitialized={this.handleGraphInitialized}
+                onError={this.handleError}
               />
             </Paper>
           </Grid>

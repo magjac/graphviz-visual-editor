@@ -61,8 +61,7 @@ class Graph extends React.Component {
   }
 
   handleError(errorMessage) {
-    // FIXME
-    console.log('Error:', errorMessage)
+    this.props.onError(errorMessage);
     this.rendering = false;
     if (this.pendingUpdate) {
         this.pendingUpdate = false;
