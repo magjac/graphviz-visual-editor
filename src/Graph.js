@@ -101,6 +101,7 @@ class Graph extends React.Component {
       .height(height)
       .fit(fit)
       .renderDot(this.props.dotSrc, this.handleRenderGraphReady.bind(this))
+      .on("renderEnd", () => this.setZoomScale(1, true));
   }
 
   handleRenderGraphReady() {
