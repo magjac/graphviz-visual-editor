@@ -180,6 +180,14 @@ class Graph extends React.Component {
     if (event.ctrlKey && event.key === 'v') {
       this.insertNodeWithCurrentAttributes(null, null, this.currentNodeAttributes);
     }
+    if (event.ctrlKey && event.key === 'x') {
+      let nodes = this.selectedComponents.filter('.node');
+      if (nodes.size() > 0) {
+          let nodeName = nodes.selectWithoutDataPropagation("title").text();
+          this.currentNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
+      }
+      this.deleteSelectedComponents.call(this);
+    }
     this.isDrawingEdge = false;
   }
 
