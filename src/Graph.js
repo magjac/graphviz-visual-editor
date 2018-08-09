@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
+import { zoomIdentity as d3_zoomIdentity} from 'd3-zoom';
+import { zoomTransform as d3_zoomTransform} from 'd3-zoom';
 import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
@@ -76,6 +78,10 @@ class Graph extends React.Component {
     this.props.registerNodeShapeClick(this.handleNodeShapeClick);
     this.props.registerNodeShapeDragStart(this.handleNodeShapeDragStart);
     this.props.registerNodeShapeDragEnd(this.handleNodeShapeDragEnd);
+    this.props.registerZoomInButtonClick(this.handleZoomInButtonClick);
+    this.props.registerZoomOutButtonClick(this.handleZoomOutButtonClick);
+    this.props.registerZoomOutMapButtonClick(this.handleZoomOutMapButtonClick);
+    this.props.registerZoomResetButtonClick(this.handleZoomResetButtonClick);
   }
 
   renderGraph() {
@@ -109,6 +115,59 @@ class Graph extends React.Component {
       this.pendingUpdate = false;
       this.renderGraph();
     }
+  }
+
+  handleZoomInButtonClick = () => {
+    let scale = d3_zoomTransform(this.graphviz._zoomSelection.node()).k;
+    scale = scale * 1.2;
+    this.setZoomScale(scale);
+  }
+
+  handleZoomOutButtonClick = () => {
+    let scale = d3_zoomTransform(this.graphviz._zoomSelection.node()).k;
+    scale = scale / 1.2;
+    this.setZoomScale(scale);
+  }
+
+  handleZoomOutMapButtonClick = () => {
+    var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    var graph0 = svg.selectWithoutDataPropagation("g");
+    let viewBox = svg.attr("viewBox").split(' ');
+    let bbox = graph0.node().getBBox();
+    let xRatio = viewBox[2] / bbox.width;
+    let yRatio = viewBox[3] / bbox.height;
+    let scale = Math.min(xRatio, yRatio);
+    this.setZoomScale(scale, true);
+  }
+
+  handleZoomResetButtonClick = () => {
+    this.setZoomScale(1, true);
+  }
+
+  setZoomScale = (scale, center=false) => {
+    var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    var graph0 = svg.selectWithoutDataPropagation("g");
+    let viewBox = svg.attr("viewBox").split(' ');
+    let bbox = graph0.node().getBBox();
+    let {x, y, k} = d3_zoomTransform(this.graphviz._zoomSelection.node());
+    let [x0, y0, scale0] = [x, y, k];
+    let xOffset0 = x0 + bbox.x * scale0;
+    let yOffset0 = y0 + bbox.y * scale0;
+    let xCenter = viewBox[2] / 2;
+    let yCenter = viewBox[3] / 2;
+    let xOffset;
+    let yOffset;
+    if (center) {
+      xOffset = (viewBox[2] - bbox.width * scale) / 2;
+      yOffset = (viewBox[3] - bbox.height * scale) / 2;
+    } else {
+      xOffset = xCenter - (xCenter - xOffset0) * scale / scale0;
+      yOffset = yCenter - (yCenter - yOffset0) * scale / scale0;
+    }
+    x = -bbox.x * scale + xOffset;
+    y = -bbox.y * scale + yOffset;
+    let transform = d3_zoomIdentity.translate(x, y).scale(scale);
+    this.graphviz._zoomSelection.call(this.graphviz._zoomBehavior.transform, transform);
   }
 
   addEventHandlers() {

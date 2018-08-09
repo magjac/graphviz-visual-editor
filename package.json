@@ -8,6 +8,7 @@
     "d3-scale-chromatic": "^1.3.0",
     "d3-selection": "^1.3.0",
     "d3-transition": "^1.1.1",
+    "d3-zoom": "^1.7.1",
     "dotparser": "^0.1.3",
     "material-ui-color-picker": "^2.1.1",
     "prop-types": "latest",

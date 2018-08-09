@@ -172,6 +172,22 @@ class Index extends React.Component {
     this.handleNodeShapeDragEnd = handleNodeShapeDragEnd;
   }
 
+  registerZoomInButtonClick = (handleZoomInButtonClick) => {
+    this.handleZoomInButtonClick = handleZoomInButtonClick;
+  }
+
+  registerZoomOutButtonClick = (handleZoomOutButtonClick) => {
+    this.handleZoomOutButtonClick = handleZoomOutButtonClick;
+  }
+
+  registerZoomOutMapButtonClick = (handleZoomOutMapButtonClick) => {
+    this.handleZoomOutMapButtonClick = handleZoomOutMapButtonClick;
+  }
+
+  registerZoomResetButtonClick = (handleZoomResetButtonClick) => {
+    this.handleZoomResetButtonClick = handleZoomResetButtonClick;
+  }
+
   handleGraphInitialized = () => {
     this.setState({
       graphInitialized: true,
@@ -209,6 +225,10 @@ class Index extends React.Component {
           onMenuButtonClick={this.handleMenuButtonClick}
           onModeChange={this.handleModeChange}
           onFormatClick={this.handleFormatClick}
+          onZoomInButtonClick={this.handleZoomInButtonClick}
+          onZoomOutButtonClick={this.handleZoomOutButtonClick}
+          onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
+          onZoomResetButtonClick={this.handleZoomResetButtonClick}
         >
         </ButtonAppBar>
         <MainMenu
@@ -270,6 +290,10 @@ class Index extends React.Component {
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}
+                registerZoomInButtonClick={this.registerZoomInButtonClick}
+                registerZoomOutButtonClick={this.registerZoomOutButtonClick}
+                registerZoomOutMapButtonClick={this.registerZoomOutMapButtonClick}
+                registerZoomResetButtonClick={this.registerZoomResetButtonClick}
                 onInitialized={this.handleGraphInitialized}
                 onError={this.handleError}
               />
