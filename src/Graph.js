@@ -100,7 +100,6 @@ class Graph extends React.Component {
       .width(width)
       .height(height)
       .fit(fit)
-      .transition(() => d3_transition().duration(1000))
       .renderDot(this.props.dotSrc, this.handleRenderGraphReady.bind(this))
   }
 
@@ -109,6 +108,8 @@ class Graph extends React.Component {
     this.rendering = false;
     if (!this.renderGraphReady) {
       this.renderGraphReady = true;
+      this.graphviz
+        .transition(() => d3_transition().duration(1000));
       this.props.onInitialized();
     }
     if (this.pendingUpdate) {
