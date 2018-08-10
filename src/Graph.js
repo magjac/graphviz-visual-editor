@@ -201,9 +201,14 @@ class Graph extends React.Component {
   }
 
   addEventHandlers() {
+    let self = this;
     this.graphviz._zoomBehavior.filter(function () {
       if (d3_event.type === 'mousedown' && !d3_event.ctrlKey) {
-        return false;
+        if (self.isDrawingEdge) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return true;
       }
