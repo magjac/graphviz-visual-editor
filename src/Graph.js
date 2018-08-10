@@ -106,6 +106,13 @@ class Graph extends React.Component {
   }
 
   handleRenderGraphReady() {
+    try {
+      this.dotGraph = new DotGraph(this.props.dotSrc);
+    }
+    catch(error) {
+      let {location: {start: {line}}, message} = error;
+      this.props.onError({message: message, line: line});
+    }
     this.addEventHandlers();
     this.rendering = false;
     if (!this.renderGraphReady) {
@@ -181,13 +188,6 @@ class Graph extends React.Component {
         return true;
       }
     });
-    try {
-      this.dotGraph = new DotGraph(this.props.dotSrc);
-    }
-    catch(error) {
-      let {location: {start: {line}}, message} = error;
-      this.props.onError({message: message, line: line});
-    }
 
     var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
     var nodes = svg.selectAll(".node");
