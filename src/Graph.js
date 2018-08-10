@@ -52,6 +52,7 @@ class Graph extends React.Component {
     this.edgeIndex = null;
     this.pendingUpdate = false;
     this.rendering = false;
+    this.prevFit = null;
   }
 
   componentDidMount() {
@@ -96,13 +97,30 @@ class Graph extends React.Component {
         this.pendingUpdate = true;
         return;
     }
+    if (this.props.fit !== this.prevFit) {
+      if (this.renderGraphReady) {
+        if (this.prevFit) {
+          this.unFitGraph();
+          this.setZoomScale(1, true);
+        } else {
+          this.setZoomScale(1, false, true);
+          this.fitGraph();
+        }
+      }
+      this.prevFit = this.props.fit;
+    }
     this.rendering = true;
     this.graphviz
       .width(width)
       .height(height)
       .fit(fit)
-      .renderDot(this.props.dotSrc, this.handleRenderGraphReady.bind(this))
-      .on("renderEnd", () => this.setZoomScale(1, true));
+      .dot(this.props.dotSrc, this.handleDotLayoutReady.bind(this))
+      .render(this.handleRenderGraphReady.bind(this));
+  }
+
+  handleDotLayoutReady() {
+    let [, , width, height] = this.graphviz._data.attributes.viewBox.split(' ');
+    this.originalViewBox = {width, height};
   }
 
   handleRenderGraphReady() {
@@ -117,6 +135,7 @@ class Graph extends React.Component {
     this.rendering = false;
     if (!this.renderGraphReady) {
       this.renderGraphReady = true;
+      this.setZoomScale(1, true);
       this.graphviz
         .transition(() => d3_transition().duration(1000));
       this.props.onInitialized();
@@ -154,7 +173,7 @@ class Graph extends React.Component {
     this.setZoomScale(1, true);
   }
 
-  setZoomScale = (scale, center=false) => {
+  setZoomScale = (scale, center=false, reset=false) => {
     var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
     var graph0 = svg.selectWithoutDataPropagation("g");
     let viewBox = svg.attr("viewBox").split(' ');
@@ -170,6 +189,9 @@ class Graph extends React.Component {
     if (center) {
       xOffset = (viewBox[2] - bbox.width * scale) / 2;
       yOffset = (viewBox[3] - bbox.height * scale) / 2;
+    } else if (reset) {
+      xOffset = 0;
+      yOffset = 0;
     } else {
       xOffset = xCenter - (xCenter - xOffset0) * scale / scale0;
       yOffset = yCenter - (yCenter - yOffset0) * scale / scale0;
@@ -484,6 +506,12 @@ class Graph extends React.Component {
     let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
     svg
       .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
+  }
+
+  fitGraph() {
+    let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    svg
+      .attr("viewBox", `0 0 ${this.originalViewBox.width} ${this.originalViewBox.height}`);
   }
 
   handleNodeShapeClick = (event, shape) => {
