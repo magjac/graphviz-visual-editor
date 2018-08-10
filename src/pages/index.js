@@ -46,7 +46,7 @@ class Index extends React.Component {
       formatDrawerIsOpen: (localStorage.getItem('formatDrawerIsOpen') || 'false') === 'true',
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
-      errorMessage: null,
+      error: null,
     };
   }
 
@@ -75,7 +75,7 @@ class Index extends React.Component {
       dotSrc: text
     });
     this.setState({
-      errorMessage: null,
+      error: null,
     });
   }
 
@@ -194,9 +194,9 @@ class Index extends React.Component {
     });
   }
 
-  handleError = (errorMessage) => {
+  handleError = (error) => {
     this.setState({
-      errorMessage: errorMessage,
+      error: error,
     });
   }
 
@@ -265,7 +265,7 @@ class Index extends React.Component {
                 width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
                 dotSrc={this.state.dotSrc}
                 onTextChange={this.handleTextChange}
-                errorMessage={this.state.errorMessage}
+                error={this.state.error}
               />
             </Paper>
           </Grid>

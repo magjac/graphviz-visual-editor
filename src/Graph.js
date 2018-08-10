@@ -63,7 +63,8 @@ class Graph extends React.Component {
   }
 
   handleError(errorMessage) {
-    this.props.onError(errorMessage);
+    let line = errorMessage.replace(/.*error in line ([0-9]*) .*\n/, '$1');
+    this.props.onError({message: errorMessage, line: line});
     this.rendering = false;
     if (this.pendingUpdate) {
         this.pendingUpdate = false;
