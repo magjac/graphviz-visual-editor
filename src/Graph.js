@@ -124,6 +124,8 @@ class Graph extends React.Component {
   }
 
   handleRenderGraphReady() {
+    this.svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    this.graph0 = this.svg.selectWithoutDataPropagation("g");
     try {
       this.dotGraph = new DotGraph(this.props.dotSrc);
     }
@@ -159,10 +161,8 @@ class Graph extends React.Component {
   }
 
   handleZoomOutMapButtonClick = () => {
-    var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
-    var graph0 = svg.selectWithoutDataPropagation("g");
-    let viewBox = svg.attr("viewBox").split(' ');
-    let bbox = graph0.node().getBBox();
+    let viewBox = this.svg.attr("viewBox").split(' ');
+    let bbox = this.graph0.node().getBBox();
     let xRatio = viewBox[2] / bbox.width;
     let yRatio = viewBox[3] / bbox.height;
     let scale = Math.min(xRatio, yRatio);
@@ -174,10 +174,8 @@ class Graph extends React.Component {
   }
 
   setZoomScale = (scale, center=false, reset=false) => {
-    var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
-    var graph0 = svg.selectWithoutDataPropagation("g");
-    let viewBox = svg.attr("viewBox").split(' ');
-    let bbox = graph0.node().getBBox();
+    let viewBox = this.svg.attr("viewBox").split(' ');
+    let bbox = this.graph0.node().getBBox();
     let {x, y, k} = d3_zoomTransform(this.graphviz._zoomSelection.node());
     let [x0, y0, scale0] = [x, y, k];
     let xOffset0 = x0 + bbox.x * scale0;
@@ -211,18 +209,17 @@ class Graph extends React.Component {
       }
     });
 
-    var svg = d3_select(this.node).selectWithoutDataPropagation("svg");
-    var nodes = svg.selectAll(".node");
-    var edges = svg.selectAll(".edge");
+    var nodes = this.svg.selectAll(".node");
+    var edges = this.svg.selectAll(".edge");
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
     d3_select(document).on("click", this.handleClickOutside.bind(this));
     d3_select(document).on("keyup", this.handleKeyUpOutside.bind(this));
     d3_select(document).on("mousemove", this.handleMouseMove.bind(this));
     d3_select(document).on("contextmenu", this.handleRightClickOutside.bind(this));
-    svg.on("mousedown", this.handleMouseDownSvg.bind(this));
-    svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
-    svg.on("mouseup", this.handleMouseUpSvg.bind(this));
+    this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
+    this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
+    this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
     nodes.on("click mousedown", this.handleClickNode.bind(this));
     nodes.on("dblclick", this.handleDblClickNode.bind(this));
     nodes.on("contextmenu", this.handleRightClickNode.bind(this));
@@ -239,8 +236,7 @@ class Graph extends React.Component {
     event.stopPropagation();
     this.unSelectComponents();
     if (event.which === 2) {
-      var graph0 = d3_select(nodes[i]).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
-      var [x0, y0] = d3_mouse(graph0.node());
+      var [x0, y0] = d3_mouse(this.graph0.node());
       this.insertNodeWithCurrentAttributes(x0, y0, this.currentNodeAttributes);
     }
   }
@@ -284,8 +280,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
-    var [x0, y0] = d3_mouse(graph0.node());
+    var [x0, y0] = d3_mouse(this.graph0.node());
     var shortening = 2; // avoid mouse pointing on edge
     if (this.isDrawingEdge) {
       this.graphviz
@@ -331,8 +326,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
     this.startNode = d3_select(nodes[i]);
-    var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
-    var [x0, y0] = d3_mouse(graph0.node());
+    var [x0, y0] = d3_mouse(this.graph0.node());
     if (this.edgeIndex === null) {
       this.edgeIndex = d3_selectAll('.edge').size();
     } else {
@@ -368,10 +362,9 @@ class Graph extends React.Component {
     if (this.selectArea) {
       this.selectArea.selection.remove();
     }
-    var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
-    var [x0, y0] = d3_mouse(graph0.node());
+    var [x0, y0] = d3_mouse(this.graph0.node());
     this.selectArea = {x0: x0, y0: y0};
-    this.selectArea.selection = graph0.append("rect")
+    this.selectArea.selection = this.graph0.append("rect")
       .attr("x", x0)
       .attr("y", y0)
       .attr("width", 0)
@@ -387,9 +380,8 @@ class Graph extends React.Component {
     if (this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
-      var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
       let {x0, y0} = this.selectArea;
-      var [x1, y1] = d3_mouse(graph0.node());
+      var [x1, y1] = d3_mouse(this.graph0.node());
       let x = Math.min(x0, x1);
       let y = Math.min(y0, y1);
       let width = Math.abs(x1 - x0);
@@ -408,9 +400,8 @@ class Graph extends React.Component {
       event.preventDefault();
       event.stopPropagation();
       this.selectArea.selection.remove();
-      var graph0 = d3_select(this.node).selectWithoutDataPropagation("svg").selectWithoutDataPropagation("g");
       let {x0, y0} = this.selectArea;
-      var [x1, y1] = d3_mouse(graph0.node());
+      var [x1, y1] = d3_mouse(this.graph0.node());
       let x = Math.min(x0, x1);
       let y = Math.min(y0, y1);
       let width = Math.abs(x1 - x0);
@@ -418,7 +409,7 @@ class Graph extends React.Component {
       if (width === 0 && height === 0) {
         return;
       }
-      let components = graph0.selectAll('.node,.edge');
+      let components = this.graph0.selectAll('.node,.edge');
       components = components.filter(function(d, i) {
         let bbox = this.getBBox();
         if (bbox.x < x || bbox.x + bbox.width > x + width)
@@ -490,9 +481,8 @@ class Graph extends React.Component {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
     let fit = this.props.fit;
-    let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
 
-    svg
+    this.svg
       .attr("width", width)
       .attr("height", height);
     if (!fit) {
@@ -503,14 +493,12 @@ class Graph extends React.Component {
   unFitGraph() {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
-    let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
-    svg
+    this.svg
       .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
   }
 
   fitGraph() {
-    let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
-    svg
+    this.svg
       .attr("viewBox", `0 0 ${this.originalViewBox.width} ${this.originalViewBox.height}`);
   }
 
@@ -537,10 +525,8 @@ class Graph extends React.Component {
   handleNodeShapeDrop = (event) => {
     event.preventDefault();
     this.graphviz._drawnNode.g.attr("transform", null);
-    let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
-    let node = graph0.node();
-    var svg = node.ownerSVGElement;
-    var point = svg.createSVGPoint();
+    let node = this.graph0.node();
+    var point = this.svg.node().createSVGPoint();
     point.x = event.clientX;
     point.y = event.clientY;
     point = point.matrixTransform(node.getScreenCTM().inverse());
@@ -582,8 +568,7 @@ class Graph extends React.Component {
 
   drawNodeWithCurrentAttributes(x0, y0, attributes) {
     if (x0 == null || y0 == null) {
-      let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
-      let node = graph0.node();
+      let node = this.graph0.node();
       let bbox = node.getBBox();
       x0 = x0 || bbox.x + bbox.width / 2;
       y0 = y0 || bbox.y + bbox.height / 2;
@@ -596,8 +581,7 @@ class Graph extends React.Component {
 
   insertNodeWithCurrentAttributes(x0, y0, attributes) {
     if (x0 == null || y0 == null) {
-      let graph0 = d3_select(this.node).selectWithoutDataPropagation("g");
-      let node = graph0.node();
+      let node = this.graph0.node();
       let bbox = node.getBBox();
       x0 = x0 || bbox.x + bbox.width / 2;
       y0 = y0 || bbox.y + bbox.height / 2;
