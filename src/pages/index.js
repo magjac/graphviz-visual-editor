@@ -195,9 +195,11 @@ class Index extends React.Component {
   }
 
   handleError = (error) => {
-    this.setState({
-      error: error,
-    });
+    if (JSON.stringify(error) !== JSON.stringify(this.state.error)) {
+      this.setState({
+        error: error,
+      });
+    }
   }
 
   render() {
