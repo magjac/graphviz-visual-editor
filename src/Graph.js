@@ -234,6 +234,7 @@ class Graph extends React.Component {
     }
     event.preventDefault();
     event.stopPropagation();
+    document.activeElement.blur();
     this.unSelectComponents();
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
@@ -292,6 +293,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
+    document.activeElement.blur();
     if (!this.isDrawingEdge && event.which === 1) {
       this.unSelectComponents();
       this.selectComponents(d3_select(nodes[i]));
@@ -302,6 +304,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
+    document.activeElement.blur();
     this.unSelectComponents();
     if (this.isDrawingEdge) {
       var endNode = d3_select(nodes[i]);
@@ -323,6 +326,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
+    document.activeElement.blur();
     this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
     this.startNode = d3_select(nodes[i]);
@@ -344,6 +348,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
+    document.activeElement.blur();
     this.unSelectComponents();
     this.selectComponents(d3_select(nodes[i]));
   }
@@ -352,6 +357,7 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
+    document.activeElement.blur();
     this.unSelectComponents();
   }
 
