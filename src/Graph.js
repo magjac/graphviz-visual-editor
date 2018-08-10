@@ -474,10 +474,17 @@ class Graph extends React.Component {
       .attr("width", width)
       .attr("height", height);
     if (!fit) {
-      svg
-        .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
+      this.unFitGraph();
     }
   };
+
+  unFitGraph() {
+    let width = this.node.parentElement.clientWidth;
+    let height = this.node.parentElement.clientHeight;
+    let svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    svg
+      .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
+  }
 
   handleNodeShapeClick = (event, shape) => {
     let x0 = null;
