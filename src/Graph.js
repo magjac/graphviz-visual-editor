@@ -293,7 +293,6 @@ class Graph extends React.Component {
     event.stopPropagation();
     document.activeElement.blur();
     if (!this.isDrawingEdge && event.which === 1) {
-      this.unSelectComponents();
       this.selectComponents(d3_select(nodes[i]));
     }
   }
@@ -343,7 +342,6 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     document.activeElement.blur();
-    this.unSelectComponents();
     this.selectComponents(d3_select(nodes[i]));
   }
 
