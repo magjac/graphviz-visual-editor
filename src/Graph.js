@@ -21,15 +21,6 @@ const styles = {
   },
 };
 
-const componentElements = [
-  'ellipse',
-  'polygon',
-  'path',
-  'polyline',
-];
-const componentElementsString = componentElements.join(',');
-
-
 class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -40,9 +31,8 @@ class Graph extends React.Component {
     this.isDrawingNode = false;
     this.startNode = null;
     this.selectedComponents = d3_selectAll(null);
-    this.selectedComponentsFill = [];
-    this.selectedComponentsStroke = [];
     this.selectArea = null;
+    this.selectRects = d3_select(null);
     this.currentNodeAttributes = {
       style: 'filled',
       fillcolor: 'transparent'
@@ -439,26 +429,32 @@ class Graph extends React.Component {
   selectComponents(components) {
     this.unSelectComponents();
     this.selectedComponents = components;
-    let self = this;
+    let scale = this.graph0.node().getCTM().a * 3 / 4;
+    let dashLength = Math.max(4 / scale, 2);
+    let dashWidth = Math.max(4 / scale, 2);
+    let rectNodes = [];
     components.each(function(d, i) {
       let component = d3_select(this);
-      let componentElements = component.selectAll(componentElementsString);
-      self.selectedComponentsFill[i] = componentElements.attr("fill");
-      self.selectedComponentsStroke[i] = componentElements.attr("stroke");
-      componentElements.attr("stroke", "red");
-      componentElements.attr("fill", "red");
+      let bbox = component.node().getBBox();
+      let rect = component.append("rect")
+        .attr("x", bbox.x)
+        .attr("y", bbox.y)
+        .attr("width", bbox.width)
+        .attr("height", bbox.height)
+        .attr("stroke", "black")
+        .attr("fill", "transparent")
+        .attr("opacity", 0.5)
+        .attr("stroke-dasharray", dashLength)
+        .attr("stroke-width",  dashWidth);
+      rectNodes.push(rect.node());
     });
     this.selectedComponents = components;
+    this.selectRects = d3_selectAll(rectNodes);
   }
 
   unSelectComponents() {
-    let self = this;
-    this.selectedComponents.each(function(d, i) {
-      let component = d3_select(this);
-      let componentElements = component.selectAll(componentElementsString);
-      componentElements.attr("stroke", self.selectedComponentsStroke[i]);
-      componentElements.attr("fill", self.selectedComponentsFill[i]);
-    });
+    this.selectRects.remove();
+    this.selectRects = d3_select(null);
     this.selectedComponents = d3_selectAll(null);
   }
 
