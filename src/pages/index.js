@@ -9,6 +9,7 @@ import ButtonAppBar from '../ButtonAppBar';
 import Graph from '../Graph';
 import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
+import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
 import DrawingPanels from '../DrawingPanels';
 import FormatDrawer from '../FormatDrawer';
@@ -41,6 +42,7 @@ class Index extends React.Component {
       initialized: false,
       dotSrc: dotSrc,
       mainMenuIsOpen: false,
+      helpMenuIsOpen: false,
       settingsDialogIsOpen: false,
       mode: localStorage.getItem('mode') || 'browse',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
@@ -92,6 +94,19 @@ class Index extends React.Component {
   handleMainMenuClose = () => {
     this.setState({
       mainMenuIsOpen: false,
+    });
+  }
+
+  handleHelpButtonClick = (anchorEl) => {
+    this.setState({
+      helpMenuIsOpen: true,
+      helpMenuAnchorEl: anchorEl,
+    });
+  }
+
+  handleHelpMenuClose = () => {
+    this.setState({
+      helpMenuIsOpen: false,
     });
   }
 
@@ -208,6 +223,30 @@ class Index extends React.Component {
     }));
   }
 
+  handleKeyboardShortcutsClick = () => {
+    this.setState({
+      keyboardShortcutsDialogIsOpen: true,
+    });
+  }
+
+  handleKeyboardShortcutsDialogClose = () => {
+    this.setState({
+      keyboardShortcutsDialogIsOpen: false,
+    });
+  }
+
+  handleAboutClick = () => {
+    this.setState({
+      aboutDialogIsOpen: true,
+    });
+  }
+
+  handleAboutDialogClose = () => {
+    this.setState({
+      aboutDialogIsOpen: false,
+    });
+  }
+
   registerNodeShapeClick = (handleNodeShapeClick) => {
     this.handleNodeShapeClick = handleNodeShapeClick;
   }
@@ -280,6 +319,7 @@ class Index extends React.Component {
           onZoomOutButtonClick={this.handleZoomOutButtonClick}
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
           onZoomResetButtonClick={this.handleZoomResetButtonClick}
+          onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>
         <MainMenu
@@ -365,6 +405,13 @@ class Index extends React.Component {
             </Paper>
           </Grid>
         </Grid>
+        <HelpMenu
+          anchorEl={this.state.helpMenuAnchorEl}
+          open={this.state.helpMenuIsOpen}
+          onMenuClose={this.handleHelpMenuClose}
+          onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
+          onAboutClick={this.handleAboutClick}
+        />
       </div>
     );
   }

@@ -64,6 +64,10 @@ function ButtonAppBar(props) {
     props.onEdgeFormatClick('draw');
   };
 
+  var handleHelpButtonClick = (event) => {
+    props.onHelpButtonClick(event.currentTarget);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -142,6 +146,7 @@ function ButtonAppBar(props) {
           <IconButton
             color="inherit"
             aria-label="Help"
+            onClick={handleHelpButtonClick}
           >
             <HelpIcon />
           </IconButton>
