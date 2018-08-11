@@ -61,7 +61,7 @@ class FormatDrawer extends React.Component {
 
   constructor(props) {
     super(props);
-    let style = this.props.defaultNodeAttributes.style;
+    let style = this.props.defaultAttributes.style;
     if (style == null) {
       style = [];
     }
@@ -76,7 +76,7 @@ class FormatDrawer extends React.Component {
     this.props.onFormatDrawerClose();
   };
 
-  handleNodeStyleChange = (styleName) => (event) => {
+  handleStyleChange = (styleName) => (event) => {
     const checked = event.target.checked;
     let style = this.currentStyle.add(styleName);
     if (styleName === '(no style)' && checked) {
@@ -91,22 +91,23 @@ class FormatDrawer extends React.Component {
       }
       style = [...style].join(', ');
     }
-    this.props.onNodeStyleChange(style);
+    this.props.onStyleChange(style);
   };
 
-  handleNodeColorChange = (color) => {
-    this.props.onNodeColorChange(color);
+  handleColorChange = (color) => {
+    this.props.onColorChange(color);
   };
 
-  handleNodeFillColorChange = (color) => {
-    this.props.onNodeFillColorChange(color);
+  handleFillColorChange = (color) => {
+    this.props.onFillColorChange(color);
   };
 
   render() {
     const { classes, theme } = this.props;
     const { open } = this.props;
 
-    let currentStyle = this.props.defaultNodeAttributes.style;
+    let styles = nodeStyles;
+    let currentStyle = this.props.defaultAttributes.style;
     if (currentStyle == null) {
       currentStyle = ['(no style)'];
     }
@@ -137,12 +138,12 @@ class FormatDrawer extends React.Component {
               style
             </InputLabel>
             <FormGroup row>
-              {nodeStyles.map((style) =>
+              {styles.map((style) =>
                 <FormControlLabel
                   control={
                     <Checkbox
                       checked={currentStyle.has(style)}
-                    onChange={this.handleNodeStyleChange(style)}
+                    onChange={this.handleStyleChange(style)}
                     value={style}
                     />
                   }
@@ -157,16 +158,16 @@ class FormatDrawer extends React.Component {
               color:
               <ColorPicker
                 name='color'
-                defaultValue={this.props.defaultNodeAttributes.color}
-                onChange={color => this.handleNodeColorChange(color)}
+                defaultValue={this.props.defaultAttributes.color}
+                onChange={color => this.handleColorChange(color)}
               />
             </ListItem>
             <ListItem>
               fillcolor:
               <ColorPicker
                 name='fillcolor'
-                defaultValue={this.props.defaultNodeAttributes.fillcolor}
-                onChange={color => this.handleNodeFillColorChange(color)}
+                defaultValue={this.props.defaultAttributes.fillcolor}
+                onChange={color => this.handleFillColorChange(color)}
               />
             </ListItem>
           </List>

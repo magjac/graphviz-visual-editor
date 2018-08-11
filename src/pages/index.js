@@ -43,7 +43,7 @@ class Index extends React.Component {
       menuIsOpen: false,
       settingsDialogIsOpen: false,
       mode: localStorage.getItem('mode') || 'browse',
-      formatDrawerIsOpen: (localStorage.getItem('formatDrawerIsOpen') || 'false') === 'true',
+      nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
@@ -99,15 +99,15 @@ class Index extends React.Component {
     });
   }
 
-  handleFormatClick = () => {
+  handleNodeFormatClick = () => {
     this.setPersistentState({
-      formatDrawerIsOpen: true,
+      nodeFormatDrawerIsOpen: true,
     });
   }
 
-  handleFormatDrawerClose = () => {
+  handleNodeFormatDrawerClose = () => {
     this.setPersistentState({
-      formatDrawerIsOpen: false,
+      nodeFormatDrawerIsOpen: false,
     });
   }
 
@@ -233,7 +233,7 @@ class Index extends React.Component {
         <ButtonAppBar
           onMenuButtonClick={this.handleMenuButtonClick}
           onModeChange={this.handleModeChange}
-          onFormatClick={this.handleFormatClick}
+          onNodeFormatClick={this.handleNodeFormatClick}
           onZoomInButtonClick={this.handleZoomInButtonClick}
           onZoomOutButtonClick={this.handleZoomOutButtonClick}
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
@@ -264,12 +264,12 @@ class Index extends React.Component {
           <Grid item xs={columns.textEditor}>
             <Paper className={classes.paper}>
               <FormatDrawer
-                open={this.state.formatDrawerIsOpen}
-                defaultNodeAttributes={this.state.defaultNodeAttributes}
-                onFormatDrawerClose={this.handleFormatDrawerClose}
-                onNodeStyleChange={this.handleNodeStyleChange}
-                onNodeColorChange={this.handleNodeColorChange}
-                onNodeFillColorChange={this.handleNodeFillColorChange}
+                open={this.state.nodeFormatDrawerIsOpen}
+                defaultAttributes={this.state.defaultNodeAttributes}
+                onFormatDrawerClose={this.handleNodeFormatDrawerClose}
+                onStyleChange={this.handleNodeStyleChange}
+                onColorChange={this.handleNodeColorChange}
+                onFillColorChange={this.handleNodeFillColorChange}
               />
               <TextEditor
                 // allocated viewport width - 2 * padding
