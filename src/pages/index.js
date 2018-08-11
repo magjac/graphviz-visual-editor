@@ -44,9 +44,11 @@ class Index extends React.Component {
       settingsDialogIsOpen: false,
       mode: localStorage.getItem('mode') || 'browse',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
+      edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
+      defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
       error: null,
     };
   }
@@ -111,6 +113,18 @@ class Index extends React.Component {
     });
   }
 
+  handleEdgeFormatClick = () => {
+    this.setPersistentState({
+      edgeFormatDrawerIsOpen: true,
+    });
+  }
+
+  handleEdgeFormatDrawerClose = () => {
+    this.setPersistentState({
+      edgeFormatDrawerIsOpen: false,
+    });
+  }
+
   handleSettingsClick = () => {
     this.setState({
       settingsDialogIsOpen: true,
@@ -162,6 +176,33 @@ class Index extends React.Component {
     this.setPersistentState(prevState => ({
       defaultNodeAttributes: {
           ...prevState.defaultNodeAttributes,
+        fillcolor: color,
+      },
+    }));
+  }
+
+  handleEdgeStyleChange = (style) => {
+    this.setPersistentState(prevState => ({
+      defaultEdgeAttributes: {
+          ...prevState.defaultEdgeAttributes,
+        style: style,
+      },
+    }));
+  }
+
+  handleEdgeColorChange = (color) => {
+    this.setPersistentState(prevState => ({
+      defaultEdgeAttributes: {
+          ...prevState.defaultEdgeAttributes,
+        color: color,
+      },
+    }));
+  }
+
+  handleEdgeFillColorChange = (color) => {
+    this.setPersistentState(prevState => ({
+      defaultEdgeAttributes: {
+          ...prevState.defaultEdgeAttributes,
         fillcolor: color,
       },
     }));
@@ -234,6 +275,7 @@ class Index extends React.Component {
           onMenuButtonClick={this.handleMenuButtonClick}
           onModeChange={this.handleModeChange}
           onNodeFormatClick={this.handleNodeFormatClick}
+          onEdgeFormatClick={this.handleEdgeFormatClick}
           onZoomInButtonClick={this.handleZoomInButtonClick}
           onZoomOutButtonClick={this.handleZoomOutButtonClick}
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
@@ -264,12 +306,22 @@ class Index extends React.Component {
           <Grid item xs={columns.textEditor}>
             <Paper className={classes.paper}>
               <FormatDrawer
+                type='node'
                 open={this.state.nodeFormatDrawerIsOpen}
                 defaultAttributes={this.state.defaultNodeAttributes}
                 onFormatDrawerClose={this.handleNodeFormatDrawerClose}
                 onStyleChange={this.handleNodeStyleChange}
                 onColorChange={this.handleNodeColorChange}
                 onFillColorChange={this.handleNodeFillColorChange}
+              />
+              <FormatDrawer
+                type='edge'
+                open={this.state.edgeFormatDrawerIsOpen}
+                defaultAttributes={this.state.defaultEdgeAttributes}
+                onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
+                onStyleChange={this.handleEdgeStyleChange}
+                onColorChange={this.handleEdgeColorChange}
+                onFillColorChange={this.handleEdgeFillColorChange}
               />
               <TextEditor
                 // allocated viewport width - 2 * padding
@@ -298,6 +350,7 @@ class Index extends React.Component {
                 engine={this.state.engine}
                 fit={this.state.fitGraph}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
+                defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onTextChange={this.handleTextChange}
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}

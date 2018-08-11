@@ -8,7 +8,6 @@ import { zoomIdentity as d3_zoomIdentity} from 'd3-zoom';
 import { zoomTransform as d3_zoomTransform} from 'd3-zoom';
 import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
-import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import 'd3-graphviz';
 import DotGraph from './dot'
 
@@ -36,6 +35,8 @@ class Graph extends React.Component {
     this.currentNodeAttributes = {
       style: 'filled',
       fillcolor: 'transparent'
+    }
+    this.currentEdgeAttributes = {
     }
     this.currentNodeName = null;
     this.nodeIndex = null;
@@ -309,11 +310,8 @@ class Graph extends React.Component {
       var endNodeName = endNode.selectWithoutDataPropagation("title").text();
       this.graphviz
         .insertDrawnEdge(startNodeName + '->' + endNodeName);
-      let attributes = {
-        color: d3_schemePaired[(this.edgeIndex * 2 + 1) % 12],
-        fillcolor: d3_schemePaired[(this.edgeIndex * 2) % 12],
-      };
-      this.dotGraph.insertEdge(startNodeName, endNodeName, attributes);
+      this.currentEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
+      this.dotGraph.insertEdge(startNodeName, endNodeName, this.currentEdgeAttributes);
       this.props.onTextChange(this.dotGraph.dotSrc);
     }
     this.isDrawingEdge = false;
@@ -333,11 +331,10 @@ class Graph extends React.Component {
     } else {
       this.edgeIndex += 1;
     }
-    var fillcolor = d3_schemePaired[(this.edgeIndex * 2) % 12];
-    var color = d3_schemePaired[(this.edgeIndex * 2 + 1) % 12];
+    this.currentEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
 
     this.graphviz
-      .drawEdge(x0, y0, x0, y0, {fillcolor: fillcolor, color: color});
+      .drawEdge(x0, y0, x0, y0, this.currentEdgeAttributes);
     this.isDrawingEdge = true;
   }
 

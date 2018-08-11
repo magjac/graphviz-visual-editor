@@ -59,6 +59,10 @@ function ButtonAppBar(props) {
     props.onNodeFormatClick('draw');
   };
 
+  var handleEdgeFormatClick = (event) => {
+    props.onEdgeFormatClick('draw');
+  };
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -127,6 +131,12 @@ function ButtonAppBar(props) {
             onClick={handleNodeFormatClick}
           >
             Node format
+          </Button>
+          <Button
+            color="inherit"
+            onClick={handleEdgeFormatClick}
+          >
+            Edge format
           </Button>
           <Button
             color="inherit"

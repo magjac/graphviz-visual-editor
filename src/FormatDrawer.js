@@ -57,6 +57,16 @@ const nodeStyles = [
   "radial",
 ];
 
+const edgeStyles = [
+  "(no style)",
+  "dashed",
+  "dotted",
+  "solid",
+  "invis",
+  "bold",
+  "tapered",
+];
+
 class FormatDrawer extends React.Component {
 
   constructor(props) {
@@ -105,8 +115,9 @@ class FormatDrawer extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { open } = this.props;
+    const { type } = this.props;
 
-    let styles = nodeStyles;
+    let styles = type === 'node' ? nodeStyles : edgeStyles;
     let currentStyle = this.props.defaultAttributes.style;
     if (currentStyle == null) {
       currentStyle = ['(no style)'];
@@ -127,7 +138,7 @@ class FormatDrawer extends React.Component {
           }}
         >
           <div className={classes.drawerHeader}>
-            Node attributes
+            {this.props.type} attributes
             <IconButton onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
