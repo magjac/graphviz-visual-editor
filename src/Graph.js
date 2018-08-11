@@ -90,6 +90,7 @@ class Graph extends React.Component {
     let width = this.node.parentElement.clientWidth;
     let height = this.node.parentElement.clientHeight;
     let fit = this.props.fit;
+    let engine = this.props.engine;
     if (this.props.dotSrc.length === 0) {
       return;
     }
@@ -113,6 +114,7 @@ class Graph extends React.Component {
     this.graphviz
       .width(width)
       .height(height)
+      .engine(engine)
       .fit(fit)
       .dot(this.props.dotSrc, this.handleDotLayoutReady.bind(this))
       .render(this.handleRenderGraphReady.bind(this));

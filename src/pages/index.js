@@ -45,6 +45,7 @@ class Index extends React.Component {
       mode: localStorage.getItem('mode') || 'browse',
       formatDrawerIsOpen: (localStorage.getItem('formatDrawerIsOpen') || 'false') === 'true',
       fitGraph : localStorage.getItem('fitGraph') === 'true',
+      engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
       error: null,
     };
@@ -118,6 +119,12 @@ class Index extends React.Component {
   handleSettingsClose = () => {
     this.setState({
       settingsDialogIsOpen: false,
+    });
+  }
+
+  handleEngineSelectChange = (engine) => {
+    this.setPersistentState({
+      engine: engine,
     });
   }
 
@@ -241,7 +248,9 @@ class Index extends React.Component {
         />
         <SettingsDialog
           open={this.state.settingsDialogIsOpen}
+          engine={this.state.engine}
           fitGraph={this.state.fitGraph}
+          onEngineSelectChange={this.handleEngineSelectChange}
           onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
           onSettingsClose={this.handleSettingsClose}
         />
@@ -286,6 +295,7 @@ class Index extends React.Component {
             <Paper className={classes.paper}>
               <Graph
                 dotSrc={this.state.dotSrc}
+                engine={this.state.engine}
                 fit={this.state.fitGraph}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 onTextChange={this.handleTextChange}
