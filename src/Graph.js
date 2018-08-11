@@ -515,7 +515,8 @@ class Graph extends React.Component {
   }
 
   handleNodeShapeDragStart = (event, shape) => {
-    this.drawNodeWithCurrentAttributes(-100, 100, {shape: shape});
+    let outsideOfViewPort = 1000000;
+    this.drawNodeWithCurrentAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
     let node = this.graphviz._drawnNode.g;
     let bbox = node.node().getBBox();
     let scale = node.node().getCTM().a;
