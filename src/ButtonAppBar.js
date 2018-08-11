@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+import HelpIcon from '@material-ui/icons/Help';
 
 const styles = {
   root: {
@@ -138,11 +139,12 @@ function ButtonAppBar(props) {
           >
             Edge format
           </Button>
-          <Button
+          <IconButton
             color="inherit"
+            aria-label="Help"
           >
-            Help
-          </Button>
+            <HelpIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
