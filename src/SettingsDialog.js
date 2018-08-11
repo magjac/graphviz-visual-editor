@@ -56,6 +56,7 @@ class SettingsDialog extends React.Component {
         <Dialog
           open={this.props.open}
           onClose={this.handleClose}
+          scroll={'body'}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Graph rendering</DialogTitle>
