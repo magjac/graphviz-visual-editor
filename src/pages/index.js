@@ -40,7 +40,7 @@ class Index extends React.Component {
     this.state = {
       initialized: false,
       dotSrc: dotSrc,
-      menuIsOpen: false,
+      mainMenuIsOpen: false,
       settingsDialogIsOpen: false,
       mode: localStorage.getItem('mode') || 'browse',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
@@ -82,16 +82,16 @@ class Index extends React.Component {
     });
   }
 
-  handleMenuButtonClick = (anchorEl) => {
+  handleMainMenuButtonClick = (anchorEl) => {
     this.setState({
-      menuIsOpen: true,
-      menuAnchorEl: anchorEl,
+      mainMenuIsOpen: true,
+      mainMenuAnchorEl: anchorEl,
     });
   }
 
-  handleMenuClose = () => {
+  handleMainMenuClose = () => {
     this.setState({
-      menuIsOpen: false,
+      mainMenuIsOpen: false,
     });
   }
 
@@ -272,7 +272,7 @@ class Index extends React.Component {
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
-          onMenuButtonClick={this.handleMenuButtonClick}
+          onMenuButtonClick={this.handleMainMenuButtonClick}
           onModeChange={this.handleModeChange}
           onNodeFormatClick={this.handleNodeFormatClick}
           onEdgeFormatClick={this.handleEdgeFormatClick}
@@ -283,9 +283,9 @@ class Index extends React.Component {
         >
         </ButtonAppBar>
         <MainMenu
-          anchorEl={this.state.menuAnchorEl}
-          open={this.state.menuIsOpen}
-          onMenuClose={this.handleMenuClose}
+          anchorEl={this.state.mainMenuAnchorEl}
+          open={this.state.mainMenuIsOpen}
+          onMenuClose={this.handleMainMenuClose}
           onSettingsClick={this.handleSettingsClick}
         />
         <SettingsDialog
