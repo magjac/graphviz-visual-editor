@@ -293,7 +293,8 @@ class Graph extends React.Component {
     event.stopPropagation();
     document.activeElement.blur();
     if (!this.isDrawingEdge && event.which === 1) {
-      this.selectComponents(d3_select(nodes[i]));
+      let extendSelection = event.ctrlKey || event.shiftKey;
+      this.selectComponents(d3_select(nodes[i]), extendSelection);
     }
   }
 
@@ -342,7 +343,8 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     document.activeElement.blur();
-    this.selectComponents(d3_select(nodes[i]));
+    let extendSelection = event.ctrlKey || event.shiftKey;
+    this.selectComponents(d3_select(nodes[i]), extendSelection);
   }
 
   handleRightClickOutside(d, i, nodes) {
@@ -416,14 +418,19 @@ class Graph extends React.Component {
           return false
         return true
       });
-      this.selectComponents(components);
+      let extendSelection = event.ctrlKey || event.shiftKey;
+      this.selectComponents(components, extendSelection);
       this.selectArea = null;
     }
   }
 
-  selectComponents(components) {
-    this.unSelectComponents();
-    this.selectedComponents = components;
+  selectComponents(components, extendSelection=false) {
+    if (extendSelection) {
+      this.selectedComponents = d3_selectAll(this.selectedComponents.nodes().concat(components.nodes()));
+    } else {
+      this.unSelectComponents();
+      this.selectedComponents = components;
+    }
     let scale = this.graph0.node().getCTM().a * 3 / 4;
     let dashLength = Math.max(4 / scale, 2);
     let dashWidth = Math.max(4 / scale, 2);
@@ -443,8 +450,11 @@ class Graph extends React.Component {
         .attr("stroke-width",  dashWidth);
       rectNodes.push(rect.node());
     });
-    this.selectedComponents = components;
-    this.selectRects = d3_selectAll(rectNodes);
+    if (extendSelection) {
+      this.selectRects = d3_selectAll(this.selectRects.nodes().concat(rectNodes));
+    } else {
+      this.selectRects = d3_selectAll(rectNodes);
+    }
   }
 
   unSelectComponents() {
