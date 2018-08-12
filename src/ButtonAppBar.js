@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+import SettingsIcon from '@material-ui/icons/Settings';
 import HelpIcon from '@material-ui/icons/Help';
 
 const styles = {
@@ -58,6 +59,10 @@ function ButtonAppBar(props) {
 
   var handleEdgeFormatClick = (event) => {
     props.onEdgeFormatClick('draw');
+  };
+
+  var handleSettingsButtonClick = (event) => {
+    props.onSettingsButtonClick(event.currentTarget);
   };
 
   var handleHelpButtonClick = (event) => {
@@ -133,6 +138,13 @@ function ButtonAppBar(props) {
           >
             Edge format
           </Button>
+          <IconButton
+            color="inherit"
+            aria-label="Settings"
+            onClick={handleSettingsButtonClick}
+          >
+            <SettingsIcon />
+          </IconButton>
           <IconButton
             color="inherit"
             aria-label="Help"
