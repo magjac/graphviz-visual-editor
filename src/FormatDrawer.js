@@ -43,6 +43,8 @@ const styles = theme => ({
   },
   formControl: {
     marginLeft: theme.spacing.unit * 1,
+    // FIXME: Looks good, but there must be a better way
+    marginBottom: theme.spacing.unit * (-2),
   },
   colorPicker: {
     marginLeft: theme.spacing.unit * (-2), // FIXME: Looks good, but there must be a better way
