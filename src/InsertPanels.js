@@ -33,7 +33,7 @@ const styles = theme => ({
   },
 });
 
-class DrawingPanels extends React.Component {
+class InsertPanels extends React.Component {
   state = {
     expanded: null,
   };
@@ -87,8 +87,8 @@ class DrawingPanels extends React.Component {
   }
 }
 
-DrawingPanels.propTypes = {
+InsertPanels.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(DrawingPanels);
+export default withStyles(styles)(InsertPanels);

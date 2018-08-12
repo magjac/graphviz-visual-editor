@@ -11,7 +11,7 @@ import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
 import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
-import DrawingPanels from '../DrawingPanels';
+import InsertPanels from '../InsertPanels';
 import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
@@ -46,7 +46,7 @@ class Index extends React.Component {
       mainMenuIsOpen: false,
       helpMenuIsOpen: false,
       settingsDialogIsOpen: false,
-      mode: localStorage.getItem('mode') || 'browse',
+      insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
       keyboardShortcutsDialogIsOpen: false,
@@ -114,9 +114,9 @@ class Index extends React.Component {
     });
   }
 
-  handleModeChange = (mode) => {
+  handleInsertClick = () => {
     this.setPersistentState({
-      mode: mode,
+      insertPanelsAreOpen: !this.state.insertPanelsAreOpen,
     });
   }
 
@@ -311,16 +311,16 @@ class Index extends React.Component {
     const { classes } = this.props;
 
     var columns;
-    if (this.state.mode === 'draw' && this.state.graphInitialized) {
+    if (this.state.insertPanelsAreOpen && this.state.graphInitialized) {
       columns = {
         textEditor: 3,
-        drawPanel: 3,
+        insertPanels: 3,
         graph: 6,
       }
     } else { /* browse */
       columns = {
         textEditor: 6,
-        drawPanel: false,
+        insertPanels: false,
         graph: 6,
       }
     }
@@ -330,13 +330,14 @@ class Index extends React.Component {
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
           onMenuButtonClick={this.handleMainMenuButtonClick}
-          onModeChange={this.handleModeChange}
+          onInsertClick={this.handleInsertClick}
           onNodeFormatClick={this.handleNodeFormatClick}
           onEdgeFormatClick={this.handleEdgeFormatClick}
           onZoomInButtonClick={this.handleZoomInButtonClick}
           onZoomOutButtonClick={this.handleZoomOutButtonClick}
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
           onZoomResetButtonClick={this.handleZoomResetButtonClick}
+          onSettingsButtonClick={this.handleSettingsClick}
           onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>
@@ -394,10 +395,10 @@ class Index extends React.Component {
               </div>
             </Paper>
           </Grid>
-          {this.state.mode === 'draw' && this.state.graphInitialized && (
-              <Grid item xs={columns.drawPanel}>
+          {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
+              <Grid item xs={columns.insertPanels}>
                 <Paper className={classes.paper}>
-                  <DrawingPanels
+                  <InsertPanels
                     onNodeShapeClick={this.handleNodeShapeClick}
                     onNodeShapeDragStart={this.handleNodeShapeDragStart}
                     onNodeShapeDragEnd={this.handleNodeShapeDragEnd}
