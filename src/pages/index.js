@@ -123,6 +123,7 @@ class Index extends React.Component {
   handleNodeFormatClick = () => {
     this.setPersistentState({
       nodeFormatDrawerIsOpen: true,
+      edgeFormatDrawerIsOpen: false,
     });
   }
 
@@ -135,6 +136,7 @@ class Index extends React.Component {
   handleEdgeFormatClick = () => {
     this.setPersistentState({
       edgeFormatDrawerIsOpen: true,
+      nodeFormatDrawerIsOpen: false,
     });
   }
 
