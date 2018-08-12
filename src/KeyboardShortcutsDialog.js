@@ -18,6 +18,7 @@ const keyboardShortcuts = [
   {key: 'Ctrl-X', description: 'Cut selected node.'},
   {key: 'DEL', description: 'Delete selected nodes and edges.'},
   {key: 'ESC', description: 'De-select selected nodes and edges. Abort current drawing operation.'},
+  {key: '?', description: 'Show keyboard shortcuts.'},
 ];
 
 const styles = theme => ({

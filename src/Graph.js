@@ -272,6 +272,9 @@ class Graph extends React.Component {
       }
       this.deleteSelectedComponents.call(this);
     }
+    if (event.key === '?') {
+      this.props.onHelp();
+    }
     this.isDrawingEdge = false;
   }
 

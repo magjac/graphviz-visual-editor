@@ -408,6 +408,7 @@ class Index extends React.Component {
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onTextChange={this.handleTextChange}
+                onHelp={this.handleKeyboardShortcutsClick}
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}
