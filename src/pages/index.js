@@ -379,13 +379,17 @@ class Index extends React.Component {
                 onColorChange={this.handleEdgeColorChange}
                 onFillColorChange={this.handleEdgeFillColorChange}
               />
-              <TextEditor
-                // allocated viewport width - 2 * padding
-                width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
-                dotSrc={this.state.dotSrc}
-                onTextChange={this.handleTextChange}
-                error={this.state.error}
-              />
+              <div>
+                {this.state.nodeFormatDrawerIsOpen || this.state.edgeFormatDrawerIsOpen || (
+                  <TextEditor
+                    // allocated viewport width - 2 * padding
+                    width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                    dotSrc={this.state.dotSrc}
+                    onTextChange={this.handleTextChange}
+                    error={this.state.error}
+                  />
+                )}
+              </div>
             </Paper>
           </Grid>
           {this.state.mode === 'draw' && this.state.graphInitialized && (

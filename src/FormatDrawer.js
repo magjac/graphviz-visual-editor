@@ -15,7 +15,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import ColorPicker from 'material-ui-color-picker'
 
-const drawerWidth = 500;//240;
+const drawerWidth = '100%';
 
 const styles = theme => ({
   root: {
@@ -27,6 +27,7 @@ const styles = theme => ({
   drawerPaper: {
     position: 'relative',
     width: drawerWidth,
+    height: 'auto',
   },
   drawerPaperClosed: {
     position: 'relative',
