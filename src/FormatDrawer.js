@@ -50,6 +50,12 @@ const styles = theme => ({
     // FIXME: Looks good, but there must be a better way
     marginBottom: theme.spacing.unit * (-2),
   },
+  inputLabel: {
+    // FIXME: why oh why do we need this?
+    // This gives: transform: matrix(0.75, 0, 0, 0.75, 0, -8);
+    // Originally: transform: matrix(0.75, 0, 0, 0.75, 0, 1.5);
+    transform: 'translate(0, -8px) scale(0.75)',
+  },
 });
 
 const nodeStyles = [
@@ -157,7 +163,7 @@ class FormatDrawer extends React.Component {
           <List className={classes.list}>
             <ListItem className={classes.list}>
               <FormControl className={classes.formControl}>
-                <InputLabel shrink htmlFor="style">
+                <InputLabel shrink htmlFor="style" className={classes.inputLabel}>
                   style
                 </InputLabel>
                 <FormGroup row>
