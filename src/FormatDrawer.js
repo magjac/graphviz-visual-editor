@@ -41,6 +41,9 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  colorPicker: {
+    marginLeft: theme.spacing.unit * (-3), // FIXME: Looks good, but there must be a better way
+  },
 });
 
 const nodeStyles = [
@@ -167,17 +170,23 @@ class FormatDrawer extends React.Component {
           </FormControl>
           <List>
             <ListItem>
-              color:
               <ColorPicker
                 name='color'
+                label='color'
+                TextFieldProps={{
+                  className: classes.colorPicker,
+                }}
                 defaultValue={this.props.defaultAttributes.color}
                 onChange={color => this.handleColorChange(color)}
               />
             </ListItem>
             <ListItem>
-              fillcolor:
               <ColorPicker
                 name='fillcolor'
+                label='fillcolor'
+                TextFieldProps={{
+                  className: classes.colorPicker,
+                }}
                 defaultValue={this.props.defaultAttributes.fillcolor}
                 onChange={color => this.handleFillColorChange(color)}
               />
