@@ -41,8 +41,11 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  formControl: {
+    marginLeft: theme.spacing.unit * 1,
+  },
   colorPicker: {
-    marginLeft: theme.spacing.unit * (-3), // FIXME: Looks good, but there must be a better way
+    marginLeft: theme.spacing.unit * (-2), // FIXME: Looks good, but there must be a better way
   },
 });
 
