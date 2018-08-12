@@ -39,6 +39,7 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
+    textTransform: 'capitalize',
     ...theme.mixins.toolbar,
   },
   formControl: {
