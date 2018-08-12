@@ -15,6 +15,7 @@ import DrawingPanels from '../DrawingPanels';
 import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
+import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
 
 const styles = theme => ({
   root: {
@@ -47,6 +48,7 @@ class Index extends React.Component {
       mode: localStorage.getItem('mode') || 'browse',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
+      keyboardShortcutsDialogIsOpen: false,
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
@@ -411,6 +413,10 @@ class Index extends React.Component {
           onMenuClose={this.handleHelpMenuClose}
           onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
           onAboutClick={this.handleAboutClick}
+        />
+        <KeyboardShortcutsDialog
+          open={this.state.keyboardShortcutsDialogIsOpen}
+          onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
         />
       </div>
     );
