@@ -16,6 +16,7 @@ import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
+import MouseOperationsDialog from '../MouseOperationsDialog';
 
 const styles = theme => ({
   root: {
@@ -49,6 +50,7 @@ class Index extends React.Component {
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
       keyboardShortcutsDialogIsOpen: false,
+      mouseOperationsDialogIsOpen: false,
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
@@ -237,6 +239,18 @@ class Index extends React.Component {
     });
   }
 
+  handleMouseOperationsClick = () => {
+    this.setState({
+      mouseOperationsDialogIsOpen: true,
+    });
+  }
+
+  handleMouseOperationsDialogClose = () => {
+    this.setState({
+      mouseOperationsDialogIsOpen: false,
+    });
+  }
+
   handleAboutClick = () => {
     this.setState({
       aboutDialogIsOpen: true,
@@ -412,11 +426,16 @@ class Index extends React.Component {
           open={this.state.helpMenuIsOpen}
           onMenuClose={this.handleHelpMenuClose}
           onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
+          onMouseOperationsClick={this.handleMouseOperationsClick}
           onAboutClick={this.handleAboutClick}
         />
         <KeyboardShortcutsDialog
           open={this.state.keyboardShortcutsDialogIsOpen}
           onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
+        />
+        <MouseOperationsDialog
+          open={this.state.mouseOperationsDialogIsOpen}
+          onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
         />
       </div>
     );
