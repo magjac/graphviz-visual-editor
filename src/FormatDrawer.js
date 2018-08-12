@@ -42,13 +42,13 @@ const styles = theme => ({
     textTransform: 'capitalize',
     ...theme.mixins.toolbar,
   },
+  list: {
+    marginLeft: theme.spacing.unit * (-2),
+  },
   formControl: {
-    marginLeft: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * 2,
     // FIXME: Looks good, but there must be a better way
     marginBottom: theme.spacing.unit * (-2),
-  },
-  colorPicker: {
-    marginLeft: theme.spacing.unit * (-2), // FIXME: Looks good, but there must be a better way
   },
 });
 
@@ -154,34 +154,33 @@ class FormatDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <FormControl className={classes.formControl}>
-            <InputLabel shrink htmlFor="style">
-              style
-            </InputLabel>
-            <FormGroup row>
-              {styles.map((style) =>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={currentStyle.has(style)}
-                    onChange={this.handleStyleChange(style)}
-                    value={style}
+          <List className={classes.list}>
+            <ListItem className={classes.list}>
+              <FormControl className={classes.formControl}>
+                <InputLabel shrink htmlFor="style">
+                  style
+                </InputLabel>
+                <FormGroup row>
+                  {styles.map((style) =>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={currentStyle.has(style)}
+                        onChange={this.handleStyleChange(style)}
+                        value={style}
+                        />
+                      }
+                      key={style}
+                      label={style}
                     />
-                  }
-                  key={style}
-                  label={style}
-                />
-              )}
-            </FormGroup>
-          </FormControl>
-          <List>
+                  )}
+                </FormGroup>
+              </FormControl>
+            </ListItem>
             <ListItem>
               <ColorPicker
                 name='color'
                 label='color'
-                TextFieldProps={{
-                  className: classes.colorPicker,
-                }}
                 defaultValue={this.props.defaultAttributes.color}
                 onChange={color => this.handleColorChange(color)}
               />
@@ -190,9 +189,6 @@ class FormatDrawer extends React.Component {
               <ColorPicker
                 name='fillcolor'
                 label='fillcolor'
-                TextFieldProps={{
-                  className: classes.colorPicker,
-                }}
                 defaultValue={this.props.defaultAttributes.fillcolor}
                 onChange={color => this.handleFillColorChange(color)}
               />
