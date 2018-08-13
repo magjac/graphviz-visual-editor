@@ -575,9 +575,7 @@ class Graph extends React.Component {
   };
 
   insertNode(x0, y0, nodeName, attributes) {
-    // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
-    let attributesCopy = Object.assign({}, attributes);
-    this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
+    this.drawNode(x0, y0, nodeName, attributes);
     this.graphviz.insertDrawnNode(nodeName);
     this.graphviz._drawnNode = null;
     this.dotGraph.insertNode(nodeName, attributes);
