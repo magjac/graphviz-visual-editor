@@ -234,7 +234,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
-      this.insertNodeWithDefaultAttributes(x0, y0, this.currentNodeAttributes);
+      this.insertNodeWithDefaultAttributes(x0, y0);
     }
   }
 
@@ -260,7 +260,7 @@ class Graph extends React.Component {
       }
     }
     if (event.ctrlKey && event.key === 'v') {
-      this.insertNodeWithDefaultAttributes(null, null, this.currentNodeAttributes);
+      this.insertNodeWithCurrentAttributes();
     }
     if (event.ctrlKey && event.key === 'x') {
       let nodes = this.selectedComponents.filter('.node');
@@ -588,7 +588,7 @@ class Graph extends React.Component {
     this.props.onTextChange(this.dotGraph.dotSrc);
   };
 
-  drawNodeWithDefaultAttributes(x0, y0, attributesToOverride) {
+  drawNodeWithDefaultAttributes(x0, y0, attributesToOverride={}) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
@@ -601,7 +601,7 @@ class Graph extends React.Component {
     this.drawNode(x0, y0, this.currentNodeName, this.currentNodeAttributes);
   }
 
-  insertNodeWithCurrentAttributes(x0, y0, attributesToOverride) {
+  insertNodeWithCurrentAttributes(x0, y0, attributesToOverride={}) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
@@ -614,7 +614,7 @@ class Graph extends React.Component {
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
   }
 
-  insertNodeWithDefaultAttributes(x0, y0, attributesToOverride) {
+  insertNodeWithDefaultAttributes(x0, y0, attributesToOverride={}) {
     this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
     this.insertNodeWithCurrentAttributes(x0, y0, attributesToOverride);
   }
