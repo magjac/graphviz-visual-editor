@@ -601,18 +601,22 @@ class Graph extends React.Component {
     this.drawNode(x0, y0, this.currentNodeName, this.currentNodeAttributes);
   }
 
-  insertNodeWithDefaultAttributes(x0, y0, attributesToOverride) {
+  insertNodeWithCurrentAttributes(x0, y0, attributesToOverride) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
       x0 = x0 || bbox.x + bbox.width / 2;
       y0 = y0 || bbox.y + bbox.height / 2;
     }
-    this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
     Object.assign(this.currentNodeAttributes, attributesToOverride);
     let nodeName = this.getNextNodeId();
     this.currentNodeName = nodeName;
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
+  }
+
+  insertNodeWithDefaultAttributes(x0, y0, attributesToOverride) {
+    this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
+    this.insertNodeWithCurrentAttributes(x0, y0, attributesToOverride);
   }
 
   render() {
