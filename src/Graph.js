@@ -236,7 +236,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
-      this.insertNodeWithCurrentAttributes(x0, y0, this.currentNodeAttributes);
+      this.insertNodeWithDefaultAttributes(x0, y0, this.currentNodeAttributes);
     }
   }
 
@@ -262,7 +262,7 @@ class Graph extends React.Component {
       }
     }
     if (event.ctrlKey && event.key === 'v') {
-      this.insertNodeWithCurrentAttributes(null, null, this.currentNodeAttributes);
+      this.insertNodeWithDefaultAttributes(null, null, this.currentNodeAttributes);
     }
     if (event.ctrlKey && event.key === 'x') {
       let nodes = this.selectedComponents.filter('.node');
@@ -522,12 +522,12 @@ class Graph extends React.Component {
   handleNodeShapeClick = (event, shape) => {
     let x0 = null;
     let y0 = null;
-    this.insertNodeWithCurrentAttributes(x0, y0, {shape: shape});
+    this.insertNodeWithDefaultAttributes(x0, y0, {shape: shape});
   }
 
   handleNodeShapeDragStart = (event, shape) => {
     let outsideOfViewPort = 1000000;
-    this.drawNodeWithCurrentAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
+    this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
     let node = this.graphviz._drawnNode.g;
     let bbox = node.node().getBBox();
     let scale = node.node().getCTM().a;
@@ -549,7 +549,7 @@ class Graph extends React.Component {
     point.y = event.clientY;
     point = point.matrixTransform(node.getScreenCTM().inverse());
     var [x0, y0] = [point.x, point.y];
-    this.updateAndInsertDrawnNodeWithCurrentAttributes(x0, y0, {});
+    this.updateAndInsertDrawnNodeWithDefaultAttributes(x0, y0, {});
   }
 
   handleNodeShapeDragEnd = (event, shape) => {
@@ -562,7 +562,7 @@ class Graph extends React.Component {
     this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
   };
 
-  updateAndInsertDrawnNodeWithCurrentAttributes(x0, y0, attributes) {
+  updateAndInsertDrawnNodeWithDefaultAttributes(x0, y0, attributes) {
     let nodeName = this.currentNodeName;
     attributes = Object.assign(this.currentNodeAttributes, attributes);
     // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
@@ -584,7 +584,7 @@ class Graph extends React.Component {
     this.props.onTextChange(this.dotGraph.dotSrc);
   };
 
-  drawNodeWithCurrentAttributes(x0, y0, attributes) {
+  drawNodeWithDefaultAttributes(x0, y0, attributes) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
@@ -597,7 +597,7 @@ class Graph extends React.Component {
     this.drawNode(x0, y0, this.currentNodeName, this.currentNodeAttributes);
   }
 
-  insertNodeWithCurrentAttributes(x0, y0, attributes) {
+  insertNodeWithDefaultAttributes(x0, y0, attributes) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
