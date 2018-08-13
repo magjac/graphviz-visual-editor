@@ -584,7 +584,7 @@ class Graph extends React.Component {
     this.props.onTextChange(this.dotGraph.dotSrc);
   };
 
-  drawNodeWithDefaultAttributes(x0, y0, attributes) {
+  drawNodeWithDefaultAttributes(x0, y0, attributesToOverride) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
@@ -592,12 +592,12 @@ class Graph extends React.Component {
       y0 = y0 || bbox.y + bbox.height / 2;
     }
     this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
-    Object.assign(this.currentNodeAttributes, attributes);
+    Object.assign(this.currentNodeAttributes, attributesToOverride);
     this.currentNodeName = this.getNextNodeId();
     this.drawNode(x0, y0, this.currentNodeName, this.currentNodeAttributes);
   }
 
-  insertNodeWithDefaultAttributes(x0, y0, attributes) {
+  insertNodeWithDefaultAttributes(x0, y0, attributesToOverride) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
@@ -605,7 +605,7 @@ class Graph extends React.Component {
       y0 = y0 || bbox.y + bbox.height / 2;
     }
     this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
-    Object.assign(this.currentNodeAttributes, attributes);
+    Object.assign(this.currentNodeAttributes, attributesToOverride);
     let nodeName = this.getNextNodeId();
     this.currentNodeName = nodeName;
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
