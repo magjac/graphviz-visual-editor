@@ -33,8 +33,6 @@ class Graph extends React.Component {
     this.selectArea = null;
     this.selectRects = d3_select(null);
     this.currentNodeAttributes = {
-      style: 'filled',
-      fillcolor: 'transparent'
     }
     this.currentEdgeAttributes = {
     }
