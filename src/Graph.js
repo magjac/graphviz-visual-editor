@@ -225,7 +225,7 @@ class Graph extends React.Component {
 
   handleClickOutside(d, i, nodes) {
     var event = d3_event;
-    if (event.target.nodeName !== 'svg' && event.target.parentElement.id !== 'graph0' && event.target !== this.node) {
+    if (event.target.nodeName !== 'svg' && event.target.parentElement && event.target.parentElement.id !== 'graph0' && event.target !== this.node) {
       return;
     }
     event.preventDefault();
