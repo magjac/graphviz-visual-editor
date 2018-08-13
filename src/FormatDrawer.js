@@ -58,8 +58,10 @@ const styles = theme => ({
   },
 });
 
+const emptyStyle = '(empty)';
+
 const nodeStyles = [
-  "(no style)",
+  emptyStyle,
   "dashed",
   "dotted",
   "solid",
@@ -74,7 +76,7 @@ const nodeStyles = [
 ];
 
 const edgeStyles = [
-  "(no style)",
+  emptyStyle,
   "dashed",
   "dotted",
   "solid",
@@ -85,17 +87,27 @@ const edgeStyles = [
 
 class FormatDrawer extends React.Component {
 
-  constructor(props) {
-    super(props);
-    let style = this.props.defaultAttributes.style;
-    if (style == null) {
-      style = [];
+  getStyleSet() {
+    if (this.props.defaultAttributes.style == null) {
+      return new Set([]);
+    } else {
+      let styleSet = new Set(this.props.defaultAttributes.style.split(', '))
+      if (styleSet.delete('') !== false) {
+        styleSet.add(emptyStyle);
+      }
+      return styleSet;
     }
-    else {
-      style = style.split(', ');
+  }
+
+  setStyle(styleSet) {
+    if (styleSet.size === 0) {
+      this.props.onStyleChange(null);
+    } else {
+      if (styleSet.delete(emptyStyle) !== false) {
+        styleSet.add('');
+      }
+      this.props.onStyleChange([...styleSet].join(', '));
     }
-    style = new Set(style);
-    this.currentStyle = style;
   }
 
   handleDrawerClose = () => {
@@ -104,20 +116,19 @@ class FormatDrawer extends React.Component {
 
   handleStyleChange = (styleName) => (event) => {
     const checked = event.target.checked;
-    let style = this.currentStyle.add(styleName);
-    if (styleName === '(no style)' && checked) {
-      style = null;
+    let styleSet = this.getStyleSet();
+    if (checked) {
+      if (styleName === emptyStyle) {
+        styleSet.clear();
+      } else {
+        styleSet.delete(emptyStyle);
+      }
+      styleSet.add(styleName);
     }
     else {
-      if (checked) {
-        style.add(styleName);
-      }
-      else {
-        style.delete(styleName);
-      }
-      style = [...style].join(', ');
+      styleSet.delete(styleName);
     }
-    this.props.onStyleChange(style);
+    this.setStyle(styleSet);
   };
 
   handleColorChange = (color) => {
@@ -134,15 +145,7 @@ class FormatDrawer extends React.Component {
     const { type } = this.props;
 
     let styles = type === 'node' ? nodeStyles : edgeStyles;
-    let currentStyle = this.props.defaultAttributes.style;
-    if (currentStyle == null) {
-      currentStyle = ['(no style)'];
-    }
-    else {
-      currentStyle = currentStyle.split(', ');
-    }
-    currentStyle = new Set(currentStyle);
-
+    let currentStyle = this.getStyleSet();
     return (
       <div className={classes.root}>
         <Drawer
