@@ -549,7 +549,7 @@ class Graph extends React.Component {
     point.y = event.clientY;
     point = point.matrixTransform(node.getScreenCTM().inverse());
     var [x0, y0] = [point.x, point.y];
-    this.updateAndInsertDrawnNodeWithDefaultAttributes(x0, y0, {});
+    this.updateAndInsertDrawnNode(x0, y0, {});
   }
 
   handleNodeShapeDragEnd = (event, shape) => {
@@ -562,7 +562,7 @@ class Graph extends React.Component {
     this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
   };
 
-  updateAndInsertDrawnNodeWithDefaultAttributes(x0, y0, attributes) {
+  updateAndInsertDrawnNode(x0, y0, attributes) {
     let nodeName = this.currentNodeName;
     attributes = Object.assign(this.currentNodeAttributes, attributes);
     // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
