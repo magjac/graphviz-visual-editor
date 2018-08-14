@@ -27,7 +27,7 @@ const styles = theme => ({
   drawerPaper: {
     position: 'relative',
     width: drawerWidth,
-    height: 'auto',
+    height: 'calc(100vh - 64px - 2 * 12px)',
   },
   drawerPaperClosed: {
     position: 'relative',
