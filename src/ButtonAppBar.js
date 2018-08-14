@@ -32,10 +32,6 @@ function ButtonAppBar(props) {
     props.onMenuButtonClick(event.currentTarget);
   };
 
-  var handleBrowseClick = (event) => {
-    props.onModeChange('browse');
-  };
-
   var handleZoomInButtonClick = (event) => {
     props.onZoomInButtonClick && props.onZoomInButtonClick();
   };
@@ -52,8 +48,8 @@ function ButtonAppBar(props) {
     props.onZoomResetButtonClick && props.onZoomResetButtonClick();
   };
 
-  var handleDrawClick = (event) => {
-    props.onModeChange('draw');
+  var handleInsertClick = (event) => {
+    props.onInsertClick();
   };
 
   var handleNodeFormatClick = (event) => {
@@ -121,15 +117,9 @@ function ButtonAppBar(props) {
           </Button>
           <Button
             color="inherit"
-            onClick={handleBrowseClick}
+            onClick={handleInsertClick}
           >
-            Browse
-          </Button>
-          <Button
-            color="inherit"
-            onClick={handleDrawClick}
-          >
-            Draw
+            Insert
           </Button>
           <Button
             color="inherit"
