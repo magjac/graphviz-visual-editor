@@ -234,7 +234,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
-      this.insertNodeWithDefaultAttributes(x0, y0);
+      this.insertNodeWithCurrentAttributes(x0, y0);
     }
   }
 
