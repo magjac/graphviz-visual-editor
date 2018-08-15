@@ -614,7 +614,6 @@ class Graph extends React.Component {
     }
     Object.assign(this.currentNodeAttributes, attributesToOverride);
     let nodeName = this.getNextNodeId();
-    this.currentNodeName = nodeName;
     this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
   }
 
