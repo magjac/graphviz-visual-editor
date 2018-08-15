@@ -36,7 +36,7 @@ class Graph extends React.Component {
     }
     this.currentEdgeAttributes = {
     }
-    this.currentNodeName = null;
+    this.drawnNodeName = null;
     this.nodeIndex = null;
     this.edgeIndex = null;
     this.pendingUpdate = false;
@@ -569,7 +569,7 @@ class Graph extends React.Component {
   };
 
   updateAndInsertDrawnNode(x0, y0, attributes) {
-    let nodeName = this.currentNodeName;
+    let nodeName = this.drawnNodeName;
     attributes = Object.assign(this.currentNodeAttributes, attributes);
     // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
     let attributesCopy = Object.assign({}, attributes);
@@ -601,8 +601,8 @@ class Graph extends React.Component {
     }
     this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
     Object.assign(this.currentNodeAttributes, attributesToOverride);
-    this.currentNodeName = this.getNextNodeId();
-    this.drawNode(x0, y0, this.currentNodeName, this.currentNodeAttributes);
+    this.drawnNodeName = this.getNextNodeId();
+    this.drawNode(x0, y0, this.drawnNodeName, this.currentNodeAttributes);
   }
 
   insertNodeWithCurrentAttributes(x0, y0, attributesToOverride={}) {
