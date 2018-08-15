@@ -36,6 +36,9 @@ class Graph extends React.Component {
     }
     this.latestEdgeAttributes = {
     }
+    // latestInsertedNodeShape is not necessarily the same as
+    // latestNodeAttributes.shape with is also set on node copy
+    this.latestInsertedNodeShape = null;
     this.drawnNodeName = null;
     this.nodeIndex = null;
     this.edgeIndex = null;
@@ -235,7 +238,7 @@ class Graph extends React.Component {
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
       if (event.shiftKey) {
-        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestNodeAttributes.shape});
+        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
       } else {
         this.insertNodeWithLatestAttributes(x0, y0);
       }
@@ -524,11 +527,13 @@ class Graph extends React.Component {
   handleNodeShapeClick = (event, shape) => {
     let x0 = null;
     let y0 = null;
+    this.latestInsertedNodeShape = shape;
     this.insertNodeWithDefaultAttributes(x0, y0, {shape: shape});
   }
 
   handleNodeShapeDragStart = (event, shape) => {
     let outsideOfViewPort = 1000000;
+    this.latestInsertedNodeShape = shape;
     this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
     let node = this.graphviz._drawnNode.g;
     let bbox = node.node().getBBox();
