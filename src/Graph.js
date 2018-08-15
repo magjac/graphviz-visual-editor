@@ -32,9 +32,9 @@ class Graph extends React.Component {
     this.selectedComponents = d3_selectAll(null);
     this.selectArea = null;
     this.selectRects = d3_select(null);
-    this.currentNodeAttributes = {
+    this.latestNodeAttributes = {
     }
-    this.currentEdgeAttributes = {
+    this.latestEdgeAttributes = {
     }
     this.drawnNodeName = null;
     this.nodeIndex = null;
@@ -235,9 +235,9 @@ class Graph extends React.Component {
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
       if (event.shiftKey) {
-        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.currentNodeAttributes.shape});
+        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestNodeAttributes.shape});
       } else {
-        this.insertNodeWithCurrentAttributes(x0, y0);
+        this.insertNodeWithLatestAttributes(x0, y0);
       }
     }
   }
@@ -260,17 +260,17 @@ class Graph extends React.Component {
       let nodes = this.selectedComponents.filter('.node');
       if (nodes.size() > 0) {
           let nodeName = nodes.selectWithoutDataPropagation("title").text();
-          this.currentNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
+          this.latestNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
       }
     }
     if (event.ctrlKey && event.key === 'v') {
-      this.insertNodeWithCurrentAttributes();
+      this.insertNodeWithLatestAttributes();
     }
     if (event.ctrlKey && event.key === 'x') {
       let nodes = this.selectedComponents.filter('.node');
       if (nodes.size() > 0) {
           let nodeName = nodes.selectWithoutDataPropagation("title").text();
-          this.currentNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
+          this.latestNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
       }
       this.deleteSelectedComponents.call(this);
     }
@@ -315,8 +315,8 @@ class Graph extends React.Component {
       var endNodeName = endNode.selectWithoutDataPropagation("title").text();
       this.graphviz
         .insertDrawnEdge(startNodeName + '->' + endNodeName);
-      this.currentEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
-      this.dotGraph.insertEdge(startNodeName, endNodeName, this.currentEdgeAttributes);
+      this.latestEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
+      this.dotGraph.insertEdge(startNodeName, endNodeName, this.latestEdgeAttributes);
       this.props.onTextChange(this.dotGraph.dotSrc);
     }
     this.isDrawingEdge = false;
@@ -336,10 +336,10 @@ class Graph extends React.Component {
     } else {
       this.edgeIndex += 1;
     }
-    this.currentEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
+    this.latestEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
 
     this.graphviz
-      .drawEdge(x0, y0, x0, y0, this.currentEdgeAttributes);
+      .drawEdge(x0, y0, x0, y0, this.latestEdgeAttributes);
     this.isDrawingEdge = true;
   }
 
@@ -570,7 +570,7 @@ class Graph extends React.Component {
 
   updateAndInsertDrawnNode(x0, y0, attributes) {
     let nodeName = this.drawnNodeName;
-    attributes = Object.assign(this.currentNodeAttributes, attributes);
+    attributes = Object.assign(this.latestNodeAttributes, attributes);
     // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
     let attributesCopy = Object.assign({}, attributes);
     // FIXME: remove workaround when https://github.com/magjac/d3-graphviz/issues/83 is fixed
@@ -599,27 +599,27 @@ class Graph extends React.Component {
       x0 = x0 || bbox.x + bbox.width / 2;
       y0 = y0 || bbox.y + bbox.height / 2;
     }
-    this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
-    Object.assign(this.currentNodeAttributes, attributesToOverride);
+    this.latestNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
+    Object.assign(this.latestNodeAttributes, attributesToOverride);
     this.drawnNodeName = this.getNextNodeId();
-    this.drawNode(x0, y0, this.drawnNodeName, this.currentNodeAttributes);
+    this.drawNode(x0, y0, this.drawnNodeName, this.latestNodeAttributes);
   }
 
-  insertNodeWithCurrentAttributes(x0, y0, attributesToOverride={}) {
+  insertNodeWithLatestAttributes(x0, y0, attributesToOverride={}) {
     if (x0 == null || y0 == null) {
       let node = this.graph0.node();
       let bbox = node.getBBox();
       x0 = x0 || bbox.x + bbox.width / 2;
       y0 = y0 || bbox.y + bbox.height / 2;
     }
-    Object.assign(this.currentNodeAttributes, attributesToOverride);
+    Object.assign(this.latestNodeAttributes, attributesToOverride);
     let nodeName = this.getNextNodeId();
-    this.insertNode(x0, y0, nodeName, this.currentNodeAttributes);
+    this.insertNode(x0, y0, nodeName, this.latestNodeAttributes);
   }
 
   insertNodeWithDefaultAttributes(x0, y0, attributesToOverride={}) {
-    this.currentNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
-    this.insertNodeWithCurrentAttributes(x0, y0, attributesToOverride);
+    this.latestNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
+    this.insertNodeWithLatestAttributes(x0, y0, attributesToOverride);
   }
 
   render() {
