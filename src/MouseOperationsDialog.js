@@ -14,12 +14,17 @@ import TableRow from '@material-ui/core/TableRow';
 
 const mouseOperations = [
   {key: 'Mouse wheel', description: 'Zoom in or out.'},
+  {key: 'Double-click canvas', description: 'Zoom in.'},
+  {key: 'Ctrl-drag canvas', description: 'Pan graph.'},
   {key: 'Click node or edge', description: 'Select node or edge.'},
-  {key: 'Shift/Ctrl-Click node or edge', description: 'Add node or edge to selection.'},
-  {key: 'Click-drag canvas', description: 'Select nodes and edges within dragged area.'},
-  {key: 'Shift-Click-drag canvas', description: 'Add nodes and edges within dragged area to selection.'},
-  {key: 'Right-Click node', description: 'Start drawing an edge from node.'},
-  {key: 'Double-Click node', description: 'Connect edge being drawn to node.'},
+  {key: 'Shift/Ctrl-click node or edge', description: 'Add node or edge to selection.'},
+  {key: 'Drag canvas', description: 'Select nodes and edges within dragged area.'},
+  {key: 'Shift-drag canvas', description: 'Add nodes and edges within dragged area to selection.'},
+  {key: 'Right-click node', description: 'Start drawing an edge from node.'},
+  {key: 'Double-click node', description: 'Connect edge being drawn to node.'},
+  {key: 'Middle-click canvas', description: 'Insert node with the latest used shape and default attributes.'},
+  {key: 'Click insert shape', description: 'Insert node from insert panel with default attributes.'},
+  {key: 'Drag-and-drop insert shape', description: 'Insert node from insert panel with default attributes.'},
 ];
 
 const styles = theme => ({
