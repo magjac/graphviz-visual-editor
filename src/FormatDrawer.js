@@ -157,7 +157,7 @@ class FormatDrawer extends React.Component {
           }}
         >
           <div className={classes.drawerHeader}>
-            {this.props.type} attributes
+            Default {this.props.type} attributes
             <IconButton onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
