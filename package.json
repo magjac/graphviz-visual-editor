@@ -1,7 +1,6 @@
 {
-  "name": "create-react-app",
-  "version": "1.0.0",
-  "private": true,
+  "name": "graphviz-visual-editor",
+  "version": "0.0.1",
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "^1.1.0",
