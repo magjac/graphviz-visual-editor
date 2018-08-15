@@ -50,7 +50,7 @@ class KeyboardShortcutsDialog extends React.Component {
                       <TableCell component="th" scope="row" padding="none">
                         {keyboardShortcut.key}
                       </TableCell>
-                      <TableCell padding="none">
+                      <TableCell padding="dense">
                         {keyboardShortcut.description}
                       </TableCell>
                     </TableRow>

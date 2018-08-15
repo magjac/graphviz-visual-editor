@@ -56,7 +56,7 @@ class MouseOperationsDialog extends React.Component {
                       <TableCell component="th" scope="row" padding="none">
                         {mouseOperation.key}
                       </TableCell>
-                      <TableCell padding="none">
+                      <TableCell padding="dense">
                         {mouseOperation.description}
                       </TableCell>
                     </TableRow>
