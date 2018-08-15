@@ -2,7 +2,7 @@
 
 A web application for interactive visual editing of [Graphviz](http://www.graphviz.org) graphs described in the [DOT](https://www.graphviz.org/doc/info/lang.html) language.
 
-*Disclaimer: This project just started (2018-07-17) and so far contains just some basic features. There's still **no documentation**, to some extent the **UI is horrible** (The author is learning [Material UI](https://material-ui.com/) and [React](https://material-ui.com/) while coding) and **some choices in the UI does nothing***.
+*Disclaimer: This project just started (2018-07-17) and so far contains just some basic features. Apart from on-line help regarding keyboard shortcuts and mouse operations, there's still **no documentation** of the the rest of the UI (although it's fairly intuitive) and it's probably going to change a lot in upcoming releases (The author is learning [Material UI](https://material-ui.com/) and [React](https://material-ui.com/) while coding).*
 
 That said, it's perfectly possible to use it in its current state :smiley:.
 
