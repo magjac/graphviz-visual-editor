@@ -8,18 +8,107 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {shapes} from './shapes';
 
+const nodeShapeCategories = [
+  {
+    name: 'Basic shapes',
+    shapes: [
+      "ellipse",
+      "circle",
+      "egg",
+      "triangle",
+      "box",
+      "square",
+      "plaintext",
+      "plain",
+      "diamond",
+      "trapezium",
+      "parallelogram",
+      "house",
+      "pentagon",
+      "hexagon",
+      "septagon",
+      "octagon",
+    ],
+  },
+  {
+    name: 'Basic symbols',
+    shapes: [
+      "note",
+      "tab",
+      "folder",
+      "box3d",
+      "component",
+      "underline",
+      "cylinder",
+    ],
+  },
+  {
+    name: 'Special shapes',
+    shapes: [
+      "doublecircle",
+      "invtriangle",
+      "invtrapezium",
+      "invhouse",
+      "doubleoctagon",
+      "tripleoctagon",
+      "Mdiamond",
+      "Msquare",
+      "Mcircle",
+      "star",
+    ],
+  },
+  {
+    name: 'Gene expression symbols',
+    shapes: [
+      "promoter",
+      "cds",
+      "terminator",
+      "utr",
+      "insulator",
+      "ribosite",
+      "rnastab",
+      "proteasesite",
+      "proteinstab",
+    ],
+  },
+  {
+    name: 'DNA construction symbols',
+    shapes: [
+      "primersite",
+      "restrictionsite",
+      "fivepoverhang",
+      "threepoverhang",
+      "noverhang",
+      "assembly",
+      "signature",
+      "rpromoter",
+      "larrow",
+      "rarrow",
+      "lpromoter",
+    ],
+  },
+  {
+    name: 'Other shapes',
+    shapes: [
+      "polygon",
+      "oval",
+      "point",
+      "none",
+      "rect",
+      "rectangle",
+      "record",
+      "Mrecord",
+    ],
+  },
+];
+
 const styles = theme => ({
   root: {
     width: '100%',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: '33.33%',
     flexShrink: 0,
-  },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
   },
   columns: {
     flexWrap: 'wrap',
@@ -62,26 +151,27 @@ class InsertPanels extends React.Component {
 
     return (
       <div className={classes.root}>
-        <ExpansionPanel expanded={expanded === 'nodeShapePanel'} onChange={this.handleChange('nodeShapePanel')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Standard</Typography>
-            <Typography className={classes.secondaryHeading}>node shapes</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.columns}>
-            {Object.keys(shapes).map((shape) =>
-              <div
-                dangerouslySetInnerHTML={{__html: shapes[shape]}}
-                key={shape}
-                className={classes.column}
-                onClick={this.handleNodeShapeClick(shape)}
-                draggable="true"
-                onDragStart={this.handleNodeShapeDragStart(shape)}
-                onDragEnd={this.handleNodeShapeDragEnd(shape)}
-              >
-              </div>
-            )}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+        {nodeShapeCategories.map((nodeShapeCategory) =>
+          <ExpansionPanel key={nodeShapeCategory.name} expanded={expanded === nodeShapeCategory} onChange={this.handleChange(nodeShapeCategory)}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>{nodeShapeCategory.name}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.columns}>
+              {nodeShapeCategory.shapes.map((shape) =>
+                <div
+                  dangerouslySetInnerHTML={{__html: shapes[shape]}}
+                  key={shape}
+                  className={classes.column}
+                  onClick={this.handleNodeShapeClick(shape)}
+                  draggable="true"
+                  onDragStart={this.handleNodeShapeDragStart(shape)}
+                  onDragEnd={this.handleNodeShapeDragEnd(shape)}
+                >
+                </div>
+              )}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        )}
       </div>
     );
   }
