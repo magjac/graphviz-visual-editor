@@ -105,6 +105,8 @@ const nodeShapeCategories = [
 const styles = theme => ({
   root: {
     width: '100%',
+    overflowY: 'auto',
+    height: 'calc(100vh - 64px - 2 * 12px)',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),

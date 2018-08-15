@@ -37,7 +37,7 @@ class KeyboardShortcutsDialog extends React.Component {
         <Dialog
           open={this.props.open}
           onClose={this.handleClose}
-          scroll={'body'}
+          scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
           <DialogTitle id="form-dialog-title">Keyboard shortcuts in graph</DialogTitle>
