@@ -17,6 +17,7 @@ import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
 import MouseOperationsDialog from '../MouseOperationsDialog';
+import AboutDialog from '../AboutDialog';
 
 const styles = theme => ({
   root: {
@@ -51,6 +52,7 @@ class Index extends React.Component {
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
       keyboardShortcutsDialogIsOpen: false,
       mouseOperationsDialogIsOpen: false,
+      aboutDialogIsOpen: false,
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
@@ -444,6 +446,10 @@ class Index extends React.Component {
         <MouseOperationsDialog
           open={this.state.mouseOperationsDialogIsOpen}
           onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
+        />
+        <AboutDialog
+          open={this.state.aboutDialogIsOpen}
+          onAboutDialogClose={this.handleAboutDialogClose}
         />
       </div>
     );
