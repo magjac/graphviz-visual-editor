@@ -23,6 +23,7 @@ const mouseOperations = [
   {key: 'Right-click node', description: 'Start drawing an edge from node.'},
   {key: 'Double-click node', description: 'Connect edge being drawn to node.'},
   {key: 'Middle-click canvas', description: 'Insert node with the latest used shape and attributes.'},
+  {key: 'Shift-middle-click canvas', description: 'Insert node with the latest used shape and default attributes.'},
   {key: 'Click insert shape', description: 'Insert node from insert panel with default attributes.'},
   {key: 'Drag-and-drop insert shape', description: 'Insert node from insert panel with default attributes.'},
 ];
