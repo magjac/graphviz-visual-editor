@@ -30,11 +30,17 @@ npm run start
   * Draw edges between nodes.
   * Select nodes and edges by click or by area drag.
   * Delete selected nodes and edges.
-  * Copy a selected node.
-* Update the DOT source automatically when the graph is edited.
-* Animate the changes made to the graph.
-* Keep the DOT source and the application state during page reload by automatic save and retrieve to/from local storage in the browser.
-* Option to fit the graph to the avaible drawing area.
+  * Cut/Copy-and-paste a selected node.
+* Update the DOT source automatically when the graph is visually edited.
+* Update the graph automatically when the DOT source is edited.
+* Perform an animated transition of the graph into a new state when changes are made.
+* The DOT source and the application state are preserved during page reload by automatic save and retrieve to/from local storage in the browser.
+* Options:
+  * Automatically fit the graph to the avaible drawing area.
+  * Select Graphviz layout engine.
+* On-line help:
+  * Keyboard shortcuts
+  * Mouse interactions
 
 ## Currently Known Limitations ##
 
