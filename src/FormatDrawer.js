@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -13,7 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import ColorPicker from 'material-ui-color-picker'
+import ColorPicker from './ColorPicker'
 
 const drawerWidth = '100%';
 
@@ -28,6 +26,7 @@ const styles = theme => ({
     position: 'relative',
     width: drawerWidth,
     height: 'calc(100vh - 64px - 2 * 12px)',
+    textAlign: 'left',
   },
   drawerPaperClosed: {
     position: 'relative',
@@ -42,19 +41,20 @@ const styles = theme => ({
     textTransform: 'capitalize',
     ...theme.mixins.toolbar,
   },
-  list: {
-    marginLeft: theme.spacing.unit * (-2),
+  formControlStyle: {
+    marginLeft: theme.spacing.unit * 1,
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * -1,
   },
-  formControl: {
-    marginLeft: theme.spacing.unit * 2,
-    // FIXME: Looks good, but there must be a better way
-    marginBottom: theme.spacing.unit * (-2),
+  formControlColor: {
+    marginLeft: theme.spacing.unit * 1,
+    marginTop: theme.spacing.unit * 4,
   },
-  inputLabel: {
-    // FIXME: why oh why do we need this?
-    // This gives: transform: matrix(0.75, 0, 0, 0.75, 0, -8);
-    // Originally: transform: matrix(0.75, 0, 0, 0.75, 0, 1.5);
-    transform: 'translate(0, -8px) scale(0.75)',
+  inputLabelStyle: {
+    marginTop: theme.spacing.unit * -1,
+  },
+  inputLabelColor: {
+    marginTop: theme.spacing.unit * -3,
   },
 });
 
@@ -163,46 +163,48 @@ class FormatDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <List className={classes.list}>
-            <ListItem className={classes.list}>
-              <FormControl className={classes.formControl}>
-                <InputLabel shrink htmlFor="style" className={classes.inputLabel}>
-                  style
-                </InputLabel>
-                <FormGroup row>
-                  {styles.map((style) =>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={currentStyle.has(style)}
-                        onChange={this.handleStyleChange(style)}
-                        value={style}
-                        />
-                      }
-                      key={style}
-                      label={style}
+          <FormControl className={classes.formControlStyle}>
+            <InputLabel shrink htmlFor="style" className={classes.inputLabelStyle}>
+              style
+            </InputLabel>
+            <FormGroup row>
+              {styles.map((style) =>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={currentStyle.has(style)}
+                    onChange={this.handleStyleChange(style)}
+                    value={style}
                     />
-                  )}
-                </FormGroup>
-              </FormControl>
-            </ListItem>
-            <ListItem>
+                  }
+                  key={style}
+                  label={style}
+                />
+              )}
+            </FormGroup>
+          </FormControl>
+          <FormControl className={classes.formControlColor}>
+            <FormGroup>
+              <InputLabel shrink htmlFor="color" className={classes.inputLabelColor}>
+                color
+              </InputLabel>
               <ColorPicker
-                name='color'
-                label='color'
-                defaultValue={this.props.defaultAttributes.color}
+                color={this.props.defaultAttributes.color}
                 onChange={color => this.handleColorChange(color)}
               />
-            </ListItem>
-            <ListItem>
+            </FormGroup>
+          </FormControl>
+          <FormControl className={classes.formControlColor}>
+            <FormGroup row>
+              <InputLabel shrink htmlFor="fillcolor" className={classes.inputLabelColor}>
+            fillcolor
+              </InputLabel>
               <ColorPicker
-                name='fillcolor'
-                label='fillcolor'
-                defaultValue={this.props.defaultAttributes.fillcolor}
+                color={this.props.defaultAttributes.fillcolor}
                 onChange={color => this.handleFillColorChange(color)}
               />
-            </ListItem>
-          </List>
+            </FormGroup>
+          </FormControl>
         </Drawer>
       </div>
     );
