@@ -189,6 +189,7 @@ class FormatDrawer extends React.Component {
                 color
               </InputLabel>
               <ColorPicker
+                invert={true}
                 color={this.props.defaultAttributes.color}
                 onChange={color => this.handleColorChange(color)}
               />

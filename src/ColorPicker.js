@@ -13,7 +13,6 @@ const styles = theme => ({
   },
   swatch: {
     padding: '5px',
-    background: '#fff',
     borderRadius: '1px',
     boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
     display: 'inline-block',
@@ -52,13 +51,17 @@ class ColorPicker extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const background = this.props.color;
+    if (this.props.invert) {
+      var borderBackground = this.props.color;
+      var contentBackground = '#fff';
+    } else {
+      borderBackground = '#fff';
+      contentBackground = this.props.color;
+    }
     return (
         <div>
-        <div className={classes.swatch} onClick={ this.handleClick }>
-        <div className={classes.color} style={{
-          background: background
-        }} />
+        <div className={classes.swatch} style={{background: borderBackground}} onClick={ this.handleClick }>
+        <div className={classes.color} style={{background: contentBackground}} />
         </div>
         { this.state.open ?
           <div className={ classes.popover }>
