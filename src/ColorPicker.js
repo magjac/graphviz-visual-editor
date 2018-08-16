@@ -20,13 +20,14 @@ const styles = theme => ({
   },
   popover: {
     position: 'absolute',
+    width: '100%',
     zIndex: '2',
   },
   cover: {
-    position: 'fixed',
-    top: '0px',
+    position: 'absolute',
+    top: '-100vh',
     right: '0px',
-    bottom: '0px',
+    bottom: '-100vh',
     left: '0px',
   },
 });
