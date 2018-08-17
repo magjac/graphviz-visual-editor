@@ -42,16 +42,12 @@ const styles = theme => ({
 
 class ColorPicker extends React.Component {
 
-  state = {
-    open: false
-  }
-
   handleClick = () => {
-    this.setState({open: !this.state.open})
+    this.props.setOpen(!this.props.open);
   };
 
   handleClose = () => {
-    this.setState({open: false})
+    this.props.setOpen(false);
   };
 
   handleInputChange = (event) => {
@@ -84,7 +80,7 @@ class ColorPicker extends React.Component {
             onChange={this.handleInputChange}
           />
         </FormControl>
-        {this.state.open ?
+        {this.props.open ?
           <div className={classes.popover}>
             <div className={classes.cover} onClick={this.handleClose}/>
             <ChromePicker color={this.props.color} onChange={this.handleChange} />

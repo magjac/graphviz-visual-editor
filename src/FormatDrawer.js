@@ -88,6 +88,23 @@ const emptyColor = '';
 
 class FormatDrawer extends React.Component {
 
+  state = {
+    colorColorPickerIsOpen: false,
+    fillColorColorPickerIsOpen: false,
+  }
+
+  setColorColorPickerOpen = (open) => {
+    this.setState({
+      colorColorPickerIsOpen: open,
+    });
+  }
+
+  setFillColorColorPickerOpen = (open) => {
+    this.setState({
+      fillColorColorPickerIsOpen: open,
+    });
+  }
+
   getStyleSet() {
     if (this.props.defaultAttributes.style == null) {
       return new Set([]);
@@ -227,6 +244,8 @@ class FormatDrawer extends React.Component {
             </FormGroup>
             <FormGroup row>
               <ColorPicker
+                open={this.state.colorColorPickerIsOpen}
+                setOpen={this.setColorColorPickerOpen}
                 invert={true}
                 color={this.props.defaultAttributes.color || ''}
                 onChange={color => this.handleColorChange(color)}
@@ -249,6 +268,8 @@ class FormatDrawer extends React.Component {
             </FormGroup>
             <FormGroup row>
               <ColorPicker
+                open={this.state.fillColorColorPickerIsOpen}
+                setOpen={this.setFillColorColorPickerOpen}
                 color={this.props.defaultAttributes.fillcolor || ''}
                 onChange={color => this.handleFillColorChange(color)}
               />
