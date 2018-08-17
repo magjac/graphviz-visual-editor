@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from './withRoot';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
 
 import { ChromePicker } from 'react-color'
 
@@ -13,6 +15,7 @@ const styles = theme => ({
   },
   swatch: {
     padding: '5px',
+    verticalAlign: 'middle',
     borderRadius: '1px',
     boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
     display: 'inline-block',
@@ -30,6 +33,11 @@ const styles = theme => ({
     bottom: '-100vh',
     left: '0px',
   },
+  input: {
+    marginLeft: theme.spacing.unit * 2,
+    verticalAlign: 'middle',
+    width: 100,
+  },
 });
 
 class ColorPicker extends React.Component {
@@ -44,6 +52,10 @@ class ColorPicker extends React.Component {
 
   handleClose = () => {
     this.setState({open: false})
+  };
+
+  handleInputChange = (event) => {
+    this.props.onChange(event.target.value);
   };
 
   handleChange = (color) => {
@@ -64,6 +76,14 @@ class ColorPicker extends React.Component {
         <div className={classes.swatch} style={{background: borderBackground}} onClick={this.handleClick}>
           <div className={classes.color} style={{background: contentBackground}} />
         </div>
+        <FormControl>
+          <Input style={{color: this.props.color}}
+            className={classes.input}
+            id="color"
+            value={this.props.color}
+            onChange={this.handleInputChange}
+          />
+        </FormControl>
         {this.state.open ?
           <div className={classes.popover}>
             <div className={classes.cover} onClick={this.handleClose}/>
