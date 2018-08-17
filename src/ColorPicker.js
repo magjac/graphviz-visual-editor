@@ -39,11 +39,11 @@ class ColorPicker extends React.Component {
   }
 
   handleClick = () => {
-    this.setState({ open: !this.state.open })
+    this.setState({open: !this.state.open})
   };
 
   handleClose = () => {
-    this.setState({ open: false })
+    this.setState({open: false})
   };
 
   handleChange = (color) => {
@@ -60,13 +60,13 @@ class ColorPicker extends React.Component {
       contentBackground = this.props.color;
     }
     return (
-        <div>
-        <div className={classes.swatch} style={{background: borderBackground}} onClick={ this.handleClick }>
-        <div className={classes.color} style={{background: contentBackground}} />
+      <div>
+        <div className={classes.swatch} style={{background: borderBackground}} onClick={this.handleClick}>
+          <div className={classes.color} style={{background: contentBackground}} />
         </div>
-        { this.state.open ?
-          <div className={ classes.popover }>
-            <div className={classes.cover} onClick={ this.handleClose }/>
+        {this.state.open ?
+          <div className={classes.popover}>
+            <div className={classes.cover} onClick={this.handleClose}/>
             <ChromePicker color={this.props.color} onChange={this.handleChange} />
           </div>
           :
