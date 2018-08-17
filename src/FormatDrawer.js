@@ -6,11 +6,11 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 import ColorPicker from './ColorPicker'
 
 const drawerWidth = '100%';
@@ -41,27 +41,27 @@ const styles = theme => ({
     textTransform: 'capitalize',
     ...theme.mixins.toolbar,
   },
-  formControlStyle: {
-    marginLeft: theme.spacing.unit * 1,
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * -1,
+  styleFormControl: {
   },
-  formControlColor: {
-    marginLeft: theme.spacing.unit * 1,
-    marginTop: theme.spacing.unit * 4,
+  styleSwitch: {
+    marginLeft: theme.spacing.unit * 2,
   },
-  inputLabelStyle: {
-    marginTop: theme.spacing.unit * -1,
+  styleCheckbox: {
+    marginLeft: theme.spacing.unit * 0,
+    marginTop: theme.spacing.unit * -2,
   },
-  inputLabelColor: {
-    marginTop: theme.spacing.unit * -3,
+  colorFormControl: {
+    marginLeft: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 1,
+  },
+  colorSwitch: {
+    marginLeft: theme.spacing.unit * 0,
   },
 });
 
-const emptyStyle = '(empty)';
+const emptyStyle = '';
 
 const nodeStyles = [
-  emptyStyle,
   "dashed",
   "dotted",
   "solid",
@@ -76,7 +76,6 @@ const nodeStyles = [
 ];
 
 const edgeStyles = [
-  emptyStyle,
   "dashed",
   "dotted",
   "solid",
@@ -85,6 +84,8 @@ const edgeStyles = [
   "tapered",
 ];
 
+const emptyColor = '';
+
 class FormatDrawer extends React.Component {
 
   getStyleSet() {
@@ -92,9 +93,7 @@ class FormatDrawer extends React.Component {
       return new Set([]);
     } else {
       let styleSet = new Set(this.props.defaultAttributes.style.split(', '))
-      if (styleSet.delete('') !== false) {
-        styleSet.add(emptyStyle);
-      }
+      styleSet.add(emptyStyle);
       return styleSet;
     }
   }
@@ -103,9 +102,7 @@ class FormatDrawer extends React.Component {
     if (styleSet.size === 0) {
       this.props.onStyleChange(null);
     } else {
-      if (styleSet.delete(emptyStyle) !== false) {
-        styleSet.add('');
-      }
+      styleSet.delete(emptyStyle);
       this.props.onStyleChange([...styleSet].join(', '));
     }
   }
@@ -114,15 +111,20 @@ class FormatDrawer extends React.Component {
     this.props.onFormatDrawerClose();
   };
 
+  handleStyleSwitchChange = (event) => {
+    let styleSet = this.getStyleSet();
+    styleSet.clear();
+    if (event.target.checked) {
+      styleSet.add(emptyStyle);
+    }
+    this.setStyle(styleSet);
+  }
+
   handleStyleChange = (styleName) => (event) => {
     const checked = event.target.checked;
     let styleSet = this.getStyleSet();
     if (checked) {
-      if (styleName === emptyStyle) {
-        styleSet.clear();
-      } else {
-        styleSet.delete(emptyStyle);
-      }
+      styleSet.delete(emptyStyle);
       styleSet.add(styleName);
     }
     else {
@@ -131,10 +133,25 @@ class FormatDrawer extends React.Component {
     this.setStyle(styleSet);
   };
 
+  handleColorSwitchChange = (event) => {
+    if (event.target.checked) {
+      this.props.onColorChange(emptyColor);
+    } else {
+      this.props.onColorChange(null);
+    }
+  }
+
   handleColorChange = (color) => {
     this.props.onColorChange(color);
   };
 
+  handleFillColorSwitchChange = (event) => {
+    if (event.target.checked) {
+      this.props.onFillColorChange(emptyColor);
+    } else {
+      this.props.onFillColorChange(null);
+    }
+  }
   handleFillColorChange = (color) => {
     this.props.onFillColorChange(color);
   };
@@ -163,13 +180,24 @@ class FormatDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <FormControl className={classes.formControlStyle}>
-            <InputLabel shrink htmlFor="style" className={classes.inputLabelStyle}>
-              style
-            </InputLabel>
+          <FormControl className={classes.styleFormControl}>
+            <FormGroup row>
+              <FormControlLabel
+                className={classes.styleSwitch}
+                control={
+                  <Switch
+                    checked={currentStyle.size !== 0}
+                    onChange={this.handleStyleSwitchChange}
+                  />
+                }
+                label="style"
+                labelPlacement="start"
+              />
+            </FormGroup>
             <FormGroup row>
               {styles.map((style) =>
                 <FormControlLabel
+                className={classes.styleCheckbox}
                   control={
                     <Checkbox
                       checked={currentStyle.has(style)}
@@ -183,25 +211,45 @@ class FormatDrawer extends React.Component {
               )}
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.formControlColor}>
-            <FormGroup>
-              <InputLabel shrink htmlFor="color" className={classes.inputLabelColor}>
-                color
-              </InputLabel>
+          <FormControl className={classes.colorFormControl}>
+            <FormGroup row>
+              <FormControlLabel
+                className={classes.colorSwitch}
+                control={
+                  <Switch
+                    checked={this.props.defaultAttributes.color != null}
+                    onChange={this.handleColorSwitchChange}
+                  />
+                }
+                label="color"
+                labelPlacement="start"
+              />
+            </FormGroup>
+            <FormGroup row>
               <ColorPicker
                 invert={true}
-                color={this.props.defaultAttributes.color}
+                color={this.props.defaultAttributes.color || ''}
                 onChange={color => this.handleColorChange(color)}
               />
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.formControlColor}>
+          <FormControl className={classes.colorFormControl}>
             <FormGroup row>
-              <InputLabel shrink htmlFor="fillcolor" className={classes.inputLabelColor}>
-            fillcolor
-              </InputLabel>
+              <FormControlLabel
+                className={classes.colorSwitch}
+                control={
+                  <Switch
+                    checked={this.props.defaultAttributes.fillcolor != null}
+                    onChange={this.handleFillColorSwitchChange}
+                  />
+                }
+                label="fillcolor"
+                labelPlacement="start"
+              />
+            </FormGroup>
+            <FormGroup row>
               <ColorPicker
-                color={this.props.defaultAttributes.fillcolor}
+                color={this.props.defaultAttributes.fillcolor || ''}
                 onChange={color => this.handleFillColorChange(color)}
               />
             </FormGroup>
