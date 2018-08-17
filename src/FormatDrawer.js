@@ -178,6 +178,15 @@ class FormatDrawer extends React.Component {
     const { open } = this.props;
     const { type } = this.props;
 
+    if (!open) {
+      if (this.state.colorColorPickerIsOpen) {
+        this.setColorColorPickerOpen(false);
+      }
+      if (this.state.fillColorColorPickerIsOpen) {
+        this.setFillColorColorPickerOpen(false);
+      }
+    }
+
     let styles = type === 'node' ? nodeStyles : edgeStyles;
     let currentStyle = this.getStyleSet();
     return (
