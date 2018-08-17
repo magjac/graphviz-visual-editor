@@ -124,6 +124,11 @@ class FormatDrawer extends React.Component {
     }
   }
 
+  handleClick = () => {
+    this.setColorColorPickerOpen(false);
+    this.setFillColorColorPickerOpen(false);
+  };
+
   handleDrawerClose = () => {
     this.props.onFormatDrawerClose();
   };
@@ -198,6 +203,7 @@ class FormatDrawer extends React.Component {
           classes={{
             paper: open ? classes.drawerPaper : classes.drawerPaperClosed,
           }}
+          onClick={this.handleClick}
         >
           <div className={classes.drawerHeader}>
             Default {this.props.type} attributes

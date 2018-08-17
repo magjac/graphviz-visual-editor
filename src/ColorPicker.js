@@ -26,13 +26,6 @@ const styles = theme => ({
     width: '100%',
     zIndex: '2',
   },
-  cover: {
-    position: 'absolute',
-    top: '-100vh',
-    right: '0px',
-    bottom: '-100vh',
-    left: '0px',
-  },
   input: {
     marginLeft: theme.spacing.unit * 2,
     verticalAlign: 'middle',
@@ -42,12 +35,9 @@ const styles = theme => ({
 
 class ColorPicker extends React.Component {
 
-  handleClick = () => {
+  handleClick = (event) => {
+    event.stopPropagation();
     this.props.setOpen(!this.props.open);
-  };
-
-  handleClose = () => {
-    this.props.setOpen(false);
   };
 
   handleInputChange = (event) => {
@@ -82,7 +72,6 @@ class ColorPicker extends React.Component {
         </FormControl>
         {this.props.open ?
           <div className={classes.popover}>
-            <div className={classes.cover} onClick={this.handleClose}/>
             <ChromePicker color={this.props.color} onChange={this.handleChange} />
           </div>
           :
