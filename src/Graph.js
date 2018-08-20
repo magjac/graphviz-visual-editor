@@ -536,10 +536,12 @@ class Graph extends React.Component {
     this.latestInsertedNodeShape = shape;
     this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
     let node = this.graphviz.drawnNodeSelection();
-    let bbox = node.node().getBBox();
-    let scale = node.node().getCTM().a;
-    node.attr("transform", `scale(${scale})`);
-    event.dataTransfer.setDragImage(node.node(), bbox.width / 2 * scale * 4 / 3, bbox.height / 2 * scale * 4 / 3);
+    if (!node.empty()) {
+      let bbox = node.node().getBBox();
+      let scale = node.node().getCTM().a;
+      node.attr("transform", `scale(${scale})`);
+      event.dataTransfer.setDragImage(node.node(), bbox.width / 2 * scale * 4 / 3, bbox.height / 2 * scale * 4 / 3);
+    }
     event.dataTransfer.setData("text", shape)
   }
 
