@@ -564,27 +564,14 @@ class Graph extends React.Component {
   }
 
   drawNode(x0, y0, nodeName, attributes) {
-    // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
-    let attributesCopy = Object.assign({}, attributes);
-    // FIXME: remove workaround when https://github.com/magjac/d3-graphviz/issues/83 is fixed
-    if (!attributesCopy.style || !attributesCopy.style.includes('filled')) {
-        attributesCopy.fillcolor = 'none';
-    }
-    this.graphviz.drawNode(x0, y0, nodeName, attributesCopy);
+    this.graphviz.drawNode(x0, y0, nodeName, attributes);
   };
 
   updateAndInsertDrawnNode(x0, y0, attributes) {
     let nodeName = this.drawnNodeName;
     attributes = Object.assign(this.latestNodeAttributes, attributes);
-    // FIXME: remove extra copy when https://github.com/magjac/d3-graphviz/issues/81 is fixed
-    let attributesCopy = Object.assign({}, attributes);
-    // FIXME: remove workaround when https://github.com/magjac/d3-graphviz/issues/83 is fixed
-    if (!attributesCopy.style || !attributesCopy.style.includes('filled')) {
-      attributesCopy.fillcolor = 'none';
-    }
-    this.graphviz.updateDrawnNode(x0, y0, nodeName, attributesCopy);
+    this.graphviz.updateDrawnNode(x0, y0, nodeName, attributes);
     this.graphviz.insertDrawnNode(nodeName);
-    this.graphviz._drawnNode = null;
     this.dotGraph.insertNode(nodeName, attributes);
     this.props.onTextChange(this.dotGraph.dotSrc);
   };
@@ -592,7 +579,6 @@ class Graph extends React.Component {
   insertNode(x0, y0, nodeName, attributes) {
     this.drawNode(x0, y0, nodeName, attributes);
     this.graphviz.insertDrawnNode(nodeName);
-    this.graphviz._drawnNode = null;
     this.dotGraph.insertNode(nodeName, attributes);
     this.props.onTextChange(this.dotGraph.dotSrc);
   };
