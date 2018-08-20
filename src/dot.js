@@ -9,7 +9,7 @@ export default class DotGraph {
 
   insertNode(nodeName, attributes) {
     var attributesString = toAttributesString(attributes);
-    var newNodeString = '    ' + nodeName + ' [' + attributesString + ']';
+    var newNodeString = '    ' + nodeName + attributesString;
     let line = this.dotSrcLines.lastIndexOf('}');
     this.dotSrcLines.splice(line, 0, newNodeString);
     this.dotSrc = this.dotSrcLines.join('\n');
@@ -17,7 +17,7 @@ export default class DotGraph {
 
   insertEdge(startNodeName, endNodeName, attributes) {
     var attributesString = toAttributesString(attributes);
-    var newEdgeString = '    ' + startNodeName + ' -> ' + endNodeName + ' [' + attributesString + ']';
+    var newEdgeString = '    ' + startNodeName + ' -> ' + endNodeName + attributesString;
     let line = this.dotSrcLines.lastIndexOf('}');
     this.dotSrcLines.splice(line, 0, newEdgeString);
     this.dotSrc = this.dotSrcLines.join('\n');
@@ -94,6 +94,9 @@ function toAttributesString(attributes) {
       }
       attributesString += ' ' + name + '=' + value;
     }
+  }
+  if (attributesString) {
+    attributesString = ' [' + attributesString + ']';
   }
   return attributesString;
 }
