@@ -113,7 +113,7 @@ class Graph extends React.Component {
   }
 
   handleDotLayoutReady() {
-    let [, , width, height] = this.graphviz._data.attributes.viewBox.split(' ');
+    let [, , width, height] = this.graphviz.data().attributes.viewBox.split(' ');
     this.originalViewBox = {width, height};
   }
 
@@ -143,13 +143,13 @@ class Graph extends React.Component {
   }
 
   handleZoomInButtonClick = () => {
-    let scale = d3_zoomTransform(this.graphviz._zoomSelection.node()).k;
+    let scale = d3_zoomTransform(this.graphviz.zoomSelection().node()).k;
     scale = scale * 1.2;
     this.setZoomScale(scale);
   }
 
   handleZoomOutButtonClick = () => {
-    let scale = d3_zoomTransform(this.graphviz._zoomSelection.node()).k;
+    let scale = d3_zoomTransform(this.graphviz.zoomSelection().node()).k;
     scale = scale / 1.2;
     this.setZoomScale(scale);
   }
@@ -170,7 +170,7 @@ class Graph extends React.Component {
   setZoomScale = (scale, center=false, reset=false) => {
     let viewBox = this.svg.attr("viewBox").split(' ');
     let bbox = this.graph0.node().getBBox();
-    let {x, y, k} = d3_zoomTransform(this.graphviz._zoomSelection.node());
+    let {x, y, k} = d3_zoomTransform(this.graphviz.zoomSelection().node());
     let [x0, y0, scale0] = [x, y, k];
     let xOffset0 = x0 + bbox.x * scale0;
     let yOffset0 = y0 + bbox.y * scale0;
@@ -191,12 +191,12 @@ class Graph extends React.Component {
     x = -bbox.x * scale + xOffset;
     y = -bbox.y * scale + yOffset;
     let transform = d3_zoomIdentity.translate(x, y).scale(scale);
-    this.graphviz._zoomSelection.call(this.graphviz._zoomBehavior.transform, transform);
+    this.graphviz.zoomSelection().call(this.graphviz.zoomBehavior().transform, transform);
   }
 
   addEventHandlers() {
     let self = this;
-    this.graphviz._zoomBehavior.filter(function () {
+    this.graphviz.zoomBehavior().filter(function () {
       if (d3_event.type === 'mousedown' && !d3_event.ctrlKey) {
         if (self.isDrawingEdge) {
           return true;
@@ -535,7 +535,7 @@ class Graph extends React.Component {
     let outsideOfViewPort = 1000000;
     this.latestInsertedNodeShape = shape;
     this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
-    let node = this.graphviz._drawnNode.g;
+    let node = this.graphviz.drawnNodeSelection();
     let bbox = node.node().getBBox();
     let scale = node.node().getCTM().a;
     node.attr("transform", `scale(${scale})`);
@@ -549,7 +549,7 @@ class Graph extends React.Component {
 
   handleNodeShapeDrop = (event) => {
     event.preventDefault();
-    this.graphviz._drawnNode.g.attr("transform", null);
+    this.graphviz.drawnNodeSelection().attr("transform", null);
     let node = this.graph0.node();
     var point = this.svg.node().createSVGPoint();
     point.x = event.clientX;
