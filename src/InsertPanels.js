@@ -98,6 +98,7 @@ const nodeShapeCategories = [
       "rectangle",
       "record",
       "Mrecord",
+      "(default)",
     ],
   },
 ];

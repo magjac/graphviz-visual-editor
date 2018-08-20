@@ -545,6 +545,9 @@ class Graph extends React.Component {
   }
 
   handleNodeShapeDragStart = (event, shape) => {
+    if (shape === '(default)') {
+      shape = null;
+    }
     let outsideOfViewPort = 1000000;
     this.latestInsertedNodeShape = shape;
     this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});

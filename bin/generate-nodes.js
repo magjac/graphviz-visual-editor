@@ -87,6 +87,14 @@ for (i = 0; i < shapes.length; i++) {
   console.log(`${shape}: \`${svg}\`,`);
 }
 
+dotSrc = `digraph "" {
+  "(default)" [style="filled, dashed" fillcolor="white" label=""]
+}`;
+
+var svg = Viz(dotSrc, {format: 'svg'});
+
+console.log(`'(default)': \`${svg}\`,`);
+
 console.log('};');
 console.log('');
 console.log('export {shapes};');
