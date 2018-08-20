@@ -20,6 +20,10 @@ const styles = {
   },
 };
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 class Graph extends React.Component {
   constructor(props) {
     super(props);
@@ -288,7 +292,16 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     var [x0, y0] = d3_mouse(this.graph0.node());
-    var shortening = 2; // avoid mouse pointing on edge
+    var penwidth = 1;
+    if (this.latestEdgeAttributes.penwidth != null) {
+      if (isNumeric(this.latestEdgeAttributes.penwidth)) {
+        penwidth = this.latestEdgeAttributes.penwidth;
+      }
+    } else if (this.latestEdgeAttributes.style && this.latestEdgeAttributes.style.includes('bold')) {
+      penwidth = 2;
+    }
+    var shortening = penwidth * 2; // avoid mouse pointing on edge
+
     if (this.isDrawingEdge) {
       this.graphviz
         .moveDrawnEdgeEndPoint(x0, y0,  {shortening: shortening})
