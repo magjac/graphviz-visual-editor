@@ -5,8 +5,19 @@ import 'brace/theme/github';
 
 class TextEditor extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.pendingChanges = 0;
+  }
+
   handleChange = (value, event) => {
-    this.props.onTextChange(value);
+    this.pendingChanges += 1;
+    setTimeout(() => {
+      this.pendingChanges -= 1;
+      if (this.pendingChanges === 0) {
+        this.props.onTextChange(value);
+      }
+    }, this.props.holdOff);
   };
 
   render() {

@@ -392,6 +392,7 @@ class Index extends React.Component {
                     dotSrc={this.state.dotSrc}
                     onTextChange={this.handleTextChange}
                     error={this.state.error}
+                    holdOff={200}
                   />
                 )}
               </div>
