@@ -1,6 +1,16 @@
 {
   "name": "graphviz-visual-editor",
   "version": "0.0.1",
+  "description": "A web application for interactive visual editing of Graphviz graphs described in the DOT language",
+  "keywords": [
+    "Graphviz",
+    "DOT",
+    "visual-editor",
+    "javascript",
+    "graphviz-dot-language",
+    "interactive-visualization",
+    "web-application "
+  ],
   "dependencies": {
     "@material-ui/core": "^1.5.0",
     "@material-ui/icons": "^1.1.0",
