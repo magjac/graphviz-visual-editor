@@ -7,8 +7,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import packageJSON from '../package.json';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = theme => ({
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   copyright: {
     marginTop: theme.spacing.unit * 5,
   },
@@ -30,7 +36,15 @@ class AboutDialog extends React.Component {
           scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">About the Graphviz Visual Editor</DialogTitle>
+          <div className={classes.title}>
+            <DialogTitle id="form-dialog-title">About the Graphviz Visual Editor</DialogTitle>
+            <IconButton
+              aria-label="Close"
+              onClick={this.handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
           <DialogContent>
             <DialogContentText>
               Version {packageJSON.version}
