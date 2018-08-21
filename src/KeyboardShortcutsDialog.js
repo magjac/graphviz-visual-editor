@@ -75,7 +75,7 @@ class KeyboardShortcutsDialog extends React.Component {
               </TableBody>
             </Table>
             <DialogContentText variant="body1">
-              For keyboard shortcuts in the text editor, please visit <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts" target="_blank">Ace Default Keyboard Shortcuts</a>
+              For keyboard shortcuts in the text editor, please visit <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts" target="_blank" rel="noreferrer noopener">Ace Default Keyboard Shortcuts</a>
             </DialogContentText>
           </DialogContent>
         </Dialog>
