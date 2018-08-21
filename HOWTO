@@ -1,0 +1,17 @@
+# Release
+# =======
+#
+# Push branch:
+#   make push
+# Create pull request and merge it:
+#   make pull
+# Update "version" in package.json
+# Commit with message v<version>, e.g.:
+#   git commit -m "v0.1.0"
+# git tag -a v<version> -m <msg>, e.g.:
+#   git tag -a v0.1.0 -m "Animated growth of entering edges"
+# List tags:
+#   git tag -n
+# Push to git and publish on npm
+#   make public
+# Create a release on github

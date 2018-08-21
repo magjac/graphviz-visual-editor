@@ -36,5 +36,8 @@ npm-test: npm-build
 npm-publish:
 	cd $(DIR)/graphviz-visual-editor; npm publish
 
+howto:
+	cat HOWTO
+
 clean:
 	rm -rf $(GENERATED_FILES)
