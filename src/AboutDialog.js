@@ -30,7 +30,7 @@ class AboutDialog extends React.Component {
           scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">About Graphviz Visual Editor</DialogTitle>
+          <DialogTitle id="form-dialog-title">About the Graphviz Visual Editor</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Version {packageJSON.version}

@@ -13,11 +13,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 const keyboardShortcuts = [
-  {key: 'Ctrl-C', description: 'Copy selected node.'},
-  {key: 'Ctrl-V', description: 'Paste cut/copied node.'},
-  {key: 'Ctrl-X', description: 'Cut selected node.'},
-  {key: 'DEL', description: 'Delete selected nodes and edges.'},
-  {key: 'ESC', description: 'De-select selected nodes and edges. Abort current drawing operation.'},
+  {key: 'Ctrl-C', description: 'Copy the selected node.'},
+  {key: 'Ctrl-V', description: 'Paste the cut/copied node.'},
+  {key: 'Ctrl-X', description: 'Cut the selected node.'},
+  {key: 'DEL', description: 'Delete the selected nodes and edges.'},
+  {key: 'ESC', description: 'De-select the selected nodes and edges. Abort the current drawing operation.'},
   {key: '?', description: 'Show keyboard shortcuts.'},
 ];
 
@@ -40,7 +40,7 @@ class KeyboardShortcutsDialog extends React.Component {
           scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Keyboard shortcuts in graph</DialogTitle>
+          <DialogTitle id="form-dialog-title">Keyboard shortcuts in the graph</DialogTitle>
           <DialogContent>
             <Table className={classes.table}>
               <TableBody>

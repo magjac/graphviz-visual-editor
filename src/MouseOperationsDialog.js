@@ -14,18 +14,18 @@ import TableRow from '@material-ui/core/TableRow';
 
 const mouseOperations = [
   {key: 'Mouse wheel', description: 'Zoom in or out.'},
-  {key: 'Double-click canvas', description: 'Zoom in.'},
-  {key: 'Ctrl-drag canvas', description: 'Pan graph.'},
-  {key: 'Click node or edge', description: 'Select node or edge.'},
-  {key: 'Shift/Ctrl-click node or edge', description: 'Add node or edge to selection.'},
-  {key: 'Drag canvas', description: 'Select nodes and edges within dragged area.'},
-  {key: 'Shift-drag canvas', description: 'Add nodes and edges within dragged area to selection.'},
-  {key: 'Right-click node', description: 'Start drawing an edge from node.'},
-  {key: 'Double-click node', description: 'Connect edge being drawn to node.'},
-  {key: 'Middle-click canvas', description: 'Insert node with the latest used shape and attributes.'},
-  {key: 'Shift-middle-click canvas', description: 'Insert node with the latest inserted shape and default attributes.'},
-  {key: 'Click insert shape', description: 'Insert node from insert panel with default attributes.'},
-  {key: 'Drag-and-drop insert shape', description: 'Insert node from insert panel with default attributes.'},
+  {key: 'Double-click the canvas', description: 'Zoom in.'},
+  {key: 'Ctrl-drag the canvas', description: 'Pan the graph.'},
+  {key: 'Click a node or an edge', description: 'Select the node or an edge.'},
+  {key: 'Shift/Ctrl-click a node or an edge', description: 'Add the node or an edge to selection.'},
+  {key: 'Drag the canvas', description: 'Select the nodes and edges within the dragged area.'},
+  {key: 'Shift-drag the canvas', description: 'Add the nodes and edges within the dragged area to the selection.'},
+  {key: 'Right-click a node', description: 'Start drawing an edge from the node.'},
+  {key: 'Double-click a node', description: 'Connect the edge being drawn to the node.'},
+  {key: 'Middle-click the canvas', description: 'Insert a node with the latest used shape and attributes.'},
+  {key: 'Shift-middle-click the canvas', description: 'Insert a node with the latest inserted shape and default attributes.'},
+  {key: 'Click an insert shape', description: 'Insert a node from the insert panel with default attributes.'},
+  {key: 'Drag-and-drop an insert shape', description: 'Insert a node from the insert panel with default attributes.'},
 ];
 
 const styles = theme => ({
@@ -47,7 +47,7 @@ class MouseOperationsDialog extends React.Component {
           scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Mouse operations in graph</DialogTitle>
+          <DialogTitle id="form-dialog-title">Mouse operations in the graph</DialogTitle>
           <DialogContent>
             <Table className={classes.table}>
               <TableBody>
