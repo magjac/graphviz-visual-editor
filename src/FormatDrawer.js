@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -206,7 +207,9 @@ class FormatDrawer extends React.Component {
           onClick={this.handleClick}
         >
           <div className={classes.drawerHeader}>
-            Default {this.props.type} attributes
+            <DialogTitle id="form-dialog-title">
+              Default {this.props.type} attributes
+            </DialogTitle>
             <IconButton onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
