@@ -5,6 +5,7 @@ import withRoot from './withRoot';
 import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -25,6 +26,9 @@ const styles = theme => ({
   title: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  table: {
+    marginBottom: theme.spacing.unit * 2,
   },
 });
 
@@ -70,6 +74,9 @@ class KeyboardShortcutsDialog extends React.Component {
                 })}
               </TableBody>
             </Table>
+            <DialogContentText variant="body1">
+              For keyboard shortcuts in the text editor, please visit <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts" target="_blank">Ace Default Keyboard Shortcuts</a>
+            </DialogContentText>
           </DialogContent>
         </Dialog>
       </div>
