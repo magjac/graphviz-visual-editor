@@ -12,6 +12,10 @@
     "web-application "
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magjac/graphviz-visual-editor.git"
+  },
   "dependencies": {
     "@material-ui/core": "^1.5.0",
     "@material-ui/icons": "^1.1.0",
