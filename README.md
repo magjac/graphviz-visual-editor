@@ -1,5 +1,7 @@
 # graphviz-visual-editor
 
+Try it at http://magjac.com/graphviz-visual-editor.
+
 A web application for interactive visual editing of [Graphviz](http://www.graphviz.org) graphs described in the [DOT](https://www.graphviz.org/doc/info/lang.html) language.
 
 *Disclaimer: This project just started (2018-07-17) and so far contains just some basic features. Apart from on-line help regarding keyboard shortcuts and mouse operations, there's still **no documentation** of the the rest of the UI (although it's fairly intuitive). The UI is probably going to change a lot in upcoming releases (The author is learning [Material UI](https://material-ui.com/) and [React](https://material-ui.com/) while coding).*
@@ -52,6 +54,5 @@ Apart from the numerous cool features that are missing; here's a list of known l
 ## Roadmap ##
 
 * Implement some of the nicest-to-have features, learn from that and rework the UI.
-* Make the application available through a web server (it actually already is, but the location is still a secret :stuck_out_tongue:).
 * Provide documentation.
 * Open up for collaboration.
