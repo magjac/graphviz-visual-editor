@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from './withRoot';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -17,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import CloseIcon from '@material-ui/icons/Close';
 
 const engines = [
   'circo',
@@ -32,6 +32,10 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 });
 
@@ -59,7 +63,15 @@ class SettingsDialog extends React.Component {
           scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Graph rendering</DialogTitle>
+          <div className={classes.title}>
+            <DialogTitle id="form-dialog-title">Graph rendering</DialogTitle>
+              <IconButton
+                aria-label="Close"
+                onClick={this.handleClose}
+              >
+                <CloseIcon />
+              </IconButton>
+          </div>
           <DialogContent>
             <DialogContentText>
               These settings affects how the graph is rendered.
@@ -100,15 +112,6 @@ class SettingsDialog extends React.Component {
               />
             </FormGroup>
           </DialogContent>
-          <DialogActions>
-            <Button
-              color="inherit"
-              aria-label="Close"
-              onClick={this.handleClose}
-            >
-              Close
-            </Button>
-          </DialogActions>
         </Dialog>
       </div>
     );
