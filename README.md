@@ -2,7 +2,7 @@
 
 A web application for interactive visual editing of [Graphviz](http://www.graphviz.org) graphs described in the [DOT](https://www.graphviz.org/doc/info/lang.html) language.
 
-*Disclaimer: This project just started (2018-07-17) and so far contains just some basic features. Apart from on-line help regarding keyboard shortcuts and mouse operations, there's still **no documentation** of the the rest of the UI (although it's fairly intuitive) and it's probably going to change a lot in upcoming releases (The author is learning [Material UI](https://material-ui.com/) and [React](https://material-ui.com/) while coding).*
+*Disclaimer: This project just started (2018-07-17) and so far contains just some basic features. Apart from on-line help regarding keyboard shortcuts and mouse operations, there's still **no documentation** of the the rest of the UI (although it's fairly intuitive). The UI is probably going to change a lot in upcoming releases (The author is learning [Material UI](https://material-ui.com/) and [React](https://material-ui.com/) while coding).*
 
 That said, it's perfectly possible to use it in its current state :smiley:.
 
@@ -21,20 +21,20 @@ npm run start
 
 ## Implemented Features ##
 
-* Render a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) repesentation.
-* Pan and zoom of the graph.
-* Edit the DOT source in a context sensitive text editor.
-* Visually edit the graph through mouse interactions:
+* Rendering of a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) repesentation.
+* Panning and zooming the graph.
+* Editing the DOT source in a context sensitive text editor.
+* Visual editing of the graph through mouse interactions:
   * Insert node shapes by click or drag-and-drop.
   * Select default node style, color and fillcolor.
   * Draw edges between nodes.
   * Select nodes and edges by click or by area drag.
   * Delete selected nodes and edges.
   * Cut/Copy-and-paste a selected node.
-* Update the DOT source automatically when the graph is visually edited.
-* Update the graph automatically when the DOT source is edited.
-* Perform an animated transition of the graph into a new state when changes are made.
-* The DOT source and the application state are preserved during page reload by automatic save and retrieve to/from local storage in the browser.
+* Automatic update of the DOT source when the graph is visually edited.
+* Automatic update of the graph when the DOT source is edited.
+* Animated transition of the graph into a new state when changes are made.
+* Preservation of the DOT source and the application state during page reloads by automatic save and retrieve to/from local storage in the browser.
 * Options:
   * Automatically fit the graph to the avaible drawing area.
   * Select Graphviz layout engine.
@@ -46,7 +46,7 @@ npm run start
 
 Apart from the numerous cool features that are missing; here's a list of known limitations in the features that do exist:
 
-* The visual editing capabilities requires the DOT source to be organized with only one node or edge per line since it currently operates by inserting or deleting complete lines.
+* The visual editing capabilities requires the DOT source to be organized with only one node or edge per line, since they currently operate by inserting or deleting complete lines.
 * Cut/Copy-and-paste of nodes in subgraphs is not yet supported.
 
 ## Roadmap ##
