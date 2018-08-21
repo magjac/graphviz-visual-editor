@@ -20,6 +20,14 @@ npm run start
 
 **NOTE:** The *make* stage emits a few warnings. Ignore them.
 
+To create an optimized build of the application:
+
+```
+npm run build
+```
+
+Learn more from the Create React App [README](https://github.com/facebook/create-react-app#npm-run-build-or-yarn-build) and [User Guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment).
+
 ## Implemented Features ##
 
 * Rendering of a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) repesentation.
