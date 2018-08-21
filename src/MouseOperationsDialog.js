@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from './withRoot';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import CloseIcon from '@material-ui/icons/Close';
 
 const mouseOperations = [
   {key: 'Mouse wheel', description: 'Zoom in or out.'},
@@ -29,6 +29,10 @@ const mouseOperations = [
 ];
 
 const styles = theme => ({
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 });
 
 class MouseOperationsDialog extends React.Component {
@@ -47,7 +51,15 @@ class MouseOperationsDialog extends React.Component {
           scroll={'paper'}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Mouse operations in the graph</DialogTitle>
+          <div className={classes.title}>
+            <DialogTitle id="form-dialog-title">Mouse operations in the graph</DialogTitle>
+            <IconButton
+              aria-label="Close"
+              onClick={this.handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
           <DialogContent>
             <Table className={classes.table}>
               <TableBody>
@@ -66,15 +78,6 @@ class MouseOperationsDialog extends React.Component {
               </TableBody>
             </Table>
           </DialogContent>
-          <DialogActions>
-            <Button
-              color="inherit"
-              aria-label="Close"
-              onClick={this.handleClose}
-            >
-              Close
-            </Button>
-          </DialogActions>
         </Dialog>
       </div>
     );
