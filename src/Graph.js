@@ -70,7 +70,7 @@ class Graph extends React.Component {
   }
 
   createGraph() {
-    this.graphviz = d3_select(this.div).graphviz()
+    this.graphviz = this.div.graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
     this.props.registerNodeShapeClick(this.handleNodeShapeClick);
@@ -83,8 +83,8 @@ class Graph extends React.Component {
   }
 
   renderGraph() {
-    let width = this.div.parentElement.clientWidth;
-    let height = this.div.parentElement.clientHeight;
+    let width = this.div.node().parentElement.clientWidth;
+    let height = this.div.node().parentElement.clientHeight;
     let fit = this.props.fit;
     let engine = this.props.engine;
     if (this.props.dotSrc.length === 0) {
@@ -122,7 +122,7 @@ class Graph extends React.Component {
   }
 
   handleRenderGraphReady() {
-    this.svg = d3_select(this.div).selectWithoutDataPropagation("svg");
+    this.svg = this.div.selectWithoutDataPropagation("svg");
     this.graph0 = this.svg.selectWithoutDataPropagation("g");
     try {
       this.dotGraph = new DotGraph(this.props.dotSrc);
@@ -232,7 +232,7 @@ class Graph extends React.Component {
 
   handleClickOutside(d, i, nodes) {
     var event = d3_event;
-    if (event.target.nodeName !== 'svg' && event.target.parentElement && event.target.parentElement.id !== 'graph0' && event.target !== this.div) {
+    if (event.target.nodeName !== 'svg' && event.target.parentElement && event.target.parentElement.id !== 'graph0' && event.target !== this.div.node()) {
       return;
     }
     event.preventDefault();
@@ -513,8 +513,8 @@ class Graph extends React.Component {
   }
 
   resizeSVG() {
-    let width = this.div.parentElement.clientWidth;
-    let height = this.div.parentElement.clientHeight;
+    let width = this.div.node().parentElement.clientWidth;
+    let height = this.div.node().parentElement.clientHeight;
     let fit = this.props.fit;
 
     this.svg
@@ -526,8 +526,8 @@ class Graph extends React.Component {
   };
 
   unFitGraph() {
-    let width = this.div.parentElement.clientWidth;
-    let height = this.div.parentElement.clientHeight;
+    let width = this.div.node().parentElement.clientWidth;
+    let height = this.div.node().parentElement.clientHeight;
     this.svg
       .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
   }
@@ -633,7 +633,7 @@ class Graph extends React.Component {
 
   render() {
     return <div
-             ref={div => this.div = div}
+             ref={div => this.div = d3_select(div)}
              draggable="true"
              onDragOver={this.handleNodeShapeDragOver}
              onDrop={this.handleNodeShapeDrop.bind(this)}
