@@ -21,3 +21,6 @@ yarn-debug.log*
 yarn-error.log*
 
 yarn.lock
+
+# generated files
+src/shapes.js
