@@ -562,7 +562,7 @@ class Graph extends React.Component {
     this.latestInsertedNodeShape = shape;
     this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
     let node = this.graphviz.drawnNodeSelection();
-    if (!node.empty()) {
+    if (!node.empty() && !window.chrome) {
       let bbox = node.node().getBBox();
       let scale = node.node().getCTM().a;
       node.attr("transform", `scale(${scale})`);
