@@ -379,6 +379,9 @@ class Graph extends React.Component {
 
   handleMouseDownSvg(d, i, nodes) {
     var event = d3_event;
+    if (event.which !== 1) {
+      return;
+    }
     event.preventDefault();
     event.stopPropagation();
     if (this.selectArea) {
@@ -400,6 +403,9 @@ class Graph extends React.Component {
 
   handleMouseMoveSvg(d, i, nodes) {
     var event = d3_event;
+    if (event.which !== 1) {
+      return;
+    }
     if (this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
