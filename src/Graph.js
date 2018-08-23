@@ -70,7 +70,7 @@ class Graph extends React.Component {
   }
 
   createGraph() {
-    this.graphviz = d3_select(this.node).graphviz()
+    this.graphviz = this.div.graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
     this.props.registerNodeShapeClick(this.handleNodeShapeClick);
@@ -83,8 +83,8 @@ class Graph extends React.Component {
   }
 
   renderGraph() {
-    let width = this.node.parentElement.clientWidth;
-    let height = this.node.parentElement.clientHeight;
+    let width = this.div.node().parentElement.clientWidth;
+    let height = this.div.node().parentElement.clientHeight;
     let fit = this.props.fit;
     let engine = this.props.engine;
     if (this.props.dotSrc.length === 0) {
@@ -122,7 +122,7 @@ class Graph extends React.Component {
   }
 
   handleRenderGraphReady() {
-    this.svg = d3_select(this.node).selectWithoutDataPropagation("svg");
+    this.svg = this.div.selectWithoutDataPropagation("svg");
     this.graph0 = this.svg.selectWithoutDataPropagation("g");
     try {
       this.dotGraph = new DotGraph(this.props.dotSrc);
@@ -199,6 +199,18 @@ class Graph extends React.Component {
   }
 
   addEventHandlers() {
+
+    /*
+      Some empirical non-obvious and other relevant things to note:
+        1. Click events are preceeded by mousedown and mouseup events on the
+           same element.
+        2. 1st button clicks are click events on all elements.
+        3. 2nd and 3rd button clicks are click events on document and window
+           only, not on their children, although the event target is the child.
+        4. Keyboard events are dispatched on BODY, not on its children. This can
+           however be changed with the contenteditable attribute.
+    */
+
     let self = this;
     this.graphviz.zoomBehavior().filter(function () {
       if (d3_event.type === 'mousedown' && !d3_event.ctrlKey) {
@@ -216,10 +228,10 @@ class Graph extends React.Component {
     var edges = this.svg.selectAll(".edge");
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
-    d3_select(document).on("click", this.handleClickOutside.bind(this));
+    this.div.on("click", this.handleClickOutside.bind(this));
     d3_select(document).on("keyup", this.handleKeyUpOutside.bind(this));
-    d3_select(document).on("mousemove", this.handleMouseMove.bind(this));
-    d3_select(document).on("contextmenu", this.handleRightClickOutside.bind(this));
+    this.div.on("mousemove", this.handleMouseMove.bind(this));
+    this.div.on("contextmenu", this.handleRightClickOutside.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
     this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
     this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
@@ -232,21 +244,10 @@ class Graph extends React.Component {
 
   handleClickOutside(d, i, nodes) {
     var event = d3_event;
-    if (event.target.nodeName !== 'svg' && event.target.parentElement && event.target.parentElement.id !== 'graph0' && event.target !== this.node) {
-      return;
-    }
     event.preventDefault();
     event.stopPropagation();
     document.activeElement.blur();
     this.unSelectComponents();
-    if (event.which === 2) {
-      var [x0, y0] = d3_mouse(this.graph0.node());
-      if (event.shiftKey) {
-        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
-      } else {
-        this.insertNodeWithLatestAttributes(x0, y0);
-      }
-    }
   }
 
   handleKeyUpOutside(d, i, nodes) {
@@ -385,9 +386,10 @@ class Graph extends React.Component {
     }
     var [x0, y0] = d3_mouse(this.graph0.node());
     this.selectArea = {x0: x0, y0: y0};
+    let offset = 1;  // avoid covering the svg at click in Chrome
     this.selectArea.selection = this.graph0.append("rect")
-      .attr("x", x0)
-      .attr("y", y0)
+      .attr("x", x0 + offset)
+      .attr("y", y0 + offset)
       .attr("width", 0)
       .attr("height", 0)
       .attr("fill", '#99ccff')
@@ -417,7 +419,7 @@ class Graph extends React.Component {
 
   handleMouseUpSvg(d, i, nodes) {
     var event = d3_event;
-    if (this.selectArea) {
+    if (event.which === 1 && this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
       this.selectArea.selection.remove();
@@ -442,6 +444,14 @@ class Graph extends React.Component {
       let extendSelection = event.ctrlKey || event.shiftKey;
       this.selectComponents(components, extendSelection);
       this.selectArea = null;
+    }
+    else if (event.which === 2) {
+      var [x0, y0] = d3_mouse(this.graph0.node());
+      if (event.shiftKey) {
+        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
+      } else {
+        this.insertNodeWithLatestAttributes(x0, y0);
+      }
     }
   }
 
@@ -513,8 +523,8 @@ class Graph extends React.Component {
   }
 
   resizeSVG() {
-    let width = this.node.parentElement.clientWidth;
-    let height = this.node.parentElement.clientHeight;
+    let width = this.div.node().parentElement.clientWidth;
+    let height = this.div.node().parentElement.clientHeight;
     let fit = this.props.fit;
 
     this.svg
@@ -526,8 +536,8 @@ class Graph extends React.Component {
   };
 
   unFitGraph() {
-    let width = this.node.parentElement.clientWidth;
-    let height = this.node.parentElement.clientHeight;
+    let width = this.div.node().parentElement.clientWidth;
+    let height = this.div.node().parentElement.clientHeight;
     this.svg
       .attr("viewBox", `0 0 ${width * 3 / 4} ${height * 3 / 4}`);
   }
@@ -552,7 +562,7 @@ class Graph extends React.Component {
     this.latestInsertedNodeShape = shape;
     this.drawNodeWithDefaultAttributes(outsideOfViewPort, outsideOfViewPort, {shape: shape});
     let node = this.graphviz.drawnNodeSelection();
-    if (!node.empty()) {
+    if (!node.empty() && !window.chrome) {
       let bbox = node.node().getBBox();
       let scale = node.node().getCTM().a;
       node.attr("transform", `scale(${scale})`);
@@ -633,7 +643,7 @@ class Graph extends React.Component {
 
   render() {
     return <div
-             ref={node => this.node = node}
+             ref={div => this.div = d3_select(div)}
              draggable="true"
              onDragOver={this.handleNodeShapeDragOver}
              onDrop={this.handleNodeShapeDrop.bind(this)}
