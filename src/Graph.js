@@ -651,7 +651,6 @@ class Graph extends React.Component {
   render() {
     return <div
              ref={div => this.div = d3_select(div)}
-             draggable="true"
              onDragOver={this.handleNodeShapeDragOver}
              onDrop={this.handleNodeShapeDrop.bind(this)}
            >
