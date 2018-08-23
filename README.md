@@ -30,7 +30,7 @@ Learn more from the Create React App [README](https://github.com/facebook/create
 
 ## Implemented Features ##
 
-* Rendering of a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) repesentation.
+* Rendering of a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) representation.
 * Panning and zooming the graph.
 * Editing the DOT source in a context sensitive text editor.
 * Visual editing of the graph through mouse interactions:
@@ -45,7 +45,7 @@ Learn more from the Create React App [README](https://github.com/facebook/create
 * Animated transition of the graph into a new state when changes are made.
 * Preservation of the DOT source and the application state during page reloads by automatic save and retrieve to/from local storage in the browser.
 * Options:
-  * Automatically fit the graph to the avaible drawing area.
+  * Automatically fit the graph to the available drawing area.
   * Select Graphviz layout engine.
 * On-line help:
   * Keyboard shortcuts
