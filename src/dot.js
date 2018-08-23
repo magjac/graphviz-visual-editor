@@ -25,18 +25,18 @@ export default class DotGraph {
 
   deleteNode(nodeName) {
     while (true) {
-      var i = this.dotSrcLines.findIndex(function (element, index) {
-        var trimmedElement = element.trim();
-        if (trimmedElement === nodeName) {
+      var i = this.dotSrcLines.findIndex(function (line, index) {
+        var trimmedLine = line.trim();
+        if (trimmedLine === nodeName) {
           return true;
         }
-        if (trimmedElement.indexOf(nodeName + ' ') === 0) {
+        if (trimmedLine.indexOf(nodeName + ' ') === 0) {
           return true;
         }
-        if (trimmedElement.indexOf(' ' + nodeName + ' ') >= 0) {
+        if (trimmedLine.indexOf(' ' + nodeName + ' ') >= 0) {
           return true;
         }
-        if (trimmedElement.indexOf(' ' + nodeName, trimmedElement.length - nodeName.length - 1) >= 0) {
+        if (trimmedLine.indexOf(' ' + nodeName, trimmedLine.length - nodeName.length - 1) >= 0) {
           return true;
         }
         return false;
@@ -50,8 +50,8 @@ export default class DotGraph {
 
   deleteEdge(edgeName) {
     while (true) {
-      var i = this.dotSrcLines.findIndex(function (element, index) {
-        return element.indexOf(edgeName) >= 0;
+      var i = this.dotSrcLines.findIndex(function (line, index) {
+        return line.indexOf(edgeName) >= 0;
       });
       if (i < 0)
         break;
@@ -61,25 +61,39 @@ export default class DotGraph {
   }
 
   getNodeAttributes(nodeName) {
-    let node = this.nodes.filter(node => node.node_id.id === nodeName)[0];
-    if (!node) {
-      return null;
-    }
-    let attributes = node.attr_list.reduce(function(attrs, attr, i) {
-      attrs[attr.id] = attr.eq;
-      return attrs;
-    }, {});
-    return attributes;
+    return this.nodes[nodeName];
   }
 
   parseDot() {
     this.ast = parser(this.dotSrc)[0];
     let children = this.ast.children;
-    this.nodes = children.filter(child => child.type === 'node_stmt')
-    this.edges = children.filter(child => child.type === 'edge_stmt')
-    this.attrs = children.filter(child => child.type === 'attr_stmt')
-    this.subgraphs = children.filter(child => child.type === 'subgraph')
-    // FIXME: Implement recursive parsing of subgraphs
+    this.nodes = [];
+    this.parseChildren(children);
+  }
+
+  parseChildren(children) {
+    children.forEach((child) => {
+      if (child.type === 'node_stmt') {
+        this.parseChildren([child.node_id]);
+        let attributes = child.attr_list.reduce(function(attrs, attr, i) {
+          attrs[attr.id] = attr.eq;
+          return attrs;
+        }, {});
+        Object.assign(this.nodes[child.node_id.id], attributes);
+      }
+      else if (child.type === 'node_id') {
+        let nodeId = child.id;
+        if (this.nodes[nodeId] == null) {
+          this.nodes[nodeId] = {};
+        }
+      }
+      else if (child.type === 'edge_stmt') {
+        this.parseChildren(child.edge_list);
+      }
+      else if (child.type === 'subgraph') {
+        this.parseChildren(child.children);
+      }
+    });
   }
 }
 

@@ -228,10 +228,10 @@ class Graph extends React.Component {
     var edges = this.svg.selectAll(".edge");
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
-    this.div.on("click", this.handleClickOutside.bind(this));
-    d3_select(document).on("keyup", this.handleKeyUpOutside.bind(this));
-    this.div.on("mousemove", this.handleMouseMove.bind(this));
-    this.div.on("contextmenu", this.handleRightClickOutside.bind(this));
+    this.div.on("click", this.handleClickDiv.bind(this));
+    d3_select(document).on("keyup", this.handleKeyUpDocument.bind(this));
+    this.div.on("mousemove", this.handleMouseMoveDiv.bind(this));
+    this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
     this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
     this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
@@ -242,7 +242,7 @@ class Graph extends React.Component {
 
   }
 
-  handleClickOutside(d, i, nodes) {
+  handleClickDiv(d, i, nodes) {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
@@ -250,7 +250,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
   }
 
-  handleKeyUpOutside(d, i, nodes) {
+  handleKeyUpDocument(d, i, nodes) {
     var event = d3_event;
     if (event.target.nodeName !== 'BODY') {
       return;
@@ -288,7 +288,7 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
   }
 
-  handleMouseMove(d, i, nodes) {
+  handleMouseMoveDiv(d, i, nodes) {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
@@ -369,7 +369,7 @@ class Graph extends React.Component {
     this.selectComponents(d3_select(nodes[i]), extendSelection);
   }
 
-  handleRightClickOutside(d, i, nodes) {
+  handleRightClickDiv(d, i, nodes) {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
@@ -379,10 +379,13 @@ class Graph extends React.Component {
 
   handleMouseDownSvg(d, i, nodes) {
     var event = d3_event;
+    if (event.which !== 1) {
+      return;
+    }
     event.preventDefault();
     event.stopPropagation();
     if (this.selectArea) {
-      this.selectArea.selection.remove();
+      return;
     }
     var [x0, y0] = d3_mouse(this.graph0.node());
     this.selectArea = {x0: x0, y0: y0};
@@ -430,6 +433,7 @@ class Graph extends React.Component {
       let width = Math.abs(x1 - x0);
       let height = Math.abs(y1 - y0);
       if (width === 0 && height === 0) {
+        this.selectArea = null;
         return;
       }
       let components = this.graph0.selectAll('.node,.edge');
@@ -644,7 +648,6 @@ class Graph extends React.Component {
   render() {
     return <div
              ref={div => this.div = d3_select(div)}
-             draggable="true"
              onDragOver={this.handleNodeShapeDragOver}
              onDrop={this.handleNodeShapeDrop.bind(this)}
            >
