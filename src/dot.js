@@ -76,9 +76,6 @@ export default class DotGraph {
     this.ast = parser(this.dotSrc)[0];
     let children = this.ast.children;
     this.nodes = children.filter(child => child.type === 'node_stmt')
-    this.edges = children.filter(child => child.type === 'edge_stmt')
-    this.attrs = children.filter(child => child.type === 'attr_stmt')
-    this.subgraphs = children.filter(child => child.type === 'subgraph')
     // FIXME: Implement recursive parsing of subgraphs
   }
 }
