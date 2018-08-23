@@ -25,18 +25,18 @@ export default class DotGraph {
 
   deleteNode(nodeName) {
     while (true) {
-      var i = this.dotSrcLines.findIndex(function (element, index) {
-        var trimmedElement = element.trim();
-        if (trimmedElement === nodeName) {
+      var i = this.dotSrcLines.findIndex(function (line, index) {
+        var trimmedLine = line.trim();
+        if (trimmedLine === nodeName) {
           return true;
         }
-        if (trimmedElement.indexOf(nodeName + ' ') === 0) {
+        if (trimmedLine.indexOf(nodeName + ' ') === 0) {
           return true;
         }
-        if (trimmedElement.indexOf(' ' + nodeName + ' ') >= 0) {
+        if (trimmedLine.indexOf(' ' + nodeName + ' ') >= 0) {
           return true;
         }
-        if (trimmedElement.indexOf(' ' + nodeName, trimmedElement.length - nodeName.length - 1) >= 0) {
+        if (trimmedLine.indexOf(' ' + nodeName, trimmedLine.length - nodeName.length - 1) >= 0) {
           return true;
         }
         return false;
@@ -50,8 +50,8 @@ export default class DotGraph {
 
   deleteEdge(edgeName) {
     while (true) {
-      var i = this.dotSrcLines.findIndex(function (element, index) {
-        return element.indexOf(edgeName) >= 0;
+      var i = this.dotSrcLines.findIndex(function (line, index) {
+        return line.indexOf(edgeName) >= 0;
       });
       if (i < 0)
         break;
