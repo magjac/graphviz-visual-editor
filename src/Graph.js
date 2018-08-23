@@ -385,7 +385,7 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if (this.selectArea) {
-      this.selectArea.selection.remove();
+      return;
     }
     var [x0, y0] = d3_mouse(this.graph0.node());
     this.selectArea = {x0: x0, y0: y0};
@@ -403,9 +403,6 @@ class Graph extends React.Component {
 
   handleMouseMoveSvg(d, i, nodes) {
     var event = d3_event;
-    if (event.which !== 1) {
-      return;
-    }
     if (this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
