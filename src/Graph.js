@@ -430,6 +430,7 @@ class Graph extends React.Component {
       let width = Math.abs(x1 - x0);
       let height = Math.abs(y1 - y0);
       if (width === 0 && height === 0) {
+        this.selectArea = null;
         return;
       }
       let components = this.graph0.selectAll('.node,.edge');
