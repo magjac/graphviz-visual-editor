@@ -61,22 +61,39 @@ export default class DotGraph {
   }
 
   getNodeAttributes(nodeName) {
-    let node = this.nodes.filter(node => node.node_id.id === nodeName)[0];
-    if (!node) {
-      return null;
-    }
-    let attributes = node.attr_list.reduce(function(attrs, attr, i) {
-      attrs[attr.id] = attr.eq;
-      return attrs;
-    }, {});
-    return attributes;
+    return this.nodes[nodeName];
   }
 
   parseDot() {
     this.ast = parser(this.dotSrc)[0];
     let children = this.ast.children;
-    this.nodes = children.filter(child => child.type === 'node_stmt')
-    // FIXME: Implement recursive parsing of subgraphs
+    this.nodes = [];
+    this.parseChildren(children);
+  }
+
+  parseChildren(children) {
+    children.forEach((child) => {
+      if (child.type === 'node_stmt') {
+        this.parseChildren([child.node_id]);
+        let attributes = child.attr_list.reduce(function(attrs, attr, i) {
+          attrs[attr.id] = attr.eq;
+          return attrs;
+        }, {});
+        Object.assign(this.nodes[child.node_id.id], attributes);
+      }
+      else if (child.type === 'node_id') {
+        let nodeId = child.id;
+        if (this.nodes[nodeId] == null) {
+          this.nodes[nodeId] = {};
+        }
+      }
+      else if (child.type === 'edge_stmt') {
+        this.parseChildren(child.edge_list);
+      }
+      else if (child.type === 'subgraph') {
+        this.parseChildren(child.children);
+      }
+    });
   }
 }
 
