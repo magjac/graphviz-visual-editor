@@ -385,9 +385,10 @@ class Graph extends React.Component {
     }
     var [x0, y0] = d3_mouse(this.graph0.node());
     this.selectArea = {x0: x0, y0: y0};
+    let offset = 1;  // avoid covering the svg at click in Chrome
     this.selectArea.selection = this.graph0.append("rect")
-      .attr("x", x0)
-      .attr("y", y0)
+      .attr("x", x0 + offset)
+      .attr("y", y0 + offset)
       .attr("width", 0)
       .attr("height", 0)
       .attr("fill", '#99ccff')
