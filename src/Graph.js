@@ -199,6 +199,18 @@ class Graph extends React.Component {
   }
 
   addEventHandlers() {
+
+    /*
+      Some empirical non-obvious and other relevant things to note:
+        1. Click events are preceeded by mousedown and mouseup events on the
+           same element.
+        2. 1st button clicks are click events on all elements.
+        3. 2nd and 3rd button clicks are click events on document and window
+           only, not on their children, although the event target is the child.
+        4. Keyboard events are dispatched on BODY, not on its children. This can
+           however be changed with the contenteditable attribute.
+    */
+
     let self = this;
     this.graphviz.zoomBehavior().filter(function () {
       if (d3_event.type === 'mousedown' && !d3_event.ctrlKey) {
@@ -216,10 +228,10 @@ class Graph extends React.Component {
     var edges = this.svg.selectAll(".edge");
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
-    d3_select(document).on("click", this.handleClickOutside.bind(this));
+    this.div.on("click", this.handleClickOutside.bind(this));
     d3_select(document).on("keyup", this.handleKeyUpOutside.bind(this));
-    d3_select(document).on("mousemove", this.handleMouseMove.bind(this));
-    d3_select(document).on("contextmenu", this.handleRightClickOutside.bind(this));
+    this.div.on("mousemove", this.handleMouseMove.bind(this));
+    this.div.on("contextmenu", this.handleRightClickOutside.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
     this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
     this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
@@ -232,21 +244,10 @@ class Graph extends React.Component {
 
   handleClickOutside(d, i, nodes) {
     var event = d3_event;
-    if (event.target.nodeName !== 'svg' && event.target.parentElement && event.target.parentElement.id !== 'graph0' && event.target !== this.div.node()) {
-      return;
-    }
     event.preventDefault();
     event.stopPropagation();
     document.activeElement.blur();
     this.unSelectComponents();
-    if (event.which === 2) {
-      var [x0, y0] = d3_mouse(this.graph0.node());
-      if (event.shiftKey) {
-        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
-      } else {
-        this.insertNodeWithLatestAttributes(x0, y0);
-      }
-    }
   }
 
   handleKeyUpOutside(d, i, nodes) {
@@ -418,7 +419,7 @@ class Graph extends React.Component {
 
   handleMouseUpSvg(d, i, nodes) {
     var event = d3_event;
-    if (this.selectArea) {
+    if (event.which === 1 && this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
       this.selectArea.selection.remove();
@@ -443,6 +444,14 @@ class Graph extends React.Component {
       let extendSelection = event.ctrlKey || event.shiftKey;
       this.selectComponents(components, extendSelection);
       this.selectArea = null;
+    }
+    else if (event.which === 2) {
+      var [x0, y0] = d3_mouse(this.graph0.node());
+      if (event.shiftKey) {
+        this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
+      } else {
+        this.insertNodeWithLatestAttributes(x0, y0);
+      }
     }
   }
 
