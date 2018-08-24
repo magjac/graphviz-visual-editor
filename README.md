@@ -51,6 +51,11 @@ Learn more from the Create React App [README](https://github.com/facebook/create
   * Keyboard shortcuts
   * Mouse interactions
 
+## Tested Browsers ##
+
+* Firefox 61.0.1
+* Chrome 64.0.3282.167
+
 ## Currently Known Limitations ##
 
 Apart from the numerous cool features that are missing; here's a list of known limitations in the features that do exist:
