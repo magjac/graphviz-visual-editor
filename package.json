@@ -1,6 +1,6 @@
 {
   "name": "graphviz-visual-editor",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha",
   "description": "A web application for interactive visual editing of Graphviz graphs described in the DOT language",
   "keywords": [
     "Graphviz",
