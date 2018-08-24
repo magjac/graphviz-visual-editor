@@ -378,6 +378,7 @@ class Graph extends React.Component {
   }
 
   handleMouseDownSvg(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     if (event.which !== 1) {
       return;
@@ -421,6 +422,7 @@ class Graph extends React.Component {
   }
 
   handleMouseUpSvg(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     if (event.which === 1 && this.selectArea) {
       event.preventDefault();
