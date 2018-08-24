@@ -61,7 +61,6 @@ Learn more from the Create React App [README](https://github.com/facebook/create
 Apart from the numerous cool features that are missing; here's a list of known limitations in the features that do exist:
 
 * The visual editing capabilities requires the DOT source to be organized with only one node or edge per line, since they currently operate by inserting or deleting complete lines.
-* Cut/Copy-and-paste of nodes in subgraphs is not yet supported.
 
 ## Roadmap ##
 
