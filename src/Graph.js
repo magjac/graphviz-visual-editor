@@ -243,10 +243,10 @@ class Graph extends React.Component {
   }
 
   handleClickDiv(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    document.activeElement.blur();
     this.unSelectComponents();
   }
 
@@ -310,10 +310,10 @@ class Graph extends React.Component {
   }
 
   handleClickNode(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    document.activeElement.blur();
     if (!this.isDrawingEdge && event.which === 1) {
       let extendSelection = event.ctrlKey || event.shiftKey;
       this.selectComponents(d3_select(nodes[i]), extendSelection);
@@ -321,10 +321,10 @@ class Graph extends React.Component {
   }
 
   handleDblClickNode(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    document.activeElement.blur();
     this.unSelectComponents();
     if (this.isDrawingEdge) {
       var endNode = d3_select(nodes[i]);
@@ -340,10 +340,10 @@ class Graph extends React.Component {
   }
 
   handleRightClickNode(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    document.activeElement.blur();
     this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
     this.startNode = d3_select(nodes[i]);
@@ -361,19 +361,19 @@ class Graph extends React.Component {
   }
 
   handleClickEdge(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    document.activeElement.blur();
     let extendSelection = event.ctrlKey || event.shiftKey;
     this.selectComponents(d3_select(nodes[i]), extendSelection);
   }
 
   handleRightClickDiv(d, i, nodes) {
+    document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    document.activeElement.blur();
     this.unSelectComponents();
   }
 
