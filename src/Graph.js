@@ -260,21 +260,21 @@ class Graph extends React.Component {
       this.graphviz.removeDrawnEdge();
       this.unSelectComponents();
     }
-    if (event.key === 'Delete') {
+    else if (event.key === 'Delete') {
       this.deleteSelectedComponents.call(this);
       this.graphviz.removeDrawnEdge();
     }
-    if (event.ctrlKey && event.key === 'c') {
+    else if (event.ctrlKey && event.key === 'c') {
       let nodes = this.selectedComponents.filter('.node');
       if (nodes.size() > 0) {
           let nodeName = nodes.selectWithoutDataPropagation("title").text();
           this.latestNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
       }
     }
-    if (event.ctrlKey && event.key === 'v') {
+    else if (event.ctrlKey && event.key === 'v') {
       this.insertNodeWithLatestAttributes();
     }
-    if (event.ctrlKey && event.key === 'x') {
+    else if (event.ctrlKey && event.key === 'x') {
       let nodes = this.selectedComponents.filter('.node');
       if (nodes.size() > 0) {
           let nodeName = nodes.selectWithoutDataPropagation("title").text();
@@ -282,7 +282,7 @@ class Graph extends React.Component {
       }
       this.deleteSelectedComponents.call(this);
     }
-    if (event.key === '?') {
+    else if (event.key === '?') {
       this.props.onHelp();
     }
     this.isDrawingEdge = false;
