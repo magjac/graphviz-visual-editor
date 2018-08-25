@@ -229,7 +229,7 @@ class Graph extends React.Component {
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
     this.div.on("click", this.handleClickDiv.bind(this));
-    d3_select(document).on("keyup", this.handleKeyUpDocument.bind(this));
+    d3_select(document).on("keydown", this.handleKeyDownDocument.bind(this));
     this.div.on("mousemove", this.handleMouseMoveDiv.bind(this));
     this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
@@ -250,12 +250,11 @@ class Graph extends React.Component {
     this.unSelectComponents();
   }
 
-  handleKeyUpDocument(d, i, nodes) {
+  handleKeyDownDocument(d, i, nodes) {
     var event = d3_event;
     if (event.target.nodeName !== 'BODY') {
       return;
     }
-    event.preventDefault();
     if (event.key === 'Escape') {
       this.graphviz.removeDrawnEdge();
       this.unSelectComponents();
@@ -285,6 +284,10 @@ class Graph extends React.Component {
     else if (event.key === '?') {
       this.props.onHelp();
     }
+    else {
+      return;
+    }
+    event.preventDefault();
     this.isDrawingEdge = false;
   }
 
