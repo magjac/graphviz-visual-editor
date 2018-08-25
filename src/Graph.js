@@ -285,6 +285,10 @@ class Graph extends React.Component {
       let components = this.graph0.selectAll('.node,.edge');
       this.selectComponents(components);
     }
+    else if (event.key === 'A') {
+      let components = this.graph0.selectAll('.edge');
+      this.selectComponents(components);
+    }
     else if (event.key === '?') {
       this.props.onHelp();
     }
