@@ -229,7 +229,7 @@ class Graph extends React.Component {
 
     d3_select(window).on("resize", this.resizeSVG.bind(this));
     this.div.on("click", this.handleClickDiv.bind(this));
-    d3_select(document).on("keyup", this.handleKeyUpDocument.bind(this));
+    d3_select(document).on("keydown", this.handleKeyDownDocument.bind(this));
     this.div.on("mousemove", this.handleMouseMoveDiv.bind(this));
     this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
@@ -250,31 +250,30 @@ class Graph extends React.Component {
     this.unSelectComponents();
   }
 
-  handleKeyUpDocument(d, i, nodes) {
+  handleKeyDownDocument(d, i, nodes) {
     var event = d3_event;
     if (event.target.nodeName !== 'BODY') {
       return;
     }
-    event.preventDefault();
     if (event.key === 'Escape') {
       this.graphviz.removeDrawnEdge();
       this.unSelectComponents();
     }
-    if (event.key === 'Delete') {
+    else if (event.key === 'Delete') {
       this.deleteSelectedComponents.call(this);
       this.graphviz.removeDrawnEdge();
     }
-    if (event.ctrlKey && event.key === 'c') {
+    else if (event.ctrlKey && event.key === 'c') {
       let nodes = this.selectedComponents.filter('.node');
       if (nodes.size() > 0) {
           let nodeName = nodes.selectWithoutDataPropagation("title").text();
           this.latestNodeAttributes = this.dotGraph.getNodeAttributes(nodeName);
       }
     }
-    if (event.ctrlKey && event.key === 'v') {
+    else if (event.ctrlKey && event.key === 'v') {
       this.insertNodeWithLatestAttributes();
     }
-    if (event.ctrlKey && event.key === 'x') {
+    else if (event.ctrlKey && event.key === 'x') {
       let nodes = this.selectedComponents.filter('.node');
       if (nodes.size() > 0) {
           let nodeName = nodes.selectWithoutDataPropagation("title").text();
@@ -282,9 +281,21 @@ class Graph extends React.Component {
       }
       this.deleteSelectedComponents.call(this);
     }
-    if (event.key === '?') {
+    else if (event.key === 'a') {
+      let components = this.graph0.selectAll('.node,.edge');
+      this.selectComponents(components);
+    }
+    else if (event.key === 'A') {
+      let components = this.graph0.selectAll('.edge');
+      this.selectComponents(components);
+    }
+    else if (event.key === '?') {
       this.props.onHelp();
     }
+    else {
+      return;
+    }
+    event.preventDefault();
     this.isDrawingEdge = false;
   }
 

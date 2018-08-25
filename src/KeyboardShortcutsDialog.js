@@ -14,6 +14,8 @@ import TableRow from '@material-ui/core/TableRow';
 import CloseIcon from '@material-ui/icons/Close';
 
 const keyboardShortcuts = [
+  {key: 'Ctrl-A', description: 'Select all nodes and edges.'},
+  {key: 'Ctrl-Shift-A', description: 'Select all edges.'},
   {key: 'Ctrl-C', description: 'Copy the selected node.'},
   {key: 'Ctrl-V', description: 'Paste the cut/copied node.'},
   {key: 'Ctrl-X', description: 'Cut the selected node.'},
