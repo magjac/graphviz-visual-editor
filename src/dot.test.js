@@ -75,4 +75,10 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders multiple nodes and edges', () => {
+    let dotSrc = 'digraph {a b c d -> e f -> g -> h}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
 });
