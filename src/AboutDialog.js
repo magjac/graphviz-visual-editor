@@ -51,6 +51,33 @@ class AboutDialog extends React.Component {
             </DialogContentText>
             <br/>
             <DialogContentText>
+              The Graphviz Visual Editor is a web application for
+              interactive visual editing of
+              {' '}
+              <a
+                href="http://www.graphviz.org"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Graphviz
+              </a>
+              {' '}
+              graphs described in the
+              {' '}
+              <a
+                href="https://www.graphviz.org/doc/info/lang.html"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                DOT
+              </a>
+              {' '}
+              language.
+              It is <u>not</u> a general drawing application.
+              It can only generate graphs that are possible to describe with DOT.
+            </DialogContentText>
+            <br/>
+            <DialogContentText>
               The Graphviz Visual Editor is an
               {' '}
               <a
