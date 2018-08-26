@@ -91,7 +91,10 @@ export default class DotGraph {
         this.parseChildren(child.edge_list);
       }
       else if (child.type === 'subgraph') {
-        this.parseChildren(child.children);
+        // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
+        if (child.children) {
+          this.parseChildren(child.children);
+        }
       }
     });
   }
