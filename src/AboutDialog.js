@@ -49,6 +49,39 @@ class AboutDialog extends React.Component {
             <DialogContentText>
               Version {packageJSON.version}
             </DialogContentText>
+            <br/>
+            <DialogContentText>
+              The Graphviz Visual Editor is an
+              {' '}
+              <a
+                href="https://en.wikipedia.org/wiki/Open-source_software"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                open source
+              </a>
+              {' '}
+              project and is hosted at
+              {' '}
+              <a
+                href="https://github.com/magjac/graphviz-visual-editor"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                GitHub
+              </a>
+              . See the
+              {' '}
+              <a
+                href="https://github.com/magjac/graphviz-visual-editor/blob/master/README.md"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                README
+              </a>
+              {' '}
+              for more information.
+            </DialogContentText>
             <DialogContentText variant='caption' className={classes.copyright}>
               &copy; 2018 Magnus Jacobsson Interactive AB
             </DialogContentText>
