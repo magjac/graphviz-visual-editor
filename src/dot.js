@@ -110,6 +110,14 @@ export default class DotGraph {
 
   toStringChildren(children, separator=' ') {
     children.forEach((child, i) => {
+      // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
+      if (child.type === 'subgraph') {
+        if (child.children == null) {
+          if (i > 0 && children[i - 1].type === 'subgraph' && children[i - 1].id !== null && children[i - 1].children.length === 0) {
+            return;
+          }
+        }
+      }
       if (i > 0) {
         this.str += separator;
       }
@@ -140,7 +148,10 @@ export default class DotGraph {
           this.str += 'subgraph ' + child.id;
         }
         this.str += '{';
-        this.toStringChildren(child.children);
+        // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
+        if (child.children) {
+          this.toStringChildren(child.children);
+        }
         this.str += '}';
       }
     });
