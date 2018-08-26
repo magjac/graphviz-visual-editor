@@ -98,22 +98,26 @@ export default class DotGraph {
 
   toString() {
     this.str = ''
+    this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.str += this.ast.type + ' {';
     this.toStringChildren(this.ast.children);
     this.str += '}';
     return this.str;
   }
 
-  toStringChildren(children) {
+  toStringChildren(children, separator=' ') {
     children.forEach((child, i) => {
       if (i > 0) {
-        this.str += ' ';
+        this.str += separator;
       }
       if (child.type === 'node_stmt') {
         this.toStringChildren([child.node_id]);
       }
       else if (child.type === 'node_id') {
         this.str += child.id;
+      }
+      else if (child.type === 'edge_stmt') {
+        this.toStringChildren(child.edge_list, ' ' + this.edgeop + ' ');
       }
     });
   }
