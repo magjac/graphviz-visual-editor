@@ -105,7 +105,11 @@ export default class DotGraph {
     if (this.ast.strict) {
       this.str += 'strict ';
     }
-    this.str += this.ast.type + ' {';
+    this.str += this.ast.type + ' ';
+    if (this.ast.id) {
+      this.str += quoteIdIfNecessary(this.ast.id) + ' ';
+    }
+    this.str += '{';
     this.toStringChildren(this.ast.children);
     this.str += '}';
     return this.str;

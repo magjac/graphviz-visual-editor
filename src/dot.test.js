@@ -35,6 +35,30 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders an empty named graph', () => {
+    let dotSrc = 'graph g1 {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an empty named digraph', () => {
+    let dotSrc = 'digraph g1 {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an empty named strict graph', () => {
+    let dotSrc = 'strict graph g1 {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an empty named strict digraph', () => {
+    let dotSrc = 'strict digraph g1 {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // nodes
 
   it('renders a single node without attributes', () => {
