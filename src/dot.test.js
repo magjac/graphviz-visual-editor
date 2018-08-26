@@ -9,11 +9,15 @@ const WrapDot = props => {
 
 describe('dot.DotGraph.toString()', () => {
 
+  // general
+
   it('renders an empty graph', () => {
     let dotSrc = 'digraph {}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
+
+  // nodes
 
   it('renders a single node without attributes', () => {
     let dotSrc = 'digraph {a}';
@@ -51,6 +55,8 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  // edges
+
   it('renders an edge between two nodes in an undirected graph', () => {
     let dotSrc = 'graph {a -- b}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
@@ -75,11 +81,15 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  // nodes and edges
+
   it('renders multiple nodes and edges', () => {
     let dotSrc = 'digraph {a b c d -> e f -> g -> h}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
+
+  // subgraphs
 
   it('renders an unnamed subgraph with a single node', () => {
     let dotSrc = 'digraph {{a}}';
