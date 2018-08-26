@@ -49,6 +49,7 @@ class Graph extends React.Component {
     this.pendingUpdate = false;
     this.rendering = false;
     this.prevFit = null;
+    this.prevDotSrc = '';
   }
 
   componentDidMount() {
@@ -90,6 +91,9 @@ class Graph extends React.Component {
     if (this.props.dotSrc.length === 0) {
       return;
     }
+    if (this.props.dotSrc === this.prevDotSrc) {
+      return;
+    }
     if (this.rendering) {
         this.pendingUpdate = true;
         return;
@@ -106,6 +110,7 @@ class Graph extends React.Component {
       }
       this.prevFit = this.props.fit;
     }
+    this.prevDotSrc = this.props.dotSrc;
     this.rendering = true;
     this.graphviz
       .width(width)
