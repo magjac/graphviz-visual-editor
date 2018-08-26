@@ -145,15 +145,20 @@ export default class DotGraph {
 
 }
 
+function quoteIdIfNecessary(value) {
+  let re = '^[a-zA-Z\\x80-\\xff_][a-zA-Z\\x80-\\xff_0-9]*$';
+  if (!value.match(re)) {
+    value = '"' + value + '"';
+  }
+  return value;
+}
+
 function toAttributesString(attributes) {
   var attributesString = ''
   for (var name of Object.keys(attributes)) {
     if (attributes[name] != null) {
-      let re = '^[a-zA-Z\\x80-\\xff_][a-zA-Z\\x80-\\xff_0-9]*$';
       let value = attributes[name].toString();
-      if (!value.match(re)) {
-        value = '"' + value + '"';
-      }
+      value = quoteIdIfNecessary(value);
       attributesString += ' ' + name + '=' + value;
     }
   }
