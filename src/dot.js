@@ -132,6 +132,14 @@ export default class DotGraph {
           this.str += ']';
         }
       }
+      else if (child.type === 'subgraph') {
+        if (child.id) {
+          this.str += 'subgraph ' + child.id;
+        }
+        this.str += '{';
+        this.toStringChildren(child.children);
+        this.str += '}';
+      }
     });
   }
 

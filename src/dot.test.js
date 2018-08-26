@@ -81,4 +81,34 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders an unnamed subgraph with a single node', () => {
+    let dotSrc = 'digraph {{a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a named subgraph with a single node', () => {
+    let dotSrc = 'digraph {subgraph s1{a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an unnamed subgraph with two nodes', () => {
+    let dotSrc = 'digraph {{a b}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an unnamed subgraph with an edge between two nodes', () => {
+    let dotSrc = 'digraph {{a -> b}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an unnamed subgraph with multiple nodes and edges', () => {
+    let dotSrc = 'digraph {{a b c d -> e f -> g -> h}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
 });
