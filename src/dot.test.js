@@ -91,6 +91,18 @@ describe('dot.DotGraph.toString()', () => {
 
   // subgraphs
 
+  it('renders an unnamed empty subgraph', () => {
+    let dotSrc = 'digraph {{}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a named empty subgraph', () => {
+    let dotSrc = 'digraph {subgraph s1{}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   it('renders an unnamed subgraph with a single node', () => {
     let dotSrc = 'digraph {{a}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
