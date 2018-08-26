@@ -105,7 +105,10 @@ export default class DotGraph {
   }
 
   toStringChildren(children) {
-    children.forEach((child) => {
+    children.forEach((child, i) => {
+      if (i > 0) {
+        this.str += ' ';
+      }
       if (child.type === 'node_stmt') {
         this.toStringChildren([child.node_id]);
       }

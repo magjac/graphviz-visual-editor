@@ -18,3 +18,15 @@ it('renders a single node without attributes', () => {
   const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
   expect(wrapper.find('p').text()).toEqual(dotSrc);
 });
+
+it('renders two nodes without attributes', () => {
+  let dotSrc = 'digraph {a b}';
+  const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+  expect(wrapper.find('p').text()).toEqual(dotSrc);
+});
+
+it('renders three nodes without attributes', () => {
+  let dotSrc = 'digraph {a b c}';
+  const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+  expect(wrapper.find('p').text()).toEqual(dotSrc);
+});
