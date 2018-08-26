@@ -95,6 +95,14 @@ export default class DotGraph {
       }
     });
   }
+
+  toString() {
+    this.str = ''
+    this.str += this.ast.type + ' {';
+    this.str += '}';
+    return this.str;
+  }
+
 }
 
 function toAttributesString(attributes) {
