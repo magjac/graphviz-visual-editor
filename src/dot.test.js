@@ -133,4 +133,54 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  // quoting
+
+  it('renders node id with quotes if it contains a space', () => {
+    let dotSrc = 'digraph {"a 1"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders node id with quotes if it contains a quote', () => {
+    let dotSrc = 'digraph {"a\\\"1"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders attribute name with quotes if it contains a space', () => {
+    let dotSrc = 'digraph {a ["label 1"=foo]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders attribute name with quotes if it contains a quote', () => {
+    let dotSrc = 'digraph {a ["label\\"1"=foo]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders attribute value with quotes if it contains a space', () => {
+    let dotSrc = 'digraph {a [label="foo bar"]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders attribute value with quotes if it contains a quote', () => {
+    let dotSrc = 'digraph {a [label="foo\\"bar"]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders subgraph id with quotes if it contains a space', () => {
+    let dotSrc = 'digraph {subgraph "s 2"{a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders subgraph id with quotes if it contains a quote', () => {
+    let dotSrc = 'digraph {subgraph "s\\\"2"{a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
 });

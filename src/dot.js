@@ -130,10 +130,10 @@ export default class DotGraph {
         }
       }
       else if (child.type === 'node_id') {
-        this.str += child.id;
+        this.str += quoteIdIfNecessary(child.id);
       }
       else if (child.type === 'attr') {
-        this.str += child.id + '=' + child.eq;
+        this.str += quoteIdIfNecessary(child.id) + '=' + quoteIdIfNecessary(child.eq);
       }
       else if (child.type === 'edge_stmt') {
         this.toStringChildren(child.edge_list, ' ' + this.edgeop + ' ');
@@ -145,7 +145,7 @@ export default class DotGraph {
       }
       else if (child.type === 'subgraph') {
         if (child.id) {
-          this.str += 'subgraph ' + child.id;
+          this.str += 'subgraph ' + quoteIdIfNecessary(child.id);
         }
         this.str += '{';
         // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
