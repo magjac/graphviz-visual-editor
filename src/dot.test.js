@@ -63,6 +63,12 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders an edge with attributes', () => {
+    let dotSrc = 'digraph {a -> b [color=red fillcolor=green]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   it('renders an edge between three nodes', () => {
     let dotSrc = 'digraph {a -> b -> c}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);

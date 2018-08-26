@@ -126,6 +126,11 @@ export default class DotGraph {
       }
       else if (child.type === 'edge_stmt') {
         this.toStringChildren(child.edge_list, ' ' + this.edgeop + ' ');
+        if (child.attr_list.length > 0) {
+          this.str += ' [';
+          this.toStringChildren(child.attr_list);
+          this.str += ']';
+        }
       }
     });
   }
