@@ -12,6 +12,12 @@ describe('dot.DotGraph.toString()', () => {
   // general
 
   it('renders an empty graph', () => {
+    let dotSrc = 'graph {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an empty digraph', () => {
     let dotSrc = 'digraph {}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
     expect(wrapper.find('p').text()).toEqual(dotSrc);
