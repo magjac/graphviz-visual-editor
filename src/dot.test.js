@@ -23,6 +23,18 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders an empty strict graph', () => {
+    let dotSrc = 'strict graph {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an empty strict digraph', () => {
+    let dotSrc = 'strict digraph {}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // nodes
 
   it('renders a single node without attributes', () => {

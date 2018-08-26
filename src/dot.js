@@ -102,6 +102,9 @@ export default class DotGraph {
   toString() {
     this.str = ''
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
+    if (this.ast.strict) {
+      this.str += 'strict ';
+    }
     this.str += this.ast.type + ' {';
     this.toStringChildren(this.ast.children);
     this.str += '}';
