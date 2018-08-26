@@ -99,8 +99,20 @@ export default class DotGraph {
   toString() {
     this.str = ''
     this.str += this.ast.type + ' {';
+    this.toStringChildren(this.ast.children);
     this.str += '}';
     return this.str;
+  }
+
+  toStringChildren(children) {
+    children.forEach((child) => {
+      if (child.type === 'node_stmt') {
+        this.toStringChildren([child.node_id]);
+      }
+      else if (child.type === 'node_id') {
+        this.str += child.id;
+      }
+    });
   }
 
 }

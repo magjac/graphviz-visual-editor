@@ -12,3 +12,9 @@ it('renders an empty graph', () => {
   const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
   expect(wrapper.find('p').text()).toEqual(dotSrc);
 });
+
+it('renders a single node without attributes', () => {
+  let dotSrc = 'digraph {a}';
+  const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+  expect(wrapper.find('p').text()).toEqual(dotSrc);
+});
