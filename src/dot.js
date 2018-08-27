@@ -189,17 +189,22 @@ export default class DotGraph {
   }
 
   deleteComponentInChildren(children, type, id, parent) {
+    var leftNode = false;
     children.forEach((child, i) => {
       if (child.type === 'node_stmt') {
         this.deleteComponentInChildren([child.node_id], type, id, child);
       }
       else if (child.type === 'node_id') {
         let erase = (type === 'node' && child.id === id);
-        const isLastNode = (i === children.length - 1);
-        this.skip(quoteIdIfNecessary(child.id), erase);
-        if (parent.type === 'edge_stmt' && !isLastNode) {
-          this.skip(this.edgeop, erase);
+        const isFirstNode = (i === 0);
+        if (parent.type === 'edge_stmt' && !isFirstNode) {
+          const eraseLeftEdge = (erase || !leftNode);
+          this.skip(this.edgeop, eraseLeftEdge);
         }
+        if (!erase) {
+          leftNode = true;
+        }
+        this.skip(quoteIdIfNecessary(child.id), erase);
       }
       else if (child.type === 'edge_stmt') {
         this.deleteComponentInChildren(child.edge_list, type, id, child);

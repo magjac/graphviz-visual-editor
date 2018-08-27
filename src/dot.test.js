@@ -285,4 +285,58 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
+  it('deletes the last node in a graph with one edge between two nodes', () => {
+    let dotSrc = 'graph {a -- b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" />);
+    expect(wrapper.find('p').text()).toEqual('graph {a}');
+  });
+
+  it('deletes the first node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {a -- b -- c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b -- c}');
+  });
+
+  it('deletes the middle node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {a -- b -- c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" />);
+    expect(wrapper.find('p').text()).toEqual('graph {a -- c}');
+  });
+
+  it('deletes the last node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {a -- b -- c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="c" />);
+    expect(wrapper.find('p').text()).toEqual('graph {a -- b}');
+  });
+
+  it('deletes the both instances of the same node in a graph with edges between two nodes', () => {
+    let dotSrc = 'graph {a -- a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+ it('deletes all three instances of the same node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {a -- a -- a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes both (first) instances of the same node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {a -- a -- b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
+  it('deletes both (last) instances of the same node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {b -- a -- a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
+  it('deletes both (first and last) instances of the same node in a graph with edges between three nodes', () => {
+    let dotSrc = 'graph {a -- b -- a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
 });
