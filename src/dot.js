@@ -3,7 +3,11 @@ import parser from 'dotparser';
 export default class DotGraph {
   constructor(dotSrc) {
     this.dotSrc = dotSrc;
-    this.dotSrcLines = dotSrc.split('\n');
+    this.reparse();
+  }
+
+  reparse() {
+    this.dotSrcLines = this.dotSrc.split('\n');
     this.parseDot(this.dotSrc);
   }
 
