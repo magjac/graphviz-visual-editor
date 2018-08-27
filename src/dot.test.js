@@ -279,4 +279,10 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
+  it('deletes the first node in a graph with one edge between two nodes', () => {
+    let dotSrc = 'graph {a -- b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
 });

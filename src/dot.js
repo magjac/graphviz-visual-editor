@@ -179,22 +179,30 @@ export default class DotGraph {
   }
 
   deleteComponent(type, id) {
+    this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.index = 0;
     this.skip(this.ast.type);
     this.skip('{');
-    this.deleteComponentInChildren(this.ast.children, type, id);
+    this.deleteComponentInChildren(this.ast.children, type, id, this.ast);
     this.skip('}');
     this.reparse();
   }
 
-  deleteComponentInChildren(children, type, id) {
+  deleteComponentInChildren(children, type, id, parent) {
     children.forEach((child, i) => {
       if (child.type === 'node_stmt') {
-        this.deleteComponentInChildren([child.node_id], type, id);
+        this.deleteComponentInChildren([child.node_id], type, id, child);
       }
       else if (child.type === 'node_id') {
         let erase = (type === 'node' && child.id === id);
+        const isLastNode = (i === children.length - 1);
         this.skip(quoteIdIfNecessary(child.id), erase);
+        if (parent.type === 'edge_stmt' && !isLastNode) {
+          this.skip(this.edgeop, erase);
+        }
+      }
+      else if (child.type === 'edge_stmt') {
+        this.deleteComponentInChildren(child.edge_list, type, id, child);
       }
     });
   }
