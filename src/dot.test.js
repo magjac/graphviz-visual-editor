@@ -175,6 +175,33 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  // attribute statements
+
+  it('renders a graph attribute statement', () => {
+    let dotSrc = 'digraph {graph [label=g1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a graph attribute statement without the graph keyword', () => {
+    let dotSrc = 'digraph {label=g2}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = 'digraph {graph [label=g2]}';
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a node attribute statement', () => {
+    let dotSrc = 'digraph {node [label=n1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a edge attribute statement', () => {
+    let dotSrc = 'digraph {edge [label=e1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // quoting
 
   it('renders node id with quotes if it contains a space', () => {

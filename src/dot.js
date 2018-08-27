@@ -128,6 +128,14 @@ export default class DotGraph {
       if (i > 0) {
         this.str += separator;
       }
+      if (child.type === 'attr_stmt') {
+        this.str += quoteIdIfNecessary(child.target);
+        if (child.attr_list.length > 0) {
+          this.str += ' [';
+          this.toStringChildren(child.attr_list);
+          this.str += ']';
+        }
+      }
       if (child.type === 'node_stmt') {
         this.toStringChildren([child.node_id]);
         if (child.attr_list.length > 0) {
