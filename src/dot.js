@@ -193,31 +193,26 @@ export default class DotGraph {
         this.deleteComponentInChildren([child.node_id], type, id);
       }
       else if (child.type === 'node_id') {
-        if (type === 'node' && child.id === id) {
-          this.delete(quoteIdIfNecessary(child.id));
-        } else {
-          this.skip(quoteIdIfNecessary(child.id));
-        }
+        let erase = (type === 'node' && child.id === id);
+        this.skip(quoteIdIfNecessary(child.id), erase);
       }
     });
   }
 
-  skip(string) {
-    while (whitespace.includes(this.dotSrc[this.index])) {
-      this.index += 1;
+  skip(string, erase=false) {
+    let index = this.index;
+    while (whitespace.includes(this.dotSrc[index])) {
+      index += 1;
     }
-    if (!this.dotSrc.startsWith(string, this.index)) {
-      throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(this.index, this.index + 40) + '..."');
+    if (!this.dotSrc.startsWith(string, index)) {
+      throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');
     }
-    this.index += string.length;
-  }
-
-  delete(string) {
-    const begin = this.index;
-    this.skip(string);
-    const end = this.index;
-    this.dotSrc = this.dotSrc.slice(0, begin) + this.dotSrc.slice(end);
-    this.index = begin;
+    index += string.length;
+    if (erase) {
+      this.dotSrc = this.dotSrc.slice(0, this.index) + this.dotSrc.slice(index);
+    } else {
+      this.index = index;
+    }
   }
 
 }
