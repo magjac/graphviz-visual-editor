@@ -4,6 +4,9 @@ import DotGraph from './dot';
 
 const WrapDot = props => {
   let dotGraph = new DotGraph(props.dotSrc);
+  if (props.op === 'deleteNode') {
+    dotGraph.deleteComponent('node', props.id);
+  }
   return <p>{dotGraph.toString()}</p>;
 };
 
@@ -250,6 +253,30 @@ describe('dot.DotGraph.toString()', () => {
     let dotSrc = 'digraph {subgraph "s\\\"2"{a}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
     expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+});
+
+describe('dot.DotGraph.deleteComponent()', () => {
+
+  // nodes
+
+  it('deletes a node in a graph with a single node', () => {
+    let dotSrc = 'graph {a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node in a graph with two nodes', () => {
+    let dotSrc = 'graph {a b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
+  it('deletes two instances of the same node in a graph with two unique nodes', () => {
+    let dotSrc = 'graph {a b a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
 });
