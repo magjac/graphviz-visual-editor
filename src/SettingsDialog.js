@@ -34,6 +34,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120,
   },
+  formControlLabel: {
+    margin: theme.spacing.unit * -0.5,
+  },
   title: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -110,6 +113,7 @@ class SettingsDialog extends React.Component {
             </DialogContentText>
             <FormGroup row>
               <FormControlLabel
+                className={classes.formControlLabel}
                 control={
                   <Switch
                     checked={this.props.fitGraph}
