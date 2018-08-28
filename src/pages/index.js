@@ -58,6 +58,7 @@ class Index extends React.Component {
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
       defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
       error: null,
+      holdOff: localStorage.getItem('holdOff') || 0.2,
     };
   }
 
@@ -168,6 +169,12 @@ class Index extends React.Component {
   handleFitGraphSwitchChange = (fitGraph) => {
     this.setPersistentState({
       fitGraph: fitGraph,
+    });
+  }
+
+  handleHoldOffChange = (holdOff) => {
+    this.setPersistentState({
+      holdOff: holdOff,
     });
   }
 
@@ -355,6 +362,8 @@ class Index extends React.Component {
           fitGraph={this.state.fitGraph}
           onEngineSelectChange={this.handleEngineSelectChange}
           onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
+          holdOff={this.state.holdOff}
+          onHoldOffChange={this.handleHoldOffChange}
           onSettingsClose={this.handleSettingsClose}
         />
         <Grid container
@@ -392,7 +401,7 @@ class Index extends React.Component {
                     dotSrc={this.state.dotSrc}
                     onTextChange={this.handleTextChange}
                     error={this.state.error}
-                    holdOff={200}
+                    holdOff={this.state.holdOff}
                   />
                 )}
               </div>
