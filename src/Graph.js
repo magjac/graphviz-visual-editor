@@ -111,6 +111,14 @@ class Graph extends React.Component {
       this.prevFit = this.props.fit;
     }
     this.prevDotSrc = this.props.dotSrc;
+    try {
+      this.prelDotGraph = new DotGraph(this.props.dotSrc);
+    }
+    catch(error) {
+      let {location: {start: {line}}, message} = error;
+      this.props.onError({message: message, line: line});
+      return;
+    }
     this.rendering = true;
     this.graphviz
       .width(width)
@@ -129,13 +137,7 @@ class Graph extends React.Component {
   handleRenderGraphReady() {
     this.svg = this.div.selectWithoutDataPropagation("svg");
     this.graph0 = this.svg.selectWithoutDataPropagation("g");
-    try {
-      this.dotGraph = new DotGraph(this.props.dotSrc);
-    }
-    catch(error) {
-      let {location: {start: {line}}, message} = error;
-      this.props.onError({message: message, line: line});
-    }
+    this.dotGraph = this.prelDotGraph;
     this.addEventHandlers();
     this.rendering = false;
     if (!this.renderGraphReady) {
