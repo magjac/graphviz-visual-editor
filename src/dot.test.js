@@ -381,4 +381,16 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
+  it('deletes a node with attributes in a graph with a single node', () => {
+    let dotSrc = 'graph {a [style=filled fillcolor=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted attributes in a graph with a single node', () => {
+    let dotSrc = 'graph {a ["style"="filled" "fillcolor"="red"]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
 });
