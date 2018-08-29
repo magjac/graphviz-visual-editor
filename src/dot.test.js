@@ -484,4 +484,30 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('digraph {{a b c d -> e f g -> h}}');
   });
 
+  // attribute statements
+
+  it('ignores graph attribute statements', () => {
+    let dotSrc = 'graph {graph [label=l1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1]}');
+  });
+
+  it('ignores graph attribute statements without the graph keyword', () => {
+    let dotSrc = 'graph {label=l1}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1]}');
+  });
+
+  it('ignores node attribute statements', () => {
+    let dotSrc = 'graph {node [label=n1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
+    expect(wrapper.find('p').text()).toEqual('graph {node [label=n1]}');
+  });
+
+  it('ignores edge attribute statements', () => {
+    let dotSrc = 'graph {edge [label=n1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
+    expect(wrapper.find('p').text()).toEqual('graph {edge [label=n1]}');
+  });
+
 });
