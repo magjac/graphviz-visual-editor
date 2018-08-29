@@ -204,7 +204,7 @@ export default class DotGraph {
         if (!erase) {
           leftNode = true;
         }
-        this.skip(quoteIdIfNecessary(child.id), erase);
+        this.skip(child.id, erase);
       }
       else if (child.type === 'edge_stmt') {
         this.deleteComponentInChildren(child.edge_list, type, id, child);
@@ -216,6 +216,9 @@ export default class DotGraph {
     let index = this.index;
     while (whitespace.includes(this.dotSrc[index])) {
       index += 1;
+    }
+    if (this.dotSrc[index] === '"') {
+      string = quoteId(string);
     }
     if (!this.dotSrc.startsWith(string, index)) {
       throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');

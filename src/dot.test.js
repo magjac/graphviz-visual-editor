@@ -339,4 +339,46 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
+  it('deletes a node with quoted node id in a graph with a single node', () => {
+    let dotSrc = 'graph {"a"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted node id conataining space in a graph with a single node', () => {
+    let dotSrc = 'graph {"a 1"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a 1" />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted node id conataining a quote in a graph with a single node', () => {
+    let dotSrc = 'graph {"a\\\"1"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id='a"1' />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted node id starting with a quote in a graph with a single node', () => {
+    let dotSrc = 'graph {"\\\"a"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id='"a' />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted node id ending with a quote in a graph with a single node', () => {
+    let dotSrc = 'graph {"a\\\""}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id='a"' />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted node id conataining two quotes in a graph with a single node', () => {
+    let dotSrc = 'graph {"a\\\"1\\\"2"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id='a"1"2' />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  it('deletes a node with quoted node id starting with a quote in a graph with a single node', () => {
+    let dotSrc = 'graph {"\\\"a"}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id='"a' />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
 });
