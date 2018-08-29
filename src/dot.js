@@ -9,29 +9,23 @@ export default class DotGraph {
   }
 
   reparse() {
-    this.dotSrcLines = this.dotSrc.split('\n');
     this.parseDot(this.dotSrc);
   }
 
   insertNode(nodeName, attributes) {
     var attributesString = toAttributesString(attributes);
     var newNodeString = '    ' + nodeName + attributesString;
-    let line = this.dotSrcLines.lastIndexOf('}');
-    this.dotSrcLines.splice(line, 0, newNodeString);
-    this.dotSrc = this.dotSrcLines.join('\n');
+    this.insertAtEndOfGraph(newNodeString + '\n');
   }
 
   insertEdge(startNodeName, endNodeName, attributes) {
     var attributesString = toAttributesString(attributes);
     var newEdgeString = '    ' + startNodeName + ' -> ' + endNodeName + attributesString;
-    let line = this.dotSrcLines.lastIndexOf('}');
-    this.dotSrcLines.splice(line, 0, newEdgeString);
-    this.dotSrc = this.dotSrcLines.join('\n');
+    this.insertAtEndOfGraph(newEdgeString + '\n');
   }
 
   deleteNode(nodeName) {
     this.deleteComponent('node', nodeName);
-    this.dotSrcLines = this.dotSrc.split('\n');
   }
 
   deleteEdge(edgeName) {
@@ -40,7 +34,6 @@ export default class DotGraph {
       nodeNames = edgeName.split('->');
     }
     this.deleteComponent('edge', ...nodeNames);
-    this.dotSrcLines = this.dotSrc.split('\n');
   }
 
   getNodeAttributes(nodeName) {
@@ -153,6 +146,12 @@ export default class DotGraph {
         this.str += '}';
       }
     });
+  }
+
+  insertAtEndOfGraph(string) {
+    this.deleteComponent(null);
+    this.index -= 1;
+    this.insert(string);
   }
 
   deleteComponent(type, id, edgeRHSId) {
