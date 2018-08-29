@@ -30,40 +30,17 @@ export default class DotGraph {
   }
 
   deleteNode(nodeName) {
-    while (true) {
-      var i = this.dotSrcLines.findIndex(function (line, index) {
-        var trimmedLine = line.trim();
-        if (trimmedLine === nodeName) {
-          return true;
-        }
-        if (trimmedLine.indexOf(nodeName + ' ') === 0) {
-          return true;
-        }
-        if (trimmedLine.indexOf(' ' + nodeName + ' ') >= 0) {
-          return true;
-        }
-        if (trimmedLine.indexOf(' ' + nodeName, trimmedLine.length - nodeName.length - 1) >= 0) {
-          return true;
-        }
-        return false;
-      });
-      if (i < 0)
-        break;
-      this.dotSrcLines.splice(i, 1);
-    }
-    this.dotSrc = this.dotSrcLines.join('\n');
+    this.deleteComponent('node', nodeName);
+    this.dotSrcLines = this.dotSrc.split('\n');
   }
 
   deleteEdge(edgeName) {
-    while (true) {
-      var i = this.dotSrcLines.findIndex(function (line, index) {
-        return line.indexOf(edgeName) >= 0;
-      });
-      if (i < 0)
-        break;
-      this.dotSrcLines.splice(i, 1);
+    let nodeNames = edgeName.split('--');
+    if (nodeNames.length !== 2) {
+      nodeNames = edgeName.split('->');
     }
-    this.dotSrc = this.dotSrcLines.join('\n');
+    this.deleteComponent('edge', ...nodeNames);
+    this.dotSrcLines = this.dotSrc.split('\n');
   }
 
   getNodeAttributes(nodeName) {

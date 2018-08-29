@@ -530,7 +530,6 @@ class Graph extends React.Component {
       if (component.attr('class') === 'node') {
         self.dotGraph.deleteNode(componentName);
       } else {
-        componentName = componentName.replace('->', ' -> ');
         self.dotGraph.deleteEdge(componentName);
       }
     });
