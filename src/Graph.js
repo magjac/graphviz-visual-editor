@@ -49,6 +49,7 @@ class Graph extends React.Component {
     this.pendingUpdate = false;
     this.rendering = false;
     this.prevFit = null;
+    this.prevEngine = null;
     this.prevDotSrc = '';
   }
 
@@ -91,7 +92,7 @@ class Graph extends React.Component {
     if (this.props.dotSrc.length === 0) {
       return;
     }
-    if (this.props.dotSrc === this.prevDotSrc) {
+    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine) {
       return;
     }
     if (this.rendering) {
@@ -111,6 +112,7 @@ class Graph extends React.Component {
       this.prevFit = this.props.fit;
     }
     this.prevDotSrc = this.props.dotSrc;
+    this.prevEngine = this.props.engine;
     try {
       this.prelDotGraph = new DotGraph(this.props.dotSrc);
     }
