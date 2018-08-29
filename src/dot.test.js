@@ -7,6 +7,9 @@ const WrapDot = props => {
   if (props.op === 'deleteNode') {
     dotGraph.deleteComponent('node', props.id);
   }
+  else if (props.op === 'deleteEdge') {
+    dotGraph.deleteComponent('edge', props.id, props.edgeRHSId);
+  }
   return <p>{dotGraph.toString()}</p>;
 };
 
@@ -391,6 +394,44 @@ describe('dot.DotGraph.deleteComponent()', () => {
     let dotSrc = 'graph {a ["style"="filled" "fillcolor"="red"]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
     expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
+  // edges
+
+  it('deletes an edge in a graph with a single edge between two nodes', () => {
+    let dotSrc = 'graph {a--b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b"/>);
+    expect(wrapper.find('p').text()).toEqual('graph {a b}');
+  });
+
+  it('deletes an edge in a digraph with a single edge between two nodes', () => {
+    let dotSrc = 'digraph {a->b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b"/>);
+    expect(wrapper.find('p').text()).toEqual('digraph {a b}');
+  });
+
+  it('does not delete an edge in a graph with a single edge in the other direction between two nodes', () => {
+    let dotSrc = 'graph {a--b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="b" edgeRHSId="a"/>);
+    expect(wrapper.find('p').text()).toEqual('graph {a -- b}');
+  });
+
+  it('deletes an edge in a graph with a single edge surrounded by space between two nodes', () => {
+    let dotSrc = 'graph {a -- b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b"/>);
+    expect(wrapper.find('p').text()).toEqual('graph {a b}');
+  });
+
+  it('deletes the first edge in a graph with two edges between three nodes', () => {
+    let dotSrc = 'graph {a--b--c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b"/>);
+    expect(wrapper.find('p').text()).toEqual('graph {a b -- c}');
+  });
+
+  it('deletes the second edge in a graph with two edges between three nodes', () => {
+    let dotSrc = 'graph {a--b--c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="b" edgeRHSId="c"/>);
+    expect(wrapper.find('p').text()).toEqual('graph {a -- b c}');
   });
 
 });

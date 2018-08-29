@@ -178,25 +178,25 @@ export default class DotGraph {
     });
   }
 
-  deleteComponent(type, id) {
+  deleteComponent(type, id, edgeRHSId) {
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.index = 0;
     this.skip(this.ast.type);
     this.skip('{');
-    this.deleteComponentInChildren(this.ast.children, type, id, this.ast);
+    this.deleteComponentInChildren(this.ast.children, type, id, this.ast, edgeRHSId);
     this.skip('}');
     this.reparse();
   }
 
-  deleteComponentInChildren(children, type, id, parent) {
+  deleteComponentInChildren(children, type, id, parent, edgeRHSId) {
     var leftNode = false;
     children.forEach((child, i) => {
       if (child.type === 'node_stmt') {
-        this.deleteComponentInChildren([child.node_id], type, id, child);
+        this.deleteComponentInChildren([child.node_id], type, id, child, edgeRHSId);
         if (child.attr_list.length > 0) {
           let erase = (type === 'node' && child.node_id.id === id);
           this.skip('[', erase);
-          this.deleteComponentInChildren(child.attr_list, type, id, child);
+          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
           this.skip(']', erase);
         }
       }
@@ -204,8 +204,12 @@ export default class DotGraph {
         let erase = (type === 'node' && child.id === id);
         const isFirstNode = (i === 0);
         if (parent.type === 'edge_stmt' && !isFirstNode) {
-          const eraseLeftEdge = (erase || !leftNode);
+          const eraseLeftEdge = (erase || !leftNode) ||
+                (children[i - 1].id === id && child.id === edgeRHSId);
           this.skip(this.edgeop, eraseLeftEdge);
+          if (type === 'edge' && eraseLeftEdge && !whitespace.includes(this.dotSrc[this.index])) {
+            this.insert(' ');
+          }
         }
         if (!erase) {
           leftNode = true;
@@ -219,7 +223,7 @@ export default class DotGraph {
         this.skip(child.eq, erase);
       }
       else if (child.type === 'edge_stmt') {
-        this.deleteComponentInChildren(child.edge_list, type, id, child);
+        this.deleteComponentInChildren(child.edge_list, type, id, child, edgeRHSId);
       }
     });
   }
@@ -241,6 +245,11 @@ export default class DotGraph {
     } else {
       this.index = index;
     }
+  }
+
+  insert(string) {
+    this.dotSrc = this.dotSrc.slice(0, this.index) + string + this.dotSrc.slice(this.index);
+    this.index += string.length;
   }
 
 }
