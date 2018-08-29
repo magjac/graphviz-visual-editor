@@ -181,6 +181,9 @@ export default class DotGraph {
   deleteComponent(type, id, edgeRHSId) {
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.index = 0;
+    if (this.ast.strict) {
+      this.skip('strict');
+    }
     this.skip(this.ast.type);
     this.skip('{');
     this.deleteComponentInChildren(this.ast.children, type, id, this.ast, edgeRHSId);
