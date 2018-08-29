@@ -230,11 +230,16 @@ export default class DotGraph {
 
 }
 
+function quoteId(value) {
+  value = value.replace(/"/g,'\\"');
+  value = '"' + value + '"';
+  return value;
+}
+
 function quoteIdIfNecessary(value) {
   let re = '^[a-zA-Z\\x80-\\xff_][a-zA-Z\\x80-\\xff_0-9]*$';
   if (!value.match(re)) {
-    value = value.replace(/"/g,'\\"');
-    value = '"' + value + '"';
+    value = quoteId(value);
   }
   return value;
 }
