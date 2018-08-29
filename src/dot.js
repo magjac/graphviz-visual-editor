@@ -217,13 +217,20 @@ export default class DotGraph {
         this.skip(child.id, erase);
       }
       else if (child.type === 'attr') {
-        let erase = (type === 'node' && parent.type === 'node_stmt' && parent.node_id.id === id);
+        let erase = ((type === 'node' && parent.type === 'node_stmt' && parent.node_id.id === id) ||
+                     (type === 'edge' && parent.type === 'edge_stmt'));
         this.skip(child.id, erase);
         this.skip('=', erase);
         this.skip(child.eq, erase);
       }
       else if (child.type === 'edge_stmt') {
         this.deleteComponentInChildren(child.edge_list, type, id, child, edgeRHSId);
+        if (child.attr_list.length > 0) {
+          let erase = (type === 'node' && child.node_id.id === id);
+          this.skip('[', erase);
+          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
+          this.skip(']', erase);
+        }
       }
     });
   }
