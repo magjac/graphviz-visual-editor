@@ -191,6 +191,14 @@ export default class DotGraph {
   deleteComponentInChildren(children, type, id, parent, edgeRHSId) {
     var leftNode = false;
     children.forEach((child, i) => {
+      // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
+      if (child.type === 'subgraph') {
+        if (child.children == null) {
+          if (i > 0 && children[i - 1].type === 'subgraph' && children[i - 1].id !== null && children[i - 1].children.length === 0) {
+            return;
+          }
+        }
+      }
       if (child.type === 'node_stmt') {
         this.deleteComponentInChildren([child.node_id], type, id, child, edgeRHSId);
         if (child.attr_list.length > 0) {
@@ -232,10 +240,26 @@ export default class DotGraph {
           this.skip(']', erase);
         }
       }
+      else if (child.type === 'subgraph') {
+        this.skipOptional('subgraph');
+        if (child.id) {
+          this.skip(child.id);
+        }
+        this.skip('{');
+        // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
+        if (child.children) {
+          this.deleteComponentInChildren(child.children, type, id, child, edgeRHSId);
+        }
+        this.skip('}');
+      }
     });
   }
 
-  skip(string, erase=false) {
+  skipOptional(string, erase=false) {
+    this.skip(string, erase, true);
+  }
+
+  skip(string, erase=false, optional=false) {
     let index = this.index;
     while (whitespace.includes(this.dotSrc[index])) {
       index += 1;
@@ -244,9 +268,12 @@ export default class DotGraph {
       string = quoteId(string);
     }
     if (!this.dotSrc.startsWith(string, index)) {
-      throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');
+      if (!optional) {
+        throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');
+      }
+    } else {
+      index += string.length;
     }
-    index += string.length;
     if (erase) {
       this.dotSrc = this.dotSrc.slice(0, this.index) + this.dotSrc.slice(index);
     } else {

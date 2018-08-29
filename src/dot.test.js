@@ -440,4 +440,30 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {a b}');
   });
 
+  // subgraphs
+
+  it('deletes a node in a subgraph with a single node', () => {
+    let dotSrc = 'graph {{a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {{}}');
+  });
+
+  it('deletes a node in a named subgraph with a single node', () => {
+    let dotSrc = 'graph {subgraph s1 {a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    expect(wrapper.find('p').text()).toEqual('graph {subgraph s1{}}');
+  });
+
+  it('deletes an edge in a subgraph with an edge between two nodes', () => {
+    let dotSrc = 'graph {{a -- b}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" />);
+    expect(wrapper.find('p').text()).toEqual('graph {{a b}}');
+  });
+
+  it('deletes an edge in a subgraph with an edge between two nodes', () => {
+    let dotSrc = 'digraph {{a b c d -> e f -> g -> h}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
+    expect(wrapper.find('p').text()).toEqual('digraph {{a b c d -> e f g -> h}}');
+  });
+
 });
