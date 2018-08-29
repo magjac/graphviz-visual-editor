@@ -554,4 +554,42 @@ c # baz
     expect(wrapper.find('p').text()).toEqual(newDotSrc);
   });
 
+  // whitespace
+
+  it('deletes a node and the preceding whitespace in a graph with a single node', () => {
+    let dotSrc = 'graph {\t\r    a \r\t}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual('graph { \r\t}');
+  });
+
+  it('deletes a node and the preceding whitespace in the same line in a graph with two nodes', () => {
+    let dotSrc = `graph {
+
+a \r\t b \t\r
+
+}`;
+    let newDotSrc = `graph {
+
+a \t\r
+
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
+  it('deletes a node and leaves whitespace between the remaining nodes in a graph with three nodes', () => {
+    let dotSrc = `graph {
+
+a b c
+
+}`;
+    let newDotSrc = `graph {
+
+a c
+
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
 });
