@@ -11,6 +11,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -33,10 +34,16 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120,
   },
+  formControlLabel: {
+    margin: theme.spacing.unit * -0.5,
+  },
   title: {
     display: 'flex',
     justifyContent: 'space-between',
   },
+  holdOffInput: {
+    width: '7em',
+  }
 });
 
 class SettingsDialog extends React.Component {
@@ -51,6 +58,10 @@ class SettingsDialog extends React.Component {
 
   handleFitSwitchChange = (event) => {
     this.props.onFitGraphSwitchChange(event.target.checked);
+  };
+
+  handleHoldOffChange = (event) => {
+    this.props.onHoldOffChange(event.target.value);
   };
 
   render() {
@@ -102,6 +113,7 @@ class SettingsDialog extends React.Component {
             </DialogContentText>
             <FormGroup row>
               <FormControlLabel
+                className={classes.formControlLabel}
                 control={
                   <Switch
                     checked={this.props.fitGraph}
@@ -111,6 +123,30 @@ class SettingsDialog extends React.Component {
                 label="Fit graph to available area"
               />
             </FormGroup>
+          </DialogContent>
+          <DialogTitle id="form-dialog-title">Other</DialogTitle>
+          <DialogContent>
+            <FormControl
+              className={classes.formControl}
+              aria-describedby="holdoff-helper-text"
+            >
+              <InputLabel shrink={true}>Editor hold-off time</InputLabel>
+              <Input
+                className={classes.holdOffInput}
+                id="holdoff"
+                type="number"
+                value={this.props.holdOff}
+                onChange={this.handleHoldOffChange}
+                endAdornment={<InputAdornment position="end"> seconds</InputAdornment>}
+                inputProps={{
+                  'aria-label': 'Holdoff',
+                  min: 0.0,
+                  max: 9.9,
+                  step: 0.1,
+                }}
+              />
+              <FormHelperText id="holdoff-helper-text">Time of editor inactivity after which graph rendering starts</FormHelperText>
+            </FormControl>
           </DialogContent>
         </Dialog>
       </div>

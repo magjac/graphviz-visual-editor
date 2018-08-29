@@ -17,7 +17,7 @@ class TextEditor extends React.Component {
       if (this.pendingChanges === 0) {
         this.props.onTextChange(value);
       }
-    }, this.props.holdOff);
+    }, this.props.holdOff * 1000);
   };
 
   render() {
