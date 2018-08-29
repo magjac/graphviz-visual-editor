@@ -49,6 +49,66 @@ class AboutDialog extends React.Component {
             <DialogContentText>
               Version {packageJSON.version}
             </DialogContentText>
+            <br/>
+            <DialogContentText>
+              The Graphviz Visual Editor is a web application for
+              interactive visual editing of
+              {' '}
+              <a
+                href="http://www.graphviz.org"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Graphviz
+              </a>
+              {' '}
+              graphs described in the
+              {' '}
+              <a
+                href="https://www.graphviz.org/doc/info/lang.html"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                DOT
+              </a>
+              {' '}
+              language.
+              It is <u>not</u> a general drawing application.
+              It can only generate graphs that are possible to describe with DOT.
+            </DialogContentText>
+            <br/>
+            <DialogContentText>
+              The Graphviz Visual Editor is an
+              {' '}
+              <a
+                href="https://en.wikipedia.org/wiki/Open-source_software"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                open source
+              </a>
+              {' '}
+              project and is hosted at
+              {' '}
+              <a
+                href="https://github.com/magjac/graphviz-visual-editor"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                GitHub
+              </a>
+              . See the
+              {' '}
+              <a
+                href="https://github.com/magjac/graphviz-visual-editor/blob/master/README.md"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                README
+              </a>
+              {' '}
+              for more information.
+            </DialogContentText>
             <DialogContentText variant='caption' className={classes.copyright}>
               &copy; 2018 Magnus Jacobsson Interactive AB
             </DialogContentText>

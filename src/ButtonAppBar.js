@@ -12,6 +12,7 @@ import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import SettingsIcon from '@material-ui/icons/Settings';
 import HelpIcon from '@material-ui/icons/Help';
+import GitHubIcon from './GitHubIcon'
 
 const styles = {
   root: {
@@ -23,6 +24,12 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  },
+  gitHubLink: {
+    color: 'inherit',
+    '&:visited' : {
+      color: 'inherit',
+    },
   },
 };
 
@@ -145,6 +152,22 @@ function ButtonAppBar(props) {
           >
             <SettingsIcon />
           </IconButton>
+          <a
+            className={classes.gitHubLink}
+            href="https://github.com/magjac/graphviz-visual-editor"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <IconButton
+              color="inherit"
+              aria-label="GitHub"
+            >
+              <GitHubIcon
+                fontSize='inherit'
+                viewBox='-2.4 -2.4 28.8 28.8'
+              />
+            </IconButton>
+          </a>
           <IconButton
             color="inherit"
             aria-label="Help"

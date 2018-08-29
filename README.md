@@ -56,13 +56,33 @@ Learn more from the Create React App [README](https://github.com/facebook/create
 * Firefox 61.0.1
 * Chrome 64.0.3282.167
 
-## Currently Known Limitations ##
+## Known Issues ##
 
-Apart from the numerous cool features that are missing; here's a list of known limitations in the features that do exist:
+Known issues are **not listed here**.
 
-* The visual editing capabilities requires the DOT source to be organized with only one node or edge per line, since they currently operate by inserting or deleting complete lines.
+All known bugs and enhancement requests are reported as issues on [GitHub](https://github.com/magjac/graphviz-visual-editor) and are listed under the [Issues](https://github.com/magjac/graphviz-visual-editor/issues) tab.
+
+### [All open issues](https://github.com/magjac/graphviz-visual-editor/issues) ###
+
+Lists both bugs and enhancement requests.
+
+### [Known open bugs](https://github.com/magjac/graphviz-visual-editor/labels/bug) ###
+
+### [Open enhancement requests](https://github.com/magjac/graphviz-visual-editor/labels/enhancement) ###
+
+### [Known limitations](https://github.com/magjac/graphviz-visual-editor/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug+label%3Aenhancement) ###
+
+(A limitation is a feature deliberately released without full functionality. A limitation is classifed both as a bug and as an enhancement request to reflect that although it's a enhancement not yet implemented from the author's perspective, it might be perceived as a bug from user's perspective).
+
+### [Closed issues](https://github.com/magjac/graphviz-visual-editor/issues?q=is%3Aissue+is%3Aclosed) ###
 
 ## Roadmap ##
+
+There are numerous cool features missing. They are or will be listed as [enhancement requests](https://github.com/magjac/graphviz-visual-editor/labels/enhancement) on [GitHub](https://github.com/magjac/graphviz-visual-editor).
+
+There is also a [project board](https://github.com/magjac/graphviz-visual-editor/projects/1) showing the short-term activities.
+
+The medium-term plan is:
 
 * Implement some of the nicest-to-have features, learn from that and rework the UI.
 * Provide documentation.
