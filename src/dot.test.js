@@ -10,7 +10,13 @@ const WrapDot = props => {
   else if (props.op === 'deleteEdge') {
     dotGraph.deleteComponent('edge', props.id, props.edgeRHSId);
   }
-  return <p>{dotGraph.toString()}</p>;
+  let string;
+  if (props.raw) {
+    string = dotGraph.dotSrc;
+  } else {
+    string = dotGraph.toString();
+  }
+  return <p>{string}</p>;
 };
 
 describe('dot.DotGraph.toString()', () => {
@@ -508,6 +514,44 @@ describe('dot.DotGraph.deleteComponent()', () => {
     let dotSrc = 'graph {edge [label=n1]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
     expect(wrapper.find('p').text()).toEqual('graph {edge [label=n1]}');
+  });
+
+  // comments
+
+  it('deletes a node in a graph with "/*...*/" comments and a single node', () => {
+    let dotSrc = 'graph {/* foo */ a /* bar */}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual('graph {/* foo */ /* bar */}');
+  });
+
+  it('deletes a node in a graph with "//" comments and tree nodes', () => {
+    let dotSrc = `graph {
+a // foo
+b // bar
+c // baz
+}`;
+    let newDotSrc = `graph {
+a // foo
+ // bar
+c // baz
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
+  it('deletes a node in a graph with "#" comments and three nodes', () => {
+    let dotSrc = `graph {
+a # foo
+b # bar
+c # baz
+}`;
+    let newDotSrc = `graph {
+a # foo
+ # bar
+c # baz
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
   });
 
 });

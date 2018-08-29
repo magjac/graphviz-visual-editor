@@ -1,6 +1,7 @@
 import parser from 'dotparser';
 
 const whitespace = ' \t\n\r';
+const whitespaceWithinLine = ' \t\r';
 
 export default class DotGraph {
   constructor(dotSrc) {
@@ -249,8 +250,29 @@ export default class DotGraph {
 
   skip(string, erase=false, optional=false) {
     let index = this.index;
-    while (whitespace.includes(this.dotSrc[index])) {
-      index += 1;
+    let skipIndex = index;
+    let prevIndex = null;
+    while (index !== prevIndex) {
+      prevIndex = index;
+      if (whitespaceWithinLine.includes(this.dotSrc[index])) {
+        index += 1;
+      }
+      if (this.dotSrc[index] === '\n') {
+        index += 1;
+        skipIndex = index;
+      }
+      if (this.dotSrc.startsWith('/*', index)) {
+        index = this.dotSrc.indexOf('*/', index + 2) + 2;
+        skipIndex = index;
+      }
+      if (this.dotSrc.startsWith('//', index)) {
+        index = this.dotSrc.indexOf('\n', index + 2) + 1;
+        skipIndex = index;
+      }
+      if (this.dotSrc.startsWith('#', index)) {
+        index = this.dotSrc.indexOf('\n', index + 1) + 1;
+        skipIndex = index;
+      }
     }
     if (this.dotSrc[index] === '"') {
       string = quoteId(string);
@@ -263,7 +285,7 @@ export default class DotGraph {
       index += string.length;
     }
     if (erase) {
-      this.dotSrc = this.dotSrc.slice(0, this.index) + this.dotSrc.slice(index);
+      this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
     } else {
       this.index = index;
     }
