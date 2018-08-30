@@ -163,6 +163,9 @@ export default class DotGraph {
       this.skip('strict');
     }
     this.skip(this.ast.type);
+    if (this.ast.id) {
+      this.skip(this.ast.id);
+    }
     this.skip('{');
     this.deleteComponentInChildren(this.ast.children, type, id, this.ast, edgeRHSId);
     this.skip('}');

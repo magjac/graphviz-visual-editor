@@ -324,6 +324,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('strict digraph {}');
   });
 
+  it('deletes a node in a named graph with a single node', () => {
+    let dotSrc = 'graph g1 {a}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph g1 {}');
+  });
+
   it('deletes a node in a graph with two nodes', () => {
     let dotSrc = 'graph {a b}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
