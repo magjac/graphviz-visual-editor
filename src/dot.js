@@ -170,7 +170,7 @@ export default class DotGraph {
   }
 
   deleteComponentInChildren(children, type, id, parent, edgeRHSId) {
-    var leftNode = false;
+    var erasedAll = true;
     children.forEach((child, i) => {
       // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
       if (child.type === 'subgraph') {
@@ -202,7 +202,7 @@ export default class DotGraph {
         let erase = (type === 'node' && child.id === id);
         const isFirstNode = (i === 0);
         if (parent.type === 'edge_stmt' && !isFirstNode) {
-          const eraseLeftEdge = (erase || !leftNode) ||
+          const eraseLeftEdge = (erase || erasedAll) ||
                 (children[i - 1].id === id && child.id === edgeRHSId);
           this.skip(this.edgeop, eraseLeftEdge);
           if (type === 'edge' && eraseLeftEdge && !whitespace.includes(this.dotSrc[this.index])) {
@@ -210,7 +210,7 @@ export default class DotGraph {
           }
         }
         if (!erase) {
-          leftNode = true;
+          erasedAll = false;
         }
         this.skip(child.id, erase);
       }
