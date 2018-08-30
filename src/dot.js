@@ -172,6 +172,10 @@ export default class DotGraph {
   deleteComponentInChildren(children, type, id, parent, edgeRHSId) {
     var erasedAll = true;
     children.forEach((child, i) => {
+      let attrListOptions = {};
+      if (i !== 0) {
+        attrListOptions = {skipComma: true, skipSemicolon: true};
+      }
       // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
       if (child.type === 'subgraph') {
         if (child.children == null) {
@@ -217,7 +221,7 @@ export default class DotGraph {
       else if (child.type === 'attr') {
         let erase = ((type === 'node' && parent.type === 'node_stmt' && parent.node_id.id === id) ||
                      (type === 'edge' && parent.type === 'edge_stmt'));
-        this.skip(child.id, erase);
+        this.skip(child.id, erase, attrListOptions);
         this.skip('=', erase);
         this.skip(child.eq, erase);
       }
@@ -257,6 +261,16 @@ export default class DotGraph {
       prevIndex = index;
       if (whitespaceWithinLine.includes(this.dotSrc[index])) {
         index += 1;
+      }
+      if (options.skipComma) {
+        if (this.dotSrc[index] === ',') {
+          index += 1;
+        }
+      }
+      if (options.skipSemicolon) {
+        if (this.dotSrc[index] === ';') {
+          index += 1;
+        }
       }
       if (this.dotSrc[index] === '\n') {
         index += 1;

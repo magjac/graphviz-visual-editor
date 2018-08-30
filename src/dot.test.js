@@ -528,6 +528,24 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1]}');
   });
 
+  it('ignores graph attribute statements with attributes separated by space', () => {
+    let dotSrc = 'graph {graph [label=l1 rankdir=TB]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1 rankdir=TB]}');
+  });
+
+  it('ignores graph attribute statements with attributes separated by comma', () => {
+    let dotSrc = 'graph {graph [label=l1,rankdir=TB]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1,rankdir=TB]}');
+  });
+
+  it('ignores graph attribute statements with attributes separated by semicolon', () => {
+    let dotSrc = 'graph {graph [label=l1;rankdir=TB]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1;rankdir=TB]}');
+  });
+
   it('ignores graph attribute statements without the graph keyword', () => {
     let dotSrc = 'graph {label=l1}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" />);
