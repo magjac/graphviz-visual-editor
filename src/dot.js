@@ -181,11 +181,11 @@ export default class DotGraph {
       }
       if (child.type === 'attr_stmt') {
         let optional = (child.target === 'graph');
-        this.skip(child.target, false, optional);
+        this.skip(child.target, false, {optional: optional});
         if (child.attr_list.length > 0) {
-          this.skip('[', false, optional);
+          this.skip('[', false, {optional: optional});
           this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
-          this.skip(']', false, optional);
+          this.skip(']', false, {optional: optional});
         }
       }
       else if (child.type === 'node_stmt') {
@@ -245,10 +245,10 @@ export default class DotGraph {
   }
 
   skipOptional(string, erase=false) {
-    this.skip(string, erase, true);
+    this.skip(string, erase, {optional: true});
   }
 
-  skip(string, erase=false, optional=false) {
+  skip(string, erase=false, options={}) {
     let index = this.index;
     let skipIndex = index;
     let prevIndex = null;
@@ -278,7 +278,7 @@ export default class DotGraph {
       string = quoteId(string);
     }
     if (!this.dotSrc.startsWith(string, index)) {
-      if (!optional) {
+      if (!options.optional) {
         throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');
       }
     } else {
