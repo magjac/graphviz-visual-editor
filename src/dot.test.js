@@ -490,7 +490,7 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes an edge with attributes in a graph with a single edge between two nodes', () => {
     let dotSrc = 'graph {a--b [dir=back]}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b"/>);
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {a b}');
   });
 
