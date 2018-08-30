@@ -211,6 +211,9 @@ export default class DotGraph {
           const eraseLeftEdge = (erase || erasedAll) ||
                 (children[i - 1].id === id && child.id === edgeRHSId);
           this.skip(this.edgeop, eraseLeftEdge);
+          if (erasedAll) {
+            this.skipOptional('', erasedAll);
+          }
           if (type === 'edge' && eraseLeftEdge && !whitespace.includes(this.dotSrc[this.index])) {
             this.insert(' ');
           }

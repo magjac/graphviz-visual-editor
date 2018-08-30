@@ -338,7 +338,7 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes the first node in a graph with one edge between two nodes', () => {
     let dotSrc = 'graph {a -- b}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
@@ -350,7 +350,7 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes the first node in a graph with edges between three nodes', () => {
     let dotSrc = 'graph {a -- b -- c}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {b -- c}');
   });
 
@@ -380,7 +380,7 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes both (first) instances of the same node in a graph with edges between three nodes', () => {
     let dotSrc = 'graph {a -- a -- b}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
@@ -392,7 +392,7 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes both (first and last) instances of the same node in a graph with edges between three nodes', () => {
     let dotSrc = 'graph {a -- b -- a}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" />);
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {b}');
   });
 
