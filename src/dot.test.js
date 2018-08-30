@@ -264,6 +264,36 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  // separators
+
+  it('renders two nodes separated by semicolon', () => {
+    let dotSrc = 'digraph {a;b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = dotSrc.replace(';', ' ');
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('throws error when trying to render two nodes separated by comma', () => {
+    let dotSrc = 'digraph {a,b}';
+    expect(() => {
+      shallow(<WrapDot dotSrc={dotSrc} />);
+    }).toThrow();
+  });
+
+  it('renders a single node with two attributes separated by semicolon', () => {
+    let dotSrc = 'digraph {a [shape=ellipse;style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = dotSrc.replace(';', ' ');
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a single node with two attributes separated comma', () => {
+    let dotSrc = 'digraph {a [shape=ellipse,style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = dotSrc.replace(',', ' ');
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
 });
 
 describe('dot.DotGraph.deleteComponent()', () => {
