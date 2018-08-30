@@ -272,6 +272,9 @@ export default class DotGraph {
         }
       }
     });
+    if (['graph', 'digraph', 'subgraph'].includes(parent.type)) {
+      this.skip(';', false, {optional: true});
+    }
     return erasedAllEdges;
   }
 

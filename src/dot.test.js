@@ -702,6 +702,12 @@ a c
     expect(wrapper.find('p').text()).toEqual('graph {a--b;c d;e--f}');
   });
 
+  it('deletes an edge, but leaves the succeeding semicolon in a graph with one edge', () => {
+    let dotSrc = 'graph {a--b;}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b;}');
+  });
+
   it('ignores multiple graph attribute statements separated by semicolon', () => {
     let dotSrc = 'graph {graph [label=l1]; graph [rankdir=TB]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
