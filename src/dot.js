@@ -172,10 +172,8 @@ export default class DotGraph {
   deleteComponentInChildren(children, type, id, parent, edgeRHSId) {
     var erasedAll = true;
     children.forEach((child, i) => {
-      let attrListOptions = {};
-      if (i !== 0) {
-        attrListOptions = {skipComma: true, skipSemicolon: true};
-      }
+      let stmtListOptions = {skipSemicolon: true};
+      let attrListOptions = {skipComma: true, skipSemicolon: true};
       // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
       if (child.type === 'subgraph') {
         if (child.children == null) {
@@ -192,14 +190,18 @@ export default class DotGraph {
           this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
           this.skip(']', false, {optional: optional});
         }
+        erasedAll = false;
       }
       else if (child.type === 'node_stmt') {
         this.deleteComponentInChildren([child.node_id], type, id, child, edgeRHSId);
+        let erase = (type === 'node' && child.node_id.id === id);
         if (child.attr_list.length > 0) {
-          let erase = (type === 'node' && child.node_id.id === id);
           this.skip('[', erase);
           this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
           this.skip(']', erase);
+        }
+        if (!erase) {
+          erasedAll = false;
         }
       }
       else if (child.type === 'node_id') {
@@ -216,7 +218,7 @@ export default class DotGraph {
         if (!erase) {
           erasedAll = false;
         }
-        this.skip(child.id, erase);
+        this.skip(child.id, erase, stmtListOptions);
       }
       else if (child.type === 'attr') {
         let erase = ((type === 'node' && parent.type === 'node_stmt' && parent.node_id.id === id) ||
@@ -224,6 +226,7 @@ export default class DotGraph {
         this.skip(child.id, erase, attrListOptions);
         this.skip('=', erase);
         this.skip(child.eq, erase);
+        erasedAll = erase;
       }
       else if (child.type === 'edge_stmt') {
         this.deleteComponentInChildren(child.edge_list, type, id, child, edgeRHSId);
@@ -233,18 +236,30 @@ export default class DotGraph {
           this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
           this.skip(']', erase);
         }
+        erasedAll = false;
       }
       else if (child.type === 'subgraph') {
-        this.skipOptional('subgraph');
-        if (child.id) {
-          this.skip(child.id);
+        let options = stmtListOptions;
+        let found = this.skipOptional('subgraph', false, options);
+        if (found) {
+          options = {};
         }
-        this.skip('{');
+        if (child.id) {
+          this.skip(child.id, false, options);
+          options = {};
+        }
+        this.skip('{', false, options);
         // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
         if (child.children) {
           this.deleteComponentInChildren(child.children, type, id, child, edgeRHSId);
         }
         this.skip('}');
+        erasedAll = false;
+      }
+      if (['graph', 'digraph', 'subgraph', 'edge_stmt'].includes(parent.type)) {
+        if (erasedAll) {
+          this.skip('', erasedAll, {optional: true, skipSemicolon: true});
+        }
       }
     });
   }
@@ -292,18 +307,21 @@ export default class DotGraph {
     if (this.dotSrc[index] === '"') {
       string = quoteId(string);
     }
+    var found = false;
     if (!this.dotSrc.startsWith(string, index)) {
       if (!options.optional) {
         throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');
       }
     } else {
       index += string.length;
+      found = true;
     }
     if (erase) {
       this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
     } else {
       this.index = index;
     }
+    return found;
   }
 
   insert(string) {

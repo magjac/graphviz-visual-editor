@@ -604,10 +604,10 @@ c # baz
 
   // whitespace
 
-  it('deletes a node and the preceding whitespace in a graph with a single node', () => {
+  it('deletes a node and the surrounding whitespace in a graph with a single node', () => {
     let dotSrc = 'graph {\t\r    a \r\t}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
-    expect(wrapper.find('p').text()).toEqual('graph { \r\t}');
+    expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
   it('deletes a node and the preceding whitespace in the same line in a graph with two nodes', () => {
@@ -638,6 +638,38 @@ a c
 }`;
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
     expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
+  // separators
+
+  it('deletes the first node in a graph with two nodes separated by semicolon', () => {
+    let dotSrc = 'graph {a;b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
+  it('deletes the first node in a digraph with two nodes separated by semicolon', () => {
+    let dotSrc = 'digraph {a;b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
+  it('deletes the second node in a graph with two nodes separated by semicolon', () => {
+    let dotSrc = 'graph {a;b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a}');
+  });
+
+  it('deletes the second node in a graph with three nodes separated by semicolon', () => {
+    let dotSrc = 'graph {a;b;c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a;c}');
+  });
+
+  it('deletes a node and the succeeding semicolon in a graph with one node', () => {
+    let dotSrc = 'graph {a;}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
 });
