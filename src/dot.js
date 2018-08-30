@@ -186,8 +186,10 @@ export default class DotGraph {
         }
       }
       if (child.type === 'attr_stmt') {
+        let options = stmtListOptions;
         let optional = (child.target === 'graph');
-        this.skip(child.target, false, {optional: optional});
+        options.optional = optional;
+        this.skip(child.target, false, options);
         if (child.attr_list.length > 0) {
           this.skip('[', false, {optional: optional});
           this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);

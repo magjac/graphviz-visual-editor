@@ -534,6 +534,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1]}');
   });
 
+  it('ignores multiple graph attribute statements separated by space', () => {
+    let dotSrc = 'graph {graph [label=l1] graph [rankdir=TB]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1] graph [rankdir=TB]}');
+  });
+
   it('ignores graph attribute statements with attributes separated by space', () => {
     let dotSrc = 'graph {graph [label=l1 rankdir=TB]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
@@ -694,6 +700,12 @@ a c
     let dotSrc = 'graph {a--b;c--d;e--f}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="c" edgeRHSId="d" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {a--b;c d;e--f}');
+  });
+
+  it('ignores multiple graph attribute statements separated by semicolon', () => {
+    let dotSrc = 'graph {graph [label=l1]; graph [rankdir=TB]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1]; graph [rankdir=TB]}');
   });
 
 });
