@@ -1,4 +1,5 @@
-import parser from 'dotparser';
+import parser from './dotParser';
+var parse = parser.parse;
 
 const whitespace = ' \t\n\r';
 const whitespaceWithinLine = ' \t\r';
@@ -42,7 +43,7 @@ export default class DotGraph {
   }
 
   parseDot() {
-    this.ast = parser(this.dotSrc)[0];
+    this.ast = parse(this.dotSrc)[0];
     let children = this.ast.children;
     this.nodes = [];
     this.parseChildren(children);

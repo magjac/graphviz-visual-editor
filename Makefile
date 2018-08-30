@@ -1,10 +1,19 @@
 GENERATED_FILES = \
 	src/shapes.js \
 	readme.html \
+	src/dotParser.js \
+
+main: $(GENERATED_FILES)
 
 src/shapes.js: bin/generate-nodes.js
 	bin/generate-nodes.js > tmp.js
 	mv tmp.js $@
+
+src/dotParser.js: src/dotGrammar.pegjs
+	node_modules/.bin/pegjs $< tmp.js
+	echo "/* eslint-disable */" | cat - tmp.js > tmp2.js
+	mv tmp2.js $@
+	rm tmp.js
 
 readme:
 	./node_modules/markdown-to-html/bin/github-markdown README.md -h >readme.html
