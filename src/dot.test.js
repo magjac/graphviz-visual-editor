@@ -678,4 +678,22 @@ a c
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
+  it('deletes the first edge in a graph with two edges separated by semicolon', () => {
+    let dotSrc = 'graph {a--b;c--d}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b;c--d}');
+  });
+
+  it('deletes the second edge in a graph with two edges separated by semicolon', () => {
+    let dotSrc = 'graph {a--b;c--d}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="c" edgeRHSId="d" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a--b;c d}');
+  });
+
+  it('deletes the second edge in a graph with three edges separated by semicolon', () => {
+    let dotSrc = 'graph {a--b;c--d;e--f}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="c" edgeRHSId="d" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a--b;c d;e--f}');
+  });
+
 });
