@@ -55,7 +55,7 @@ attr_list
   }
 
 a_list
-  = _ id:ID eq:(_ '=' _ id:ID {return id})? _ ','? rest:a_list? {
+  = _ id:ID eq:(_ '=' _ id:ID {return id})? _ (',' / ';')? rest:a_list? {
         return [{
           type:'attr',
           id:id,
