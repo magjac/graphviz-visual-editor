@@ -171,7 +171,7 @@ StringPart
 
 NUMBER "NUMBER"
   = n:("-"? ("." [0-9]+ / [0-9]+("." [0-9]*)?)) {
-       return parseFloat(text());
+       return text();
     }
 
 /* html strings are enclosed in <>. The inside of those strings is xml.  All we

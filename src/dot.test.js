@@ -558,6 +558,38 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {graph [label=""]}');
   });
 
+  it('ignores graph attribute statements with an attribute with a numeric integer value', () => {
+
+    let dotSrc = 'graph {graph [label=1]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=1]}');
+  });
+
+  it('ignores graph attribute statements with an attribute with a numeric 0', () => {
+
+    let dotSrc = 'graph {graph [label=0]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=0]}');
+  });
+
+  it('ignores graph attribute statements with an attribute with a numeric floating point value', () => {
+    let dotSrc = 'graph {graph [label=1.5]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=1.5]}');
+  });
+
+  it('ignores graph attribute statements with an attribute with a numeric fractional value', () => {
+    let dotSrc = 'graph {graph [label=0.5]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=0.5]}');
+  });
+
+  it('ignores graph attribute statements with an attribute with a numeric fractional value without leading zero', () => {
+    let dotSrc = 'graph {graph [label=.5]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=.5]}');
+  });
+
   it('ignores graph attribute statements with attributes separated by semicolon', () => {
     let dotSrc = 'graph {graph [label=l1;rankdir=TB]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
