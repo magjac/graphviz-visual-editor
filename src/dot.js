@@ -124,11 +124,18 @@ export default class DotGraph {
       }
       else if (child.type === 'node_id') {
         this.str += quoteIdIfNecessary(child.id);
+        if (typeof child.port === 'object') {
+          this.str += ':';
+          this.toStringChildren([child.port]);
+        }
       }
       else if (child.type === 'id') {
         if (child.html) {
           this.str += '<' + child.value + '>';
         }
+      }
+      else if (child.type === 'port') {
+        this.str += child.id;
       }
       else if (child.type === 'attr') {
         if (typeof child.eq === 'object') {
