@@ -69,10 +69,7 @@ export default class DotGraph {
         this.parseChildren(child.edge_list);
       }
       else if (child.type === 'subgraph') {
-        // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
-        if (child.children) {
-          this.parseChildren(child.children);
-        }
+        this.parseChildren(child.children);
       }
     });
   }
@@ -95,14 +92,6 @@ export default class DotGraph {
 
   toStringChildren(children, separator=' ') {
     children.forEach((child, i) => {
-      // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
-      if (child.type === 'subgraph') {
-        if (child.children == null) {
-          if (i > 0 && children[i - 1].type === 'subgraph' && children[i - 1].id !== null && children[i - 1].children.length === 0) {
-            return;
-          }
-        }
-      }
       if (i > 0) {
         this.str += separator;
       }
@@ -158,10 +147,7 @@ export default class DotGraph {
           this.str += 'subgraph ' + quoteIdIfNecessary(child.id);
         }
         this.str += '{';
-        // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
-        if (child.children) {
-          this.toStringChildren(child.children);
-        }
+        this.toStringChildren(child.children);
         this.str += '}';
       }
     });
@@ -194,14 +180,6 @@ export default class DotGraph {
     children.forEach((child, i) => {
       let stmtListOptions = {skipSemicolon: true};
       let attrListOptions = {skipComma: true, skipSemicolon: true};
-      // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
-      if (child.type === 'subgraph') {
-        if (child.children == null) {
-          if (i > 0 && children[i - 1].type === 'subgraph' && children[i - 1].id !== null && children[i - 1].children.length === 0) {
-            return;
-          }
-        }
-      }
       if (child.type === 'attr_stmt') {
         let options = stmtListOptions;
         let optional = (child.target === 'graph');
@@ -294,10 +272,7 @@ export default class DotGraph {
           options = {};
         }
         this.skip('{', false, options);
-        // FIXME: remove workaround when https://github.com/anvaka/dotparser/issues/5 is fixed
-        if (child.children) {
-          this.deleteComponentInChildren(child.children, type, id, child, edgeRHSId);
-        }
+        this.deleteComponentInChildren(child.children, type, id, child, edgeRHSId);
         this.skip('}');
         erasedAll = false;
       }
