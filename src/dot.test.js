@@ -552,6 +552,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1,rankdir=TB]}');
   });
 
+  it('ignores graph attribute statements with an attribute with an empty value', () => {
+    let dotSrc = 'graph {graph [label=""]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {graph [label=""]}');
+  });
+
   it('ignores graph attribute statements with attributes separated by semicolon', () => {
     let dotSrc = 'graph {graph [label=l1;rankdir=TB]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);

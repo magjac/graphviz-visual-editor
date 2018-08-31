@@ -59,7 +59,7 @@ a_list
         return [{
           type:'attr',
           id:id,
-          eq:eq || null
+          eq:eq || ""
         }].concat(rest || []);
     }
 
