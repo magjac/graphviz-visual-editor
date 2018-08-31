@@ -782,6 +782,30 @@ a c
     expect(wrapper.find('p').text()).toEqual('graph {graph [label=l1]; graph [rankdir=TB]}');
   });
 
+  it('ignores multiple subgraphs separated by semicolon', () => {
+    let dotSrc = 'graph {subgraph {}; subgraph {}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {subgraph {}; subgraph {}}');
+  });
+
+  it('ignores multiple named subgraphs separated by semicolon', () => {
+    let dotSrc = 'graph {subgraph s1 {}; subgraph s2 {}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {subgraph s1 {}; subgraph s2 {}}');
+  });
+
+  it('ignores node statement and subgraph separated by semicolon', () => {
+    let dotSrc = 'graph {a; subgraph s1 {}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a; subgraph s1 {}}');
+  });
+
+  it('ignores attribute statement and subgraph separated by semicolon', () => {
+    let dotSrc = 'graph {node [style=filled]; subgraph s1 {}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {node [style=filled]; subgraph s1 {}}');
+  });
+
 });
 
 function readDotFiles() {

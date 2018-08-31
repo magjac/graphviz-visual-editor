@@ -313,8 +313,9 @@ export default class DotGraph {
     return erasedAllEdges;
   }
 
-  skipOptional(string, erase=false) {
-    this.skip(string, erase, {optional: true});
+  skipOptional(string, erase=false, options={}) {
+    options = Object.assign({optional: true}, options);
+    this.skip(string, erase, options);
   }
 
   skip(string, erase=false, options={}) {
