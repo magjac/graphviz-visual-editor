@@ -520,6 +520,18 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   // subgraphs
 
+  it('ignores an empty subgraph', () => {
+    let dotSrc = 'graph {{}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {{}}');
+  });
+
+  it('ignores a subgraph containing only space', () => {
+    let dotSrc = 'graph {{ }}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {{ }}');
+  });
+
   it('deletes a node in a subgraph with a single node', () => {
     let dotSrc = 'graph {{a}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
@@ -530,6 +542,24 @@ describe('dot.DotGraph.deleteComponent()', () => {
     let dotSrc = 'graph {subgraph s1 {a}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {subgraph s1 {}}');
+  });
+
+  it('deletes a node in a subgraph with the subgraph keyword only with a single node', () => {
+    let dotSrc = 'graph {subgraph {a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {subgraph {}}');
+  });
+
+  it('deletes a node in a subgraph with a single node with space before', () => {
+    let dotSrc = 'graph {{ a}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {{}}');
+  });
+
+  it('deletes a node in a subgraph with a single node with space after', () => {
+    let dotSrc = 'graph {{a }}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {{}}');
   });
 
   it('deletes an edge in a subgraph with an edge between two nodes', () => {

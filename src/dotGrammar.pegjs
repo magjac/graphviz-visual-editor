@@ -119,32 +119,16 @@ port 'port'
   }
 
 subgraph
-  = g:('subgraph'i _ id:ID? _ {
-        return id ? {
-          type:'subgraph', id:id
+  = id:('subgraph'i _ id:ID? _ { return id; })? '{' s:stmt_list? _ '}' {
+       return id ? {
+          type:'subgraph',
+          id:id,
+          children: s || [],
         } : {
-          type:'subgraph'
+          type:'subgraph',
+          children: s || [],
         }
-      })? '{' s:stmt_list '}' {
-        g = g || {
-          type:'subgraph'
-        };
-        g.children = s || [];
-        return g;
       }
-  / 'subgraph'i _ id:ID {
-      return {
-        type:'subgraph',
-        id:id,
-        children:[]
-      };
-    }
-  / _ '{' _ s:stmt_list? _ '}' {
-      return {
-      type: 'subgraph',
-      children: s
-      }
-    }
 
 compass_pt
   = 'n'/'ne'/'e'/'se'/'s'/'sw'/'w'/'nw'
