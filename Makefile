@@ -2,6 +2,8 @@ GENERATED_FILES = \
 	src/shapes.js \
 	readme.html \
 	src/dotParser.js \
+	dotfiles.txt \
+	graphviz \
 
 main: $(GENERATED_FILES)
 
@@ -14,6 +16,12 @@ src/dotParser.js: src/dotGrammar.pegjs
 	echo "/* eslint-disable */" | cat - tmp.js > tmp2.js
 	mv tmp2.js $@
 	rm tmp.js
+
+graphviz:
+	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git
+
+dotfiles.txt:
+	find graphviz -name '*.dot' > $@
 
 readme:
 	./node_modules/markdown-to-html/bin/github-markdown README.md -h >readme.html

@@ -783,3 +783,32 @@ a c
   });
 
 });
+
+function readDotFiles() {
+  let fs = require('fs');
+  let path = process.cwd();
+  let buffer = fs.readFileSync(path + "/dotfiles.txt");
+  let dotFilesString = buffer.toString();
+  dotFilesString = dotFilesString.replace(/#.*\n/g, '').trim();
+  let dotFiles = dotFilesString.trim().split('\n');
+  return dotFiles;
+}
+
+describe('dot.DotGraph.toString() parses Graphviz dot files', () => {
+  let dotFiles = readDotFiles();
+  dotFiles.forEach((dotFile) => {
+
+    let fs = require('fs');
+    let buffer = fs.readFileSync(dotFile);
+    let dotSrc0 = buffer.toString();
+
+    it(`Parses ${dotFile}`, () => {
+      const wrapper1 = shallow(<WrapDot dotSrc={dotSrc0} op="toString" id="a"/>);
+      const dotSrc1 = wrapper1.find('p').text();
+      const wrapper2 = shallow(<WrapDot dotSrc={dotSrc1} op="toString" id="a"/>);
+      const dotSrc2 = wrapper2.find('p').text();
+      expect(dotSrc2).toEqual(dotSrc1);
+    });
+
+  });
+});
