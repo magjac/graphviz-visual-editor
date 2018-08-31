@@ -181,7 +181,7 @@ export default class DotGraph {
     this.skip('}');
   }
 
-  deleteComponentInChildren(children, type, id, parent, edgeRHSId) {
+  deleteComponentInChildren(children, type, id, parent, edgeRHSId, erase) {
     var erasedAll = true;
     var erasedAllEdges = true;
     children.forEach((child, i) => {
@@ -241,12 +241,23 @@ export default class DotGraph {
         }
         this.skip(child.id, erase, stmtListOptions);
       }
+      else if (child.type === 'id') {
+        if (child.html) {
+          this.skip('<', erase);
+          this.skip(child.value, erase);
+          this.skip('>', erase);
+        }
+      }
       else if (child.type === 'attr') {
         let erase = ((type === 'node' && parent.type === 'node_stmt' && parent.node_id.id === id) ||
                      (type === 'edge' && parent.type === 'edge_stmt'));
         this.skip(child.id, erase, attrListOptions);
         this.skip('=', erase);
-        this.skip(child.eq, erase);
+        if (typeof child.eq === 'object') {
+          this.deleteComponentInChildren([child.eq], type, id, child, edgeRHSId, erase);
+        } else {
+          this.skip(child.eq, erase);
+        }
         erasedAll = erase;
       }
       else if (child.type === 'edge_stmt') {
