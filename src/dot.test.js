@@ -214,6 +214,12 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders html-like labels', () => {
+    let dotSrc = 'graph {graph [label=<>]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="toString" />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // quoting
 
   it('renders node id with quotes if it contains a space', () => {

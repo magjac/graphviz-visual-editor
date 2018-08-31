@@ -125,8 +125,18 @@ export default class DotGraph {
       else if (child.type === 'node_id') {
         this.str += quoteIdIfNecessary(child.id);
       }
+      else if (child.type === 'id') {
+        if (child.html) {
+          this.str += '<' + child.value + '>';
+        }
+      }
       else if (child.type === 'attr') {
-        this.str += quoteIdIfNecessary(child.id) + '=' + quoteIdIfNecessary(child.eq);
+        if (typeof child.eq === 'object') {
+          this.str += quoteIdIfNecessary(child.id) + '=';
+          this.toStringChildren([child.eq]);
+        } else {
+          this.str += quoteIdIfNecessary(child.id) + '=' + quoteIdIfNecessary(child.eq);
+        }
       }
       else if (child.type === 'edge_stmt') {
         this.toStringChildren(child.edge_list, ' ' + this.edgeop + ' ');
