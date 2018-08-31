@@ -247,6 +247,10 @@ export default class DotGraph {
           erasedAll = false;
         }
         this.skip(child.id, erase, stmtListOptions);
+        if (typeof child.port === 'object') {
+          this.skip(':', erase);
+          this.deleteComponentInChildren([child.port], type, id, child, edgeRHSId, erase);
+        }
       }
       else if (child.type === 'id') {
         if (child.html) {
@@ -254,6 +258,9 @@ export default class DotGraph {
           this.skip(child.value, erase, {noSkipNewline: true});
           this.skip('>', erase);
         }
+      }
+      else if (child.type === 'port') {
+        this.skip(child.id, erase);
       }
       else if (child.type === 'attr') {
         let erase = ((type === 'node' && parent.type === 'node_stmt' && parent.node_id.id === id) ||

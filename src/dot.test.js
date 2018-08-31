@@ -512,6 +512,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {a b}');
   });
 
+  it('deletes an edge in a digraph with a single edge between two nodes with compass points', () => {
+    let dotSrc = 'digraph {a:n -> b:e}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:n b:e}');
+  });
+
   // subgraphs
 
   it('deletes a node in a subgraph with a single node', () => {
