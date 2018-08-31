@@ -244,7 +244,7 @@ export default class DotGraph {
       else if (child.type === 'id') {
         if (child.html) {
           this.skip('<', erase);
-          this.skip(child.value, erase);
+          this.skip(child.value, erase, {noSkipNewline: true});
           this.skip('>', erase);
         }
       }
@@ -322,9 +322,11 @@ export default class DotGraph {
           index += 1;
         }
       }
-      if (this.dotSrc[index] === '\n') {
-        index += 1;
-        skipIndex = index;
+      if (!options.noSkipNewline) {
+        if (this.dotSrc[index] === '\n') {
+          index += 1;
+          skipIndex = index;
+        }
       }
       if (this.dotSrc.startsWith('/*', index)) {
         index = this.dotSrc.indexOf('*/', index + 2) + 2;

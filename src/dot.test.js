@@ -626,6 +626,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('ignores html-like labels with embedded newlines', () => {
+    let dotSrc = 'graph {label=<\n>}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // comments
 
   it('deletes a node in a graph with "/*...*/" comments and a single node', () => {
