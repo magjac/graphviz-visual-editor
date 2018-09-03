@@ -885,3 +885,23 @@ describe('dot.DotGraph.toString() parses Graphviz dot files', () => {
 
   });
 });
+
+describe('dot.DotGraph.deleteComponent() transparently processes', () => {
+  let dotFiles = readDotFiles();
+  dotFiles.forEach((dotFile) => {
+
+    let fs = require('fs');
+    let buffer = fs.readFileSync(dotFile);
+    let dotSrc = buffer.toString();
+
+    it(`${dotFile} when attempting to delete a nonexistent node`, () => {
+      const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="magjac-noexist" raw={true} />);
+      expect(wrapper.find('p').text()).toEqual(dotSrc);
+    });
+
+    it(`${dotFile} when attempting to delete a nonexistent edge`, () => {
+      const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="magjac-noexist1" edgeRHSId="magjac-noexist2" raw={true} />);
+      expect(wrapper.find('p').text()).toEqual(dotSrc);
+    });
+  });
+});

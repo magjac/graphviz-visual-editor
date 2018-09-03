@@ -20,6 +20,12 @@ src/dotParser.js: src/dotGrammar.pegjs
 graphviz:
 	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git
 
+dots parse-all-graphviz-dots: dotfiles.txt
+	for dotfile in `cat dotfiles.txt`; do \
+	  echo $$dotfile; \
+	  ./bin/dotparser.js < $$dotfile > `dirname $$dotfile`/`basename $$dotfile .dot`.json; \
+	done
+
 dotfiles.txt:
 	find graphviz -name '*.dot' > $@
 
