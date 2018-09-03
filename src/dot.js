@@ -263,6 +263,13 @@ export default class DotGraph {
       }
       else if (child.type === 'subgraph') {
         let options = stmtListOptions;
+        const isFirstNode = (i === 0);
+        if (parent.type === 'edge_stmt' && !isFirstNode) {
+          this.skip(this.edgeop);
+          if (erasedAll) {
+            this.skipOptional('', erasedAll);
+          }
+        }
         let found = this.skipOptional('subgraph', false, options);
         if (found) {
           options = {};

@@ -574,6 +574,25 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('digraph {{a b c d -> e f g -> h}}');
   });
 
+  it('ignores an edge from a node to a subgraph', () => {
+    let dotSrc = 'digraph {a -> {b}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="noexist1" edgeRHSId="noexist2" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a -> {b}}');
+  });
+
+  it('ignores an edge from a subgraph to a node', () => {
+    let dotSrc = 'digraph {{a} -> b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="noexist1" edgeRHSId="noexist2" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {{a} -> b}');
+  });
+
+  it('ignores an edge between two subgraphs', () => {
+    let dotSrc = 'digraph {{a} -> {b}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="noexist1" edgeRHSId="noexist2" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {{a} -> {b}}');
+  });
+
+
   // attribute statements
 
   it('ignores graph attribute statements', () => {
