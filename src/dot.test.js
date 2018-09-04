@@ -468,6 +468,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
+  it('deletes a node with multiple attribute lists in a graph with a single node', () => {
+    let dotSrc = 'graph {a [style=filled] [fillcolor=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
   // edges
 
   it('deletes an edge in a graph with a single edge between two nodes', () => {
@@ -508,6 +514,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes an edge with attributes in a graph with a single edge between two nodes', () => {
     let dotSrc = 'graph {a--b [dir=back]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b}');
+  });
+
+  it('deletes an edge with multiple attribute lists in a graph with a single edge between two nodes', () => {
+    let dotSrc = 'graph {a--b [dir=back] [color=red]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {a b}');
   });
