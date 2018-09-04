@@ -83,11 +83,11 @@ class Index extends React.Component {
   }
 
   handleTextChange = (text) => {
-    this.setPersistentState({
-      dotSrc: text
-    });
     this.setState({
       error: null,
+    });
+    this.setPersistentState({
+      dotSrc: text
     });
   }
 
