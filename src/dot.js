@@ -281,7 +281,7 @@ export default class DotGraph {
         this.skip('}');
         erasedAll = false;
       }
-      if (['graph', 'digraph', 'subgraph', 'edge_stmt'].includes(parent.type)) {
+      if (['graph', 'digraph', 'subgraph'].includes(parent.type)) {
         if (erasedAll) {
           this.skip('', erasedAll, {optional: true, skipSemicolon: true});
         }
