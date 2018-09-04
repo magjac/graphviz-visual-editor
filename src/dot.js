@@ -175,8 +175,8 @@ export default class DotGraph {
   }
 
   deleteComponentInChildren(children, type, id, parent, edgeRHSId, erase) {
-    var erasedAll = true;
-    var erasedAllEdges = true;
+    let erasedAll = true;
+    let erasedAllEdges = true;
     children.forEach((child, i) => {
       let stmtListOptions = {skipSemicolon: true};
       let attrListOptions = {skipComma: true, skipSemicolon: true};
@@ -339,7 +339,7 @@ export default class DotGraph {
     if (this.dotSrc[index] === '"') {
       string = quoteId(string);
     }
-    var found = false;
+    let found = false;
     if (!this.dotSrc.startsWith(string, index)) {
       if (!options.optional) {
         throw Error('Expected "' + string + '", found: "' + this.dotSrc.slice(index, index + 40) + '..."');
