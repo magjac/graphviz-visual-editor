@@ -210,8 +210,10 @@ export default class DotGraph {
           if (erasedAll) {
             this.skipOptional('', erasedAll);
           }
-          if (type === 'edge' && eraseLeftEdge && !whitespace.includes(this.dotSrc[this.index])) {
-            this.insert(' ');
+          if (type === 'edge' && eraseLeftEdge) {
+            if (!whitespace.includes(this.dotSrc[this.index])) {
+              this.insert(' ');
+            }
           }
           if (!eraseLeftEdge) {
             erasedAllEdges = false;
