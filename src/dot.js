@@ -204,13 +204,14 @@ export default class DotGraph {
         let eraseNode = (type === 'node' && child.id === id);
         const isFirstNode = (i === 0);
         if (parent.type === 'edge_stmt' && !isFirstNode) {
-          const eraseLeftEdge = eraseNode || erasedAll ||
-                (children[i - 1].id === id && child.id === edgeRHSId);
+          let splitEdge = (type === 'edge' && children[i - 1].id === id && child.id === edgeRHSId);
+          const eraseLeftEdge = eraseNode || erasedAll || splitEdge;
           this.skip(this.edgeop, eraseLeftEdge);
           if (erasedAll) {
             this.skipOptional('', erasedAll);
           }
-          if (type === 'edge' && eraseLeftEdge) {
+          if (splitEdge) {
+            erasedAllEdges = true;
             if (!whitespace.includes(this.dotSrc[this.index])) {
               this.insert(' ');
             }

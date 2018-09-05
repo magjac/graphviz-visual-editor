@@ -548,6 +548,24 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {a b; c--d [dir=both]}');
   });
 
+  it('deletes the second edge in a graph with two edges between three nodes and removes its attributes', () => {
+    let dotSrc = 'graph {a--b--c [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="b" edgeRHSId="c" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a--b c}');
+  });
+
+  it('deletes the first edge in a graph with two edges between three nodes and keeps the attributes for the other edge', () => {
+    let dotSrc = 'graph {a--b--c [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b--c [color=red]}');
+  });
+
+  it('deletes the second edge in a graph with three edges between four nodes and keeps the attributes for the last edge', () => {
+    let dotSrc = 'graph {a--b--c--d [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="b" edgeRHSId="c" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a--b c--d [color=red]}');
+  });
+
   it('deletes an edge in a digraph with a single edge between two nodes with compass points', () => {
     let dotSrc = 'digraph {a:n -> b:e}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
