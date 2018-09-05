@@ -204,7 +204,7 @@ export default class DotGraph {
         let eraseNode = (type === 'node' && child.id === id);
         const isFirstNode = (i === 0);
         if (parent.type === 'edge_stmt' && !isFirstNode) {
-          const eraseLeftEdge = (eraseNode || erasedAll) ||
+          const eraseLeftEdge = eraseNode || erasedAll ||
                 (children[i - 1].id === id && child.id === edgeRHSId);
           this.skip(this.edgeop, eraseLeftEdge);
           if (erasedAll) {
