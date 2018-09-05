@@ -532,6 +532,9 @@ class Graph extends React.Component {
       } else {
         self.dotGraph.deleteEdge(componentName);
       }
+      if (i !== self.selectedComponents.size() - 1) {
+        self.dotGraph.reparse();
+      }
     });
     this.props.onTextChange(this.dotGraph.dotSrc);
   }
