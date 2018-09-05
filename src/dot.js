@@ -192,11 +192,11 @@ export default class DotGraph {
       }
       else if (child.type === 'node_stmt') {
         this.deleteComponentInChildren([child.node_id], type, id, child, edgeRHSId);
-        let erase = (type === 'node' && child.node_id.id === id);
+        let eraseNode = (type === 'node' && child.node_id.id === id);
         if (child.attr_list.length > 0) {
-          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId, erase);
+          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId, eraseNode);
         }
-        if (!erase) {
+        if (!eraseNode) {
           erasedAll = false;
         }
       }
