@@ -474,6 +474,24 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
+  it('deletes the first node in a graph with edges between three nodes and keeps the edge attributes', () => {
+    let dotSrc = 'graph {a -- b -- c [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {b -- c [color=red]}');
+  });
+
+  it('deletes the middle node in a graph with edges between three nodes and keeps the edge attributes', () => {
+    let dotSrc = 'graph {a -- b -- c [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a -- c [color=red]}');
+  });
+
+  it('deletes the last node in a graph with edges between three nodes and keeps the edge attributes', () => {
+    let dotSrc = 'graph {a -- b -- c [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="c" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a -- b [color=red]}');
+  });
+
   // edges
 
   it('deletes an edge in a graph with a single edge between two nodes', () => {
