@@ -189,13 +189,12 @@ export default class DotGraph {
       this.skip(this.ast.id);
     }
     this.skip('{');
-    this.deleteComponentInChildren(this.ast.children, type, id, this.ast, edgeRHSId);
+    this.deleteComponentInStatementList(this.ast.children, type, id, this.ast, edgeRHSId);
     this.skip('}');
   }
 
-  deleteComponentInChildren(children, type, id, parent, edgeRHSId, erase) {
+  deleteComponentInStatementList(children, type, id, parent, edgeRHSId, erase) {
     let erasedAll = true;
-    let erasedAllEdges = true;
     children.forEach((child, i) => {
       const stmtListOptions = {skipSemicolon: true};
       if (child.type === 'attr_stmt') {
@@ -207,58 +206,69 @@ export default class DotGraph {
         erasedAll = false;
       }
       else if (child.type === 'node_stmt') {
-        this.deleteComponentInChildren([child.node_id], type, id, child, edgeRHSId);
         const eraseNode = (type === 'node' && child.node_id.id === id);
+        this.skipNodeId(child.node_id, eraseNode, stmtListOptions);
         this.skipAttrList(child.attr_list, eraseNode);
-        if (!eraseNode) {
-          erasedAll = false;
-        }
-      }
-      else if (child.type === 'node_id') {
-        const eraseNode = (type === 'node' && child.id === id);
-        const isFirstNode = (i === 0);
-        if (parent.type === 'edge_stmt' && !isFirstNode) {
-          const nodeIdLeft = getNodeId(children[i - 1]);
-          const nodeIdRight = getNodeId(child);
-          const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
-          const eraseLeftEdge = eraseNode || erasedAll || splitEdge;
-          this.skip(this.edgeop, eraseLeftEdge);
-          if (erasedAll) {
-            this.skipOptional('', erasedAll);
-          }
-          if (splitEdge) {
-            erasedAllEdges = true;
-            if (!whitespace.includes(this.dotSrc[this.index])) {
-              this.insert(' ');
-            }
-          }
-          if (eraseLeftEdge) {
-            this.numDeletedComponents += 1;
-          } else {
-            erasedAllEdges = false;
-          }
-        }
         if (eraseNode) {
           this.numDeletedComponents += 1;
         } else {
           erasedAll = false;
         }
-        this.skipNodeId(child, eraseNode, stmtListOptions);
       }
       else if (child.type === 'edge_stmt') {
-        const erasedAllEdges = this.deleteComponentInChildren(child.edge_list, type, id, child, edgeRHSId);
+        let edgeList = child.edge_list;
+        let erasedAllEdges = true;
+        edgeList.forEach((nodeIdOrSubgraph, i) => {
+          if (nodeIdOrSubgraph.type === 'subgraph') {
+            const subgraph = nodeIdOrSubgraph;
+            const isFirstNode = (i === 0);
+            if (!isFirstNode) {
+              this.skip(this.edgeop);
+              if (erasedAll) {
+                this.skipOptional('', erasedAll);
+              }
+            }
+            this.deleteComponentInStatementList([subgraph], type, id, this.ast, edgeRHSId);
+            erasedAll = false;
+            erasedAllEdges = false;
+          } else {
+            const nodeId = nodeIdOrSubgraph;
+            const eraseNode = (type === 'node' && nodeId.id === id);
+            const isFirstNode = (i === 0);
+            if (!isFirstNode) {
+              const nodeIdLeft = getNodeId(edgeList[i - 1]);
+              const nodeIdRight = getNodeId(nodeId);
+              const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
+              const eraseLeftEdge = eraseNode || erasedAll || splitEdge;
+              this.skip(this.edgeop, eraseLeftEdge);
+              if (erasedAll) {
+                this.skipOptional('', erasedAll);
+              }
+              if (splitEdge) {
+                erasedAllEdges = true;
+                if (!whitespace.includes(this.dotSrc[this.index])) {
+                  this.insert(' ');
+                }
+              }
+              if (eraseLeftEdge) {
+                this.numDeletedComponents += 1;
+              } else {
+                erasedAllEdges = false;
+              }
+            }
+            if (eraseNode) {
+              this.numDeletedComponents += 1;
+            } else {
+              erasedAll = false;
+            }
+            this.skipNodeId(nodeId, eraseNode, stmtListOptions);
+          }
+        });
         this.skipAttrList(child.attr_list, erasedAllEdges);
         erasedAll = false;
       }
       else if (child.type === 'subgraph') {
         let options = stmtListOptions;
-        const isFirstNode = (i === 0);
-        if (parent.type === 'edge_stmt' && !isFirstNode) {
-          this.skip(this.edgeop);
-          if (erasedAll) {
-            this.skipOptional('', erasedAll);
-          }
-        }
         const found = this.skipOptional('subgraph', false, options);
         if (found) {
           options = {};
@@ -268,7 +278,7 @@ export default class DotGraph {
           options = {};
         }
         this.skip('{', false, options);
-        this.deleteComponentInChildren(child.children, type, id, child, edgeRHSId);
+        this.deleteComponentInStatementList(child.children, type, id, child, edgeRHSId);
         this.skip('}');
         erasedAll = false;
       }
@@ -281,7 +291,6 @@ export default class DotGraph {
     if (['graph', 'digraph', 'subgraph'].includes(parent.type)) {
       this.skip(';', false, {optional: true});
     }
-    return erasedAllEdges;
   }
 
   skipId(id, erase) {
