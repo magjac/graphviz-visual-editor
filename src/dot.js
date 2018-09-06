@@ -189,11 +189,11 @@ export default class DotGraph {
       this.skip(this.ast.id);
     }
     this.skip('{');
-    this.deleteComponentInStatementList(this.ast.children, type, id, this.ast, edgeRHSId);
+    this.deleteComponentInStatementList(this.ast.children, type, id, edgeRHSId);
     this.skip('}');
   }
 
-  deleteComponentInStatementList(children, type, id, parent, edgeRHSId, erase) {
+  deleteComponentInStatementList(children, type, id, edgeRHSId, erase) {
     let erasedAll = true;
     children.forEach((child, i) => {
       const stmtListOptions = {skipSemicolon: true};
@@ -228,7 +228,7 @@ export default class DotGraph {
                 this.skipOptional('', erasedAll);
               }
             }
-            this.deleteComponentInStatementList([subgraph], type, id, this.ast, edgeRHSId);
+            this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
             erasedAll = false;
             erasedAllEdges = false;
           } else {
@@ -278,7 +278,7 @@ export default class DotGraph {
           options = {};
         }
         this.skip('{', false, options);
-        this.deleteComponentInStatementList(child.children, type, id, child, edgeRHSId);
+        this.deleteComponentInStatementList(child.children, type, id, edgeRHSId);
         this.skip('}');
         erasedAll = false;
       }
