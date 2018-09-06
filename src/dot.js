@@ -194,7 +194,7 @@ export default class DotGraph {
   }
 
   deleteComponentInStatementList(children, type, id, edgeRHSId, erase) {
-    let erasedAll = true;
+    let erasedAllStatements = true;
     children.forEach((child, i) => {
       const stmtListOptions = {skipSemicolon: true};
       if (child.type === 'attr_stmt') {
@@ -203,7 +203,7 @@ export default class DotGraph {
         options.optional = optional;
         this.skip(child.target, false, options);
         this.skipAttrList(child.attr_list);
-        erasedAll = false;
+        erasedAllStatements = false;
       }
       else if (child.type === 'node_stmt') {
         const eraseNode = (type === 'node' && child.node_id.id === id);
@@ -212,7 +212,7 @@ export default class DotGraph {
         if (eraseNode) {
           this.numDeletedComponents += 1;
         } else {
-          erasedAll = false;
+          erasedAllStatements = false;
         }
       }
       else if (child.type === 'edge_stmt') {
@@ -224,12 +224,12 @@ export default class DotGraph {
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
               this.skip(this.edgeop);
-              if (erasedAll) {
-                this.skipOptional('', erasedAll);
+              if (erasedAllStatements) {
+                this.skipOptional('', erasedAllStatements);
               }
             }
             this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
-            erasedAll = false;
+            erasedAllStatements = false;
             erasedAllEdges = false;
           } else {
             const nodeId = nodeIdOrSubgraph;
@@ -239,10 +239,10 @@ export default class DotGraph {
               const nodeIdLeft = getNodeIdString(edgeList[i - 1]);
               const nodeIdRight = getNodeIdString(nodeId);
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
-              const eraseLeftEdge = eraseNode || erasedAll || splitEdge;
+              const eraseLeftEdge = eraseNode || erasedAllStatements || splitEdge;
               this.skip(this.edgeop, eraseLeftEdge);
-              if (erasedAll) {
-                this.skipOptional('', erasedAll);
+              if (erasedAllStatements) {
+                this.skipOptional('', erasedAllStatements);
               }
               if (splitEdge) {
                 erasedAllEdges = true;
@@ -259,13 +259,13 @@ export default class DotGraph {
             if (eraseNode) {
               this.numDeletedComponents += 1;
             } else {
-              erasedAll = false;
+              erasedAllStatements = false;
             }
             this.skipNodeId(nodeId, eraseNode, stmtListOptions);
           }
         });
         this.skipAttrList(child.attr_list, erasedAllEdges);
-        erasedAll = false;
+        erasedAllStatements = false;
       }
       else if (child.type === 'subgraph') {
         let options = stmtListOptions;
@@ -280,10 +280,10 @@ export default class DotGraph {
         this.skip('{', false, options);
         this.deleteComponentInStatementList(child.children, type, id, edgeRHSId);
         this.skip('}');
-        erasedAll = false;
+        erasedAllStatements = false;
       }
-      if (erasedAll) {
-        this.skip('', erasedAll, {optional: true, skipSemicolon: true});
+      if (erasedAllStatements) {
+        this.skip('', erasedAllStatements, {optional: true, skipSemicolon: true});
       }
     });
     this.skip(';', false, {optional: true});
