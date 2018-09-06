@@ -195,28 +195,28 @@ export default class DotGraph {
 
   deleteComponentInStatementList(statementList, type, id, edgeRHSId, erase) {
     let erasedAllStatements = true;
-    statementList.forEach((child, i) => {
+    statementList.forEach((statement, i) => {
       const stmtListOptions = {skipSemicolon: true};
-      if (child.type === 'attr_stmt') {
+      if (statement.type === 'attr_stmt') {
         const options = stmtListOptions;
-        const optional = (child.target === 'graph');
+        const optional = (statement.target === 'graph');
         options.optional = optional;
-        this.skip(child.target, false, options);
-        this.skipAttrList(child.attr_list);
+        this.skip(statement.target, false, options);
+        this.skipAttrList(statement.attr_list);
         erasedAllStatements = false;
       }
-      else if (child.type === 'node_stmt') {
-        const eraseNode = (type === 'node' && child.node_id.id === id);
-        this.skipNodeId(child.node_id, eraseNode, stmtListOptions);
-        this.skipAttrList(child.attr_list, eraseNode);
+      else if (statement.type === 'node_stmt') {
+        const eraseNode = (type === 'node' && statement.node_id.id === id);
+        this.skipNodeId(statement.node_id, eraseNode, stmtListOptions);
+        this.skipAttrList(statement.attr_list, eraseNode);
         if (eraseNode) {
           this.numDeletedComponents += 1;
         } else {
           erasedAllStatements = false;
         }
       }
-      else if (child.type === 'edge_stmt') {
-        let edgeList = child.edge_list;
+      else if (statement.type === 'edge_stmt') {
+        let edgeList = statement.edge_list;
         let erasedAllEdges = true;
         edgeList.forEach((nodeIdOrSubgraph, i) => {
           if (nodeIdOrSubgraph.type === 'subgraph') {
@@ -264,21 +264,21 @@ export default class DotGraph {
             this.skipNodeId(nodeId, eraseNode, stmtListOptions);
           }
         });
-        this.skipAttrList(child.attr_list, erasedAllEdges);
+        this.skipAttrList(statement.attr_list, erasedAllEdges);
         erasedAllStatements = false;
       }
-      else if (child.type === 'subgraph') {
+      else if (statement.type === 'subgraph') {
         let options = stmtListOptions;
         const found = this.skipOptional('subgraph', false, options);
         if (found) {
           options = {};
         }
-        if (child.id) {
-          this.skip(child.id, false, options);
+        if (statement.id) {
+          this.skip(statement.id, false, options);
           options = {};
         }
         this.skip('{', false, options);
-        this.deleteComponentInStatementList(child.children, type, id, edgeRHSId);
+        this.deleteComponentInStatementList(statement.children, type, id, edgeRHSId);
         this.skip('}');
         erasedAllStatements = false;
       }
