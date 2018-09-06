@@ -193,9 +193,9 @@ export default class DotGraph {
     this.skip('}');
   }
 
-  deleteComponentInStatementList(children, type, id, edgeRHSId, erase) {
+  deleteComponentInStatementList(statementList, type, id, edgeRHSId, erase) {
     let erasedAllStatements = true;
-    children.forEach((child, i) => {
+    statementList.forEach((child, i) => {
       const stmtListOptions = {skipSemicolon: true};
       if (child.type === 'attr_stmt') {
         const options = stmtListOptions;
