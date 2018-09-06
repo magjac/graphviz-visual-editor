@@ -248,11 +248,7 @@ export default class DotGraph {
         } else {
           erasedAll = false;
         }
-        this.skip(child.id, eraseNode, stmtListOptions);
-        if (typeof child.port === 'object') {
-          this.skip(':', eraseNode);
-          this.skipPort(child.port, eraseNode);
-        }
+        this.skipNodeId(child, eraseNode, stmtListOptions);
       }
       else if (child.type === 'attr') {
         this.skipOptional('[', erase);
@@ -314,6 +310,14 @@ export default class DotGraph {
       this.skip('>', erase);
     } else {
       this.skip(id.eq, erase);
+    }
+  }
+
+  skipNodeId(nodeId, erase, options) {
+    this.skip(nodeId.id, erase, options);
+    if (nodeId.port) {
+      this.skip(':', erase);
+      this.skipPort(nodeId.port, erase);
     }
   }
 
