@@ -103,7 +103,7 @@ node_id
   }
 
 port 'port'
-  = ':' id:ID pt:(':' pt:compass_pt {return pt})? {
+  = _ ':' _ id:ID _ pt:(':' pt:compass_pt {return pt})? {
     return {
       type:'port',
       id:id,

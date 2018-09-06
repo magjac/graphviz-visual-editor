@@ -109,6 +109,12 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders a single node with a compass point', () => {
+    let dotSrc = 'digraph {a:n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // edges
 
   it('renders an edge between two nodes in an undirected graph', () => {
@@ -274,6 +280,26 @@ describe('dot.DotGraph.toString()', () => {
     let dotSrc = 'digraph {subgraph "s\\\"2"{a}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
     expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  // whitespace
+
+  it('renders a single node with a compass point with whitespace around the colon', () => {
+    let dotSrc = 'digraph {a : n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:n}');
+  });
+
+  it('renders an edge between compass points with whitespace around the colons on two nodes in a directed graph', () => {
+    let dotSrc = 'digraph {a : n -> b : e}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:n -> b:e}');
+  });
+
+  it('renders a single node with a compass point with whitespace around the colon', () => {
+    let dotSrc = 'digraph {a : n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:n}');
   });
 
   // separators
