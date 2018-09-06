@@ -282,15 +282,11 @@ export default class DotGraph {
         this.skip('}');
         erasedAll = false;
       }
-      if (['graph', 'digraph', 'subgraph'].includes(parent.type)) {
-        if (erasedAll) {
-          this.skip('', erasedAll, {optional: true, skipSemicolon: true});
-        }
+      if (erasedAll) {
+        this.skip('', erasedAll, {optional: true, skipSemicolon: true});
       }
     });
-    if (['graph', 'digraph', 'subgraph'].includes(parent.type)) {
-      this.skip(';', false, {optional: true});
-    }
+    this.skip(';', false, {optional: true});
   }
 
   skipId(id, erase) {
