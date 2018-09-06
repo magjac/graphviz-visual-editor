@@ -265,7 +265,9 @@ export default class DotGraph {
           }
         });
         this.skipAttrList(statement.attr_list, erasedAllEdges);
-        erasedAllStatements = false;
+        if (!erasedAllEdges) {
+          erasedAllStatements = false;
+        }
       }
       else if (statement.type === 'subgraph') {
         let options = stmtListOptions;

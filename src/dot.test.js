@@ -911,6 +911,12 @@ a c
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
+  it('deletes both instances of the same node and the succeeding semicolon in a graph with edges between two nodes', () => {
+    let dotSrc = 'graph {a -- a;}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {}');
+  });
+
   it('deletes the first edge in a graph with two edges separated by semicolon', () => {
     let dotSrc = 'graph {a--b;c--d}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
