@@ -42,17 +42,23 @@ export default class DotGraph {
     return this.nodes[nodeName];
   }
 
+  getEdgeAttributes(edgeName) {
+    return this.edges[edgeName];
+  }
+
   parseDot() {
     this.ast = parse(this.dotSrc)[0];
     const children = this.ast.children;
     this.nodes = [];
-    this.parseChildren(children);
+    this.edges = [];
+    this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
+    this.parseChildren(children, this.ast);
   }
 
-  parseChildren(children) {
-    children.forEach((child) => {
+  parseChildren(children, parent) {
+    children.forEach((child, i) => {
       if (child.type === 'node_stmt') {
-        this.parseChildren([child.node_id]);
+        this.parseChildren([child.node_id], child);
         const attributes = child.attr_list.reduce(function(attrs, attr, i) {
           attrs[attr.id] = attr.eq;
           return attrs;
@@ -64,12 +70,21 @@ export default class DotGraph {
         if (this.nodes[nodeId] == null) {
           this.nodes[nodeId] = {};
         }
+        if (parent.type === 'edge_stmt') {
+          if (i > 0) {
+            const edgeId = children[i - 1].id + this.edgeop + child.id;
+            if (this.edges[edgeId] == null) {
+              this.edges[edgeId] = {};
+            }
+          }
+        }
       }
       else if (child.type === 'edge_stmt') {
-        this.parseChildren(child.edge_list);
+        this.parseChildren(child.edge_list, child);
+        // FIXME: add support for attributes
       }
       else if (child.type === 'subgraph') {
-        this.parseChildren(child.children);
+        this.parseChildren(child.children, child);
       }
     });
   }

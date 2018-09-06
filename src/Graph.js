@@ -493,15 +493,21 @@ class Graph extends React.Component {
     let dashLength = Math.max(4 / scale, 2);
     let dashWidth = Math.max(4 / scale, 2);
     let rectNodes = [];
+    const self = this;
     components.each(function(d, i) {
       let component = d3_select(this);
+      let color = 'black';
+      const edgeId = component.select('title').text();
+      if (component.classed('edge') && self.dotGraph.getEdgeAttributes(edgeId) == null) {
+        color = 'red';
+      }
       let bbox = component.node().getBBox();
       let rect = component.append("rect")
         .attr("x", bbox.x)
         .attr("y", bbox.y)
         .attr("width", bbox.width)
         .attr("height", bbox.height)
-        .attr("stroke", "black")
+        .attr("stroke", color)
         .attr("fill", "transparent")
         .attr("opacity", 0.5)
         .attr("stroke-dasharray", dashLength)
