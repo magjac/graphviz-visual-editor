@@ -532,11 +532,15 @@ class Graph extends React.Component {
       } else {
         self.dotGraph.deleteEdge(componentName);
       }
+      if (self.dotGraph.numDeletedComponents === 0) {
+        component.style("display", null);
+      }
       if (i !== self.selectedComponents.size() - 1) {
         self.dotGraph.reparse();
       }
     });
     this.props.onTextChange(this.dotGraph.dotSrc);
+    this.unSelectComponents();
   }
 
   getNextNodeId() {

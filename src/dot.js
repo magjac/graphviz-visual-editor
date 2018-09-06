@@ -160,6 +160,7 @@ export default class DotGraph {
   }
 
   deleteComponent(type, id, edgeRHSId) {
+    this.numDeletedComponents = 0;
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.index = 0;
     if (this.ast.strict) {
@@ -216,11 +217,15 @@ export default class DotGraph {
               this.insert(' ');
             }
           }
-          if (!eraseLeftEdge) {
+          if (eraseLeftEdge) {
+            this.numDeletedComponents += 1;
+          } else {
             erasedAllEdges = false;
           }
         }
-        if (!eraseNode) {
+        if (eraseNode) {
+          this.numDeletedComponents += 1;
+        } else {
           erasedAll = false;
         }
         this.skip(child.id, eraseNode, stmtListOptions);
