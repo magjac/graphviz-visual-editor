@@ -254,13 +254,6 @@ export default class DotGraph {
           this.deleteComponentInChildren([child.port], type, id, child, edgeRHSId, eraseNode);
         }
       }
-      else if (child.type === 'id') {
-        if (child.html) {
-          this.skip('<', erase);
-          this.skip(child.value, erase, {noSkipNewline: true});
-          this.skip('>', erase);
-        }
-      }
       else if (child.type === 'port') {
         this.skip(child.id, erase);
         if (child.compass_pt) {
@@ -272,8 +265,8 @@ export default class DotGraph {
         this.skipOptional('[', erase);
         this.skip(child.id, erase, attrListOptions);
         this.skip('=', erase);
-        if (typeof child.eq === 'object') {
-          this.deleteComponentInChildren([child.eq], type, id, child, edgeRHSId, erase);
+        if (typeof child.eq === 'object' && child.eq.type === 'id') {
+          this.skipId(child.eq, erase);
         } else {
           this.skip(child.eq, erase);
         }
@@ -319,6 +312,16 @@ export default class DotGraph {
       this.skip(';', false, {optional: true});
     }
     return erasedAllEdges;
+  }
+
+  skipId(id, erase) {
+    if (id.html) {
+      this.skip('<', erase);
+      this.skip(id.value, erase, {noSkipNewline: true});
+      this.skip('>', erase);
+    } else {
+      this.skip(id.eq, erase);
+    }
   }
 
   skipOptional(string, erase=false, options={}) {
