@@ -606,8 +606,26 @@ describe('dot.DotGraph.deleteComponent()', () => {
 
   it('deletes an edge in a digraph with a single edge between two nodes with compass points', () => {
     let dotSrc = 'digraph {a:n -> b:e}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a:n" edgeRHSId="b:e" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('digraph {a:n b:e}');
+  });
+
+  it('deletes an edge in a digraph with a single edge between two nodes with ports with compass points', () => {
+    let dotSrc = 'digraph {a:p1:n -> b:p2:e}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a:p1:n" edgeRHSId="b:p2:e" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:p1:n b:p2:e}');
+  });
+
+  it('does not deletes an edge in a digraph with a single edge between two nodes with compass points for other compass points than the specified', () => {
+    let dotSrc = 'digraph {a:p1:n -> b:p2:e}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a:p1:s" edgeRHSId="b:p2:e" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:p1:n -> b:p2:e}');
+  });
+
+  it('does not deletes an edge in a digraph with a single edge between two nodes with compass points for other port id\'s points than the specified', () => {
+    let dotSrc = 'digraph {a:p1:n -> b:p2:e}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a:p3:n" edgeRHSId="b:p4:e" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a:p1:n -> b:p2:e}');
   });
 
   // subgraphs

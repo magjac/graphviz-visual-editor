@@ -223,7 +223,9 @@ export default class DotGraph {
         const eraseNode = (type === 'node' && child.id === id);
         const isFirstNode = (i === 0);
         if (parent.type === 'edge_stmt' && !isFirstNode) {
-          const splitEdge = (type === 'edge' && children[i - 1].id === id && child.id === edgeRHSId);
+          const nodeIdLeft = getNodeId(children[i - 1]);
+          const nodeIdRight = getNodeId(child);
+          const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
           const eraseLeftEdge = eraseNode || erasedAll || splitEdge;
           this.skip(this.edgeop, eraseLeftEdge);
           if (erasedAll) {
@@ -261,6 +263,10 @@ export default class DotGraph {
       }
       else if (child.type === 'port') {
         this.skip(child.id, erase);
+        if (child.compass_pt) {
+          this.skip(':', erase);
+          this.skip(child.compass_pt, erase);
+        }
       }
       else if (child.type === 'attr') {
         this.skipOptional('[', erase);
@@ -383,6 +389,17 @@ export default class DotGraph {
     this.index += string.length;
   }
 
+}
+
+function getNodeId(astNode) {
+  let str = astNode.id;
+  if (astNode.port) {
+    str += ':' + astNode.port.id;
+    if (astNode.port.compass_pt) {
+      str += ':' + astNode.port.compass_pt;
+    }
+  }
+  return str;
 }
 
 function quoteId(value) {
