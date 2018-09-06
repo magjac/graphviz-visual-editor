@@ -115,6 +115,12 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders a single node with a port and compass point', () => {
+    let dotSrc = 'digraph {a:p1:n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // edges
 
   it('renders an edge between two nodes in an undirected graph', () => {
@@ -143,6 +149,12 @@ describe('dot.DotGraph.toString()', () => {
 
   it('renders an edge between compass points on two nodes in a directed graph', () => {
     let dotSrc = 'digraph {a:n -> b:e}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders an edge between ports and compass points on two nodes in a directed graph', () => {
+    let dotSrc = 'digraph {a:p1:n -> b:p2:e}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });

@@ -140,6 +140,9 @@ export default class DotGraph {
       }
       else if (child.type === 'port') {
         this.str += child.id;
+        if (child.compass_pt) {
+          this.str += ':' + child.compass_pt;
+        }
       }
       else if (child.type === 'attr') {
         if (typeof child.eq === 'object') {
