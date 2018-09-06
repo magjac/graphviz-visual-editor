@@ -198,23 +198,18 @@ export default class DotGraph {
     let erasedAllEdges = true;
     children.forEach((child, i) => {
       const stmtListOptions = {skipSemicolon: true};
-      const attrListOptions = {skipComma: true, skipSemicolon: true};
       if (child.type === 'attr_stmt') {
         const options = stmtListOptions;
         const optional = (child.target === 'graph');
         options.optional = optional;
         this.skip(child.target, false, options);
-        if (child.attr_list.length > 0) {
-          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId);
-        }
+        this.skipAttrList(child.attr_list);
         erasedAll = false;
       }
       else if (child.type === 'node_stmt') {
         this.deleteComponentInChildren([child.node_id], type, id, child, edgeRHSId);
         const eraseNode = (type === 'node' && child.node_id.id === id);
-        if (child.attr_list.length > 0) {
-          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId, eraseNode);
-        }
+        this.skipAttrList(child.attr_list, eraseNode);
         if (!eraseNode) {
           erasedAll = false;
         }
@@ -250,23 +245,9 @@ export default class DotGraph {
         }
         this.skipNodeId(child, eraseNode, stmtListOptions);
       }
-      else if (child.type === 'attr') {
-        this.skipOptional('[', erase);
-        this.skip(child.id, erase, attrListOptions);
-        this.skip('=', erase);
-        if (typeof child.eq === 'object' && child.eq.type === 'id') {
-          this.skipId(child.eq, erase);
-        } else {
-          this.skip(child.eq, erase);
-        }
-        this.skipOptional(']', erase);
-        erasedAll = erase;
-      }
       else if (child.type === 'edge_stmt') {
         const erasedAllEdges = this.deleteComponentInChildren(child.edge_list, type, id, child, edgeRHSId);
-        if (child.attr_list.length > 0) {
-          this.deleteComponentInChildren(child.attr_list, type, id, child, edgeRHSId, erasedAllEdges);
-        }
+        this.skipAttrList(child.attr_list, erasedAllEdges);
         erasedAll = false;
       }
       else if (child.type === 'subgraph') {
@@ -327,6 +308,21 @@ export default class DotGraph {
       this.skip(':', erase);
       this.skip(port.compass_pt, erase);
     }
+  }
+
+  skipAttrList(attrList, erase) {
+    const attrListOptions = {skipComma: true, skipSemicolon: true};
+    attrList.forEach((attr) => {
+      this.skipOptional('[', erase);
+      this.skip(attr.id, erase, attrListOptions);
+      this.skip('=', erase);
+      if (typeof attr.eq === 'object' && attr.eq.type === 'id') {
+        this.skipId(attr.eq, erase);
+      } else {
+        this.skip(attr.eq, erase);
+      }
+      this.skipOptional(']', erase);
+    });
   }
 
   skipOptional(string, erase=false, options={}) {
