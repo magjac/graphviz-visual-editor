@@ -6,6 +6,8 @@
 # Create pull request and merge it:
 #   make pull
 # Update "version" in package.json
+# Update "version" in package-lock.json by e.g.:
+  npm install
 # Commit with message v<version>, e.g.:
 #   git commit -m "v0.1.0"
 # git tag -a v<version> -m <msg>, e.g.:
