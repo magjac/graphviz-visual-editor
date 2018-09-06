@@ -221,8 +221,8 @@ export default class DotGraph {
         edgeList.forEach((nodeIdOrSubgraph, i) => {
           if (nodeIdOrSubgraph.type === 'subgraph') {
             const subgraph = nodeIdOrSubgraph;
-            const isFirstNode = (i === 0);
-            if (!isFirstNode) {
+            const isFirstStatement = (i === 0);
+            if (!isFirstStatement) {
               this.skip(this.edgeop);
               if (erasedAll) {
                 this.skipOptional('', erasedAll);
@@ -234,8 +234,8 @@ export default class DotGraph {
           } else {
             const nodeId = nodeIdOrSubgraph;
             const eraseNode = (type === 'node' && nodeId.id === id);
-            const isFirstNode = (i === 0);
-            if (!isFirstNode) {
+            const isFirstStatement = (i === 0);
+            if (!isFirstStatement) {
               const nodeIdLeft = getNodeIdString(edgeList[i - 1]);
               const nodeIdRight = getNodeIdString(nodeId);
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
