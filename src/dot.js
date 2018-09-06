@@ -236,8 +236,8 @@ export default class DotGraph {
             const eraseNode = (type === 'node' && nodeId.id === id);
             const isFirstNode = (i === 0);
             if (!isFirstNode) {
-              const nodeIdLeft = getNodeId(edgeList[i - 1]);
-              const nodeIdRight = getNodeId(nodeId);
+              const nodeIdLeft = getNodeIdString(edgeList[i - 1]);
+              const nodeIdRight = getNodeIdString(nodeId);
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
               const eraseLeftEdge = eraseNode || erasedAll || splitEdge;
               this.skip(this.edgeop, eraseLeftEdge);
@@ -404,7 +404,7 @@ export default class DotGraph {
 
 }
 
-function getNodeId(astNode) {
+function getNodeIdString(astNode) {
   let str = astNode.id;
   if (astNode.port) {
     str += ':' + astNode.port.id;
