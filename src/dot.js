@@ -213,7 +213,7 @@ export default class DotGraph {
       else if (statement.type === 'edge_stmt') {
         let edgeList = statement.edge_list;
         let erasedAllEdges = true;
-        let erasedAllStatements = true;
+        let erasedAllEdgeConnections = true;
         edgeList.forEach((nodeIdOrSubgraph, i) => {
           if (nodeIdOrSubgraph.type === 'subgraph') {
             const subgraph = nodeIdOrSubgraph;
@@ -222,7 +222,7 @@ export default class DotGraph {
               this.skip(this.edgeop);
             }
             this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
-            erasedAllStatements = false;
+            erasedAllEdgeConnections = false;
             erasedAllEdges = false;
           } else {
             const nodeId = nodeIdOrSubgraph;
@@ -232,7 +232,7 @@ export default class DotGraph {
               const nodeIdLeft = getNodeIdString(edgeList[i - 1]);
               const nodeIdRight = getNodeIdString(nodeId);
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
-              const eraseLeftEdge = eraseNode || erasedAllStatements || splitEdge;
+              const eraseLeftEdge = eraseNode || erasedAllEdgeConnections || splitEdge;
               this.skip(this.edgeop, eraseLeftEdge);
               if (splitEdge) {
                 erasedAllEdges = true;
@@ -243,7 +243,7 @@ export default class DotGraph {
               if (eraseLeftEdge) {
                 this.numDeletedComponents += 1;
               } else {
-                erasedAllStatements = false;
+                erasedAllEdgeConnections = false;
                 erasedAllEdges = false;
               }
             }
@@ -251,7 +251,7 @@ export default class DotGraph {
               erasedStatement = true;
               this.numDeletedComponents += 1;
             } else {
-              erasedAllStatements = false;
+              erasedAllEdgeConnections = false;
             }
             this.skipNodeId(nodeId, eraseNode);
           }
