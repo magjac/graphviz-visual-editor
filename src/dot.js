@@ -327,6 +327,10 @@ export default class DotGraph {
     let prevIndex = null;
     function skipPartially(nextIndex) {
       if (erase) {
+        if (this.dotSrc[skipIndex - 1] === '\n' && this.dotSrc[index] === '\n') {
+          skipIndex -= 1;
+          nextIndex -= 1;
+        }
         this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
         nextIndex -= index - skipIndex;
         this.erasedIndex = skipIndex;

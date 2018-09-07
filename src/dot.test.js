@@ -900,6 +900,34 @@ a c
     expect(wrapper.find('p').text()).toEqual(newDotSrc);
   });
 
+  it('deletes a node and the line it is on if it is the only statement on the line and at start of line and blank lines around', () => {
+    let dotSrc = `graph {
+
+a
+
+}`;
+    let newDotSrc = `graph {
+
+
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
+  it('deletes a node and the line it is on if it is the only statement on the line and at start of line and non-blank lines around', () => {
+    let dotSrc = `graph {
+a
+b
+c
+}`;
+    let newDotSrc = `graph {
+a
+c
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
   // separators
 
   it('deletes the first node in a graph with two nodes separated by semicolon', () => {
