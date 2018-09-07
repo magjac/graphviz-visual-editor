@@ -195,13 +195,11 @@ export default class DotGraph {
   }
 
   deleteComponentInStatementList(statementList, type, id, edgeRHSId, erase) {
-    let erasedAllStatements = true;
     statementList.forEach((statement, i) => {
       let erasedStatement = false;
       if (statement.type === 'attr_stmt') {
         this.skip(statement.target, false, {optional: statement.target === 'graph'});
         this.skipAttrList(statement.attr_list);
-        erasedAllStatements = false;
       }
       else if (statement.type === 'node_stmt') {
         const eraseNode = (type === 'node' && statement.node_id.id === id);
@@ -210,22 +208,18 @@ export default class DotGraph {
         if (eraseNode) {
           erasedStatement = true;
           this.numDeletedComponents += 1;
-        } else {
-          erasedAllStatements = false;
         }
       }
       else if (statement.type === 'edge_stmt') {
         let edgeList = statement.edge_list;
         let erasedAllEdges = true;
+        let erasedAllStatements = true;
         edgeList.forEach((nodeIdOrSubgraph, i) => {
           if (nodeIdOrSubgraph.type === 'subgraph') {
             const subgraph = nodeIdOrSubgraph;
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
               this.skip(this.edgeop);
-              if (erasedAllStatements) {
-                this.skipOptional('', erasedAllStatements);
-              }
             }
             this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
             erasedAllStatements = false;
@@ -240,9 +234,6 @@ export default class DotGraph {
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
               const eraseLeftEdge = eraseNode || erasedAllStatements || splitEdge;
               this.skip(this.edgeop, eraseLeftEdge);
-              if (erasedAllStatements) {
-                this.skipOptional('', erasedAllStatements);
-              }
               if (splitEdge) {
                 erasedAllEdges = true;
                 if (!statementSeparators.includes(this.dotSrc[this.index - 1])) {
@@ -278,7 +269,6 @@ export default class DotGraph {
         this.skip('{');
         this.deleteComponentInStatementList(statement.children, type, id, edgeRHSId);
         this.skip('}');
-        erasedAllStatements = false;
       }
       this.skipSeparators(erasedStatement, {skipSemicolon: true});
     });
