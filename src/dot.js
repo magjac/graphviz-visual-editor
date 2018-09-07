@@ -1,8 +1,9 @@
 import parser from './dotParser';
 var parse = parser.parse;
 
-const whitespace = ' \t\n\r';
 const whitespaceWithinLine = ' \t\r';
+const whitespace = whitespaceWithinLine + '\n';
+const statementSeparators = whitespace + ';';
 
 export default class DotGraph {
   constructor(dotSrc) {
@@ -196,20 +197,18 @@ export default class DotGraph {
   deleteComponentInStatementList(statementList, type, id, edgeRHSId, erase) {
     let erasedAllStatements = true;
     statementList.forEach((statement, i) => {
-      const stmtListOptions = {skipSemicolon: true};
+      let erasedStatement = false;
       if (statement.type === 'attr_stmt') {
-        const options = stmtListOptions;
-        const optional = (statement.target === 'graph');
-        options.optional = optional;
-        this.skip(statement.target, false, options);
+        this.skip(statement.target, false, {optional: statement.target === 'graph'});
         this.skipAttrList(statement.attr_list);
         erasedAllStatements = false;
       }
       else if (statement.type === 'node_stmt') {
         const eraseNode = (type === 'node' && statement.node_id.id === id);
-        this.skipNodeId(statement.node_id, eraseNode, stmtListOptions);
+        this.skipNodeId(statement.node_id, eraseNode);
         this.skipAttrList(statement.attr_list, eraseNode);
         if (eraseNode) {
+          erasedStatement = true;
           this.numDeletedComponents += 1;
         } else {
           erasedAllStatements = false;
@@ -246,49 +245,44 @@ export default class DotGraph {
               }
               if (splitEdge) {
                 erasedAllEdges = true;
-                if (!whitespace.includes(this.dotSrc[this.index])) {
+                if (!statementSeparators.includes(this.dotSrc[this.index - 1])) {
                   this.insert(' ');
                 }
               }
               if (eraseLeftEdge) {
                 this.numDeletedComponents += 1;
               } else {
+                erasedAllStatements = false;
                 erasedAllEdges = false;
               }
             }
             if (eraseNode) {
+              erasedStatement = true;
               this.numDeletedComponents += 1;
             } else {
               erasedAllStatements = false;
             }
-            this.skipNodeId(nodeId, eraseNode, stmtListOptions);
+            this.skipNodeId(nodeId, eraseNode);
           }
         });
         this.skipAttrList(statement.attr_list, erasedAllEdges);
-        if (!erasedAllEdges) {
-          erasedAllStatements = false;
+        if (erasedAllEdges) {
+          this.skipPrevious(erasedAllEdges);
         }
       }
       else if (statement.type === 'subgraph') {
-        let options = stmtListOptions;
-        const found = this.skipOptional('subgraph', false, options);
-        if (found) {
-          options = {};
-        }
+        this.skipOptional('subgraph');
         if (statement.id) {
-          this.skip(statement.id, false, options);
-          options = {};
+          this.skip(statement.id);
         }
-        this.skip('{', false, options);
+        this.skip('{');
         this.deleteComponentInStatementList(statement.children, type, id, edgeRHSId);
         this.skip('}');
         erasedAllStatements = false;
       }
-      if (erasedAllStatements) {
-        this.skip('', erasedAllStatements, {optional: true, skipSemicolon: true});
-      }
+      this.skipSeparators(erasedStatement, {skipSemicolon: true});
     });
-    this.skip(';', false, {optional: true});
+    this.skipPrevious(true);
   }
 
   skipId(id, erase) {
@@ -301,8 +295,8 @@ export default class DotGraph {
     }
   }
 
-  skipNodeId(nodeId, erase, options) {
-    this.skip(nodeId.id, erase, options);
+  skipNodeId(nodeId, erase) {
+    this.skip(nodeId.id, erase);
     if (nodeId.port) {
       this.skip(':', erase);
       this.skipPort(nodeId.port, erase);
@@ -337,10 +331,21 @@ export default class DotGraph {
     this.skip(string, erase, options);
   }
 
-  skip(string, erase=false, options={}) {
+  skipSeparators(erase=false, options={}) {
     let index = this.index;
-    let skipIndex = index;
+    let skipIndex = this.index;
     let prevIndex = null;
+    function skipPartially(nextIndex) {
+      if (erase) {
+        this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
+        nextIndex -= index - skipIndex;
+        this.erasedIndex = skipIndex;
+        erase = false;
+      }
+      index = nextIndex;
+      skipIndex = nextIndex;
+      this.skippableIndex = nextIndex;
+    }
     while (index !== prevIndex) {
       prevIndex = index;
       if (whitespaceWithinLine.includes(this.dotSrc[index])) {
@@ -358,23 +363,35 @@ export default class DotGraph {
       }
       if (!options.noSkipNewline) {
         if (this.dotSrc[index] === '\n') {
-          index += 1;
-          skipIndex = index;
+          const nextIndex = index + 1;
+          skipPartially.call(this, nextIndex);
         }
       }
       if (this.dotSrc.startsWith('/*', index)) {
-        index = this.dotSrc.indexOf('*/', index + 2) + 2;
-        skipIndex = index;
+        const nextIndex = this.dotSrc.indexOf('*/', index + 2) + 2;
+        skipPartially.call(this, nextIndex);
       }
       if (this.dotSrc.startsWith('//', index)) {
-        index = this.dotSrc.indexOf('\n', index + 2) + 1;
-        skipIndex = index;
+        const nextIndex = this.dotSrc.indexOf('\n', index + 2) + 1;
+        skipPartially.call(this, nextIndex);
       }
       if (this.dotSrc.startsWith('#', index)) {
-        index = this.dotSrc.indexOf('\n', index + 1) + 1;
-        skipIndex = index;
+        const nextIndex = this.dotSrc.indexOf('\n', index + 1) + 1;
+        skipPartially.call(this, nextIndex);
       }
     }
+    if (erase) {
+      this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
+      this.erasedIndex = skipIndex;
+    } else {
+      this.index = index;
+    }
+  }
+
+  skip(string, erase=false, options={}) {
+    this.skipSeparators(false, options);
+    let index = this.index
+    let skipIndex = index;
     if (this.dotSrc[index] === '"') {
       string = quoteId(string);
     }
@@ -389,10 +406,26 @@ export default class DotGraph {
     }
     if (erase) {
       this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
+      this.erasedIndex = skipIndex;
+      this.skipSeparators(erase);
     } else {
       this.index = index;
+      if (found && string.length > 0) {
+        this.skippableIndex = index;
+      }
     }
     return found;
+  }
+
+  skipPrevious(erase) {
+    if (erase) {
+      if (this.skippableIndex <= this.erasedIndex) {
+        this.dotSrc = this.dotSrc.slice(0, this.skippableIndex) + this.dotSrc.slice(this.index);
+        this.index = this.skippableIndex;
+      }
+    } else {
+      this.skippableIndex = this.index;
+    }
   }
 
   insert(string) {

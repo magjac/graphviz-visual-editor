@@ -380,10 +380,16 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph g1 {}');
   });
 
-  it('deletes a node in a graph with two nodes', () => {
+  it('deletes the first node in a graph with two nodes', () => {
     let dotSrc = 'graph {a b}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {b}');
+  });
+
+  it('deletes the second node in a graph with two nodes', () => {
+    let dotSrc = 'graph {a b}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a}');
   });
 
   it('deletes two instances of the same node in a graph with two unique nodes', () => {
@@ -819,7 +825,7 @@ c // baz
 }`;
     let newDotSrc = `graph {
 a // foo
- // bar
+// bar
 c // baz
 }`;
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
@@ -834,7 +840,7 @@ c # baz
 }`;
     let newDotSrc = `graph {
 a # foo
- # bar
+# bar
 c # baz
 }`;
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
@@ -849,15 +855,30 @@ c # baz
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
-  it('deletes a node and the preceding whitespace in the same line in a graph with two nodes', () => {
+  it('deletes the first node and the succeeding whitespace in the same line in a graph with two nodes', () => {
     let dotSrc = `graph {
 
-a \r\t b \t\r
+    a  b 
 
 }`;
     let newDotSrc = `graph {
 
-a \t\r
+    b 
+
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
+  it('deletes the second node and the succeeding whitespace in the same line in a graph with two nodes', () => {
+    let dotSrc = `graph {
+
+    a  b 
+
+}`;
+    let newDotSrc = `graph {
+
+    a  
 
 }`;
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
