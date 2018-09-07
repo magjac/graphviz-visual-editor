@@ -214,9 +214,9 @@ export default class DotGraph {
         let edgeList = statement.edge_list;
         let erasedAllEdges = true;
         let erasedAllEdgeConnections = true;
-        edgeList.forEach((nodeIdOrSubgraph, i) => {
-          if (nodeIdOrSubgraph.type === 'subgraph') {
-            const subgraph = nodeIdOrSubgraph;
+        edgeList.forEach((edgeConnection, i) => {
+          if (edgeConnection.type === 'subgraph') {
+            const subgraph = edgeConnection;
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
               this.skip(this.edgeop);
@@ -225,7 +225,7 @@ export default class DotGraph {
             erasedAllEdgeConnections = false;
             erasedAllEdges = false;
           } else {
-            const nodeId = nodeIdOrSubgraph;
+            const nodeId = edgeConnection;
             const eraseNode = (type === 'node' && nodeId.id === id);
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
