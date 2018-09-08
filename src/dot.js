@@ -427,8 +427,10 @@ export default class DotGraph {
   }
 
   eraseBetween(startIndex, endIndex) {
-    this.dotSrc = this.dotSrc.slice(0, startIndex) + this.dotSrc.slice(endIndex);
-    this.erasedIndex = startIndex;
+    if (startIndex !== endIndex) {
+      this.dotSrc = this.dotSrc.slice(0, startIndex) + this.dotSrc.slice(endIndex);
+      this.erasedIndex = startIndex;
+    }
   }
 
   insert(string) {

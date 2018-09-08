@@ -678,6 +678,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {{}}');
   });
 
+  it('deletes a node in a subgraph with a single node with newline and space after', () => {
+    let dotSrc = 'graph {{a\n }}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {{\n }}');
+  });
+
   it('deletes an edge in a subgraph with an edge between two nodes', () => {
     let dotSrc = 'graph {{a -- b}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
