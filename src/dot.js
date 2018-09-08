@@ -232,15 +232,15 @@ export default class DotGraph {
               const nodeIdLeft = getNodeIdString(edgeList[i - 1]);
               const nodeIdRight = getNodeIdString(nodeId);
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
-              const eraseLeftEdge = eraseNode || erasedAllEdgeConnections || splitEdge;
-              this.skip(this.edgeop, eraseLeftEdge);
+              const eraseEdge = eraseNode || erasedAllEdgeConnections || splitEdge;
+              this.skip(this.edgeop, eraseEdge);
               if (splitEdge) {
                 erasedLastEdgeStatement = true;
                 if (!statementSeparators.includes(this.dotSrc[this.index - 1])) {
                   this.insert(' ');
                 }
               }
-              if (eraseLeftEdge) {
+              if (eraseEdge) {
                 this.numDeletedComponents += 1;
               } else {
                 erasedAllEdgeConnections = false;
