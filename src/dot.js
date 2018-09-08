@@ -338,9 +338,8 @@ export default class DotGraph {
             skipIndex = this.skippableIndex - 1;
           }
         }
-        this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
+        this.eraseBetween(skipIndex, index);
         nextIndex -= index - skipIndex;
-        this.erasedIndex = skipIndex;
         erase = false;
       }
       index = nextIndex;
@@ -382,8 +381,7 @@ export default class DotGraph {
       }
     }
     if (erase) {
-      this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
-      this.erasedIndex = skipIndex;
+      this.eraseBetween(skipIndex, index);
     } else {
       this.index = index;
     }
@@ -406,8 +404,7 @@ export default class DotGraph {
       found = true;
     }
     if (erase) {
-      this.dotSrc = this.dotSrc.slice(0, skipIndex) + this.dotSrc.slice(index);
-      this.erasedIndex = skipIndex;
+      this.eraseBetween(skipIndex, index);
       this.skipSeparators(erase);
     } else {
       this.index = index;
@@ -421,12 +418,17 @@ export default class DotGraph {
   skipPrevious(erase) {
     if (erase) {
       if (this.skippableIndex <= this.erasedIndex) {
-        this.dotSrc = this.dotSrc.slice(0, this.skippableIndex) + this.dotSrc.slice(this.index);
+        this.eraseBetween(this.skippableIndex, this.index);
         this.index = this.skippableIndex;
       }
     } else {
       this.skippableIndex = this.index;
     }
+  }
+
+  eraseBetween(startIndex, endIndex) {
+    this.dotSrc = this.dotSrc.slice(0, startIndex) + this.dotSrc.slice(endIndex);
+    this.erasedIndex = startIndex;
   }
 
   insert(string) {
