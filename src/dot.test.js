@@ -956,6 +956,12 @@ c
     expect(wrapper.find('p').text()).toEqual(newDotSrc);
   });
 
+  it('deletes the first node in a graph with two nodes with attributes without any separators', () => {
+    let dotSrc = 'graph {a[color=red]b[color=green]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {b[color=green]}');
+  });
+
   // separators
 
   it('deletes the first node in a graph with two nodes separated by semicolon', () => {
@@ -1046,6 +1052,74 @@ c
     let dotSrc = 'graph {node [style=filled]; subgraph s1 {}}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('graph {node [style=filled]; subgraph s1 {}}');
+  });
+
+  // complex
+
+  it('deletes the first node followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'graph {a b label=l1}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {b label=l1}');
+  });
+
+  it('deletes the second node followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'graph {a b label=l1}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a label=l1}');
+  });
+
+  it('deletes the first node with attributes followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'graph {a [color=blue] b [color=red] label=l1}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a [color=blue] label=l1}');
+  });
+
+  it('deletes the second node with attributes followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'graph {a [color=blue] b [color=red] label=l1}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {b [color=red] label=l1}');
+  });
+
+  it('deletes an edge followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'graph {a -- b label=l1}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b label=l1}');
+  });
+
+  it('deletes the first of two nodes in an edge followed by another node', () => {
+    let dotSrc = 'digraph {a -> b c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b c}');
+  });
+
+  it('deletes the first of two nodes in an edge with attributes followed by another node', () => {
+    let dotSrc = 'digraph {a -> b [color=orange] c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b c}');
+  });
+
+  it('deletes the first of two nodes in an edge with attributes followed by another node. No space spearation', () => {
+    let dotSrc = 'digraph {a->b[color=orange]c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b c}');
+  });
+
+  it('deletes the first of two nodes in an edge with attributes followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'digraph {a -> b [color=orange] color=blue}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b color=blue}');
+  });
+
+  it('deletes the first of three nodes in an edge with attributes followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'digraph {a -> b -> c [color=orange] color=blue}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b -> c [color=orange] color=blue}');
+  });
+
+  it('deletes an edge with attributes between two nodes followed by a graph attribute statement without keyword and brackets', () => {
+    let dotSrc = 'digraph {a -> b [color=orange] color=blue}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a b color=blue}');
   });
 
 });

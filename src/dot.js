@@ -251,6 +251,7 @@ export default class DotGraph {
               erasedStatement = true;
               this.numDeletedComponents += 1;
             } else {
+              erasedStatement = false;
               erasedAllEdgeConnections = false;
             }
             this.skipNodeId(nodeId, eraseNode);
@@ -259,6 +260,11 @@ export default class DotGraph {
         this.skipAttrList(statement.attr_list, erasedLastEdgeStatement);
         if (erasedLastEdgeStatement) {
           this.skipPrevious(erasedLastEdgeStatement);
+          if (statement.attr_list.length > 0) {
+            if (!statementSeparators.includes(this.dotSrc[this.index])) {
+              this.insert(' ');
+            }
+          }
         }
       }
       else if (statement.type === 'subgraph') {
