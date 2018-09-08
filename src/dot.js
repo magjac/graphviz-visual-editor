@@ -212,7 +212,7 @@ export default class DotGraph {
       }
       else if (statement.type === 'edge_stmt') {
         let edgeList = statement.edge_list;
-        let erasedAllEdges = true;
+        let erasedLastEdgeStatement = true;
         let erasedAllEdgeConnections = true;
         edgeList.forEach((edgeConnection, i) => {
           if (edgeConnection.type === 'subgraph') {
@@ -223,7 +223,7 @@ export default class DotGraph {
             }
             this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
             erasedAllEdgeConnections = false;
-            erasedAllEdges = false;
+            erasedLastEdgeStatement = false;
           } else {
             const nodeId = edgeConnection;
             const eraseNode = (type === 'node' && nodeId.id === id);
@@ -235,7 +235,7 @@ export default class DotGraph {
               const eraseLeftEdge = eraseNode || erasedAllEdgeConnections || splitEdge;
               this.skip(this.edgeop, eraseLeftEdge);
               if (splitEdge) {
-                erasedAllEdges = true;
+                erasedLastEdgeStatement = true;
                 if (!statementSeparators.includes(this.dotSrc[this.index - 1])) {
                   this.insert(' ');
                 }
@@ -244,7 +244,7 @@ export default class DotGraph {
                 this.numDeletedComponents += 1;
               } else {
                 erasedAllEdgeConnections = false;
-                erasedAllEdges = false;
+                erasedLastEdgeStatement = false;
               }
             }
             if (eraseNode) {
@@ -256,9 +256,9 @@ export default class DotGraph {
             this.skipNodeId(nodeId, eraseNode);
           }
         });
-        this.skipAttrList(statement.attr_list, erasedAllEdges);
-        if (erasedAllEdges) {
-          this.skipPrevious(erasedAllEdges);
+        this.skipAttrList(statement.attr_list, erasedLastEdgeStatement);
+        if (erasedLastEdgeStatement) {
+          this.skipPrevious(erasedLastEdgeStatement);
         }
       }
       else if (statement.type === 'subgraph') {
