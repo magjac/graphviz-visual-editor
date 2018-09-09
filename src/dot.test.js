@@ -2,21 +2,28 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import DotGraph from './dot';
 
-const WrapDot = props => {
-  let dotGraph = new DotGraph(props.dotSrc);
-  if (props.op === 'deleteNode') {
-    dotGraph.deleteComponent('node', props.id);
+class WrapDot extends React.Component {
+  constructor(props) {
+    super(props);
+    this.dotGraph = new DotGraph(props.dotSrc);
   }
-  else if (props.op === 'deleteEdge') {
-    dotGraph.deleteComponent('edge', props.id, props.edgeRHSId);
+  render () {
+    let props = this.props;
+    if (props.op === 'deleteNode') {
+      this.dotGraph.deleteComponent('node', props.id);
+    }
+    else if (props.op === 'deleteEdge') {
+      this.dotGraph.deleteComponent('edge', props.id, props.edgeRHSId);
+    }
+    let string;
+    if (props.raw) {
+      string = this.dotGraph.dotSrc;
+    } else {
+      string = this.dotGraph.toString();
+    }
+    this.dotGraph.reparse()
+    return <p>{string}</p>;
   }
-  let string;
-  if (props.raw) {
-    string = dotGraph.dotSrc;
-  } else {
-    string = dotGraph.toString();
-  }
-  return <p>{string}</p>;
 };
 
 describe('dot.DotGraph.toString()', () => {
@@ -1127,6 +1134,40 @@ c
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
     expect(wrapper.find('p').text()).toEqual('digraph {a b color=blue}');
   });
+
+  // complex sequences
+
+  it('deletes everything in two-node subgraph with edge to a third node', () => {
+    let dotSrc1 = `digraph {
+    subgraph {
+        a b
+    } -> c
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc1} op="deleteNode" id="a" raw={true} />);
+    let dotSrc2 = `digraph {
+    subgraph {
+        b
+    } -> c
+}`;
+    expect(wrapper.find('p').text()).toEqual(dotSrc2);
+    wrapper.setProps({op: "deleteNode", id:"c"});
+    // FIXME: space after subgraph } should be removed
+    let dotSrc3 = `digraph {
+    subgraph {
+        b
+    } 
+}`;
+    expect(wrapper.find('p').text()).toEqual(dotSrc3);
+    wrapper.setProps({op: "deleteEdge", id: "a", edgeRHSId: "c"});
+    // FIXME: space after subgraph } should be removed
+    let dotSrc4 = `digraph {
+    subgraph {
+        b
+    } 
+}`;
+    expect(wrapper.find('p').text()).toEqual(dotSrc4);
+  });
+
 
 });
 

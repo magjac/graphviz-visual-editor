@@ -182,6 +182,8 @@ export default class DotGraph {
     this.numDeletedComponents = 0;
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.index = 0;
+    this.skippableIndex = 0;
+    this.erasedIndex = -1;
     if (this.ast.strict) {
       this.skip('strict');
     }
