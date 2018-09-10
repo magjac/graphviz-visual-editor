@@ -333,11 +333,16 @@ export default class DotGraph {
     let index = this.index;
     let skipIndex = this.index;
     let prevIndex = null;
+    let prevLength = null;
     function skipPartially(nextIndex) {
       if (erase) {
         if (this.skippableIndex <= this.erasedIndex) {
-          if (this.dotSrc[this.skippableIndex - 1] === '\n' && this.dotSrc[index] === '\n') {
-            skipIndex = this.skippableIndex - 1;
+          if (this.dotSrc[index] === '\n') {
+            if (this.dotSrc[this.skippableIndex - 1] === '\n') {
+              skipIndex = this.skippableIndex - 1;
+            } else {
+              skipIndex = this.skippableIndex;
+            }
           }
         }
         this.eraseBetween(skipIndex, index);
@@ -348,8 +353,9 @@ export default class DotGraph {
       skipIndex = nextIndex;
       this.skippableIndex = nextIndex;
     }
-    while (index !== prevIndex) {
+    while (index !== prevIndex || this.dotSrc.length !== prevLength ) {
       prevIndex = index;
+      prevLength = this.dotSrc.length;
       if (whitespaceWithinLine.includes(this.dotSrc[index])) {
         index += 1;
       }

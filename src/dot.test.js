@@ -303,6 +303,18 @@ describe('dot.DotGraph.toString()', () => {
 
   // whitespace
 
+  it('deletes the first node in an edge between two nodes with newline after', () => {
+    let dotSrc = 'digraph {a -> b\n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b\n}');
+  });
+
+  it('deletes the second node in an edge between two nodes with newline after', () => {
+    let dotSrc = 'digraph {a        -> b\n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a\n}');
+  });
+
   it('renders a single node with a compass point with whitespace around the colon', () => {
     let dotSrc = 'digraph {a : n}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
@@ -739,6 +751,17 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('digraph {{a} -> {b}}');
   });
 
+  it('deletes a node in an edge from a subgraph', () => {
+    let dotSrc = 'digraph {{a}        -> b\n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {{a}\n}');
+  });
+
+  it('deletes an edge in a subgraph with newline and space after', () => {
+    let dotSrc = 'digraph {{a -> b\n }}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {{a b\n }}');
+  });
 
   // attribute statements
 
@@ -909,7 +932,7 @@ c # baz
 }`;
     let newDotSrc = `graph {
 
-    a  
+    a
 
 }`;
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
@@ -1153,6 +1176,19 @@ c
     expect(wrapper.find('p').text()).toEqual('digraph {a b color=blue}');
   });
 
+  it('deletes a node in an edge followed by an indented subgraph on the next line', () => {
+    let dotSrc = ` digraph {
+    a -> b
+    subgraph {}
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    let newDotSrc = ` digraph {
+    a
+    subgraph {}
+}`;
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
   // complex sequences
 
   it('deletes everything in two-node subgraph with edge to a third node', () => {
@@ -1169,19 +1205,17 @@ c
 }`;
     expect(wrapper.find('p').text()).toEqual(dotSrc2);
     wrapper.setProps({op: "deleteNode", id:"c"});
-    // FIXME: space after subgraph } should be removed
     let dotSrc3 = `digraph {
     subgraph {
         b
-    } 
+    }
 }`;
     expect(wrapper.find('p').text()).toEqual(dotSrc3);
     wrapper.setProps({op: "deleteEdge", id: "a", edgeRHSId: "c"});
-    // FIXME: space after subgraph } should be removed
     let dotSrc4 = `digraph {
     subgraph {
         b
-    } 
+    }
 }`;
     expect(wrapper.find('p').text()).toEqual(dotSrc4);
   });
