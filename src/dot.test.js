@@ -12,6 +12,43 @@ class WrapDot extends React.Component {
     if (props.op === 'deleteNode') {
       this.dotGraph.deleteComponent('node', props.id);
     }
+    else if (props.op === 'deleteAllNodes') {
+      const nodeIds = Object.keys(this.dotGraph.nodes);
+      let numExpectedNodes = nodeIds.length;
+      let expectedNodes = new Set(nodeIds);
+      for (let nodeId of nodeIds) {
+        const prevDotSrc = this.dotGraph.dotSrc;
+        this.dotGraph.deleteComponent('node', nodeId);
+        numExpectedNodes -= 1;
+        expectedNodes.delete(nodeId);
+        if (this.dotGraph.dotSrc === prevDotSrc) {
+          throw Error('Could not delete node ' + nodeId);
+        }
+        try {
+          this.dotGraph.reparse()
+        }
+        catch(error) {
+          let {offset, line, column} = error.location.start;
+          error.message += '\nOccurred while deleting node ' + nodeId + ' at line ' + line + ' column ' + column + ': ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...';
+          throw error;
+        }
+        const numActualNodes = Object.keys(this.dotGraph.nodes).length;
+        const actualNodes = new Set(Object.keys(this.dotGraph.nodes));
+        let missingNodes = new Set([...expectedNodes].filter(x => !actualNodes.has(x)));
+        let unexpectedNodes = new Set([...actualNodes].filter(x => !expectedNodes.has(x)));
+        if (numActualNodes !== numExpectedNodes) {
+          let offset = this.dotGraph.dotSrc.indexOf([...unexpectedNodes.values()][0]);
+          throw Error([
+            'Wrong number of nodes after delete: ' + numActualNodes + ', expected ' + numExpectedNodes,
+            'Occurred while deleting node ' + nodeId,
+            'Original number of nodes: ' + nodeIds.length,
+            'Missing nodes: ' + [...missingNodes.values()],
+            'Unexpected nodes: ' + [...unexpectedNodes.values()],
+            'First unexpected occurrence: ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...',
+          ].join('\n'));
+        }
+      }
+    }
     else if (props.op === 'deleteEdge') {
       this.dotGraph.deleteComponent('edge', props.id, props.edgeRHSId);
     }
@@ -1434,6 +1471,19 @@ describe('dot.DotGraph.deleteComponent() transparently processes', () => {
     it(`${dotFile} when attempting to delete a nonexistent edge`, () => {
       const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="magjac-noexist1" edgeRHSId="magjac-noexist2" raw={true} />);
       expect(wrapper.find('p').text()).toEqual(dotSrc);
+    });
+  });
+});
+
+describe('dot.DotGraph.deleteComponent() deletes all nodes', () => {
+  let dotFiles = readDotFiles();
+  dotFiles.forEach((dotFile) => {
+    let fs = require('fs');
+    let buffer = fs.readFileSync(dotFile);
+    let dotSrc = buffer.toString();
+
+    it(`in ${dotFile} without any error (but without checking the actual result).`, () => {
+      const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteAllNodes" raw={true} />);
     });
   });
 });
