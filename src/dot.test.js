@@ -1189,6 +1189,19 @@ c
     expect(wrapper.find('p').text()).toEqual(newDotSrc);
   });
 
+  it('deletes an edge with attributes followed by an indented node on the next line', () => {
+    let dotSrc = `digraph {
+    a -> b [color=blue]
+    c
+}`;
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a"  edgeRHSId="b" raw={true} />);
+    let newDotSrc = `digraph {
+    a b
+    c
+}`;
+    expect(wrapper.find('p').text()).toEqual(newDotSrc);
+  });
+
   // complex sequences
 
   it('deletes everything in two-node subgraph with edge to a third node', () => {

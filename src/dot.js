@@ -263,7 +263,8 @@ export default class DotGraph {
         if (erasedLastEdgeStatement) {
           this.skipPrevious(erasedLastEdgeStatement);
           if (statement.attr_list.length > 0) {
-            if (!statementSeparators.includes(this.dotSrc[this.index])) {
+            if (!statementSeparators.includes(this.dotSrc[this.index - 1]) &&
+                !statementSeparators.includes(this.dotSrc[this.index])) {
               this.insert(' ');
             }
           }
