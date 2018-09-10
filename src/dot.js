@@ -50,8 +50,8 @@ export default class DotGraph {
   parseDot() {
     this.ast = parse(this.dotSrc)[0];
     const children = this.ast.children;
-    this.nodes = [];
-    this.edges = [];
+    this.nodes = {};
+    this.edges = {};
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.parseChildren(children, this.ast);
   }
