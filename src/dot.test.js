@@ -399,6 +399,24 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('graph {a}');
   });
 
+  it('deletes the first node in a graph with three nodes', () => {
+    let dotSrc = 'graph {a b c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {b c}');
+  });
+
+  it('deletes the second node in a graph with three nodes', () => {
+    let dotSrc = 'graph {a b c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a c}');
+  });
+
+  it('deletes the third node in a graph with three nodes', () => {
+    let dotSrc = 'graph {a b c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="c" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b}');
+  });
+
   it('deletes two instances of the same node in a graph with two unique nodes', () => {
     let dotSrc = 'graph {a b a}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
