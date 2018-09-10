@@ -1078,6 +1078,60 @@ c
     expect(wrapper.find('p').text()).toEqual('graph {a b;}');
   });
 
+  it('deletes an edge with attributes without any whitespace', () => {
+    let dotSrc = 'graph {a--b[color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b}');
+  });
+
+  it('deletes an edge with attributes followed by a node without any whitespace', () => {
+    let dotSrc = 'graph {a--b[color=red]c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes with space between followed by a node without any whitespace', () => {
+    let dotSrc = 'graph {a--b [color=red]c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes without space between followed by a node with space between', () => {
+    let dotSrc = 'graph {a--b[color=red] c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes with space between followed by a node with space between', () => {
+    let dotSrc = 'graph {a--b [color=red] c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes followed by a node and space between each element', () => {
+    let dotSrc = 'graph {a -- b [color=red] c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes followed by a node and space between each element exept before edge operator', () => {
+    let dotSrc = 'graph {a-- b [color=red] c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes followed by a node and space between each element exept after edge operator', () => {
+    let dotSrc = 'graph {a --b [color=red] c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b c}');
+  });
+
+  it('deletes an edge with attributes without space between followed by a node with semicolon between', () => {
+    let dotSrc = 'graph {a--b[color=red];c}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="a" edgeRHSId="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('graph {a b;c}');
+  });
+
   it('ignores multiple graph attribute statements separated by semicolon', () => {
     let dotSrc = 'graph {graph [label=l1]; graph [rankdir=TB]}';
     const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteEdge" id="f" edgeRHSId="g" raw={true} />);
