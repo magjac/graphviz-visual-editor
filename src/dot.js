@@ -200,8 +200,9 @@ export default class DotGraph {
     statementList.forEach((statement, i) => {
       let erasedStatement = false;
       if (statement.type === 'attr_stmt') {
-        this.skip(statement.target, false, {optional: statement.target === 'graph'});
-        this.skipAttrList(statement.attr_list);
+        const targetIsGraph = statement.target === 'graph';
+        this.skip(statement.target, false, {optional: targetIsGraph});
+        this.skipAttrList(statement.attr_list, false, targetIsGraph);
       }
       else if (statement.type === 'node_stmt') {
         const eraseNode = (type === 'node' && statement.node_id.id === id);
@@ -310,10 +311,10 @@ export default class DotGraph {
     }
   }
 
-  skipAttrList(attrList, erase) {
+  skipAttrList(attrList, erase, optionalSquareBrackets) {
     const attrListOptions = {skipComma: true, skipSemicolon: true};
-    attrList.forEach((attr) => {
-      this.skipOptional('[', erase);
+    attrList.forEach((attr, i) => {
+      this.skip('[', erase, {optional: optionalSquareBrackets || i > 0});
       this.skip(attr.id, erase, attrListOptions);
       this.skip('=', erase);
       if (typeof attr.eq === 'object' && attr.eq.type === 'id') {
@@ -321,7 +322,7 @@ export default class DotGraph {
       } else {
         this.skip(attr.eq, erase);
       }
-      this.skipOptional(']', erase);
+      this.skip(']', erase, {optional: optionalSquareBrackets || i < attrList.length - 1});
     });
   }
 
