@@ -115,6 +115,7 @@ class Graph extends React.Component {
     this.prevEngine = this.props.engine;
     try {
       this.prelDotGraph = new DotGraph(this.props.dotSrc);
+      this.props.onError(null);
     }
     catch(error) {
       let {location: {start: {line}}, message} = error;
