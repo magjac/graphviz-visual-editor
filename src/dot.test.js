@@ -251,6 +251,27 @@ describe('dot.DotGraph.toString()', () => {
     expect(wrapper.find('p').text()).toEqual(dotSrc);
   });
 
+  it('renders multiple graph attribute statement without the graph keyword', () => {
+    let dotSrc = 'digraph {label=g2; color=red}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = 'digraph {graph [label=g2] graph [color=red]}';
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a single graph attribute statement with two attributes with the graph keyword and separate brackets', () => {
+    let dotSrc = 'digraph {graph [label=g2] [color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = 'digraph {graph [label=g2 color=red]}';
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
+  it('renders a single graph attribute statement with two attributes with the graph keyword and common backets', () => {
+    let dotSrc = 'digraph {graph [label=g2; color=red]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
+    dotSrc = 'digraph {graph [label=g2 color=red]}';
+    expect(wrapper.find('p').text()).toEqual(dotSrc);
+  });
+
   // quoting
 
   it('renders node id with quotes if it contains a space', () => {
