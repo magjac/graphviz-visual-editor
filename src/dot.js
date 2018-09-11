@@ -108,6 +108,18 @@ export default class DotGraph {
 
   toStringChildren(children, separator=' ') {
     children.forEach((child, i) => {
+      if (child.type === 'pad') {
+        return;
+      }
+      if (child.type === 'newline') {
+        return;
+      }
+      if (child.type === 'comment') {
+        return;
+      }
+      if (child.type === 'stmt_sep') {
+        return;
+      }
       if (i > 0) {
         this.str += separator;
       }

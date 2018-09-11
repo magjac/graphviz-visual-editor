@@ -18,28 +18,38 @@ graph
     }
 
 stmt_list
-  = _ s:stmt _ ";"? e:(_ s:stmt _";"?  { return s; })* { return [s].concat(e); }
+  = s:stmt* { return [].concat.apply([], s); }
 
 stmt
   // an assignment as a statement e.g. 'label=4' is shorthand for 'graph [label=4]',
   // so let's just pretend that's what we wrote
-  = left:ID _ '=' _ right:ID {
-    return {
-      type:'attr_stmt',
-      target:'graph',
-      attr_list:[{
-        type:'attr',
+  = prewsc:_ s:(
+    left:ID _ '=' _ right:ID {
+      return {
+        type:'attr_stmt',
         location: location(),
-        id:left,
-        eq:right
-      }]
-    };
+        target:'graph',
+        attr_list:[{
+          type:'attr',
+          location: location(),
+          id:left,
+          eq:right
+        }]
+      };
+    }
+    / attr_stmt
+    / edge_stmt
+    / subgraph
+    / node_stmt
+    / ID '=' ID
+  ) postwsc:_ sep:stmt_sep {return prewsc.concat([s]).concat(postwsc).concat(sep)}
+
+stmt_sep = sep:";"?  {
+    return sep ? {
+      type: 'stmt_sep',
+      location: location(),
+    } : []
   }
-  / attr_stmt
-  / edge_stmt
-  / subgraph
-  / node_stmt
-  / ID '=' ID
 
 attr_stmt
   = target:('graph'i/'node'i/'edge'i) attr:attr_list {
@@ -229,7 +239,12 @@ char
 
 
 COMMENT "COMMENT"
- = (BLOCK_COMMENT / C_COMMENT / MACRO_COMMENT)
+ = (BLOCK_COMMENT / C_COMMENT / MACRO_COMMENT) {
+   return {
+      type: 'comment',
+      location: location(),
+   }
+ }
 
 BLOCK_COMMENT "BLOCK_COMMENT"
   = "/*" v:(!"*/" v:. {return v;})* "*/" { return v.join('') }
@@ -242,13 +257,29 @@ MACRO_COMMENT "MACRO_COMMENT"
 
 
 _ "WHITESPACE"
-  = (WHITESPACE / COMMENT)*
+  = wsc:(WHITESPACE / COMMENT)* {
+    return [].concat.apply([], wsc);
+  }
 
 NEWLINE
-  = [\n\r]+
+  = [\n\r]+ {
+    return {
+      type: 'newline',
+      location: location(),
+    }
+  }
 
 WHITESPACE
-  = ([ \t] / NEWLINE)+
+  = ws:(PAD / NEWLINE)+ {
+    return ws;
+  }
+
+PAD = [ \t]+ {
+    return {
+      type: 'pad',
+      location: location(),
+    }
+  }
 
 UnicodeLetter
   = Lu
