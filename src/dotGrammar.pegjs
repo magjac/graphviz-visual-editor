@@ -11,7 +11,7 @@ start
 graph
   = _ strict:"strict"i? _ type:("graph"i / "digraph"i) _ id:ID? _ "{" children:stmt_list ? _ "}" _ {
       if (children === null) children = [];
-      var ret = {type:type.toLowerCase(), children:children};
+      var ret = {type:type.toLowerCase(), location: location(), children:children};
       if (strict) { ret.strict = true }
       if (id) { ret.id = id }
       return ret;
@@ -29,6 +29,7 @@ stmt
       target:'graph',
       attr_list:[{
         type:'attr',
+        location: location(),
         id:left,
         eq:right
       }]
@@ -44,6 +45,7 @@ attr_stmt
   = target:('graph'i/'node'i/'edge'i) attr:attr_list {
      return {
        type:'attr_stmt',
+       location: location(),
        target:target,
        attr_list:attr
      };
@@ -58,6 +60,7 @@ a_list
   = _ id:ID eq:(_ '=' _ id:ID {return id})? _ (',' / ';')? rest:a_list? {
         return [{
           type:'attr',
+          location: location(),
           id:id,
           eq:eq || ""
         }].concat(rest || []);
@@ -70,6 +73,7 @@ edge_stmt
 
        return {
          type:'edge_stmt',
+         location: location(),
          edge_list:edge_list,
          attr_list:attr || []
        };
@@ -79,6 +83,7 @@ edgeRHS
   = _ edgeop:('->'/'--') _ id:(subgraph / node_id) _ rest:edgeRHS? {
       return [{
         type:'edgeRHS',
+        location: location(),
         edgeop:edgeop,
         id:id
       }].concat(rest || []);
@@ -88,6 +93,7 @@ node_stmt
   = id:node_id attr:attr_list? {
     return {
       type:'node_stmt',
+      location: location(),
       node_id:id,
       attr_list:attr || []
     };
@@ -96,9 +102,9 @@ node_stmt
 node_id
   = id:ID port:port? {
       return port ? {
-        type:'node_id', id:id, port:port
+        type:'node_id', location: location(), id:id, port:port
       } : {
-        type:'node_id', id:id
+        type:'node_id', location: location(), id:id
       };
   }
 
@@ -106,6 +112,7 @@ port 'port'
   = _ ':' _ id:ID _ pt:(':' pt:compass_pt {return pt})? {
     return {
       type:'port',
+      location: location(),
       id:id,
       compass_pt:pt || null
     };
@@ -114,6 +121,7 @@ port 'port'
   / ':' pt:compass_pt {
     return {
       type:'port',
+      location: location(),
       compass_pt:pt || null
     }
   }
@@ -122,10 +130,12 @@ subgraph
   = id:('subgraph'i _ id:ID? _ { return id; })? '{' s:stmt_list? _ '}' {
        return id ? {
           type:'subgraph',
+          location: location(),
           id:id,
           children: s || [],
         } : {
           type:'subgraph',
+          location: location(),
           children: s || [],
         }
       }
@@ -167,6 +177,7 @@ HTML_STRING
   = v:html_raw_string {
       return {
         type:'id',
+        location: location(),
         value:v.slice(1,v.length-1),
         html:true
       };
