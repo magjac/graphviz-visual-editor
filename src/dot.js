@@ -196,6 +196,7 @@ export default class DotGraph {
     this.index = 0;
     this.skippableIndex = 0;
     this.erasedIndex = -1;
+    this.numErased = 0;
     if (this.ast.strict) {
       this.skip('strict');
     }
@@ -218,8 +219,7 @@ export default class DotGraph {
       }
       else if (statement.type === 'node_stmt') {
         const eraseNode = (type === 'node' && statement.node_id.id === id);
-        this.skipNodeId(statement.node_id, eraseNode);
-        this.skipAttrList(statement.attr_list, eraseNode);
+        this.skipLocation(statement, eraseNode);
         if (eraseNode) {
           erasedStatement = true;
           this.numDeletedComponents += 1;
@@ -448,16 +448,31 @@ export default class DotGraph {
     }
   }
 
+  skipLocation(astNode, erase) {
+    const startIndex = astNode.location.start.offset - this.numErased;
+    const endIndex = astNode.location.end.offset - this.numErased;
+    if (erase) {
+      this.eraseBetween(startIndex, endIndex);
+    } else {
+      this.index = endIndex;
+      if (startIndex !== endIndex) {
+        this.skippableIndex = this.index;
+      }
+    }
+  }
+
   eraseBetween(startIndex, endIndex) {
     if (startIndex !== endIndex) {
       this.dotSrc = this.dotSrc.slice(0, startIndex) + this.dotSrc.slice(endIndex);
       this.erasedIndex = startIndex;
+      this.numErased += endIndex - startIndex;
     }
   }
 
   insert(string) {
     this.dotSrc = this.dotSrc.slice(0, this.index) + string + this.dotSrc.slice(this.index);
     this.index += string.length;
+    this.numErased -= string.length;
   }
 
 }

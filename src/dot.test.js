@@ -1189,6 +1189,42 @@ c
     expect(wrapper.find('p').text()).toEqual('graph {node [style=filled]; subgraph s1 {}}');
   });
 
+  it('deletes a node and the succeeding space-separated attribute list', () => {
+    let dotSrc = 'digraph {a [shape=ellipse style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
+  it('deletes a node and the succeeding space-newline-space-separated attribute list', () => {
+    let dotSrc = 'digraph {a [\n shape=ellipse \n style=filled\n ]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
+  it('deletes a node and the succeeding comma-separated attribute list', () => {
+    let dotSrc = 'digraph {a [shape=ellipse,style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
+  it('deletes a node and the succeeding comma-newline-space-separated attribute list', () => {
+    let dotSrc = 'digraph {a [\n shape=ellipse,\n style=filled\n ]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
+  it('deletes a node and the succeeding semicolon-separated attribute list', () => {
+    let dotSrc = 'digraph {a [shape=ellipse;style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
+  it('deletes a node and the succeeding semicolon-newline-space-separated attribute list', () => {
+    let dotSrc = 'digraph {a [\n shape=ellipse;\n style=filled\n ]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
   // complex
 
   it('deletes the first node followed by a graph attribute statement without keyword and brackets', () => {
