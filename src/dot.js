@@ -272,7 +272,7 @@ export default class DotGraph {
             this.skipNodeId(nodeId, eraseNode);
           }
         });
-        this.skipAttrList(statement.attr_list, erasedLastEdgeStatement);
+        this.skipLocation(statement, erasedLastEdgeStatement, true);
         if (erasedLastEdgeStatement) {
           this.skipPrevious(erasedLastEdgeStatement);
           if (statement.attr_list.length > 0) {
@@ -448,9 +448,16 @@ export default class DotGraph {
     }
   }
 
-  skipLocation(astNode, erase) {
-    const startIndex = astNode.location.start.offset - this.numErased;
+  skipLocation(astNode, erase, ignoreStart) {
+    let startIndex = astNode.location.start.offset - this.numErased;
     const endIndex = astNode.location.end.offset - this.numErased;
+    if (ignoreStart) {
+      startIndex = this.index;
+    } else {
+      if (startIndex !== this.index) {
+        throw Error('Unexpected index ' + this.index + ', expected ' + startIndex);
+      }
+    }
     if (erase) {
       this.eraseBetween(startIndex, endIndex);
     } else {

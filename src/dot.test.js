@@ -1225,6 +1225,42 @@ c
     expect(wrapper.find('p').text()).toEqual('digraph {}');
   });
 
+  it('deletes a node in an edge statement and the succeeding space-separated edge attribute list', () => {
+    let dotSrc = 'digraph {a -> b [dir=back style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
+  it('deletes a node in an edge statement and the succeeding space-newline-space separated edge attribute list', () => {
+    let dotSrc = 'digraph {a -> b [dir=back \n style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
+  it('deletes a node in an edge statement and the succeeding comma-separated edge attribute list', () => {
+    let dotSrc = 'digraph {a -> b [dir=back,style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
+  it('deletes a node in an edge statement and the succeeding comma-newline-space separated edge attribute list', () => {
+    let dotSrc = 'digraph {a -> b [dir=back,\n style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
+  it('deletes a node in an edge statement and the succeeding semicolon-separated edge attribute list', () => {
+    let dotSrc = 'digraph {a -> b [dir=back;style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
+  it('deletes a node in an edge statement and the succeeding semicolon-newline-space separated edge attribute list', () => {
+    let dotSrc = 'digraph {a -> b [dir=back; \n style=filled]}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b}');
+  });
+
   // complex
 
   it('deletes the first node followed by a graph attribute statement without keyword and brackets', () => {
