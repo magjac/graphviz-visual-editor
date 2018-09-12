@@ -973,6 +973,18 @@ c # baz
     expect(wrapper.find('p').text()).toEqual('graph {}');
   });
 
+  it('deletes the first node and the trailing whitespace in a graph with two nodes with whitespace around', () => {
+    let dotSrc = 'graph {    a  b }';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual('graph {    b }');
+  });
+
+  it('deletes the second node and the surrounding whitespace in a graph with two nodes with whitespace around', () => {
+    let dotSrc = 'graph {    a  b }';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true}/>);
+    expect(wrapper.find('p').text()).toEqual('graph {    a}');
+  });
+
   it('deletes the first node and the succeeding whitespace in the same line in a graph with two nodes', () => {
     let dotSrc = `graph {
 
