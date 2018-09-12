@@ -5,7 +5,14 @@ import DotGraph from './dot';
 class WrapDot extends React.Component {
   constructor(props) {
     super(props);
-    this.dotGraph = new DotGraph(props.dotSrc);
+      try {
+        this.dotGraph = new DotGraph(props.dotSrc);
+      }
+      catch(error) {
+        let {offset, line, column} = error.location.start;
+        error.message += '\nOccurred while parsing DOT source at line ' + line + ' column ' + column + ': ' + props.dotSrc.slice(offset, offset + 40) + '...';
+        throw error;
+      }
   }
   render () {
     let props = this.props;
