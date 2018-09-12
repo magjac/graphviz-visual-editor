@@ -58,7 +58,14 @@ class WrapDot extends React.Component {
     } else {
       string = this.dotGraph.toString();
     }
-    this.dotGraph.reparse()
+    try {
+      this.dotGraph.reparse()
+    }
+    catch(error) {
+      let {offset, line, column} = error.location.start;
+      error.message += '\nOccurred when reparsing after ' + props.op + ' ' + props.id + ' ' + (props.edgeRHSId ? props.edgeRHSId + ' ' : '') + 'at line ' + line + ' column ' + column + ': ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...';
+      throw error;
+    }
     return <p>{string}</p>;
   }
 };
