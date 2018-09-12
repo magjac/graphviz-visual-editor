@@ -62,7 +62,7 @@ attr_stmt
   }
 
 attr_list
-  = _ '[' _ list:a_list? _ ']' _ rest:attr_list? {
+  = _ '[' _ list:a_list? _ ']' rest:attr_list? {
     return (list || []).concat(rest || []);
   }
 
