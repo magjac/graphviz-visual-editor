@@ -90,7 +90,7 @@ edge_stmt
     }
 
 edgeRHS
-  = _ edgeop:('->'/'--') _ id:(subgraph / node_id) _ rest:edgeRHS? {
+  = _ edgeop:('->'/'--') _ id:(subgraph / node_id) rest:edgeRHS? {
       return [{
         type:'edgeRHS',
         location: location(),
