@@ -36,7 +36,11 @@ class WrapDot extends React.Component {
         }
         catch(error) {
           let {offset, line, column} = error.location.start;
-          error.message += '\nOccurred while deleting node ' + nodeId + ' at line ' + line + ' column ' + column + ': ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...';
+          error.message += [
+            '\nOccurred while deleting node ' + nodeId + ' at line ' + line + ' column ' + column + ': ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...',
+            'Original number of nodes: ' + nodeIds.length,
+            'Number of successfully deleted nodes before the error: ' + (nodeIds.length - numExpectedNodes - 1),
+          ].join('\n');
           throw error;
         }
         const numActualNodes = Object.keys(this.dotGraph.nodes).length;
