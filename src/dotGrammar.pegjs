@@ -119,7 +119,7 @@ node_id
   }
 
 port 'port'
-  = _ ':' _ id:ID _ pt:(':' pt:compass_pt {return pt})? {
+  = _ ':' _ id:ID pt:(_ ':' pt:compass_pt {return pt})? {
     return {
       type:'port',
       location: location(),
