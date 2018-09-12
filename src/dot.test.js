@@ -735,6 +735,24 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('digraph {a:p1:n -> b:p2:e}');
   });
 
+  it('deletes the second node of the first edge in a digraph with two edge statements on the same line', () => {
+    let dotSrc = 'digraph {a -> b c -> d}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a c -> d}');
+  });
+
+  it('deletes the second node of the first edge in a digraph with two edge statements separated with semicolon on the same line', () => {
+    let dotSrc = 'digraph {a -> b; c -> d}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a; c -> d}');
+  });
+
+  it('deletes the second node of the first edge in a digraph with two edge statements whithout whitespace separated with semicolon and space on the same line', () => {
+    let dotSrc = 'digraph {a->b; c->d}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {b; c->d}');
+  });
+
   // subgraphs
 
   it('ignores an empty subgraph', () => {

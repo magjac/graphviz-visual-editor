@@ -235,10 +235,10 @@ export default class DotGraph {
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
               this.skipLocationBetween(edgeList[i - 1], subgraph, false, true);
+              erasedLastEdgeStatement = false;
             }
             this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
             erasedAllEdgeConnections = false;
-            erasedLastEdgeStatement = false;
           } else {
             const nodeId = edgeConnection;
             const eraseNode = (type === 'node' && nodeId.id === id);
@@ -261,7 +261,6 @@ export default class DotGraph {
               }
             }
             if (eraseNode) {
-              erasedStatement = true;
               this.numDeletedComponents += 1;
             } else {
               erasedStatement = false;
