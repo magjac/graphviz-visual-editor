@@ -234,7 +234,7 @@ export default class DotGraph {
             const subgraph = edgeConnection;
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
-              this.skip(this.edgeop);
+              this.skipLocationBetween(edgeList[i - 1], subgraph, false, true);
             }
             this.deleteComponentInStatementList([subgraph], type, id, edgeRHSId);
             erasedAllEdgeConnections = false;
