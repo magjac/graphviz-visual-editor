@@ -263,12 +263,12 @@ export default class DotGraph {
             if (eraseNode) {
               this.numDeletedComponents += 1;
             } else {
-              erasedStatement = false;
               erasedAllEdgeConnections = false;
             }
             this.skipLocation(nodeId, eraseNode, true);
           }
         });
+        erasedStatement = erasedAllEdgeConnections;
         this.skipLocation(statement, erasedLastEdgeStatement, true);
         if (erasedLastEdgeStatement) {
           this.skipPrevious(erasedLastEdgeStatement);

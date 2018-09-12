@@ -1346,6 +1346,24 @@ c
     expect(wrapper.find('p').text()).toEqual('digraph {b}');
   });
 
+  it('deletes both instances of the same node in an edge statement and the succeeding semicolon', () => {
+    let dotSrc = 'digraph {a-> a;}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {}');
+  });
+
+  it('deletes both instances of the same node in an edge statement and the succeeding semicolon followed by newline', () => {
+    let dotSrc = 'digraph {a-> a;\n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {\n}');
+  });
+
+  it('deletes the second node in an edge statement followed by semicolon and newline', () => {
+    let dotSrc = 'digraph {a -> b;\n}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="b" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {a;\n}');
+  });
+
   // complex
 
   it('deletes the first node followed by a graph attribute statement without keyword and brackets', () => {
