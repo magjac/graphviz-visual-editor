@@ -248,12 +248,10 @@ export default class DotGraph {
               const nodeIdRight = getNodeIdString(nodeId);
               const splitEdge = (type === 'edge' && nodeIdLeft === id && nodeIdRight === edgeRHSId);
               const eraseEdge = eraseNode || erasedAllEdgeConnections || splitEdge;
-              this.skip(this.edgeop, eraseEdge);
+              this.skipLocationBetween(edgeList[i - 1], nodeId, eraseEdge, true);
               if (splitEdge) {
+                this.insert(' ');
                 erasedLastEdgeStatement = true;
-                if (!statementSeparators.includes(this.dotSrc[this.index - 1])) {
-                  this.insert(' ');
-                }
               }
               if (eraseEdge) {
                 this.numDeletedComponents += 1;
@@ -269,7 +267,7 @@ export default class DotGraph {
               erasedStatement = false;
               erasedAllEdgeConnections = false;
             }
-            this.skipNodeId(nodeId, eraseNode);
+            this.skipLocation(nodeId, eraseNode, true);
           }
         });
         this.skipLocation(statement, erasedLastEdgeStatement, true);
@@ -448,9 +446,19 @@ export default class DotGraph {
     }
   }
 
+  skipLocationBetween(startAstNode, endAstNode, erase, ignoreStart) {
+    let startIndex = startAstNode.location.end.offset - this.numErased;
+    const endIndex = endAstNode.location.start.offset - this.numErased;
+    this.skipBetween(startIndex, endIndex, erase, ignoreStart);
+  }
+
   skipLocation(astNode, erase, ignoreStart) {
     let startIndex = astNode.location.start.offset - this.numErased;
     const endIndex = astNode.location.end.offset - this.numErased;
+    this.skipBetween(startIndex, endIndex, erase, ignoreStart);
+  }
+
+  skipBetween(startIndex, endIndex, erase, ignoreStart) {
     if (ignoreStart) {
       startIndex = this.index;
     } else {
