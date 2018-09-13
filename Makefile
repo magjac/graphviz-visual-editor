@@ -29,7 +29,9 @@ dots parse-all-graphviz-dots: dotfiles.txt
 dotfiles.txt:
 	find graphviz -name '*.dot' > $@
 
-readme:
+readme: readme.html
+
+readme.html: README.md
 	./node_modules/markdown-to-html/bin/github-markdown README.md -h >readme.html
 
 clone-build:
