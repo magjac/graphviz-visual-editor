@@ -11,13 +11,7 @@ class TextEditor extends React.Component {
   }
 
   handleChange = (value, event) => {
-    this.pendingChanges += 1;
-    setTimeout(() => {
-      this.pendingChanges -= 1;
-      if (this.pendingChanges === 0) {
-        this.props.onTextChange(value);
-      }
-    }, this.props.holdOff * 1000);
+    this.props.onTextChange(value);
   };
 
   render() {
@@ -43,6 +37,7 @@ class TextEditor extends React.Component {
           width={this.props.width}
           wrapEnabled
           showPrintMargin={false}
+          debounceChangePeriod={this.props.holdOff * 1000}
           editorProps={{
             $blockScrolling: true
           }}
