@@ -63,6 +63,51 @@ class WrapDot extends React.Component {
     else if (props.op === 'deleteEdge') {
       this.dotGraph.deleteComponent('edge', props.id, props.edgeRHSId);
     }
+    else if (props.op === 'deleteAllEdges') {
+      const edgeIds = Object.keys(this.dotGraph.edges);
+      let numExpectedEdges = edgeIds.length;
+      let expectedEdges = new Set(edgeIds);
+      for (let edgeId of edgeIds) {
+        const prevDotSrc = this.dotGraph.dotSrc;
+        let nodeNames = edgeId.split('--');
+        if (nodeNames.length !== 2) {
+          nodeNames = edgeId.split('->');
+        }
+        this.dotGraph.deleteComponent('edge', ...nodeNames);
+        numExpectedEdges -= 1;
+        expectedEdges.delete(edgeId);
+        if (this.dotGraph.dotSrc === prevDotSrc) {
+          throw Error('Could not delete edge ' + edgeId);
+        }
+        try {
+          this.dotGraph.reparse()
+        }
+        catch(error) {
+          let {offset, line, column} = error.location.start;
+          error.message += [
+            '\nOccurred while deleting edge ' + edgeId + ' at line ' + line + ' column ' + column + ': ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...',
+            'Original number of edges: ' + edgeIds.length,
+            'Number of successfully deleted edges before the error: ' + (edgeIds.length - numExpectedEdges - 1),
+          ].join('\n');
+          throw error;
+        }
+        const numActualEdges = Object.keys(this.dotGraph.edges).length;
+        const actualEdges = new Set(Object.keys(this.dotGraph.edges));
+        let missingEdges = new Set([...expectedEdges].filter(x => !actualEdges.has(x)));
+        let unexpectedEdges = new Set([...actualEdges].filter(x => !expectedEdges.has(x)));
+        if (numActualEdges !== numExpectedEdges) {
+          let offset = this.dotGraph.dotSrc.indexOf([...unexpectedEdges.values()][0]);
+          throw Error([
+            'Wrong number of edges after delete: ' + numActualEdges + ', expected ' + numExpectedEdges,
+            'Occurred while deleting edge ' + edgeId,
+            'Original number of edges: ' + edgeIds.length,
+            'Missing edges: ' + [...missingEdges.values()],
+            'Unexpected edges: ' + [...unexpectedEdges.values()],
+            'First unexpected occurrence: ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...',
+          ].join('\n'));
+        }
+      }
+    }
     let string;
     if (props.raw) {
       string = this.dotGraph.dotSrc;
@@ -1556,6 +1601,19 @@ describe('dot.DotGraph.deleteComponent() deletes all nodes', () => {
 
     it(`in ${dotFile} without any error (but without checking the actual result).`, () => {
       const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteAllNodes" raw={true} />);
+    });
+  });
+});
+
+describe('dot.DotGraph.deleteComponent() deletes all edges', () => {
+  let dotFiles = readDotFiles();
+  dotFiles.forEach((dotFile) => {
+    let fs = require('fs');
+    let buffer = fs.readFileSync(dotFile);
+    let dotSrc = buffer.toString();
+
+    it(`in ${dotFile} without any error (but without checking the actual result).`, () => {
+      const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteAllEdges" raw={true} />);
     });
   });
 });
