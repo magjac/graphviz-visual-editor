@@ -2,8 +2,8 @@ GENERATED_FILES = \
 	src/shapes.js \
 	readme.html \
 	src/dotParser.js \
-	dotfiles.txt \
 	graphviz \
+	dotfiles.txt \
 
 main: $(GENERATED_FILES)
 
