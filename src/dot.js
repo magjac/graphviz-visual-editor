@@ -73,7 +73,9 @@ export default class DotGraph {
         }
         if (parent.type === 'edge_stmt') {
           if (i > 0) {
-            const edgeId = children[i - 1].id + this.edgeop + child.id;
+            const nodeIds = [children[i - 1], child];
+            const nodeNames = nodeIds.map((nodeId) => nodeId.id + (nodeId.port ? ':' + nodeId.port.id : ''));
+            const edgeId = nodeNames[0] + this.edgeop + nodeNames[1];
             if (this.edges[edgeId] == null) {
               this.edges[edgeId] = {};
             }
