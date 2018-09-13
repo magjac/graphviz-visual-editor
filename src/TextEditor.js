@@ -11,13 +11,7 @@ class TextEditor extends React.Component {
   }
 
   handleChange = (value, event) => {
-    this.pendingChanges += 1;
-    setTimeout(() => {
-      this.pendingChanges -= 1;
-      if (this.pendingChanges === 0) {
-        this.props.onTextChange(value);
-      }
-    }, this.props.holdOff * 1000);
+    this.props.onTextChange(value);
   };
 
   render() {
@@ -28,6 +22,7 @@ class TextEditor extends React.Component {
         column: 0,
         text: this.props.error.message,
         type: "error",
+        dummy: Date.now(), // Workaround for issue #33
       }];
     }
     return (
@@ -43,6 +38,7 @@ class TextEditor extends React.Component {
           width={this.props.width}
           wrapEnabled
           showPrintMargin={false}
+          debounceChangePeriod={this.props.holdOff * 1000}
           editorProps={{
             $blockScrolling: true
           }}
