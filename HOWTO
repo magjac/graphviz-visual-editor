@@ -7,8 +7,9 @@
 #   make pull
 # Update "version" in package.json
 # Update "version" in package-lock.json by e.g.:
-  npm install
+#   npm install
 # Commit with message v<version>, e.g.:
+#   git add -p
 #   git commit -m "v0.1.0"
 # git tag -a v<version> -m <msg>, e.g.:
 #   git tag -a v0.1.0 -m "Animated growth of entering edges"
