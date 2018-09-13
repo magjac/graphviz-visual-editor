@@ -234,6 +234,13 @@ export default class DotGraph {
             const subgraph = edgeConnection;
             const isFirstStatement = (i === 0);
             if (!isFirstStatement) {
+              const eraseEdge = erasedAllEdgeConnections;
+              this.skipLocationBetween(edgeList[i - 1], subgraph, eraseEdge, true);
+              if (eraseEdge) {
+                this.numDeletedComponents += 1;
+              } else {
+                erasedLastEdgeStatement = false;
+              }
               this.skipLocationBetween(edgeList[i - 1], subgraph, false, true);
               erasedLastEdgeStatement = false;
             }

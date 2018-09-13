@@ -863,6 +863,12 @@ describe('dot.DotGraph.deleteComponent()', () => {
     expect(wrapper.find('p').text()).toEqual('digraph {{a b\n }}');
   });
 
+  it('deletes a node in an edge to a subgraph', () => {
+    let dotSrc = 'digraph {a -> {b}}';
+    const wrapper = shallow(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true} />);
+    expect(wrapper.find('p').text()).toEqual('digraph {{b}}');
+  });
+
   // attribute statements
 
   it('ignores graph attribute statements', () => {
