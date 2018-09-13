@@ -22,6 +22,7 @@ class TextEditor extends React.Component {
         column: 0,
         text: this.props.error.message,
         type: "error",
+        dummy: Date.now(), // Workaround for issue #33
       }];
     }
     return (
