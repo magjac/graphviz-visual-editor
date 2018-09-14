@@ -58,6 +58,7 @@ export default class DotGraph {
     this.edges = {};
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.parseChildren(children, this.ast);
+    this.components = Object.assign({}, this.nodes, this.edges);
   }
 
   parseChildren(children, parent) {
@@ -74,6 +75,7 @@ export default class DotGraph {
         const nodeId = child.id;
         if (this.nodes[nodeId] == null) {
           this.nodes[nodeId] = {
+            astNode: parent,
             attributes: {},
           };
         }

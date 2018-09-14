@@ -493,6 +493,7 @@ class Graph extends React.Component {
     let dashLength = Math.max(4 / scale, 2);
     let dashWidth = Math.max(4 / scale, 2);
     let rectNodes = [];
+    let titles = [];
     const self = this;
     components.each(function(d, i) {
       let component = d3_select(this);
@@ -513,12 +514,17 @@ class Graph extends React.Component {
         .attr("stroke-dasharray", dashLength)
         .attr("stroke-width",  dashWidth);
       rectNodes.push(rect.node());
+      titles.push(title);
     });
     if (extendSelection) {
       this.selectRects = d3_selectAll(this.selectRects.nodes().concat(rectNodes));
+      this.selectNames = this.selectNames.concat(titles);
     } else {
       this.selectRects = d3_selectAll(rectNodes);
+      this.selectNames = titles;
     }
+    const selectedComponents = this.selectNames.map((name) => this.dotGraph.components[name]);
+    this.props.onSelect(selectedComponents);
   }
 
   unSelectComponents() {
