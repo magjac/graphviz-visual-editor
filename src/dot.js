@@ -75,14 +75,14 @@ export default class DotGraph {
         const nodeId = child.id;
         if (this.nodes[nodeId] == null) {
           this.nodes[nodeId] = {
-            astNodes: [],
+            locations: [],
             attributes: {},
           };
         }
         if (parent.type === 'node_stmt') {
-          this.nodes[nodeId].astNodes.push(parent);
+          this.nodes[nodeId].locations.push(parent.location);
         } else {
-          this.nodes[nodeId].astNodes.push(child);
+          this.nodes[nodeId].locations.push(child.location);
         }
         if (parent.type === 'edge_stmt') {
           if (i > 0) {

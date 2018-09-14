@@ -27,7 +27,7 @@ class TextEditor extends React.Component {
     }
     const locations = this.props.selectedGraphComponents.reduce(
       (locations, component) => locations.concat(
-        component.astNodes.map((astNode) => astNode.location)
+        component.locations
       ),
       []
     );
