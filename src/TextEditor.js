@@ -32,7 +32,18 @@ class TextEditor extends React.Component {
         type: "error",
         dummy: Date.now(), // Workaround for issue #33
       }];
+      if (this.editor && !this.editor.isRowFullyVisible(this.props.error.line)) {
+        if (!this.prevError ||
+            this.props.error.message !== this.prevError.message ||
+            (this.props.error.line !== this.prevError.line &&
+             this.props.error.numLines - this.props.error.line !== this.prevNumLines - this.prevError.line)
+           ) {
+          this.editor.scrollToLine(this.props.error.line - 1, true);
+        }
+      }
+      this.prevNumLines = this.props.error.numLines;
     }
+    this.prevError = this.props.error;
     const locations = this.props.selectedGraphComponents.reduce(
       (locations, component) => locations.concat(
         component.locations

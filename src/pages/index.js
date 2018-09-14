@@ -313,6 +313,9 @@ class Index extends React.Component {
   }
 
   handleError = (error) => {
+    if (error) {
+      error.numLines = this.state.dotSrc.split('\n').length;
+    }
     if (JSON.stringify(error) !== JSON.stringify(this.state.error)) {
       this.setState({
         error: error,
