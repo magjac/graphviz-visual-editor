@@ -118,6 +118,9 @@ class Graph extends React.Component {
       this.props.onError(null);
     }
     catch(error) {
+      if (!error.location) {
+        throw error;
+      }
       let {location: {start: {line}}, message} = error;
       this.props.onError({message: message, line: line});
       return;
@@ -493,13 +496,16 @@ class Graph extends React.Component {
     let dashLength = Math.max(4 / scale, 2);
     let dashWidth = Math.max(4 / scale, 2);
     let rectNodes = [];
+    let titles = [];
     const self = this;
     components.each(function(d, i) {
       let component = d3_select(this);
       let color = 'black';
-      const edgeId = component.select('title').text();
-      if (component.classed('edge') && self.dotGraph.getEdgeAttributes(edgeId) == null) {
+      const title = component.select('title').text();
+      if (component.classed('edge') && self.dotGraph.getEdgeAttributes(title) == null) {
         color = 'red';
+      } else {
+        titles.push(title);
       }
       let bbox = component.node().getBBox();
       let rect = component.append("rect")
@@ -516,15 +522,20 @@ class Graph extends React.Component {
     });
     if (extendSelection) {
       this.selectRects = d3_selectAll(this.selectRects.nodes().concat(rectNodes));
+      this.selectNames = this.selectNames.concat(titles);
     } else {
       this.selectRects = d3_selectAll(rectNodes);
+      this.selectNames = titles;
     }
+    const selectedComponents = this.selectNames.map((name) => this.dotGraph.components[name]);
+    this.props.onSelect(selectedComponents);
   }
 
   unSelectComponents() {
     this.selectRects.remove();
     this.selectRects = d3_select(null);
     this.selectedComponents = d3_selectAll(null);
+    this.props.onSelect([]);
   }
 
   deleteSelectedComponents() {

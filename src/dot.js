@@ -40,11 +40,19 @@ export default class DotGraph {
   }
 
   getNodeAttributes(nodeName) {
-    return this.nodes[nodeName];
+    if (this.nodes[nodeName]) {
+      return this.nodes[nodeName].attributes;
+    } else {
+      return null;
+    }
   }
 
   getEdgeAttributes(edgeName) {
-    return this.edges[edgeName];
+    if (this.edges[edgeName]) {
+      return this.edges[edgeName].attributes;
+    } else {
+      return null;
+    }
   }
 
   parseDot() {
@@ -54,6 +62,7 @@ export default class DotGraph {
     this.edges = {};
     this.edgeop = this.ast.type === 'digraph' ? '->' : '--';
     this.parseChildren(children, this.ast);
+    this.components = Object.assign({}, this.nodes, this.edges);
   }
 
   parseChildren(children, parent) {
@@ -64,12 +73,20 @@ export default class DotGraph {
           attrs[attr.id] = attr.eq;
           return attrs;
         }, {});
-        Object.assign(this.nodes[child.node_id.id], attributes);
+        Object.assign(this.nodes[child.node_id.id].attributes, attributes);
       }
       else if (child.type === 'node_id') {
         const nodeId = child.id;
         if (this.nodes[nodeId] == null) {
-          this.nodes[nodeId] = {};
+          this.nodes[nodeId] = {
+            locations: [],
+            attributes: {},
+          };
+        }
+        if (parent.type === 'node_stmt') {
+          this.nodes[nodeId].locations.push(parent.location);
+        } else {
+          this.nodes[nodeId].locations.push(child.location);
         }
         if (parent.type === 'edge_stmt') {
           if (i > 0) {
@@ -77,8 +94,16 @@ export default class DotGraph {
             const nodeNames = nodeIds.map((nodeId) => nodeId.id + (nodeId.port ? ':' + nodeId.port.id : ''));
             const edgeId = nodeNames[0] + this.edgeop + nodeNames[1];
             if (this.edges[edgeId] == null) {
-              this.edges[edgeId] = {};
+              this.edges[edgeId] = {
+                locations: [],
+                attributes: {},
+              };
             }
+            const location = {
+              start: nodeIds[0].location.end,
+              end: nodeIds[1].location.start,
+            }
+            this.edges[edgeId].locations.push(location);
           }
         }
       }

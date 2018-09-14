@@ -59,6 +59,7 @@ class Index extends React.Component {
       defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
       error: null,
       holdOff: localStorage.getItem('holdOff') || 0.2,
+      selectedGraphComponents: [],
     };
   }
 
@@ -299,6 +300,12 @@ class Index extends React.Component {
     this.handleZoomResetButtonClick = handleZoomResetButtonClick;
   }
 
+  handleGraphComponentSelect = (components) => {
+    this.setState({
+      selectedGraphComponents: components,
+    });
+  }
+
   handleGraphInitialized = () => {
     this.setState({
       graphInitialized: true,
@@ -398,6 +405,7 @@ class Index extends React.Component {
                     dotSrc={this.state.dotSrc}
                     onTextChange={this.handleTextChange}
                     error={this.state.error}
+                    selectedGraphComponents={this.state.selectedGraphComponents}
                     holdOff={this.state.holdOff}
                   />
                 )}
@@ -425,6 +433,7 @@ class Index extends React.Component {
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onTextChange={this.handleTextChange}
                 onHelp={this.handleKeyboardShortcutsClick}
+                onSelect={this.handleGraphComponentSelect}
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}
