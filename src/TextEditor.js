@@ -1,7 +1,17 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import AceEditor from 'react-ace';
 import 'brace/mode/dot';
 import 'brace/theme/github';
+import IconButton from '@material-ui/core/IconButton';
+import ErrorOutline from '@material-ui/icons/ErrorOutline';
+
+const styles = {
+  errorButton: {
+    position: 'absolute',
+    top: 'calc(64px + 12px)',
+  },
+};
 
 class TextEditor extends React.Component {
 
@@ -22,7 +32,12 @@ class TextEditor extends React.Component {
     this.editor = editor;
   };
 
+  handleErrorButtonClick = (event) => {
+    this.editor.scrollToLine(this.props.error.line - 1, true);
+  };
+
   render() {
+    const { classes } = this.props;
     var annotations = null;
     if (this.props.error) {
       annotations = [{
@@ -58,9 +73,18 @@ class TextEditor extends React.Component {
       className: 'ace_selected-word',
       type: 'background',
     }));
-
+    // FIXME: There must be a better way...
+    let scrollbarWidth = 0;
+    if (this.div) {
+      const scrollbarDiv = this.div.querySelector('div.ace_scrollbar-v');
+      const hasScrollbar = scrollbarDiv && scrollbarDiv.style['display'] !== 'none';
+      if (hasScrollbar) {
+        const scrollbarInnerDiv = scrollbarDiv.querySelector('div.ace_scrollbar-inner');
+        scrollbarWidth = scrollbarInnerDiv.clientWidth - 5;
+      }
+    }
     return (
-      <div>
+      <div ref={div => this.div = div}>
         <AceEditor
           mode="dot"
           theme="github"
@@ -81,9 +105,21 @@ class TextEditor extends React.Component {
           annotations={annotations}
           markers={markers}
         />
+        <IconButton
+          className={classes.errorButton}
+          style={{
+            left: `calc(${this.props.width} - 2 * 12px - 12px - ${scrollbarWidth}px`,
+            display: this.props.error ? 'block' : 'none',
+          }}
+          color="inherit"
+          aria-label="Error"
+          onClick={this.handleErrorButtonClick}
+        >
+          <ErrorOutline color="error" />
+        </IconButton>
       </div>
     );
   }
 }
 
-export default TextEditor;
+export default withStyles(styles)(TextEditor);
