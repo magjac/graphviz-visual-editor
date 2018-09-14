@@ -118,6 +118,9 @@ class Graph extends React.Component {
       this.props.onError(null);
     }
     catch(error) {
+      if (!error.location) {
+        throw error;
+      }
       let {location: {start: {line}}, message} = error;
       this.props.onError({message: message, line: line});
       return;
