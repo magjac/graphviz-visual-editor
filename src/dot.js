@@ -40,7 +40,11 @@ export default class DotGraph {
   }
 
   getNodeAttributes(nodeName) {
-    return this.nodes[nodeName];
+    if (this.nodes[nodeName]) {
+      return this.nodes[nodeName].attributes;
+    } else {
+      return null;
+    }
   }
 
   getEdgeAttributes(edgeName) {
@@ -64,12 +68,14 @@ export default class DotGraph {
           attrs[attr.id] = attr.eq;
           return attrs;
         }, {});
-        Object.assign(this.nodes[child.node_id.id], attributes);
+        Object.assign(this.nodes[child.node_id.id].attributes, attributes);
       }
       else if (child.type === 'node_id') {
         const nodeId = child.id;
         if (this.nodes[nodeId] == null) {
-          this.nodes[nodeId] = {};
+          this.nodes[nodeId] = {
+            attributes: {},
+          };
         }
         if (parent.type === 'edge_stmt') {
           if (i > 0) {
