@@ -501,6 +501,8 @@ class Graph extends React.Component {
       const title = component.select('title').text();
       if (component.classed('edge') && self.dotGraph.getEdgeAttributes(title) == null) {
         color = 'red';
+      } else {
+        titles.push(title);
       }
       let bbox = component.node().getBBox();
       let rect = component.append("rect")
@@ -514,7 +516,6 @@ class Graph extends React.Component {
         .attr("stroke-dasharray", dashLength)
         .attr("stroke-width",  dashWidth);
       rectNodes.push(rect.node());
-      titles.push(title);
     });
     if (extendSelection) {
       this.selectRects = d3_selectAll(this.selectRects.nodes().concat(rectNodes));
