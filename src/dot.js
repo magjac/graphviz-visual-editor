@@ -48,7 +48,11 @@ export default class DotGraph {
   }
 
   getEdgeAttributes(edgeName) {
-    return this.edges[edgeName];
+    if (this.edges[edgeName]) {
+      return this.edges[edgeName].attributes;
+    } else {
+      return null;
+    }
   }
 
   parseDot() {
@@ -90,8 +94,16 @@ export default class DotGraph {
             const nodeNames = nodeIds.map((nodeId) => nodeId.id + (nodeId.port ? ':' + nodeId.port.id : ''));
             const edgeId = nodeNames[0] + this.edgeop + nodeNames[1];
             if (this.edges[edgeId] == null) {
-              this.edges[edgeId] = {};
+              this.edges[edgeId] = {
+                locations: [],
+                attributes: {},
+              };
             }
+            const location = {
+              start: nodeIds[0].location.end,
+              end: nodeIds[1].location.start,
+            }
+            this.edges[edgeId].locations.push(location);
           }
         }
       }
