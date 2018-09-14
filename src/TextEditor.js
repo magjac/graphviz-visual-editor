@@ -14,6 +14,14 @@ class TextEditor extends React.Component {
     this.props.onTextChange(value);
   };
 
+  handleBeforeLoad = (ace) => {
+    this.ace = ace;
+  };
+
+  handleLoad = (editor) => {
+    this.editor = editor;
+  };
+
   render() {
     var annotations = null;
     if (this.props.error) {
@@ -46,6 +54,8 @@ class TextEditor extends React.Component {
           mode="dot"
           theme="github"
           onChange={this.handleChange}
+          onBeforeLoad={this.handleBeforeLoad}
+          onLoad={this.handleLoad}
           name="UNIQUE_ID_OF_DIV"
           value={this.props.dotSrc}
           // viewport height - app bar - 2 * padding
