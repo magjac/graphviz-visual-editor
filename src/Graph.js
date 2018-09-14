@@ -497,8 +497,8 @@ class Graph extends React.Component {
     components.each(function(d, i) {
       let component = d3_select(this);
       let color = 'black';
-      const edgeId = component.select('title').text();
-      if (component.classed('edge') && self.dotGraph.getEdgeAttributes(edgeId) == null) {
+      const title = component.select('title').text();
+      if (component.classed('edge') && self.dotGraph.getEdgeAttributes(title) == null) {
         color = 'red';
       }
       let bbox = component.node().getBBox();
