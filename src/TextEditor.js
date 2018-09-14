@@ -25,7 +25,12 @@ class TextEditor extends React.Component {
         dummy: Date.now(), // Workaround for issue #33
       }];
     }
-    const locations = this.props.selectedGraphComponents.map((component) => component.astNode.location);
+    const locations = this.props.selectedGraphComponents.reduce(
+      (locations, component) => locations.concat(
+        component.astNodes.map((astNode) => astNode.location)
+      ),
+      []
+    );
     const markers = locations.map((location) => ({
       startRow: location.start.line - 1,
       startCol: location.start.column - 1,
