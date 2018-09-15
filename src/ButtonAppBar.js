@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import UndoIcon from '@material-ui/icons/Undo';
+import RedoIcon from '@material-ui/icons/Redo';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
@@ -38,6 +40,14 @@ function ButtonAppBar(props) {
 
   var handleMenuButtonClick = (event) => {
     props.onMenuButtonClick(event.currentTarget);
+  };
+
+  var handleUndoButtonClick = (event) => {
+    props.onUndoButtonClick(event.currentTarget);
+  };
+
+  var handleRedoButtonClick = (event) => {
+    props.onRedoButtonClick(event.currentTarget);
   };
 
   var handleZoomInButtonClick = (event) => {
@@ -89,6 +99,22 @@ function ButtonAppBar(props) {
             onClick={handleMenuButtonClick}
           >
             <MenuIcon />
+          </IconButton>
+          <IconButton
+            className={classes.undoButton}
+            color="inherit"
+            aria-label="Undo"
+            onClick={handleUndoButtonClick}
+          >
+            <UndoIcon />
+          </IconButton>
+          <IconButton
+            className={classes.redoButton}
+            color="inherit"
+            aria-label="Redo"
+            onClick={handleRedoButtonClick}
+          >
+            <RedoIcon />
           </IconButton>
           <Typography
             variant="title"

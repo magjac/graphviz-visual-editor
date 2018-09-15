@@ -294,13 +294,19 @@ class Graph extends React.Component {
       }
       this.deleteSelectedComponents.call(this);
     }
-    else if (event.key === 'a') {
+    else if (event.ctrlKey && event.key === 'a') {
       let components = this.graph0.selectAll('.node,.edge');
       this.selectComponents(components);
     }
-    else if (event.key === 'A') {
+    else if (event.ctrlKey && event.key === 'A') {
       let components = this.graph0.selectAll('.edge');
       this.selectComponents(components);
+    }
+    else if (event.ctrlKey && event.key === 'z') {
+      this.props.onUndo();
+    }
+    else if (event.ctrlKey && event.key === 'y') {
+      this.props.onRedo();
     }
     else if (event.key === '?') {
       this.props.onHelp();
