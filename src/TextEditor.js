@@ -30,11 +30,21 @@ class TextEditor extends React.Component {
 
   handleLoad = (editor) => {
     this.editor = editor;
+    this.props.registerUndo(this.undo);
+    this.props.registerRedo(this.redo);
   };
 
   handleErrorButtonClick = (event) => {
     this.editor.scrollToLine(this.props.error.line - 1, true);
   };
+
+  undo = () => {
+    this.editor.getSession().getUndoManager().undo();
+  }
+
+  redo = () => {
+    this.editor.getSession().getUndoManager().redo();
+  }
 
   render() {
     const { classes } = this.props;

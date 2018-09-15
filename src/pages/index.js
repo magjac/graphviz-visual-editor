@@ -96,6 +96,14 @@ class Index extends React.Component {
     });
   }
 
+  handleUndoButtonClick = () => {
+    this.undo();
+  }
+
+  handleRedoButtonClick = () => {
+    this.redo();
+  }
+
   handleMainMenuClose = () => {
     this.setState({
       mainMenuIsOpen: false,
@@ -323,6 +331,14 @@ class Index extends React.Component {
     }
   }
 
+  registerUndo = (undo) => {
+    this.undo = undo;
+  }
+
+  registerRedo = (redo) => {
+    this.redo = redo;
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -346,6 +362,8 @@ class Index extends React.Component {
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
           onMenuButtonClick={this.handleMainMenuButtonClick}
+          onUndoButtonClick={this.handleUndoButtonClick}
+          onRedoButtonClick={this.handleRedoButtonClick}
           onInsertClick={this.handleInsertClick}
           onNodeFormatClick={this.handleNodeFormatClick}
           onEdgeFormatClick={this.handleEdgeFormatClick}
@@ -410,6 +428,8 @@ class Index extends React.Component {
                     error={this.state.error}
                     selectedGraphComponents={this.state.selectedGraphComponents}
                     holdOff={this.state.holdOff}
+                    registerUndo={this.registerUndo}
+                    registerRedo={this.registerRedo}
                   />
                 )}
               </div>
