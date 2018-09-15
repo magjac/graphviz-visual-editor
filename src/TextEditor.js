@@ -98,6 +98,7 @@ class TextEditor extends React.Component {
         <AceEditor
           mode="dot"
           theme="github"
+          fontSize={this.props.fontSize + 'px'}
           onChange={this.handleChange}
           onBeforeLoad={this.handleBeforeLoad}
           onLoad={this.handleLoad}
