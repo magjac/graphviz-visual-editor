@@ -30,6 +30,9 @@ const engines = [
 ];
 
 const styles = theme => ({
+  root: {
+    overflowY: 'visible',
+  },
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
@@ -83,7 +86,7 @@ class SettingsDialog extends React.Component {
                 <CloseIcon />
               </IconButton>
           </div>
-          <DialogContent>
+          <DialogContent classes={{root: classes.root}}>
             <DialogContentText>
               These settings affects how the graph is rendered.
             </DialogContentText>
@@ -107,7 +110,7 @@ class SettingsDialog extends React.Component {
             </FormControl>
           </DialogContent>
           <DialogTitle id="form-dialog-title">Graph viewing</DialogTitle>
-          <DialogContent>
+          <DialogContent classes={{root: classes.root}}>
             <DialogContentText>
               These settings affects how the graph is viewed. They do not affect the graph itself.
             </DialogContentText>
@@ -125,7 +128,7 @@ class SettingsDialog extends React.Component {
             </FormGroup>
           </DialogContent>
           <DialogTitle id="form-dialog-title">Other</DialogTitle>
-          <DialogContent>
+          <DialogContent classes={{root: classes.root}}>
             <FormControl
               className={classes.formControl}
               aria-describedby="holdoff-helper-text"
