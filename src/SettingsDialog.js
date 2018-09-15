@@ -45,7 +45,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   holdOffInput: {
-    width: '7em',
+    width: '7.6em',
   },
   fontSizeInput: {
     width: '5em',
