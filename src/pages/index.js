@@ -457,6 +457,8 @@ class Index extends React.Component {
                 onTextChange={this.handleTextChange}
                 onHelp={this.handleKeyboardShortcutsClick}
                 onSelect={this.handleGraphComponentSelect}
+                onUndo={this.undo}
+                onRedo={this.redo}
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}

@@ -302,6 +302,12 @@ class Graph extends React.Component {
       let components = this.graph0.selectAll('.edge');
       this.selectComponents(components);
     }
+    else if (event.ctrlKey && event.key === 'z') {
+      this.props.onUndo();
+    }
+    else if (event.ctrlKey && event.key === 'y') {
+      this.props.onRedo();
+    }
     else if (event.key === '?') {
       this.props.onHelp();
     }
