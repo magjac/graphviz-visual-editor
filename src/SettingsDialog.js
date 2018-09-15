@@ -50,6 +50,9 @@ const styles = theme => ({
   fontSizeInput: {
     width: '5em',
   },
+  tabSizeInput: {
+    width: '7.1em',
+  },
 });
 
 class SettingsDialog extends React.Component {
@@ -72,6 +75,10 @@ class SettingsDialog extends React.Component {
 
   handleFontSizeChange = (event) => {
     this.props.onFontSizeChange(event.target.value);
+  };
+
+  handleTabSizeChange = (event) => {
+    this.props.onTabSizeChange(event.target.value);
   };
 
   render() {
@@ -150,6 +157,28 @@ class SettingsDialog extends React.Component {
                 endAdornment={<InputAdornment position="end"> px</InputAdornment>}
                 inputProps={{
                   'aria-label': 'FontSize',
+                  min: 1,
+                  max: 99,
+                  step: 1,
+                }}
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogContent classes={{root: classes.root}}>
+            <FormControl
+              className={classes.formControl}
+              aria-describedby="tab-size-helper-text"
+            >
+              <InputLabel shrink={true}>Tab size</InputLabel>
+              <Input
+                className={classes.tabSizeInput}
+                id="tab-size"
+                type="number"
+                value={this.props.tabSize}
+                onChange={this.handleTabSizeChange}
+                endAdornment={<InputAdornment position="end"> spaces</InputAdornment>}
+                inputProps={{
+                  'aria-label': 'TabSize',
                   min: 1,
                   max: 99,
                   step: 1,
