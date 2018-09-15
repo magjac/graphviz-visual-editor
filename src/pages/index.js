@@ -59,6 +59,8 @@ class Index extends React.Component {
       defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
       error: null,
       holdOff: localStorage.getItem('holdOff') || 0.2,
+      fontSize: localStorage.getItem('fontSize') || 12,
+      tabSize: localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
     };
   }
@@ -181,6 +183,18 @@ class Index extends React.Component {
   handleHoldOffChange = (holdOff) => {
     this.setPersistentState({
       holdOff: holdOff,
+    });
+  }
+
+  handleFontSizeChange = (fontSize) => {
+    this.setPersistentState({
+      fontSize: fontSize,
+    });
+  }
+
+  handleTabSizeChange = (tabSize) => {
+    this.setPersistentState({
+      tabSize: tabSize,
     });
   }
 
@@ -389,6 +403,10 @@ class Index extends React.Component {
           onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
           holdOff={this.state.holdOff}
           onHoldOffChange={this.handleHoldOffChange}
+          fontSize={this.state.fontSize}
+          onFontSizeChange={this.handleFontSizeChange}
+          tabSize={this.state.tabSize}
+          onTabSizeChange={this.handleTabSizeChange}
           onSettingsClose={this.handleSettingsClose}
         />
         <Grid container
@@ -428,6 +446,8 @@ class Index extends React.Component {
                     error={this.state.error}
                     selectedGraphComponents={this.state.selectedGraphComponents}
                     holdOff={this.state.holdOff}
+                    fontSize={this.state.fontSize}
+                    tabSize={this.state.tabSize}
                     registerUndo={this.registerUndo}
                     registerRedo={this.registerRedo}
                   />

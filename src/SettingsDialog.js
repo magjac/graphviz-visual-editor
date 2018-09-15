@@ -45,8 +45,14 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   holdOffInput: {
-    width: '7em',
-  }
+    width: '7.6em',
+  },
+  fontSizeInput: {
+    width: '5em',
+  },
+  tabSizeInput: {
+    width: '7.1em',
+  },
 });
 
 class SettingsDialog extends React.Component {
@@ -65,6 +71,14 @@ class SettingsDialog extends React.Component {
 
   handleHoldOffChange = (event) => {
     this.props.onHoldOffChange(event.target.value);
+  };
+
+  handleFontSizeChange = (event) => {
+    this.props.onFontSizeChange(event.target.value);
+  };
+
+  handleTabSizeChange = (event) => {
+    this.props.onTabSizeChange(event.target.value);
   };
 
   render() {
@@ -127,13 +141,57 @@ class SettingsDialog extends React.Component {
               />
             </FormGroup>
           </DialogContent>
-          <DialogTitle id="form-dialog-title">Other</DialogTitle>
+          <DialogTitle id="form-dialog-title">Text Editor</DialogTitle>
+          <DialogContent classes={{root: classes.root}}>
+            <FormControl
+              className={classes.formControl}
+              aria-describedby="font-size-helper-text"
+            >
+              <InputLabel shrink={true}>Font size</InputLabel>
+              <Input
+                className={classes.fontSizeInput}
+                id="font-size"
+                type="number"
+                value={this.props.fontSize}
+                onChange={this.handleFontSizeChange}
+                endAdornment={<InputAdornment position="end"> px</InputAdornment>}
+                inputProps={{
+                  'aria-label': 'FontSize',
+                  min: 1,
+                  max: 99,
+                  step: 1,
+                }}
+              />
+            </FormControl>
+          </DialogContent>
+          <DialogContent classes={{root: classes.root}}>
+            <FormControl
+              className={classes.formControl}
+              aria-describedby="tab-size-helper-text"
+            >
+              <InputLabel shrink={true}>Tab size</InputLabel>
+              <Input
+                className={classes.tabSizeInput}
+                id="tab-size"
+                type="number"
+                value={this.props.tabSize}
+                onChange={this.handleTabSizeChange}
+                endAdornment={<InputAdornment position="end"> spaces</InputAdornment>}
+                inputProps={{
+                  'aria-label': 'TabSize',
+                  min: 1,
+                  max: 99,
+                  step: 1,
+                }}
+              />
+            </FormControl>
+          </DialogContent>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
               className={classes.formControl}
               aria-describedby="holdoff-helper-text"
             >
-              <InputLabel shrink={true}>Editor hold-off time</InputLabel>
+              <InputLabel shrink={true}>Hold-off time</InputLabel>
               <Input
                 className={classes.holdOffInput}
                 id="holdoff"
