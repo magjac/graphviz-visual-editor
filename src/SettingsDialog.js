@@ -69,6 +69,10 @@ class SettingsDialog extends React.Component {
     this.props.onFitGraphSwitchChange(event.target.checked);
   };
 
+  handleTweenPathsSwitchChange = (event) => {
+    this.props.onTweenPathsSwitchChange(event.target.checked);
+  };
+
   handleHoldOffChange = (event) => {
     this.props.onHoldOffChange(event.target.value);
   };
@@ -138,6 +142,18 @@ class SettingsDialog extends React.Component {
                   />
                 }
                 label="Fit graph to available area"
+              />
+            </FormGroup>
+            <FormGroup row>
+              <FormControlLabel
+                className={classes.formControlLabel}
+                control={
+                  <Switch
+                    checked={this.props.tweenPaths}
+                    onChange={this.handleTweenPathsSwitchChange}
+                  />
+                }
+                label="Enable path tweening during transitions"
               />
             </FormGroup>
           </DialogContent>
