@@ -60,7 +60,7 @@ class Index extends React.Component {
       error: null,
       holdOff: localStorage.getItem('holdOff') || 0.2,
       fontSize: localStorage.getItem('fontSize') || 12,
-      tabSize: localStorage.getItem('tabSize') || 4,
+      tabSize: +localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
     };
   }
