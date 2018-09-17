@@ -47,6 +47,9 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  transitionDuration: {
+    width: '7.6em',
+  },
   group: {
     marginTop: theme.spacing.unit * 1,
     marginLeft: theme.spacing.unit * 0,
@@ -84,6 +87,10 @@ class SettingsDialog extends React.Component {
 
   handleFitSwitchChange = (event) => {
     this.props.onFitGraphSwitchChange(event.target.checked);
+  };
+
+  handleTransitionDurationChange = (event) => {
+    this.props.onTransitionDurationChange(event.target.value);
   };
 
   handleTweenPathsSwitchChange = (event) => {
@@ -188,6 +195,26 @@ class SettingsDialog extends React.Component {
                 label="Fit graph to available area"
               />
             </FormGroup>
+            <FormControl
+              className={classes.formControl}
+              aria-describedby="transition-duration-helper-text"
+            >
+              <InputLabel shrink={true}>Transition duration</InputLabel>
+              <Input
+                className={classes.transitionDuration}
+                id="transition-duration"
+                type="number"
+                value={this.props.transitionDuration}
+                onChange={this.handleTransitionDurationChange}
+                endAdornment={<InputAdornment position="end"> seconds</InputAdornment>}
+                inputProps={{
+                  'aria-label': 'transitionDuration',
+                  min: 0.1,
+                  max: 99,
+                  step: 0.1,
+                }}
+              />
+            </FormControl>
             <FormGroup row>
               <FormControlLabel
                 className={classes.formControlLabel}

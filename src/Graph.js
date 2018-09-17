@@ -153,7 +153,7 @@ class Graph extends React.Component {
       this.renderGraphReady = true;
       this.setZoomScale(1, true);
       this.graphviz
-        .transition(() => d3_transition().duration(1000));
+        .transition(() => d3_transition().duration(this.props.transitionDuration * 1000));
       this.props.onInitialized();
     }
     if (this.pendingUpdate) {
