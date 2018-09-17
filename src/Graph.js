@@ -132,6 +132,7 @@ class Graph extends React.Component {
       .engine(engine)
       .fit(fit)
       .tweenPaths(this.props.tweenPaths)
+      .tweenShapes(this.props.tweenShapes)
       .dot(this.props.dotSrc, this.handleDotLayoutReady.bind(this))
       .render(this.handleRenderGraphReady.bind(this));
   }

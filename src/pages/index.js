@@ -55,6 +55,7 @@ class Index extends React.Component {
       aboutDialogIsOpen: false,
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       tweenPaths : localStorage.getItem('tweenPaths') !== 'false',
+      tweenShapes : localStorage.getItem('tweenShapes') !== 'false',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
       defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
@@ -184,6 +185,12 @@ class Index extends React.Component {
   handleTweenPathsSwitchChange = (tweenPaths) => {
     this.setPersistentState({
       tweenPaths: tweenPaths,
+    });
+  }
+
+  handleTweenShapesSwitchChange = (tweenShapes) => {
+    this.setPersistentState({
+      tweenShapes: tweenShapes,
     });
   }
 
@@ -407,9 +414,11 @@ class Index extends React.Component {
           engine={this.state.engine}
           fitGraph={this.state.fitGraph}
           tweenPaths={this.state.tweenPaths}
+          tweenShapes={this.state.tweenShapes}
           onEngineSelectChange={this.handleEngineSelectChange}
           onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
           onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
+          onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
           holdOff={this.state.holdOff}
           onHoldOffChange={this.handleHoldOffChange}
           fontSize={this.state.fontSize}
@@ -482,6 +491,7 @@ class Index extends React.Component {
                 engine={this.state.engine}
                 fit={this.state.fitGraph}
                 tweenPaths={this.state.tweenPaths}
+                tweenShapes={this.state.tweenShapes}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onTextChange={this.handleTextChange}

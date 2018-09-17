@@ -73,6 +73,10 @@ class SettingsDialog extends React.Component {
     this.props.onTweenPathsSwitchChange(event.target.checked);
   };
 
+  handleTweenShapesSwitchChange = (event) => {
+    this.props.onTweenShapesSwitchChange(event.target.checked);
+  };
+
   handleHoldOffChange = (event) => {
     this.props.onHoldOffChange(event.target.value);
   };
@@ -154,6 +158,18 @@ class SettingsDialog extends React.Component {
                   />
                 }
                 label="Enable path tweening during transitions"
+              />
+            </FormGroup>
+            <FormGroup row>
+              <FormControlLabel
+                className={classes.formControlLabel}
+                control={
+                  <Switch
+                    checked={this.props.tweenShapes}
+                    onChange={this.handleTweenShapesSwitchChange}
+                  />
+                }
+                label="Enable shape tweening during transitions"
               />
             </FormGroup>
           </DialogContent>
