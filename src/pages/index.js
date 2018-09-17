@@ -56,6 +56,7 @@ class Index extends React.Component {
       fitGraph : localStorage.getItem('fitGraph') === 'true',
       tweenPaths : localStorage.getItem('tweenPaths') !== 'false',
       tweenShapes : localStorage.getItem('tweenShapes') !== 'false',
+      tweenPrecision : localStorage.getItem('tweenPrecision') || '1%',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
       defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
@@ -191,6 +192,12 @@ class Index extends React.Component {
   handleTweenShapesSwitchChange = (tweenShapes) => {
     this.setPersistentState({
       tweenShapes: tweenShapes,
+    });
+  }
+
+  handleTweenPrecisionChange = (tweenPrecision) => {
+    this.setPersistentState({
+      tweenPrecision: tweenPrecision,
     });
   }
 
@@ -415,10 +422,12 @@ class Index extends React.Component {
           fitGraph={this.state.fitGraph}
           tweenPaths={this.state.tweenPaths}
           tweenShapes={this.state.tweenShapes}
+          tweenPrecision={this.state.tweenPrecision}
           onEngineSelectChange={this.handleEngineSelectChange}
           onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
           onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
           onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
+          onTweenPrecisionChange={this.handleTweenPrecisionChange}
           holdOff={this.state.holdOff}
           onHoldOffChange={this.handleHoldOffChange}
           fontSize={this.state.fontSize}
@@ -492,6 +501,7 @@ class Index extends React.Component {
                 fit={this.state.fitGraph}
                 tweenPaths={this.state.tweenPaths}
                 tweenShapes={this.state.tweenShapes}
+                tweenPrecision={this.state.tweenPrecision}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onTextChange={this.handleTextChange}
