@@ -268,6 +268,9 @@ class Graph extends React.Component {
   }
 
   handleKeyDownDocument(d, i, nodes) {
+    if (!this.props.hasFocus) {
+      return;
+    }
     var event = d3_event;
     if (event.target.nodeName !== 'BODY') {
       return;
