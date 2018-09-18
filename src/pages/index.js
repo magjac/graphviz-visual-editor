@@ -129,13 +129,13 @@ class Index extends React.Component {
     });
   }
 
-  handleInsertClick = () => {
+  handleInsertButtonClick = () => {
     this.setPersistentState({
       insertPanelsAreOpen: !this.state.insertPanelsAreOpen,
     });
   }
 
-  handleNodeFormatClick = () => {
+  handleNodeFormatButtonClick = () => {
     this.setPersistentState({
       nodeFormatDrawerIsOpen: !this.state.nodeFormatDrawerIsOpen,
       edgeFormatDrawerIsOpen: false,
@@ -148,7 +148,7 @@ class Index extends React.Component {
     });
   }
 
-  handleEdgeFormatClick = () => {
+  handleEdgeFormatButtonClick = () => {
     this.setPersistentState({
       edgeFormatDrawerIsOpen: !this.state.edgeFormatDrawerIsOpen,
       nodeFormatDrawerIsOpen: false,
@@ -407,9 +407,9 @@ class Index extends React.Component {
           onMenuButtonClick={this.handleMainMenuButtonClick}
           onUndoButtonClick={this.handleUndoButtonClick}
           onRedoButtonClick={this.handleRedoButtonClick}
-          onInsertClick={this.handleInsertClick}
-          onNodeFormatClick={this.handleNodeFormatClick}
-          onEdgeFormatClick={this.handleEdgeFormatClick}
+          onInsertClick={this.handleInsertButtonClick}
+          onNodeFormatClick={this.handleNodeFormatButtonClick}
+          onEdgeFormatClick={this.handleEdgeFormatButtonClick}
           onZoomInButtonClick={this.handleZoomInButtonClick}
           onZoomOutButtonClick={this.handleZoomOutButtonClick}
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
