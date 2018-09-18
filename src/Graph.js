@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
@@ -18,6 +20,11 @@ const styles = {
   flex: {
     flexGrow: 1,
   },
+  progress: {
+    position: 'absolute',
+    top: 'calc(64px + 2 * 12px + 2px)',
+    left: 'calc(100vw - 2 * 12px - 2 * 12px)',
+  },
 };
 
 function isNumeric(n) {
@@ -27,7 +34,9 @@ function isNumeric(n) {
 class Graph extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      busy: false,
+    };
     this.createGraph = this.createGraph.bind(this)
     this.renderGraph = this.renderGraph.bind(this)
     this.isDrawingEdge = false;
@@ -65,6 +74,7 @@ class Graph extends React.Component {
     let line = errorMessage.replace(/.*error in line ([0-9]*) .*\n/, '$1');
     this.props.onError({message: errorMessage, line: line});
     this.rendering = false;
+    this.setState({busy: false});
     if (this.pendingUpdate) {
         this.pendingUpdate = false;
         this.render();
@@ -126,6 +136,7 @@ class Graph extends React.Component {
       return;
     }
     this.rendering = true;
+    this.setState({busy: true});
     this.graphviz
       .width(width)
       .height(height)
@@ -149,6 +160,7 @@ class Graph extends React.Component {
     this.dotGraph = this.prelDotGraph;
     this.addEventHandlers();
     this.rendering = false;
+    this.setState({busy: false});
     if (!this.renderGraphReady) {
       this.renderGraphReady = true;
       this.setZoomScale(1, true);
@@ -714,12 +726,33 @@ class Graph extends React.Component {
   }
 
   render() {
-    return <div
-             ref={div => this.div = d3_select(div)}
-             onDragOver={this.handleNodeShapeDragOver}
-             onDrop={this.handleNodeShapeDrop.bind(this)}
-           >
-           </div>;
+    const { classes } = this.props;
+    return (
+      <React.Fragment>
+        <div
+          ref={div => this.div = d3_select(div)}
+          onDragOver={this.handleNodeShapeDragOver}
+          onDrop={this.handleNodeShapeDrop.bind(this)}
+        >
+        </div>
+        {this.state.busy && (
+          <Fade
+            in={true}
+            style={{
+              transitionDelay: '800ms',
+            }}
+            unmountOnExit
+          >
+             <CircularProgress
+               className={classes.progress}
+               color="secondary"
+               size={20}
+               thickness={4.5}
+             />
+          </Fade>
+        )}
+      </React.Fragment>
+    );
   }
 }
 
