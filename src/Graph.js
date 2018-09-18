@@ -264,6 +264,7 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.unSelectComponents();
+    this.props.onFocus();
   }
 
   handleKeyDownDocument(d, i, nodes) {
@@ -351,6 +352,7 @@ class Graph extends React.Component {
       let extendSelection = event.ctrlKey || event.shiftKey;
       this.selectComponents(d3_select(nodes[i]), extendSelection);
     }
+    this.props.onFocus();
   }
 
   handleDblClickNode(d, i, nodes) {
@@ -370,6 +372,7 @@ class Graph extends React.Component {
       this.props.onTextChange(this.dotGraph.dotSrc);
     }
     this.isDrawingEdge = false;
+    this.props.onFocus();
   }
 
   handleRightClickNode(d, i, nodes) {
@@ -391,6 +394,7 @@ class Graph extends React.Component {
     this.graphviz
       .drawEdge(x0, y0, x0, y0, this.latestEdgeAttributes);
     this.isDrawingEdge = true;
+    this.props.onFocus();
   }
 
   handleClickEdge(d, i, nodes) {
@@ -400,6 +404,7 @@ class Graph extends React.Component {
     event.stopPropagation();
     let extendSelection = event.ctrlKey || event.shiftKey;
     this.selectComponents(d3_select(nodes[i]), extendSelection);
+    this.props.onFocus();
   }
 
   handleRightClickDiv(d, i, nodes) {
@@ -408,17 +413,20 @@ class Graph extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.unSelectComponents();
+    this.props.onFocus();
   }
 
   handleMouseDownSvg(d, i, nodes) {
     document.activeElement.blur();
     var event = d3_event;
     if (event.which !== 1) {
+      this.props.onFocus();
       return;
     }
     event.preventDefault();
     event.stopPropagation();
     if (this.selectArea) {
+      this.props.onFocus();
       return;
     }
     var [x0, y0] = d3_mouse(this.graph0.node());
@@ -433,6 +441,7 @@ class Graph extends React.Component {
       .attr("stroke", '#0000dd')
       .style('stroke-width', 0.5)
       .style('fill-opacity', 0.3);
+    this.props.onFocus();
   }
 
   handleMouseMoveSvg(d, i, nodes) {
@@ -469,6 +478,7 @@ class Graph extends React.Component {
       let height = Math.abs(y1 - y0);
       if (width === 0 && height === 0) {
         this.selectArea = null;
+        this.props.onFocus();
         return;
       }
       let components = this.graph0.selectAll('.node,.edge');
@@ -492,6 +502,7 @@ class Graph extends React.Component {
         this.insertNodeWithLatestAttributes(x0, y0);
       }
     }
+    this.props.onFocus();
   }
 
   selectComponents(components, extendSelection=false) {

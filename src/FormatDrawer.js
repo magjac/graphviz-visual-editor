@@ -128,6 +128,7 @@ class FormatDrawer extends React.Component {
   handleClick = () => {
     this.setColorColorPickerOpen(false);
     this.setFillColorColorPickerOpen(false);
+    this.props.onClick();
   };
 
   handleDrawerClose = () => {

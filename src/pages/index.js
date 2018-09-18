@@ -29,6 +29,9 @@ const styles = theme => ({
   }
 });
 
+const defaultElevation = 2;
+const focusedElevation = 8;
+
 class Index extends React.Component {
 
   constructor(props) {
@@ -67,6 +70,14 @@ class Index extends React.Component {
       tabSize: +localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
     };
+  }
+
+  componentDidMount() {
+    document.onblur = () => {
+      this.setState({
+        focusedPane: null,
+      });
+    }
   }
 
   setPersistentState = (updater) => {
@@ -130,12 +141,18 @@ class Index extends React.Component {
   }
 
   handleInsertButtonClick = () => {
+    this.setState({
+      focusedPane: this.state.insertPanelsAreOpen ? null : 'InsertPanels',
+    });
     this.setPersistentState({
       insertPanelsAreOpen: !this.state.insertPanelsAreOpen,
     });
   }
 
   handleNodeFormatButtonClick = () => {
+    this.setState({
+      focusedPane: this.state.nodeFormatDrawerIsOpen ? null: 'NodeFormatDrawer',
+    });
     this.setPersistentState({
       nodeFormatDrawerIsOpen: !this.state.nodeFormatDrawerIsOpen,
       edgeFormatDrawerIsOpen: false,
@@ -146,9 +163,15 @@ class Index extends React.Component {
     this.setPersistentState({
       nodeFormatDrawerIsOpen: false,
     });
+    this.setState({
+      focusedPane: null,
+    });
   }
 
   handleEdgeFormatButtonClick = () => {
+    this.setState({
+      focusedPane: this.state.edgeFormatDrawerIsOpen ? null: 'EdgeFormatDrawer',
+    });
     this.setPersistentState({
       edgeFormatDrawerIsOpen: !this.state.edgeFormatDrawerIsOpen,
       nodeFormatDrawerIsOpen: false,
@@ -158,6 +181,9 @@ class Index extends React.Component {
   handleEdgeFormatDrawerClose = () => {
     this.setPersistentState({
       edgeFormatDrawerIsOpen: false,
+    });
+    this.setState({
+      focusedPane: null,
     });
   }
 
@@ -381,9 +407,59 @@ class Index extends React.Component {
     this.redo = redo;
   }
 
+  handleTextEditorFocus = () => {
+    this.setState({
+      focusedPane: 'TextEditor',
+    });
+  }
+
+  handleTextEditorBlur = () => {
+    if (this.state.focusedPane === 'TextEditor') {
+      this.setState({
+        focusedPane: null,
+      });
+    }
+  }
+
+  handleGraphFocus = () => {
+    this.setState({
+      focusedPane: 'Graph',
+    });
+  }
+
+  handleInsertPanelsClick = () => {
+    this.setState({
+      focusedPane: 'InsertPanels',
+    });
+  }
+
+  handleNodeFormatDrawerClick = () => {
+    this.setState((state) => {
+      return {
+        focusedPane: state.nodeFormatDrawerIsOpen ? 'NodeFormatDrawer' : null,
+      }
+    });
+  }
+
+  handleEdgeFormatDrawerClick = () => {
+    this.setState((state) => {
+      return {
+        focusedPane: state.edgeFormatDrawerIsOpen ? 'EdgeFormatDrawer' : null,
+      }
+    });
+  }
+
   render() {
     const { classes } = this.props;
     const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen;
+    const textEditorHasFocus = this.state.focusedPane === 'TextEditor';
+    const nodeFormatDrawerHasFocus = this.state.focusedPane === 'NodeFormatDrawer';
+    const edgeFormatDrawerHasFocus = this.state.focusedPane === 'EdgeFormatDrawer';
+    const insertPanelsHaveFocus = this.state.focusedPane === 'InsertPanels';
+    const graphHasFocus = this.state.focusedPane === 'Graph';
+    const leftPaneElevation = textEditorHasFocus || nodeFormatDrawerHasFocus || edgeFormatDrawerHasFocus? focusedElevation : defaultElevation;
+    const rightPaneElevation = graphHasFocus ? focusedElevation : defaultElevation;
+    const midPaneElevation = insertPanelsHaveFocus ? focusedElevation : defaultElevation;
 
     var columns;
     if (this.state.insertPanelsAreOpen && this.state.graphInitialized) {
@@ -454,11 +530,12 @@ class Index extends React.Component {
           }}
         >
           <Grid item xs={columns.textEditor}>
-            <Paper className={classes.paper}>
+            <Paper elevation={leftPaneElevation} className={classes.paper}>
               <FormatDrawer
                 type='node'
                 open={this.state.nodeFormatDrawerIsOpen}
                 defaultAttributes={this.state.defaultNodeAttributes}
+                onClick={this.handleNodeFormatDrawerClick}
                 onFormatDrawerClose={this.handleNodeFormatDrawerClose}
                 onStyleChange={this.handleNodeStyleChange}
                 onColorChange={this.handleNodeColorChange}
@@ -468,6 +545,7 @@ class Index extends React.Component {
                 type='edge'
                 open={this.state.edgeFormatDrawerIsOpen}
                 defaultAttributes={this.state.defaultEdgeAttributes}
+                onClick={this.handleEdgeFormatDrawerClick}
                 onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
                 onStyleChange={this.handleEdgeStyleChange}
                 onColorChange={this.handleEdgeColorChange}
@@ -494,8 +572,9 @@ class Index extends React.Component {
           </Grid>
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
               <Grid item xs={columns.insertPanels}>
-                <Paper className={classes.paper}>
+                <Paper elevation={midPaneElevation} className={classes.paper}>
                   <InsertPanels
+                    onClick={this.handleInsertPanelsClick}
                     onNodeShapeClick={this.handleNodeShapeClick}
                     onNodeShapeDragStart={this.handleNodeShapeDragStart}
                     onNodeShapeDragEnd={this.handleNodeShapeDragEnd}
@@ -504,8 +583,9 @@ class Index extends React.Component {
               </Grid>
           )}
           <Grid item xs={columns.graph}>
-            <Paper className={classes.paper}>
+            <Paper elevation={rightPaneElevation} className={classes.paper}>
               <Graph
+                hasFocus={graphHasFocus}
                 dotSrc={this.state.dotSrc}
                 engine={this.state.engine}
                 fit={this.state.fitGraph}
@@ -515,6 +595,7 @@ class Index extends React.Component {
                 tweenPrecision={this.state.tweenPrecision}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
+                onFocus={this.handleGraphFocus}
                 onTextChange={this.handleTextChange}
                 onHelp={this.handleKeyboardShortcutsClick}
                 onSelect={this.handleGraphComponentSelect}
