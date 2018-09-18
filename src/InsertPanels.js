@@ -155,7 +155,11 @@ class InsertPanels extends React.Component {
     return (
       <div className={classes.root}>
         {nodeShapeCategories.map((nodeShapeCategory) =>
-          <ExpansionPanel key={nodeShapeCategory.name} expanded={expanded === nodeShapeCategory} onChange={this.handleChange(nodeShapeCategory)}>
+          <ExpansionPanel
+            key={nodeShapeCategory.name}
+            expanded={expanded === nodeShapeCategory}
+            onChange={this.handleChange(nodeShapeCategory)}
+          >
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{nodeShapeCategory.name}</Typography>
             </ExpansionPanelSummary>
