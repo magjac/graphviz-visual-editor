@@ -249,54 +249,54 @@ class Index extends React.Component {
   }
 
   handleNodeStyleChange = (style) => {
-    this.setPersistentState(prevState => ({
+    this.setPersistentState(state => ({
       defaultNodeAttributes: {
-          ...prevState.defaultNodeAttributes,
+          ...state.defaultNodeAttributes,
         style: style,
       },
     }));
   }
 
   handleNodeColorChange = (color) => {
-    this.setPersistentState(prevState => ({
+    this.setPersistentState(state => ({
       defaultNodeAttributes: {
-          ...prevState.defaultNodeAttributes,
+          ...state.defaultNodeAttributes,
         color: color,
       },
     }));
   }
 
   handleNodeFillColorChange = (color) => {
-    this.setPersistentState(prevState => ({
+    this.setPersistentState(state => ({
       defaultNodeAttributes: {
-          ...prevState.defaultNodeAttributes,
+          ...state.defaultNodeAttributes,
         fillcolor: color,
       },
     }));
   }
 
   handleEdgeStyleChange = (style) => {
-    this.setPersistentState(prevState => ({
+    this.setPersistentState(state => ({
       defaultEdgeAttributes: {
-          ...prevState.defaultEdgeAttributes,
+          ...state.defaultEdgeAttributes,
         style: style,
       },
     }));
   }
 
   handleEdgeColorChange = (color) => {
-    this.setPersistentState(prevState => ({
+    this.setPersistentState(state => ({
       defaultEdgeAttributes: {
-          ...prevState.defaultEdgeAttributes,
+          ...state.defaultEdgeAttributes,
         color: color,
       },
     }));
   }
 
   handleEdgeFillColorChange = (color) => {
-    this.setPersistentState(prevState => ({
+    this.setPersistentState(state => ({
       defaultEdgeAttributes: {
-          ...prevState.defaultEdgeAttributes,
+          ...state.defaultEdgeAttributes,
         fillcolor: color,
       },
     }));
