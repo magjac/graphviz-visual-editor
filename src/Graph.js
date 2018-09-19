@@ -557,8 +557,10 @@ class Graph extends React.Component {
   unSelectComponents() {
     this.selectRects.remove();
     this.selectRects = d3_select(null);
-    this.selectedComponents = d3_selectAll(null);
-    this.props.onSelect([]);
+    if (this.selectedComponents.size() > 0) {
+      this.selectedComponents = d3_selectAll(null);
+      this.props.onSelect([]);
+    }
   }
 
   deleteSelectedComponents() {
