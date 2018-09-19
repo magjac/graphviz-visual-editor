@@ -1,6 +1,7 @@
 GENERATED_FILES = \
 	src/shapes.js \
 	readme.html \
+	changelog.html \
 	src/dotParser.js \
 	graphviz \
 	dotfiles.txt \
@@ -33,6 +34,11 @@ readme: readme.html
 
 readme.html: README.md
 	./node_modules/markdown-to-html/bin/github-markdown README.md -h >readme.html
+
+changelog: changelog.html
+
+changelog.html: CHANGELOG.md
+	./node_modules/markdown-to-html/bin/github-markdown CHANGELOG.md -h >changelog.html
 
 clone-build:
 	rm -rf /tmp/`basename \`pwd\`` && git clone `pwd`/.git /tmp/`basename \`pwd\`` && cd /tmp/`basename \`pwd\`` && npm install && make && npm run build
