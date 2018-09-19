@@ -632,6 +632,7 @@ class Graph extends React.Component {
   }
 
   handleNodeShapeClick = (event, shape) => {
+    this.props.onFocus();
     let x0 = null;
     let y0 = null;
     this.latestInsertedNodeShape = shape;
