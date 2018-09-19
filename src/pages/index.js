@@ -74,9 +74,7 @@ class Index extends React.Component {
 
   componentDidMount() {
     document.onblur = () => {
-      this.setState({
-        focusedPane: null,
-      });
+      this.setFocus(null);
     }
   }
 
@@ -141,18 +139,14 @@ class Index extends React.Component {
   }
 
   handleInsertButtonClick = () => {
-    this.setState({
-      focusedPane: this.state.insertPanelsAreOpen ? null : 'InsertPanels',
-    });
+    this.setFocusIf('insertPanelsAreOpen', null, 'InsertPanels')
     this.setPersistentState({
       insertPanelsAreOpen: !this.state.insertPanelsAreOpen,
     });
   }
 
   handleNodeFormatButtonClick = () => {
-    this.setState({
-      focusedPane: this.state.nodeFormatDrawerIsOpen ? null: 'NodeFormatDrawer',
-    });
+    this.setFocusIf('nodeFormatDrawerIsOpen', null, 'NodeFormatDrawer')
     this.setPersistentState({
       nodeFormatDrawerIsOpen: !this.state.nodeFormatDrawerIsOpen,
       edgeFormatDrawerIsOpen: false,
@@ -163,15 +157,11 @@ class Index extends React.Component {
     this.setPersistentState({
       nodeFormatDrawerIsOpen: false,
     });
-    this.setState({
-      focusedPane: null,
-    });
+    this.setFocus(null);
   }
 
   handleEdgeFormatButtonClick = () => {
-    this.setState({
-      focusedPane: this.state.edgeFormatDrawerIsOpen ? null: 'EdgeFormatDrawer',
-    });
+    this.setFocusIf('edgeFormatDrawerIsOpen', null, 'EdgeFormatDrawer')
     this.setPersistentState({
       edgeFormatDrawerIsOpen: !this.state.edgeFormatDrawerIsOpen,
       nodeFormatDrawerIsOpen: false,
@@ -182,9 +172,7 @@ class Index extends React.Component {
     this.setPersistentState({
       edgeFormatDrawerIsOpen: false,
     });
-    this.setState({
-      focusedPane: null,
-    });
+    this.setFocus(null);
   }
 
   handleSettingsClick = () => {
@@ -408,44 +396,48 @@ class Index extends React.Component {
   }
 
   handleTextEditorFocus = () => {
-    this.setState({
-      focusedPane: 'TextEditor',
-    });
+    this.setFocus('TextEditor');
   }
 
   handleTextEditorBlur = () => {
-    if (this.state.focusedPane === 'TextEditor') {
-      this.setState({
-        focusedPane: null,
-      });
-    }
+    this.setFocusIfFocusIs('TextEditor', null);
   }
 
   handleGraphFocus = () => {
-    this.setState({
-      focusedPane: 'Graph',
-    });
+    this.setFocus('Graph');
   }
 
   handleInsertPanelsClick = () => {
-    this.setState({
-      focusedPane: 'InsertPanels',
-    });
+    this.setFocus('InsertPanels');
   }
 
   handleNodeFormatDrawerClick = () => {
-    this.setState((state) => {
-      return {
-        focusedPane: state.nodeFormatDrawerIsOpen ? 'NodeFormatDrawer' : null,
-      }
-    });
+    this.setFocusIf('nodeFormatDrawerIsOpen', 'NodeFormatDrawer', null)
   }
 
   handleEdgeFormatDrawerClick = () => {
+    this.setFocus('EdgeFormatDrawer');
+    this.setFocusIf('edgeFormatDrawerIsOpen', 'EdgeFormatDrawer', null)
+  }
+
+  setFocus = (focusedPane) => {
+    this.setState((state) => (state.focusedPane !== focusedPane && {
+      focusedPane: focusedPane,
+    }) || null);
+  }
+
+  setFocusIfFocusIs = (currentlyFocusedPane, newFocusedPane) => {
+    this.setState((state) => (state.focusedPane === currentlyFocusedPane && {
+      focusedPane: newFocusedPane,
+    }) || null);
+  }
+
+  setFocusIf = (stateProperty, focusedPaneIf, focusedPaneElse) => {
     this.setState((state) => {
-      return {
-        focusedPane: state.edgeFormatDrawerIsOpen ? 'EdgeFormatDrawer' : null,
-      }
+      const focusedPane = state[stateProperty] ? focusedPaneIf: focusedPaneElse;
+      return (state.focusedPane !== focusedPane && {
+        focusedPane: focusedPane,
+      }) || null;
     });
   }
 
