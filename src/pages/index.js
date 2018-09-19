@@ -383,6 +383,7 @@ class Index extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen;
 
     var columns;
     if (this.state.insertPanelsAreOpen && this.state.graphInitialized) {
@@ -472,22 +473,22 @@ class Index extends React.Component {
                 onColorChange={this.handleEdgeColorChange}
                 onFillColorChange={this.handleEdgeFillColorChange}
               />
-              <div>
-                {this.state.nodeFormatDrawerIsOpen || this.state.edgeFormatDrawerIsOpen || (
-                  <TextEditor
-                    // allocated viewport width - 2 * padding
-                    width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
-                    dotSrc={this.state.dotSrc}
-                    onTextChange={this.handleTextChange}
-                    error={this.state.error}
-                    selectedGraphComponents={this.state.selectedGraphComponents}
-                    holdOff={this.state.holdOff}
-                    fontSize={this.state.fontSize}
-                    tabSize={this.state.tabSize}
-                    registerUndo={this.registerUndo}
-                    registerRedo={this.registerRedo}
-                  />
-                )}
+              <div style={{display: editorIsOpen ? 'block' : 'none'}}>
+                <TextEditor
+                  // allocated viewport width - 2 * padding
+                  width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                  dotSrc={this.state.dotSrc}
+                  onTextChange={this.handleTextChange}
+                  onFocus={this.handleTextEditorFocus}
+                  onBlur={this.handleTextEditorBlur}
+                  error={this.state.error}
+                  selectedGraphComponents={this.state.selectedGraphComponents}
+                  holdOff={this.state.holdOff}
+                  fontSize={this.state.fontSize}
+                  tabSize={this.state.tabSize}
+                  registerUndo={this.registerUndo}
+                  registerRedo={this.registerRedo}
+                />
               </div>
             </Paper>
           </Grid>
