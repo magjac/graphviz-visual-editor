@@ -259,6 +259,7 @@ class Graph extends React.Component {
   }
 
   handleClickDiv(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -267,6 +268,9 @@ class Graph extends React.Component {
   }
 
   handleKeyDownDocument(d, i, nodes) {
+    if (!this.props.hasFocus) {
+      return;
+    }
     var event = d3_event;
     if (event.target.nodeName !== 'BODY') {
       return;
@@ -343,6 +347,7 @@ class Graph extends React.Component {
   }
 
   handleClickNode(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -354,6 +359,7 @@ class Graph extends React.Component {
   }
 
   handleDblClickNode(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -373,6 +379,7 @@ class Graph extends React.Component {
   }
 
   handleRightClickNode(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -394,6 +401,7 @@ class Graph extends React.Component {
   }
 
   handleClickEdge(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -403,6 +411,7 @@ class Graph extends React.Component {
   }
 
   handleRightClickDiv(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -411,6 +420,7 @@ class Graph extends React.Component {
   }
 
   handleMouseDownSvg(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     if (event.which !== 1) {
@@ -455,6 +465,7 @@ class Graph extends React.Component {
   }
 
   handleMouseUpSvg(d, i, nodes) {
+    this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     if (event.which === 1 && this.selectArea) {
@@ -543,8 +554,10 @@ class Graph extends React.Component {
   unSelectComponents() {
     this.selectRects.remove();
     this.selectRects = d3_select(null);
-    this.selectedComponents = d3_selectAll(null);
-    this.props.onSelect([]);
+    if (this.selectedComponents.size() > 0) {
+      this.selectedComponents = d3_selectAll(null);
+      this.props.onSelect([]);
+    }
   }
 
   deleteSelectedComponents() {
