@@ -74,6 +74,8 @@ class Index extends React.Component {
 
   componentDidMount() {
     document.onblur = () => {
+      // Needed when the user clicks outside the document,
+      // e.g. the browser address bar
       this.setFocus(null);
     }
   }
@@ -400,6 +402,8 @@ class Index extends React.Component {
   }
 
   handleTextEditorBlur = () => {
+    // Needed when the user clicks outside of a pane,
+    // e.g. the app bar or the background
     this.setFocusIfFocusIs('TextEditor', null);
   }
 
