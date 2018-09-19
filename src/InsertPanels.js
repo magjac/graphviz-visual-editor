@@ -141,6 +141,7 @@ class InsertPanels extends React.Component {
   };
 
   handleNodeShapeClick = shape => (event) => {
+    event.stopPropagation();
     this.props.onNodeShapeClick(event, shape);
   };
 

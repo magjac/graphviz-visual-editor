@@ -632,6 +632,7 @@ class Graph extends React.Component {
   }
 
   handleNodeShapeClick = (event, shape) => {
+    this.props.onFocus();
     let x0 = null;
     let y0 = null;
     this.latestInsertedNodeShape = shape;
@@ -660,6 +661,7 @@ class Graph extends React.Component {
   };
 
   handleNodeShapeDrop = (event) => {
+    this.props.onFocus();
     event.preventDefault();
     this.graphviz.drawnNodeSelection().attr("transform", null);
     let node = this.graph0.node();
