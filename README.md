@@ -37,7 +37,7 @@ Learn more from the Create React App [README](https://github.com/facebook/create
   * Insert node shapes by click or drag-and-drop.
   * Select default node style, color and fillcolor.
   * Draw edges between nodes.
-  * Select nodes and edges by click or by area drag.
+  * Select nodes and edges by click or by area drag and mark them in the text editor.
   * Delete selected nodes and edges.
   * Cut/Copy-and-paste a selected node.
 * Automatic update of the DOT source when the graph is visually edited.
