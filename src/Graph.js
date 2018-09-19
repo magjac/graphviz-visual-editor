@@ -660,6 +660,7 @@ class Graph extends React.Component {
   };
 
   handleNodeShapeDrop = (event) => {
+    this.props.onFocus();
     event.preventDefault();
     this.graphviz.drawnNodeSelection().attr("transform", null);
     let node = this.graph0.node();
