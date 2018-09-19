@@ -9,6 +9,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
 import Switch from '@material-ui/core/Switch';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -44,6 +47,23 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
+  transitionDuration: {
+    width: '7.6em',
+  },
+  group: {
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * 0,
+  },
+  tweenPrecisionAbsoluteInput: {
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * 1.5,
+    width: '6.9em',
+  },
+  tweenPrecisionRelativeInput: {
+    marginTop: theme.spacing.unit * 1,
+    marginLeft: theme.spacing.unit * 1.5,
+    width: '4.8em',
+  },
   holdOffInput: {
     width: '7.6em',
   },
@@ -69,6 +89,34 @@ class SettingsDialog extends React.Component {
     this.props.onFitGraphSwitchChange(event.target.checked);
   };
 
+  handleTransitionDurationChange = (event) => {
+    this.props.onTransitionDurationChange(event.target.value);
+  };
+
+  handleTweenPathsSwitchChange = (event) => {
+    this.props.onTweenPathsSwitchChange(event.target.checked);
+  };
+
+  handleTweenShapesSwitchChange = (event) => {
+    this.props.onTweenShapesSwitchChange(event.target.checked);
+  };
+
+  handleTweenPrecisionChange = (event) => {
+    let tweenPrecision = event.target.value;
+    if (event.target.value === 'absolute' || tweenPrecision > 1) {
+      tweenPrecision = Math.max(Math.ceil(tweenPrecision), 1);
+    }
+    this.props.onTweenPrecisionChange(tweenPrecision.toString() + (this.props.tweenPrecision.includes('%') ? '%': ''));
+  };
+
+  handleTweenPrecisionIsRelativeRadioChange = (event) => {
+    let tweenPrecision = +this.props.tweenPrecision.split('%')[0];
+    if (event.target.value === 'absolute' || tweenPrecision > 1) {
+      tweenPrecision = Math.max(Math.ceil(tweenPrecision), 1);
+    }
+    this.props.onTweenPrecisionChange(tweenPrecision.toString() + (event.target.value === 'relative' ? '%': ''));
+  };
+
   handleHoldOffChange = (event) => {
     this.props.onHoldOffChange(event.target.value);
   };
@@ -83,6 +131,13 @@ class SettingsDialog extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const tweenPrecisionIsRelative = this.props.tweenPrecision.includes('%');
+    const tweenPrecision = +this.props.tweenPrecision.split('%')[0];
+    const tweenPrecisionType = tweenPrecisionIsRelative ? 'relative' :  'absolute';
+    const tweenPrecisionUnit = tweenPrecisionIsRelative ? '%' :  'points';
+    const enableTweenPrecisionSetting = this.props.tweenPaths || this.props.tweenShapes;
+    const tweenPrecisionStep = (tweenPrecisionIsRelative && tweenPrecision <= 1) ? 0.1 : 1;
+    const tweenPrecisionInputClass = tweenPrecisionIsRelative ? classes.tweenPrecisionRelativeInput : classes.tweenPrecisionAbsoluteInput;
     return (
       <div>
         <Dialog
@@ -140,6 +195,89 @@ class SettingsDialog extends React.Component {
                 label="Fit graph to available area"
               />
             </FormGroup>
+            <FormControl
+              className={classes.formControl}
+              aria-describedby="transition-duration-helper-text"
+            >
+              <InputLabel shrink={true}>Transition duration</InputLabel>
+              <Input
+                className={classes.transitionDuration}
+                id="transition-duration"
+                type="number"
+                value={this.props.transitionDuration}
+                onChange={this.handleTransitionDurationChange}
+                endAdornment={<InputAdornment position="end"> seconds</InputAdornment>}
+                inputProps={{
+                  'aria-label': 'transitionDuration',
+                  min: 0.1,
+                  max: 99,
+                  step: 0.1,
+                }}
+              />
+            </FormControl>
+            <FormGroup row>
+              <FormControlLabel
+                className={classes.formControlLabel}
+                control={
+                  <Switch
+                    checked={this.props.tweenPaths}
+                    onChange={this.handleTweenPathsSwitchChange}
+                  />
+                }
+                label="Enable path tweening during transitions"
+              />
+            </FormGroup>
+            <FormGroup row>
+              <FormControlLabel
+                className={classes.formControlLabel}
+                control={
+                  <Switch
+                    checked={this.props.tweenShapes}
+                    onChange={this.handleTweenShapesSwitchChange}
+                  />
+                }
+                label="Enable shape tweening during transitions"
+              />
+            </FormGroup>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Tweening precision</FormLabel>
+              <RadioGroup
+                name="tweenPrecision"
+                className={classes.group}
+                value={tweenPrecisionType}
+                onChange={this.handleTweenPrecisionIsRelativeRadioChange}
+              >
+                <FormControlLabel
+                  className={classes.formControlLabel}
+                  value="absolute"
+                  disabled={!enableTweenPrecisionSetting}
+                  control={<Radio />}
+                  label="Absolute"
+                />
+                <FormControlLabel
+                  className={classes.formControlLabel}
+                  value="relative"
+                  disabled={!enableTweenPrecisionSetting}
+                  control={<Radio />}
+                  label="Relative"
+                />
+              </RadioGroup>
+              <Input
+                className={tweenPrecisionInputClass}
+                id="tween-precision"
+                type="number"
+                value={tweenPrecision}
+                disabled={!enableTweenPrecisionSetting}
+                onChange={this.handleTweenPrecisionChange}
+                endAdornment={<InputAdornment position="end"> {tweenPrecisionUnit} </InputAdornment>}
+                inputProps={{
+                  'aria-label': 'tweenPrecision',
+                  min: tweenPrecisionStep,
+                  max: tweenPrecisionIsRelative ? 100 : 999,
+                  step: tweenPrecisionStep,
+                }}
+              />
+            </FormControl>
           </DialogContent>
           <DialogTitle id="form-dialog-title">Text Editor</DialogTitle>
           <DialogContent classes={{root: classes.root}}>

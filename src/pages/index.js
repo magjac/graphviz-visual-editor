@@ -54,6 +54,10 @@ class Index extends React.Component {
       mouseOperationsDialogIsOpen: false,
       aboutDialogIsOpen: false,
       fitGraph : localStorage.getItem('fitGraph') === 'true',
+      transitionDuration: localStorage.getItem('transitionDuration') || 1,
+      tweenPaths : localStorage.getItem('tweenPaths') !== 'false',
+      tweenShapes : localStorage.getItem('tweenShapes') !== 'false',
+      tweenPrecision : localStorage.getItem('tweenPrecision') || '1%',
       engine : localStorage.getItem('engine') || 'dot',
       defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
       defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
@@ -177,6 +181,30 @@ class Index extends React.Component {
   handleFitGraphSwitchChange = (fitGraph) => {
     this.setPersistentState({
       fitGraph: fitGraph,
+    });
+  }
+
+  handleTransitionDurationChange = (transitionDuration) => {
+    this.setPersistentState({
+      transitionDuration: transitionDuration,
+    });
+  }
+
+  handleTweenPathsSwitchChange = (tweenPaths) => {
+    this.setPersistentState({
+      tweenPaths: tweenPaths,
+    });
+  }
+
+  handleTweenShapesSwitchChange = (tweenShapes) => {
+    this.setPersistentState({
+      tweenShapes: tweenShapes,
+    });
+  }
+
+  handleTweenPrecisionChange = (tweenPrecision) => {
+    this.setPersistentState({
+      tweenPrecision: tweenPrecision,
     });
   }
 
@@ -399,8 +427,16 @@ class Index extends React.Component {
           open={this.state.settingsDialogIsOpen}
           engine={this.state.engine}
           fitGraph={this.state.fitGraph}
+          transitionDuration={this.state.transitionDuration}
+          tweenPaths={this.state.tweenPaths}
+          tweenShapes={this.state.tweenShapes}
+          tweenPrecision={this.state.tweenPrecision}
           onEngineSelectChange={this.handleEngineSelectChange}
           onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
+          onTransitionDurationChange={this.handleTransitionDurationChange}
+          onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
+          onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
+          onTweenPrecisionChange={this.handleTweenPrecisionChange}
           holdOff={this.state.holdOff}
           onHoldOffChange={this.handleHoldOffChange}
           fontSize={this.state.fontSize}
@@ -472,6 +508,10 @@ class Index extends React.Component {
                 dotSrc={this.state.dotSrc}
                 engine={this.state.engine}
                 fit={this.state.fitGraph}
+                transitionDuration={this.state.transitionDuration}
+                tweenPaths={this.state.tweenPaths}
+                tweenShapes={this.state.tweenShapes}
+                tweenPrecision={this.state.tweenPrecision}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onTextChange={this.handleTextChange}

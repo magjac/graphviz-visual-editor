@@ -131,6 +131,9 @@ class Graph extends React.Component {
       .height(height)
       .engine(engine)
       .fit(fit)
+      .tweenPaths(this.props.tweenPaths)
+      .tweenShapes(this.props.tweenShapes)
+      .tweenPrecision(this.props.tweenPrecision)
       .dot(this.props.dotSrc, this.handleDotLayoutReady.bind(this))
       .render(this.handleRenderGraphReady.bind(this));
   }
@@ -150,7 +153,7 @@ class Graph extends React.Component {
       this.renderGraphReady = true;
       this.setZoomScale(1, true);
       this.graphviz
-        .transition(() => d3_transition().duration(1000));
+        .transition(() => d3_transition().duration(this.props.transitionDuration * 1000));
       this.props.onInitialized();
     }
     if (this.pendingUpdate) {
