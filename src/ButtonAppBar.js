@@ -189,7 +189,6 @@ function ButtonAppBar(props) {
               aria-label="GitHub"
             >
               <GitHubIcon
-                fontSize='inherit'
                 viewBox='-2.4 -2.4 28.8 28.8'
               />
             </IconButton>
