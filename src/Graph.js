@@ -146,12 +146,19 @@ class Graph extends React.Component {
       .tweenShapes(this.props.tweenShapes)
       .tweenPrecision(this.props.tweenPrecision)
       .dot(this.props.dotSrc, this.handleDotLayoutReady.bind(this))
+      .on('renderEnd', this.handleRenderStaged.bind(this))
       .render(this.handleRenderGraphReady.bind(this));
   }
 
   handleDotLayoutReady() {
     let [, , width, height] = this.graphviz.data().attributes.viewBox.split(' ');
     this.originalViewBox = {width, height};
+  }
+
+  handleRenderStaged() {
+    if (this.renderGraphReady) {
+      this.selectComponents(this.selectedComponents);
+    }
   }
 
   handleRenderGraphReady() {
