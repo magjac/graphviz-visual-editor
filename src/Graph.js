@@ -639,6 +639,9 @@ class Graph extends React.Component {
   }
 
   handleNodeShapeClick = (event, shape) => {
+    if (shape === '(default)') {
+      shape = null;
+    }
     this.props.onFocus();
     let x0 = null;
     let y0 = null;
