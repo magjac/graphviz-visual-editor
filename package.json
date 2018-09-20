@@ -24,8 +24,8 @@
     "url": "https://github.com/magjac/graphviz-visual-editor.git"
   },
   "dependencies": {
-    "@material-ui/core": "^1.5.0",
-    "@material-ui/icons": "^1.1.1",
+    "@material-ui/core": "^3.1.0",
+    "@material-ui/icons": "^3.0.1",
     "d3-graphviz": "^2.6.0",
     "d3-scale-chromatic": "^1.3.3",
     "d3-selection": "^1.3.2",
