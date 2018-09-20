@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+* Allow multiple graphs to be stored in the browser's local storage. #70
+  * Name and save a graph to local storage
+  * Open a named graph from local storage
+
 ### Fixed
 * Ctrl-Y and Ctrl-Z descriptions are missing in the keyboard shortcuts help dialog. #90
 * If the DOT source is cleared when an error is indicated in the text editor, the old error message is still displayed. #88

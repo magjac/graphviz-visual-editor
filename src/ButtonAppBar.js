@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
@@ -40,6 +42,14 @@ function ButtonAppBar(props) {
 
   var handleMenuButtonClick = (event) => {
     props.onMenuButtonClick(event.currentTarget);
+  };
+
+  var handleOpenInBrowserButtonClick = (event) => {
+    props.onOpenInBrowserButtonClick(event.currentTarget);
+  };
+
+  var handleSaveAltButtonClick = (event) => {
+    props.onSaveAltButtonClick(event.currentTarget);
   };
 
   var handleUndoButtonClick = (event) => {
@@ -99,6 +109,22 @@ function ButtonAppBar(props) {
             onClick={handleMenuButtonClick}
           >
             <MenuIcon />
+          </IconButton>
+          <IconButton
+            className={classes.openInBrowserButton}
+            color="inherit"
+            aria-label="OpenInBrowser"
+            onClick={handleOpenInBrowserButtonClick}
+          >
+            <OpenInBrowserIcon />
+          </IconButton>
+          <IconButton
+            className={classes.SaveAltButton}
+            color="inherit"
+            aria-label="SaveAlt"
+            onClick={handleSaveAltButtonClick}
+          >
+            <SaveAltIcon />
           </IconButton>
           <IconButton
             className={classes.undoButton}

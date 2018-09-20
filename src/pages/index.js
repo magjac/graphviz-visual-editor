@@ -11,6 +11,9 @@ import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
 import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
+import OpenFromBrowserDialog from '../OpenFromBrowserDialog';
+import SaveToBrowserAsDialog from '../SaveToBrowserAsDialog';
+import DoYouWantToReplaceItDialog from '../DoYouWantToReplaceItDialog';
 import InsertPanels from '../InsertPanels';
 import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
@@ -45,11 +48,18 @@ class Index extends React.Component {
 }`;
     }
     this.state = {
+      projects: JSON.parse(localStorage.getItem('projects')) || {},
       initialized: false,
+      name: localStorage.getItem('name') || 'Untitled',
       dotSrc: dotSrc,
+      dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
       mainMenuIsOpen: false,
       helpMenuIsOpen: false,
       settingsDialogIsOpen: false,
+      openFromBrowserDialogIsOpen: false,
+      saveToBrowserAsDialogIsOpen: false,
+      doYouWantToReplaceItDialogIsOpen: false,
+      replaceName: '',
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
@@ -105,7 +115,8 @@ class Index extends React.Component {
 
   handleTextChange = (text) => {
     this.setPersistentState({
-      dotSrc: text
+      dotSrc: text,
+      dotSrcLastChangeTime: Date.now(),
     });
   }
 
@@ -185,9 +196,90 @@ class Index extends React.Component {
       settingsDialogIsOpen: true,
     });
   }
+
   handleSettingsClose = () => {
     this.setState({
       settingsDialogIsOpen: false,
+    });
+  }
+
+  handleOpenFromBrowserClick = () => {
+    this.setState({
+      openFromBrowserDialogIsOpen: true,
+    });
+  }
+
+  handleOpenFromBrowserClose = () => {
+    this.setState({
+      openFromBrowserDialogIsOpen: false,
+    });
+  }
+
+  handleOpenFromBrowser = (newCurrentName) => {
+    const currentName = this.state.name;
+    if (newCurrentName !== currentName) {
+      this.setPersistentState(state => {
+        const projects = {...state.projects};
+        const currentProject = {
+          dotSrc: state.dotSrc,
+          dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+        };
+        projects[currentName] = currentProject;
+        const newCurrentProject = projects[newCurrentName];
+        delete projects[newCurrentName];
+        return {
+          name: newCurrentName,
+          ...newCurrentProject,
+          projects: projects,
+        }
+      });
+    }
+    this.handleOpenFromBrowserClose();
+  }
+
+  handleSaveToBrowserAsClick = () => {
+    this.setState({
+      saveToBrowserAsDialogIsOpen: true,
+    });
+  }
+
+  handleSaveToBrowserAsClose = () => {
+    this.setState({
+      saveToBrowserAsDialogIsOpen: false,
+    });
+  }
+
+  handleSaveToBrowserAs = (newName, askForConfirmationIfExist=true) => {
+    const currentName = this.state.name;
+    if (newName !== currentName) {
+      if (this.state.projects[newName] == null || !askForConfirmationIfExist) {
+        const currentProject = {
+          dotSrc: this.state.dotSrc,
+          dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+        };
+        this.setPersistentState(state => ({
+          projects: {
+            ...state.projects,
+            [currentName]: currentProject,
+          },
+          name: newName,
+        }));
+        this.setState({
+          doYouWantToReplaceItDialogIsOpen: false,
+        });
+      } else {
+        this.setState({
+          doYouWantToReplaceItDialogIsOpen: true,
+          replaceName: newName,
+        });
+      }
+    }
+    this.handleSaveToBrowserAsClose();
+  }
+
+  handleDoYouWantToReplaceItClose = () => {
+    this.setState({
+      doYouWantToReplaceItDialogIsOpen: false,
     });
   }
 
@@ -490,6 +582,8 @@ class Index extends React.Component {
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
           onZoomResetButtonClick={this.handleZoomResetButtonClick}
           onSettingsButtonClick={this.handleSettingsClick}
+          onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
+          onSaveAltButtonClick={this.handleSaveToBrowserAsClick}
           onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>
@@ -498,6 +592,8 @@ class Index extends React.Component {
           open={this.state.mainMenuIsOpen}
           onMenuClose={this.handleMainMenuClose}
           onSettingsClick={this.handleSettingsClick}
+          onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
+          onSaveToBrowserAsClick={this.handleSaveToBrowserAsClick}
         />
         <SettingsDialog
           open={this.state.settingsDialogIsOpen}
@@ -521,6 +617,30 @@ class Index extends React.Component {
           onTabSizeChange={this.handleTabSizeChange}
           onSettingsClose={this.handleSettingsClose}
         />
+        {this.state.openFromBrowserDialogIsOpen &&
+          <OpenFromBrowserDialog
+            projects={this.state.projects}
+            dotSrc={this.state.dotSrc}
+            dotSrcLastChangeTime={this.state.dotSrcLastChangeTime}
+            name={this.state.name}
+            onOpen={this.handleOpenFromBrowser}
+            onClose={this.handleOpenFromBrowserClose}
+          />
+        }
+        {this.state.saveToBrowserAsDialogIsOpen &&
+          <SaveToBrowserAsDialog
+            name={this.state.name}
+            onSave={this.handleSaveToBrowserAs}
+            onClose={this.handleSaveToBrowserAsClose}
+          />
+        }
+        {this.state.doYouWantToReplaceItDialogIsOpen &&
+          <DoYouWantToReplaceItDialog
+            name={this.state.replaceName}
+            onReplace={this.handleSaveToBrowserAs}
+            onClose={this.handleDoYouWantToReplaceItClose}
+          />
+        }
         <Grid container
           spacing={24}
           style={{
