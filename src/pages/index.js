@@ -87,16 +87,18 @@ class Index extends React.Component {
       } else {
         obj = updater;
       }
-      Object.keys(obj).forEach((key) => {
-        let value = obj[key];
-        if (typeof value === 'boolean') {
-          value = value.toString();
-        }
-        else if (typeof value === 'object') {
-          value = JSON.stringify(value);
-        }
-        localStorage.setItem(key, value);
-      });
+      if (obj != null) {
+        Object.keys(obj).forEach((key) => {
+          let value = obj[key];
+          if (typeof value === 'boolean') {
+            value = value.toString();
+          }
+          else if (typeof value === 'object') {
+            value = JSON.stringify(value);
+          }
+          localStorage.setItem(key, value);
+        });
+      }
     }.bind(this, updater));
   }
 
