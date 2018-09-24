@@ -30,7 +30,7 @@ class HelpMenu extends React.Component {
         <Menu
           id="help-menu"
           anchorEl={this.props.anchorEl}
-          open={this.props.open}
+          open
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleKeyboardShortcutsClick}>Keyboard shortcuts</MenuItem>

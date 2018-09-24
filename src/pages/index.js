@@ -737,14 +737,15 @@ class Index extends React.Component {
             </Paper>
           </Grid>
         </Grid>
-        <HelpMenu
-          anchorEl={this.state.helpMenuAnchorEl}
-          open={this.state.helpMenuIsOpen}
-          onMenuClose={this.handleHelpMenuClose}
-          onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
-          onMouseOperationsClick={this.handleMouseOperationsClick}
-          onAboutClick={this.handleAboutClick}
-        />
+        {this.state.helpMenuIsOpen &&
+          <HelpMenu
+            anchorEl={this.state.helpMenuAnchorEl}
+            onMenuClose={this.handleHelpMenuClose}
+            onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
+            onMouseOperationsClick={this.handleMouseOperationsClick}
+            onAboutClick={this.handleAboutClick}
+          />
+        }
         <KeyboardShortcutsDialog
           open={this.state.keyboardShortcutsDialogIsOpen}
           onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
