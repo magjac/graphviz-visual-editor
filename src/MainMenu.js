@@ -30,7 +30,7 @@ class MainMenu extends React.Component {
         <Menu
           id="main-menu"
           anchorEl={this.props.anchorEl}
-          open={this.props.open}
+          open
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleOpenFromBrowser}>Open from browser</MenuItem>

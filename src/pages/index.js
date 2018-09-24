@@ -587,14 +587,15 @@ class Index extends React.Component {
           onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>
-        <MainMenu
-          anchorEl={this.state.mainMenuAnchorEl}
-          open={this.state.mainMenuIsOpen}
-          onMenuClose={this.handleMainMenuClose}
-          onSettingsClick={this.handleSettingsClick}
-          onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
-          onSaveToBrowserAsClick={this.handleSaveToBrowserAsClick}
-        />
+        {this.state.mainMenuIsOpen &&
+          <MainMenu
+            anchorEl={this.state.mainMenuAnchorEl}
+            onMenuClose={this.handleMainMenuClose}
+            onSettingsClick={this.handleSettingsClick}
+            onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
+            onSaveToBrowserAsClick={this.handleSaveToBrowserAsClick}
+          />
+        }
         {this.state.settingsDialogIsOpen &&
           <SettingsDialog
             engine={this.state.engine}
