@@ -595,28 +595,29 @@ class Index extends React.Component {
           onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
           onSaveToBrowserAsClick={this.handleSaveToBrowserAsClick}
         />
-        <SettingsDialog
-          open={this.state.settingsDialogIsOpen}
-          engine={this.state.engine}
-          fitGraph={this.state.fitGraph}
-          transitionDuration={this.state.transitionDuration}
-          tweenPaths={this.state.tweenPaths}
-          tweenShapes={this.state.tweenShapes}
-          tweenPrecision={this.state.tweenPrecision}
-          onEngineSelectChange={this.handleEngineSelectChange}
-          onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
-          onTransitionDurationChange={this.handleTransitionDurationChange}
-          onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
-          onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
-          onTweenPrecisionChange={this.handleTweenPrecisionChange}
-          holdOff={this.state.holdOff}
-          onHoldOffChange={this.handleHoldOffChange}
-          fontSize={this.state.fontSize}
-          onFontSizeChange={this.handleFontSizeChange}
-          tabSize={this.state.tabSize}
-          onTabSizeChange={this.handleTabSizeChange}
-          onSettingsClose={this.handleSettingsClose}
-        />
+        {this.state.settingsDialogIsOpen &&
+          <SettingsDialog
+            engine={this.state.engine}
+            fitGraph={this.state.fitGraph}
+            transitionDuration={this.state.transitionDuration}
+            tweenPaths={this.state.tweenPaths}
+            tweenShapes={this.state.tweenShapes}
+            tweenPrecision={this.state.tweenPrecision}
+            onEngineSelectChange={this.handleEngineSelectChange}
+            onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
+            onTransitionDurationChange={this.handleTransitionDurationChange}
+            onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
+            onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
+            onTweenPrecisionChange={this.handleTweenPrecisionChange}
+            holdOff={this.state.holdOff}
+            onHoldOffChange={this.handleHoldOffChange}
+            fontSize={this.state.fontSize}
+            onFontSizeChange={this.handleFontSizeChange}
+            tabSize={this.state.tabSize}
+            onTabSizeChange={this.handleTabSizeChange}
+            onSettingsClose={this.handleSettingsClose}
+          />
+        }
         {this.state.openFromBrowserDialogIsOpen &&
           <OpenFromBrowserDialog
             projects={this.state.projects}
