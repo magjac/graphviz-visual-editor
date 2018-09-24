@@ -29,11 +29,6 @@ const styles = theme => ({
     height: 'calc(100vh - 64px - 2 * 12px)',
     textAlign: 'left',
   },
-  drawerPaperClosed: {
-    position: 'relative',
-    width: drawerWidth,
-    height: 0,
-  },
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
@@ -182,17 +177,7 @@ class FormatDrawer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-    const { open } = this.props;
     const { type } = this.props;
-
-    if (!open) {
-      if (this.state.colorColorPickerIsOpen) {
-        this.setColorColorPickerOpen(false);
-      }
-      if (this.state.fillColorColorPickerIsOpen) {
-        this.setFillColorColorPickerOpen(false);
-      }
-    }
 
     let styles = type === 'node' ? nodeStyles : edgeStyles;
     let currentStyle = this.getStyleSet();
@@ -201,9 +186,9 @@ class FormatDrawer extends React.Component {
         <Drawer
           variant="persistent"
           anchor='left'
-          open={open}
+          open
           classes={{
-            paper: open ? classes.drawerPaper : classes.drawerPaperClosed,
+            paper: classes.drawerPaper,
           }}
           onClick={this.handleClick}
         >

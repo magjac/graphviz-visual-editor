@@ -652,26 +652,28 @@ class Index extends React.Component {
         >
           <Grid item xs={columns.textEditor}>
             <Paper elevation={leftPaneElevation} className={classes.paper}>
-              <FormatDrawer
-                type='node'
-                open={this.state.nodeFormatDrawerIsOpen}
-                defaultAttributes={this.state.defaultNodeAttributes}
-                onClick={this.handleNodeFormatDrawerClick}
-                onFormatDrawerClose={this.handleNodeFormatDrawerClose}
-                onStyleChange={this.handleNodeStyleChange}
-                onColorChange={this.handleNodeColorChange}
-                onFillColorChange={this.handleNodeFillColorChange}
-              />
-              <FormatDrawer
-                type='edge'
-                open={this.state.edgeFormatDrawerIsOpen}
-                defaultAttributes={this.state.defaultEdgeAttributes}
-                onClick={this.handleEdgeFormatDrawerClick}
-                onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
-                onStyleChange={this.handleEdgeStyleChange}
-                onColorChange={this.handleEdgeColorChange}
-                onFillColorChange={this.handleEdgeFillColorChange}
-              />
+              {this.state.nodeFormatDrawerIsOpen &&
+                <FormatDrawer
+                  type='node'
+                  defaultAttributes={this.state.defaultNodeAttributes}
+                  onClick={this.handleNodeFormatDrawerClick}
+                  onFormatDrawerClose={this.handleNodeFormatDrawerClose}
+                  onStyleChange={this.handleNodeStyleChange}
+                  onColorChange={this.handleNodeColorChange}
+                  onFillColorChange={this.handleNodeFillColorChange}
+                />
+              }
+              {this.state.edgeFormatDrawerIsOpen &&
+                <FormatDrawer
+                  type='edge'
+                  defaultAttributes={this.state.defaultEdgeAttributes}
+                  onClick={this.handleEdgeFormatDrawerClick}
+                  onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
+                  onStyleChange={this.handleEdgeStyleChange}
+                  onColorChange={this.handleEdgeColorChange}
+                  onFillColorChange={this.handleEdgeFillColorChange}
+                />
+              }
               <div style={{display: editorIsOpen ? 'block' : 'none'}}>
                 <TextEditor
                   // allocated viewport width - 2 * padding
