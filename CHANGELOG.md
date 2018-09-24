@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Allow multiple graphs to be stored in the browser's local storage. #70
   * Name and save a graph to local storage
   * Open a named graph from local storage
+  * Allow sorting graphs on name, DOT source and last modification time in the open from browser dialog
 
 ### Fixed
 * Ctrl-Y and Ctrl-Z descriptions are missing in the keyboard shortcuts help dialog. #90

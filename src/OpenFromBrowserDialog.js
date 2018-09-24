@@ -15,7 +15,89 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
+
+function desc(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function stableSort(array, cmp) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = cmp(a[0], b[0]);
+    if (order === 0) {
+      return a[1] - b[1];
+    } else {
+      return order;
+    }
+  });
+  return stabilizedThis.map(el => el[0]);
+}
+
+function getSorting(order, orderBy) {
+  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+}
+
+const rows = [
+  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
+  { id: 'dotSrc', numeric: false, disablePadding: false, label: 'DOT Source' },
+  { id: 'dotSrcLastChangeTime', numeric: false, disablePadding: false, label: 'Last Changed' },
+];
+
+class EnhancedTableHead extends React.Component {
+  createSortHandler = property => event => {
+    this.props.onRequestSort(event, property);
+  };
+
+  render() {
+    const { order, orderBy } = this.props;
+
+    return (
+      <TableHead>
+        <TableRow>
+          {rows.map(row => {
+            return (
+              <TableCell
+                key={row.id}
+                numeric={row.numeric}
+                padding={row.disablePadding ? 'none' : 'default'}
+                sortDirection={orderBy === row.id ? order : false}
+              >
+                <Tooltip
+                  title="Sort"
+                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                  enterDelay={300}
+                >
+                  <TableSortLabel
+                    active={orderBy === row.id}
+                    direction={order}
+                    onClick={this.createSortHandler(row.id)}
+                  >
+                    {row.label}
+                  </TableSortLabel>
+                </Tooltip>
+              </TableCell>
+            );
+          }, this)}
+        </TableRow>
+      </TableHead>
+    );
+  }
+}
+
+EnhancedTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+};
 
 const styles = theme => ({
   root: {
@@ -34,6 +116,8 @@ class OpenFromBrowserDialog extends React.Component {
 
   state = {
     selectedName: this.props.name,
+    order: 'desc',
+    orderBy: 'dotSrcLastChangeTime',
   }
 
   handleClose = () => {
@@ -52,8 +136,25 @@ class OpenFromBrowserDialog extends React.Component {
     this.props.onOpen(this.state.selectedName);
   };
 
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    let order = (property === 'dotSrcLastChangeTime' ? 'desc' : 'asc');
+
+    if (this.state.orderBy === property) {
+      if (this.state.order === 'asc') {
+        order = 'desc';
+      } else {
+        order = 'asc';
+      }
+    }
+
+    this.setState({ order, orderBy });
+  };
+
   render() {
     const { classes } = this.props;
+    const { orderBy } = this.state;
+    const { order } = this.state;
     const projects = {
       [this.props.name]: {
         dotSrc: this.props.dotSrc,
@@ -61,6 +162,13 @@ class OpenFromBrowserDialog extends React.Component {
       },
       ...this.props.projects,
     };
+    const projectList = Object.keys(projects).map((name) => {
+      const project = projects[name];
+      return {
+        name: name,
+          ...project,
+      }
+    });
     return (
       <div>
         <Dialog
@@ -84,16 +192,15 @@ class OpenFromBrowserDialog extends React.Component {
               Open a graph from the browser&apos;s local storage.
             </DialogContentText>
             <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>DOT Source</TableCell>
-                  <TableCell>Last Changed</TableCell>
-                </TableRow>
-              </TableHead>
+              <EnhancedTableHead
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={this.handleRequestSort}
+              />
               <TableBody>
-                {Object.keys(projects).map((name) => {
-                  const project = projects[name];
+                {stableSort(projectList, getSorting(order, orderBy))
+                .map((project) => {
+                  const name = project.name;
                   return (
                       <TableRow
                         key={name}
