@@ -746,10 +746,11 @@ class Index extends React.Component {
             onAboutClick={this.handleAboutClick}
           />
         }
-        <KeyboardShortcutsDialog
-          open={this.state.keyboardShortcutsDialogIsOpen}
-          onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
-        />
+        {this.state.keyboardShortcutsDialogIsOpen &&
+          <KeyboardShortcutsDialog
+            onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
+          />
+        }
         <MouseOperationsDialog
           open={this.state.mouseOperationsDialogIsOpen}
           onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
