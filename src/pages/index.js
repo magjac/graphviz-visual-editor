@@ -237,6 +237,30 @@ class Index extends React.Component {
     this.handleOpenFromBrowserClose();
   }
 
+  handleOpenFromBrowserDelete = (nameToDelete) => {
+    this.setPersistentState((state) => {
+      const currentName = state.name;
+      if (nameToDelete === currentName) {
+        const baseName = 'Untitled Graph';
+        let newName = baseName;
+        while (state.projects[newName]) {
+          newName = baseName + ' ' + (+newName.replace(baseName, '') + 1);
+        }
+        return {
+          name: newName,
+          dotSrc: '',
+          dotSrcLastChangeTime: Date.now(),
+        }
+      } else {
+        const projects = {...state.projects};
+        delete projects[nameToDelete];
+        return {
+          projects: projects,
+        }
+      }
+    });
+  }
+
   handleSaveToBrowserAsClick = () => {
     this.setState({
       saveToBrowserAsDialogIsOpen: true,
@@ -627,6 +651,7 @@ class Index extends React.Component {
             name={this.state.name}
             onOpen={this.handleOpenFromBrowser}
             onClose={this.handleOpenFromBrowserClose}
+            onDelete={this.handleOpenFromBrowserDelete}
           />
         }
         {this.state.saveToBrowserAsDialogIsOpen &&

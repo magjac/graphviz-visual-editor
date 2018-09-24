@@ -18,6 +18,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoYouWantToDeleteDialog from './DoYouWantToDeleteDialog';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -50,6 +52,7 @@ const rows = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
   { id: 'dotSrc', numeric: false, disablePadding: false, label: 'DOT Source' },
   { id: 'dotSrcLastChangeTime', numeric: false, disablePadding: false, label: 'Last Changed' },
+  { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
 
 class EnhancedTableHead extends React.Component {
@@ -151,6 +154,26 @@ class OpenFromBrowserDialog extends React.Component {
     this.setState({ order, orderBy });
   };
 
+  handleConfirmedDelete = () => {
+    this.setState({
+      doYouWantToDeleteDialogIsOpen: false,
+    });
+    this.props.onDelete(this.state.deleteName);
+  };
+
+  handleDelete = (name) => () => {
+    this.setState({
+      doYouWantToDeleteDialogIsOpen: true,
+      deleteName: name,
+    });
+  };
+
+  handleDoYouWantToDeleteClose = () => {
+    this.setState({
+      doYouWantToDeleteDialogIsOpen: false,
+    });
+  }
+
   render() {
     const { classes } = this.props;
     const { orderBy } = this.state;
@@ -169,6 +192,7 @@ class OpenFromBrowserDialog extends React.Component {
           ...project,
       }
     });
+    const selectedName = projects[this.state.selectedName] ? this.state.selectedName : this.props.name;
     return (
       <div>
         <Dialog
@@ -204,7 +228,7 @@ class OpenFromBrowserDialog extends React.Component {
                   return (
                       <TableRow
                         key={name}
-                        selected={name === this.state.selectedName}
+                        selected={name === selectedName}
                         hover
                         onClick={this.handleClick(name)}
                         onDoubleClick={this.handleDoubleClick(name)}
@@ -219,6 +243,14 @@ class OpenFromBrowserDialog extends React.Component {
                       </TableCell>
                       <TableCell>
                         {project.dotSrcLastChangeTime ? moment(project.dotSrcLastChangeTime).fromNow() : ''}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          aria-label="Delete"
+                          onClick={this.handleDelete(name)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
@@ -235,6 +267,13 @@ class OpenFromBrowserDialog extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        {this.state.doYouWantToDeleteDialogIsOpen &&
+          <DoYouWantToDeleteDialog
+            name={this.state.deleteName}
+            onDelete={this.handleConfirmedDelete}
+            onClose={this.handleDoYouWantToDeleteClose}
+          />
+        }
       </div>
     );
   }
