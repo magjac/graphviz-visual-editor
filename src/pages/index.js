@@ -756,10 +756,11 @@ class Index extends React.Component {
             onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
           />
         }
-        <AboutDialog
-          open={this.state.aboutDialogIsOpen}
-          onAboutDialogClose={this.handleAboutDialogClose}
-        />
+        {this.state.aboutDialogIsOpen &&
+          <AboutDialog
+            onAboutDialogClose={this.handleAboutDialogClose}
+          />
+        }
       </div>
     );
   }
