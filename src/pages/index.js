@@ -81,9 +81,9 @@ class Index extends React.Component {
   }
 
   setPersistentState = (updater) => {
-    this.setState(updater, function (updater) {
+    this.setState((state) => {
       if (typeof updater === 'function') {
-        var obj = updater(this.state);
+        var obj = updater(state);
       } else {
         obj = updater;
       }
@@ -99,7 +99,8 @@ class Index extends React.Component {
           localStorage.setItem(key, value);
         });
       }
-    }.bind(this, updater));
+      return obj;
+    });
   }
 
   handleTextChange = (text) => {
