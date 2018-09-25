@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 });
 
-class SaveToBrowserAsDialog extends React.Component {
+class SaveAsToBrowserDialog extends React.Component {
 
   handleClose = () => {
     this.props.onClose();
@@ -92,8 +92,8 @@ class SaveToBrowserAsDialog extends React.Component {
   }
 }
 
-SaveToBrowserAsDialog.propTypes = {
+SaveAsToBrowserDialog.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRoot(withStyles(styles)(SaveToBrowserAsDialog));
+export default withRoot(withStyles(styles)(SaveAsToBrowserDialog));

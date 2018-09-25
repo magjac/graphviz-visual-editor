@@ -12,7 +12,7 @@ import MainMenu from '../MainMenu';
 import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
 import OpenFromBrowserDialog from '../OpenFromBrowserDialog';
-import SaveToBrowserAsDialog from '../SaveToBrowserAsDialog';
+import SaveAsToBrowserDialog from '../SaveAsToBrowserDialog';
 import DoYouWantToReplaceItDialog from '../DoYouWantToReplaceItDialog';
 import InsertPanels from '../InsertPanels';
 import FormatDrawer from '../FormatDrawer';
@@ -262,19 +262,19 @@ class Index extends React.Component {
     });
   }
 
-  handleSaveToBrowserAsClick = () => {
+  handleSaveAsToBrowserClick = () => {
     this.setState({
       saveToBrowserAsDialogIsOpen: true,
     });
   }
 
-  handleSaveToBrowserAsClose = () => {
+  handleSaveAsToBrowserClose = () => {
     this.setState({
       saveToBrowserAsDialogIsOpen: false,
     });
   }
 
-  handleSaveToBrowserAs = (newName, askForConfirmationIfExist=true) => {
+  handleSaveAsToBrowser = (newName, askForConfirmationIfExist=true) => {
     const currentName = this.state.name;
     if (newName !== currentName) {
       if (this.state.projects[newName] == null || !askForConfirmationIfExist) {
@@ -300,7 +300,7 @@ class Index extends React.Component {
         });
       }
     }
-    this.handleSaveToBrowserAsClose();
+    this.handleSaveAsToBrowserClose();
   }
 
   handleDoYouWantToReplaceItClose = () => {
@@ -619,7 +619,7 @@ class Index extends React.Component {
           onZoomResetButtonClick={this.handleZoomResetButtonClick}
           onSettingsButtonClick={this.handleSettingsClick}
           onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
-          onSaveAltButtonClick={this.handleSaveToBrowserAsClick}
+          onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
           onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>
@@ -629,7 +629,7 @@ class Index extends React.Component {
             onMenuClose={this.handleMainMenuClose}
             onSettingsClick={this.handleSettingsClick}
             onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
-            onSaveToBrowserAsClick={this.handleSaveToBrowserAsClick}
+            onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}
           />
         }
         {this.state.settingsDialogIsOpen &&
@@ -668,16 +668,16 @@ class Index extends React.Component {
           />
         }
         {this.state.saveToBrowserAsDialogIsOpen &&
-          <SaveToBrowserAsDialog
+          <SaveAsToBrowserDialog
             name={this.state.name}
-            onSave={this.handleSaveToBrowserAs}
-            onClose={this.handleSaveToBrowserAsClose}
+            onSave={this.handleSaveAsToBrowser}
+            onClose={this.handleSaveAsToBrowserClose}
           />
         }
         {this.state.doYouWantToReplaceItDialogIsOpen &&
           <DoYouWantToReplaceItDialog
             name={this.state.replaceName}
-            onReplace={this.handleSaveToBrowserAs}
+            onReplace={this.handleSaveAsToBrowser}
             onClose={this.handleDoYouWantToReplaceItClose}
           />
         }

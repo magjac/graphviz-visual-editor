@@ -18,9 +18,9 @@ class MainMenu extends React.Component {
     this.props.onOpenFromBrowserClick();
   };
 
-  handleSaveToBrowserAs = () => {
+  handleSaveAsToBrowser = () => {
     this.props.onMenuClose();
-    this.props.onSaveToBrowserAsClick();
+    this.props.onSaveAsToBrowserClick();
   };
 
   render() {
@@ -34,7 +34,7 @@ class MainMenu extends React.Component {
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleOpenFromBrowser}>Open from browser</MenuItem>
-          <MenuItem onClick={this.handleSaveToBrowserAs}>Save as to browser</MenuItem>
+          <MenuItem onClick={this.handleSaveAsToBrowser}>Save as to browser</MenuItem>
           <MenuItem onClick={this.handleSettings}>Settings</MenuItem>
         </Menu>
       </div>
