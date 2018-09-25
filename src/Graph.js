@@ -82,6 +82,10 @@ class Graph extends React.Component {
     }
   }
 
+  getSvg = () => {
+    return this.svg.node();
+  }
+
   createGraph() {
     this.graphviz = this.div.graphviz()
       .onerror(this.handleError.bind(this))
@@ -93,6 +97,7 @@ class Graph extends React.Component {
     this.props.registerZoomOutButtonClick(this.handleZoomOutButtonClick);
     this.props.registerZoomOutMapButtonClick(this.handleZoomOutMapButtonClick);
     this.props.registerZoomResetButtonClick(this.handleZoomResetButtonClick);
+    this.props.registerGetSvg(this.getSvg);
   }
 
   renderGraph() {

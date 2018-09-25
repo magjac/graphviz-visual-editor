@@ -223,6 +223,7 @@ class Index extends React.Component {
         const currentProject = {
           dotSrc: state.dotSrc,
           dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+          svg: this.getSvgString(),
         };
         projects[currentName] = currentProject;
         const newCurrentProject = projects[newCurrentName];
@@ -280,6 +281,7 @@ class Index extends React.Component {
         const currentProject = {
           dotSrc: this.state.dotSrc,
           dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+          svg: this.getSvgString(),
         };
         this.setPersistentState(state => ({
           projects: {
@@ -485,6 +487,16 @@ class Index extends React.Component {
     this.handleZoomResetButtonClick = handleZoomResetButtonClick;
   }
 
+  registerGetSvg = (getSvg) => {
+    this.getSvg = getSvg;
+  }
+
+  getSvgString() {
+    const svg = this.getSvg();
+    const serializer = new XMLSerializer();
+    return svg ? serializer.serializeToString(svg) : '';
+  }
+
   handleGraphComponentSelect = (components) => {
     this.setState({
       selectedGraphComponents: components,
@@ -648,6 +660,7 @@ class Index extends React.Component {
             projects={this.state.projects}
             dotSrc={this.state.dotSrc}
             dotSrcLastChangeTime={this.state.dotSrcLastChangeTime}
+            svg={this.getSvgString()}
             name={this.state.name}
             onOpen={this.handleOpenFromBrowser}
             onClose={this.handleOpenFromBrowserClose}
@@ -756,6 +769,7 @@ class Index extends React.Component {
                 registerZoomOutButtonClick={this.registerZoomOutButtonClick}
                 registerZoomOutMapButtonClick={this.registerZoomOutMapButtonClick}
                 registerZoomResetButtonClick={this.registerZoomResetButtonClick}
+                registerGetSvg={this.registerGetSvg}
                 onInitialized={this.handleGraphInitialized}
                 onError={this.handleError}
               />

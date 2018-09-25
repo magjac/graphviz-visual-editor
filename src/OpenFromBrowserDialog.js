@@ -20,6 +20,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoYouWantToDeleteDialog from './DoYouWantToDeleteDialog';
+import SvgPreview from './SvgPreview';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -52,6 +53,7 @@ const rows = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
   { id: 'dotSrc', numeric: false, disablePadding: false, label: 'DOT Source' },
   { id: 'dotSrcLastChangeTime', numeric: false, disablePadding: false, label: 'Last Changed' },
+  { id: 'svg', numeric: false, disablePadding: false, label: 'Preview' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
 
@@ -182,6 +184,7 @@ class OpenFromBrowserDialog extends React.Component {
       [this.props.name]: {
         dotSrc: this.props.dotSrc,
         dotSrcLastChangeTime: this.props.dotSrcLastChangeTime,
+        svg: this.props.svg,
       },
       ...this.props.projects,
     };
@@ -243,6 +246,10 @@ class OpenFromBrowserDialog extends React.Component {
                       </TableCell>
                       <TableCell>
                         {project.dotSrcLastChangeTime ? moment(project.dotSrcLastChangeTime).fromNow() : ''}
+                      </TableCell>
+                      <TableCell>
+                        <SvgPreview svg={project.svg}
+                        />
                       </TableCell>
                       <TableCell>
                         <IconButton
