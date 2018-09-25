@@ -25,8 +25,8 @@ class SvgPreview extends React.Component {
   componentDidUpdate() {
     const svgThumbnail = this.divThumbnail.querySelector('svg');
     if (svgThumbnail) {
-      svgThumbnail.setAttribute('width', '200px');
-      svgThumbnail.setAttribute('height', '60px');
+      svgThumbnail.setAttribute('width', this.props.width);
+      svgThumbnail.setAttribute('height', this.props.height);
       const g = svgThumbnail.querySelector('g');
       g.addEventListener('mouseenter', this.handleMouseEnter);
       g.addEventListener('mouseleave', this.handleMouseOut);
@@ -79,6 +79,8 @@ class SvgPreview extends React.Component {
 
 SvgPreview.propTypes = {
   svg: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 };
 

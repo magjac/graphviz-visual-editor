@@ -21,6 +21,9 @@ import moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoYouWantToDeleteDialog from './DoYouWantToDeleteDialog';
 import SvgPreview from './SvgPreview';
+import DotSrcPreview from './DotSrcPreview';
+
+const numLinesPreview = 5;
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -240,15 +243,19 @@ class OpenFromBrowserDialog extends React.Component {
                         {name}
                       </TableCell>
                       <TableCell>
-                        <pre>
-                          {project.dotSrc.split('\n').slice(0, 3).join('\n')}
-                        </pre>
+                        <DotSrcPreview
+                          dotSrc={project.dotSrc}
+                          numLines={numLinesPreview}
+                        />
                       </TableCell>
                       <TableCell>
                         {project.dotSrcLastChangeTime ? moment(project.dotSrcLastChangeTime).fromNow() : ''}
                       </TableCell>
                       <TableCell>
-                        <SvgPreview svg={project.svg}
+                        <SvgPreview
+                          svg={project.svg}
+                          width="200px"
+                          height={Math.ceil(numLinesPreview * 1.2, 1) + "em"}
                         />
                       </TableCell>
                       <TableCell>
