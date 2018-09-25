@@ -274,25 +274,11 @@ class Index extends React.Component {
     });
   }
 
-  handleSaveAsToBrowser = (newName, askForConfirmationIfExist=true) => {
+  handleSaveAsToBrowser = (newName) => {
     const currentName = this.state.name;
     if (newName !== currentName) {
-      if (this.state.projects[newName] == null || !askForConfirmationIfExist) {
-        const currentProject = {
-          dotSrc: this.state.dotSrc,
-          dotSrcLastChangeTime: state.dotSrcLastChangeTime,
-          svg: this.getSvgString(),
-        };
-        this.setPersistentState(state => ({
-          projects: {
-            ...state.projects,
-            [currentName]: currentProject,
-          },
-          name: newName,
-        }));
-        this.setState({
-          doYouWantToReplaceItDialogIsOpen: false,
-        });
+      if (this.state.projects[newName] == null) {
+        this.handleConfirmedSaveAsToBrowser(newName);
       } else {
         this.setState({
           doYouWantToReplaceItDialogIsOpen: true,
@@ -300,6 +286,28 @@ class Index extends React.Component {
         });
       }
     }
+    this.handleSaveAsToBrowserClose();
+  }
+
+  handleConfirmedSaveAsToBrowser = (newName) => {
+    const currentName = this.state.name;
+    if (newName !== currentName) {
+      this.setPersistentState((state) => {
+        const currentProject = {
+          dotSrc: this.state.dotSrc,
+          dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+          svg: this.getSvgString(),
+        };
+        return {
+          projects: {
+            ...state.projects,
+            [currentName]: currentProject,
+          },
+          name: newName,
+        };
+      });
+    }
+    this.handleDoYouWantToReplaceItClose();
     this.handleSaveAsToBrowserClose();
   }
 
@@ -677,7 +685,7 @@ class Index extends React.Component {
         {this.state.doYouWantToReplaceItDialogIsOpen &&
           <DoYouWantToReplaceItDialog
             name={this.state.replaceName}
-            onReplace={this.handleSaveAsToBrowser}
+            onReplace={this.handleConfirmedSaveAsToBrowser}
             onClose={this.handleDoYouWantToReplaceItClose}
           />
         }

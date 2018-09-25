@@ -28,8 +28,7 @@ class DoYouWantToReplaceItDialog extends React.Component {
   };
 
   handleReplace = () => {
-    const askForConfirmationIfExist = false;
-    this.props.onReplace(this.props.name, askForConfirmationIfExist);
+    this.props.onReplace(this.props.name);
   };
 
   render() {
