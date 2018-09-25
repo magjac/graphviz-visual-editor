@@ -300,10 +300,10 @@ class Index extends React.Component {
           dotSrcLastChangeTime: state.dotSrcLastChangeTime,
           svg: this.getSvgString(),
         };
+        projects[currentName] = currentProject;
         return {
           projects: {
             ...projects,
-            [currentName]: currentProject,
           },
           name: newName,
         };
