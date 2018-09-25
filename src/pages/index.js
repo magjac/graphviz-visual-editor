@@ -293,6 +293,8 @@ class Index extends React.Component {
     const currentName = this.state.name;
     if (newName !== currentName) {
       this.setPersistentState((state) => {
+        const projects = {...state.projects};
+        delete projects[newName];
         const currentProject = {
           dotSrc: this.state.dotSrc,
           dotSrcLastChangeTime: state.dotSrcLastChangeTime,
@@ -300,7 +302,7 @@ class Index extends React.Component {
         };
         return {
           projects: {
-            ...state.projects,
+            ...projects,
             [currentName]: currentProject,
           },
           name: newName,
