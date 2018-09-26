@@ -37,6 +37,7 @@ class Graph extends React.Component {
     this.state = {
       busy: false,
     };
+    this.svg = d3_select(null);
     this.createGraph = this.createGraph.bind(this)
     this.renderGraph = this.renderGraph.bind(this)
     this.isDrawingEdge = false;
@@ -100,6 +101,9 @@ class Graph extends React.Component {
     let fit = this.props.fit;
     let engine = this.props.engine;
     if (this.props.dotSrc.length === 0) {
+      this.svg.remove();
+      this.svg = d3_select(null);
+      this.renderGraphReady = false;
       return;
     }
     if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine) {
