@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+* The selection indication in the graph is cleared when a node is inserted. #78
 * The graph pane is not focused after inserting a node shape from node shape insert panel. #58
 
 ## [0.5.0] - 2018-09-19
