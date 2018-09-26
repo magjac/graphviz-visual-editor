@@ -30,7 +30,7 @@ class SaveAsToBrowserDialog extends React.Component {
     this.state = {
       doYouWantToReplaceItDialogIsOpen: false,
     };
-    this.name = this.props.name;
+    this.name = this.props.defaultNewName;
   }
 
   handleClose = () => {
@@ -102,7 +102,7 @@ class SaveAsToBrowserDialog extends React.Component {
               id="name"
               label="New name"
               type="text"
-              placeholder={this.props.name}
+              placeholder={this.props.defaultNewName}
               fullWidth
               onChange={this.handleChange}
               onKeyPress={this.handleKeyPress}
@@ -134,6 +134,7 @@ SaveAsToBrowserDialog.propTypes = {
   onSave: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  defaultNewName: PropTypes.string.isRequired,
   projects: PropTypes.object.isRequired,
 };
 

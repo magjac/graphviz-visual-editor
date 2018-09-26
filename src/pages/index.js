@@ -49,7 +49,7 @@ class Index extends React.Component {
     this.state = {
       projects: JSON.parse(localStorage.getItem('projects')) || {},
       initialized: false,
-      name: localStorage.getItem('name') || 'Untitled',
+      name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
       dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
       mainMenuIsOpen: false,
@@ -112,9 +112,12 @@ class Index extends React.Component {
   }
 
   handleTextChange = (text) => {
-    this.setPersistentState({
-      dotSrc: text,
-      dotSrcLastChangeTime: Date.now(),
+    this.setPersistentState((state) => {
+      return {
+        name: state.name || this.createUntitledName(state.projects),
+        dotSrc: text,
+        dotSrcLastChangeTime: Date.now(),
+      };
     });
   }
 
@@ -218,12 +221,14 @@ class Index extends React.Component {
     if (newCurrentName !== currentName) {
       this.setPersistentState(state => {
         const projects = {...state.projects};
-        const currentProject = {
-          dotSrc: state.dotSrc,
-          dotSrcLastChangeTime: state.dotSrcLastChangeTime,
-          svg: this.getSvgString(),
-        };
-        projects[currentName] = currentProject;
+        if (currentName) {
+          const currentProject = {
+            dotSrc: state.dotSrc,
+            dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+            svg: this.getSvgString(),
+          };
+          projects[currentName] = currentProject;
+        }
         const newCurrentProject = projects[newCurrentName];
         delete projects[newCurrentName];
         return {
@@ -249,9 +254,8 @@ class Index extends React.Component {
     this.setPersistentState((state) => {
       const currentName = state.name;
       if (nameToDelete === currentName) {
-        const newName = this.createUntitledName(state.projects);
         return {
-          name: newName,
+          name: '',
           dotSrc: '',
           dotSrcLastChangeTime: Date.now(),
         }
@@ -283,12 +287,14 @@ class Index extends React.Component {
       this.setPersistentState((state) => {
         const projects = {...state.projects};
         delete projects[newName];
-        const currentProject = {
-          dotSrc: this.state.dotSrc,
-          dotSrcLastChangeTime: state.dotSrcLastChangeTime,
-          svg: this.getSvgString(),
-        };
-        projects[currentName] = currentProject;
+        if (currentName) {
+          const currentProject = {
+            dotSrc: this.state.dotSrc,
+            dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+            svg: this.getSvgString(),
+          };
+          projects[currentName] = currentProject;
+        }
         return {
           projects: {
             ...projects,
@@ -661,6 +667,7 @@ class Index extends React.Component {
         {this.state.saveToBrowserAsDialogIsOpen &&
           <SaveAsToBrowserDialog
             name={this.state.name}
+            defaultNewName={this.state.name || this.createUntitledName(this.state.projects)}
             projects={this.state.projects}
             onSave={this.handleSaveAsToBrowser}
             onClose={this.handleSaveAsToBrowserClose}

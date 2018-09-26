@@ -184,13 +184,15 @@ class OpenFromBrowserDialog extends React.Component {
     const { orderBy } = this.state;
     const { order } = this.state;
     const projects = {
-      [this.props.name]: {
+      ...this.props.projects,
+    };
+    if (this.props.name) {
+      projects[this.props.name] = {
         dotSrc: this.props.dotSrc,
         dotSrcLastChangeTime: this.props.dotSrcLastChangeTime,
         svg: this.props.svg,
-      },
-      ...this.props.projects,
-    };
+      };
+    }
     const projectList = Object.keys(projects).map((name) => {
       const project = projects[name];
       return {
