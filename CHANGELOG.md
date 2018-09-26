@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+* The error button in the text editor might be covered by the highlighting of the current line. #85
 * Corrected size of GitHub icon in app bar.
 * When inserting a node with default shape by click in the node shape insert panel, the node gets an incorrect shape. #77
 * The selection indication in the graph is cleared when a node is inserted. #78
