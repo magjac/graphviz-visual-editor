@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+* When inserting a node with default shape by click in the node shape insert panel, the node gets an incorrect shape. #77
 * The selection indication in the graph is cleared when a node is inserted. #78
 * The graph pane is not focused after inserting a node shape from node shape insert panel. #58
 
