@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Allow sorting graphs on name, DOT source and last modification time in the open from browser dialog
   * Allow deleting graphs in the open from browser dialog
   * Show graph thumbnails and allow preview in the open from browser dialog
+  * Create new empty graph
 
 ### Fixed
 * Ctrl-Y and Ctrl-Z descriptions are missing in the keyboard shortcuts help dialog. #90

@@ -114,7 +114,7 @@ class Index extends React.Component {
   handleTextChange = (text) => {
     this.setPersistentState((state) => {
       return {
-        name: state.name || this.createUntitledName(state.projects),
+        name: state.name || (text ? this.createUntitledName(state.projects) : ''),
         dotSrc: text,
         dotSrcLastChangeTime: Date.now(),
       };
@@ -126,6 +126,10 @@ class Index extends React.Component {
       mainMenuIsOpen: true,
       mainMenuAnchorEl: anchorEl,
     });
+  }
+
+  handleNewClick = () => {
+    this.handleSaveAsToBrowser('');
   }
 
   handleUndoButtonClick = () => {
@@ -300,6 +304,7 @@ class Index extends React.Component {
             ...projects,
           },
           name: newName,
+          dotSrc: newName ? state.dotSrc : '',
         };
       });
     }
@@ -610,6 +615,7 @@ class Index extends React.Component {
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
           onMenuButtonClick={this.handleMainMenuButtonClick}
+          onNewButtonClick={this.handleNewClick}
           onUndoButtonClick={this.handleUndoButtonClick}
           onRedoButtonClick={this.handleRedoButtonClick}
           onInsertClick={this.handleInsertButtonClick}
@@ -632,6 +638,7 @@ class Index extends React.Component {
             onSettingsClick={this.handleSettingsClick}
             onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
             onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}
+            onNewClick={this.handleNewClick}
           />
         }
         {this.state.settingsDialogIsOpen &&

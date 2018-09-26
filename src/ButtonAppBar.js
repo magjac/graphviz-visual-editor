@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import AddIcon from '@material-ui/icons/Add';
 import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import UndoIcon from '@material-ui/icons/Undo';
@@ -42,6 +43,10 @@ function ButtonAppBar(props) {
 
   var handleMenuButtonClick = (event) => {
     props.onMenuButtonClick(event.currentTarget);
+  };
+
+  var handleNewButtonClick = (event) => {
+    props.onNewButtonClick(event.currentTarget);
   };
 
   var handleOpenInBrowserButtonClick = (event) => {
@@ -109,6 +114,14 @@ function ButtonAppBar(props) {
             onClick={handleMenuButtonClick}
           >
             <MenuIcon />
+          </IconButton>
+          <IconButton
+            className={classes.new}
+            color="inherit"
+            aria-label="New"
+            onClick={handleNewButtonClick}
+          >
+            <AddIcon />
           </IconButton>
           <IconButton
             className={classes.openInBrowserButton}
@@ -235,6 +248,7 @@ function ButtonAppBar(props) {
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   onMenuButtonClick: PropTypes.func.isRequired,
+  onNewButtonClick: PropTypes.func.isRequired,
   onOpenInBrowserButtonClick: PropTypes.func.isRequired,
   onSaveAltButtonClick: PropTypes.func.isRequired,
   onUndoButtonClick: PropTypes.func.isRequired,

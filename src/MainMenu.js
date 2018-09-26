@@ -13,6 +13,11 @@ class MainMenu extends React.Component {
     this.props.onSettingsClick();
   };
 
+  handleNew = () => {
+    this.props.onMenuClose();
+    this.props.onNewClick();
+  };
+
   handleOpenFromBrowser = () => {
     this.props.onMenuClose();
     this.props.onOpenFromBrowserClick();
@@ -33,6 +38,7 @@ class MainMenu extends React.Component {
           open
           onClose={this.handleClose}
         >
+          <MenuItem onClick={this.handleNew}>New</MenuItem>
           <MenuItem onClick={this.handleOpenFromBrowser}>Open from browser</MenuItem>
           <MenuItem onClick={this.handleSaveAsToBrowser}>Save as to browser</MenuItem>
           <MenuItem onClick={this.handleSettings}>Settings</MenuItem>
