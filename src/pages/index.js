@@ -236,15 +236,20 @@ class Index extends React.Component {
     this.handleOpenFromBrowserClose();
   }
 
+  createUntitledName = (projects) => {
+    const baseName = 'Untitled Graph';
+    let newName = baseName;
+    while (projects[newName]) {
+      newName = baseName + ' ' + (+newName.replace(baseName, '') + 1);
+    }
+    return newName;
+  }
+
   handleOpenFromBrowserDelete = (nameToDelete) => {
     this.setPersistentState((state) => {
       const currentName = state.name;
       if (nameToDelete === currentName) {
-        const baseName = 'Untitled Graph';
-        let newName = baseName;
-        while (state.projects[newName]) {
-          newName = baseName + ' ' + (+newName.replace(baseName, '') + 1);
-        }
+        const newName = this.createUntitledName(state.projects);
         return {
           name: newName,
           dotSrc: '',
