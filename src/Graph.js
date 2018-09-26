@@ -103,6 +103,7 @@ class Graph extends React.Component {
     if (this.props.dotSrc.length === 0) {
       this.svg.remove();
       this.svg = d3_select(null);
+      this.props.onError(null);
       this.renderGraphReady = false;
       return;
     }
