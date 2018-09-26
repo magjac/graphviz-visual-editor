@@ -468,6 +468,11 @@ class Index extends React.Component {
     this.handleNodeShapeDragEnd = handleNodeShapeDragEnd;
   }
 
+  handleZoomInButtonClick = () => {}
+  handleZoomOutButtonClick = () => {}
+  handleZoomOutMapButtonClick = () => {}
+  handleZoomResetButtonClick = () => {}
+
   registerZoomInButtonClick = (handleZoomInButtonClick) => {
     this.handleZoomInButtonClick = handleZoomInButtonClick;
   }

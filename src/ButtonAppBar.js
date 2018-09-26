@@ -234,6 +234,20 @@ function ButtonAppBar(props) {
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  onMenuButtonClick: PropTypes.func.isRequired,
+  onOpenInBrowserButtonClick: PropTypes.func.isRequired,
+  onSaveAltButtonClick: PropTypes.func.isRequired,
+  onUndoButtonClick: PropTypes.func.isRequired,
+  onRedoButtonClick: PropTypes.func.isRequired,
+  onZoomInButtonClick: PropTypes.func.isRequired,
+  onZoomOutButtonClick: PropTypes.func.isRequired,
+  onZoomOutMapButtonClick: PropTypes.func.isRequired,
+  onZoomResetButtonClick: PropTypes.func.isRequired,
+  onInsertClick: PropTypes.func.isRequired,
+  onNodeFormatClick: PropTypes.func.isRequired,
+  onEdgeFormatClick: PropTypes.func.isRequired,
+  onSettingsButtonClick: PropTypes.func.isRequired,
+  onHelpButtonClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ButtonAppBar);
