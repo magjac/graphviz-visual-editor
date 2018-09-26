@@ -28,7 +28,7 @@ class DoYouWantToReplaceItDialog extends React.Component {
   };
 
   handleReplace = () => {
-    this.props.onReplace(this.props.name);
+    this.props.onReplace();
   };
 
   render() {

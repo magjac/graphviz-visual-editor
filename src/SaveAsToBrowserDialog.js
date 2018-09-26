@@ -11,6 +11,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
+import DoYouWantToReplaceItDialog from './DoYouWantToReplaceItDialog';
 
 const styles = theme => ({
   title: {
@@ -24,6 +25,14 @@ const styles = theme => ({
 
 class SaveAsToBrowserDialog extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      doYouWantToReplaceItDialogIsOpen: false,
+    };
+    this.name = this.props.name;
+  }
+
   handleClose = () => {
     this.props.onClose();
   };
@@ -34,17 +43,38 @@ class SaveAsToBrowserDialog extends React.Component {
 
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      this.props.onSave(this.name);
+      this.handleSave();
     }
   };
 
   handleSave = () => {
+    const newName = this.name;
+    const currentName = this.props.name;
+    if (this.props.projects[newName] == null || newName === currentName) {
+      this.handleConfirmedSave();
+    } else {
+      this.setState({
+        doYouWantToReplaceItDialogIsOpen: true,
+        replaceName: newName,
+      });
+    }
+  };
+
+  handleConfirmedSave = () => {
+    this.setState({
+      doYouWantToReplaceItDialogIsOpen: false,
+    });
     this.props.onSave(this.name);
   };
 
+  handleDoYouWantToReplaceItClose = () => {
+    this.setState({
+      doYouWantToReplaceItDialogIsOpen: false,
+    });
+  }
+
   render() {
     const { classes } = this.props;
-    this.name = this.props.name;
     return (
       <div>
         <Dialog
@@ -87,6 +117,13 @@ class SaveAsToBrowserDialog extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        {this.state.doYouWantToReplaceItDialogIsOpen &&
+          <DoYouWantToReplaceItDialog
+            name={this.state.replaceName}
+            onReplace={this.handleConfirmedSave}
+            onClose={this.handleDoYouWantToReplaceItClose}
+          />
+        }
       </div>
     );
   }
@@ -94,6 +131,10 @@ class SaveAsToBrowserDialog extends React.Component {
 
 SaveAsToBrowserDialog.propTypes = {
   classes: PropTypes.object.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  projects: PropTypes.object.isRequired,
 };
 
 export default withRoot(withStyles(styles)(SaveAsToBrowserDialog));

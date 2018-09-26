@@ -13,7 +13,6 @@ import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
 import OpenFromBrowserDialog from '../OpenFromBrowserDialog';
 import SaveAsToBrowserDialog from '../SaveAsToBrowserDialog';
-import DoYouWantToReplaceItDialog from '../DoYouWantToReplaceItDialog';
 import InsertPanels from '../InsertPanels';
 import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
@@ -58,7 +57,6 @@ class Index extends React.Component {
       settingsDialogIsOpen: false,
       openFromBrowserDialogIsOpen: false,
       saveToBrowserAsDialogIsOpen: false,
-      doYouWantToReplaceItDialogIsOpen: false,
       replaceName: '',
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
@@ -277,21 +275,6 @@ class Index extends React.Component {
   handleSaveAsToBrowser = (newName) => {
     const currentName = this.state.name;
     if (newName !== currentName) {
-      if (this.state.projects[newName] == null) {
-        this.handleConfirmedSaveAsToBrowser(newName);
-      } else {
-        this.setState({
-          doYouWantToReplaceItDialogIsOpen: true,
-          replaceName: newName,
-        });
-      }
-    }
-    this.handleSaveAsToBrowserClose();
-  }
-
-  handleConfirmedSaveAsToBrowser = (newName) => {
-    const currentName = this.state.name;
-    if (newName !== currentName) {
       this.setPersistentState((state) => {
         const projects = {...state.projects};
         delete projects[newName];
@@ -309,14 +292,7 @@ class Index extends React.Component {
         };
       });
     }
-    this.handleDoYouWantToReplaceItClose();
     this.handleSaveAsToBrowserClose();
-  }
-
-  handleDoYouWantToReplaceItClose = () => {
-    this.setState({
-      doYouWantToReplaceItDialogIsOpen: false,
-    });
   }
 
   handleEngineSelectChange = (engine) => {
@@ -680,15 +656,9 @@ class Index extends React.Component {
         {this.state.saveToBrowserAsDialogIsOpen &&
           <SaveAsToBrowserDialog
             name={this.state.name}
+            projects={this.state.projects}
             onSave={this.handleSaveAsToBrowser}
             onClose={this.handleSaveAsToBrowserClose}
-          />
-        }
-        {this.state.doYouWantToReplaceItDialogIsOpen &&
-          <DoYouWantToReplaceItDialog
-            name={this.state.replaceName}
-            onReplace={this.handleConfirmedSaveAsToBrowser}
-            onClose={this.handleDoYouWantToReplaceItClose}
           />
         }
         <Grid container
