@@ -124,6 +124,7 @@ class TextEditor extends React.Component {
           style={{
             left: `calc(${this.props.width} - 2 * 12px - 12px - ${scrollbarWidth}px`,
             display: this.props.error ? 'block' : 'none',
+            zIndex: 1,
           }}
           color="inherit"
           aria-label="Error"
