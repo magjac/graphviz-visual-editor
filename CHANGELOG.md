@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+* Ctrl-Y and Ctrl-Z descriptions are missing in the keyboard shortcuts help dialog. #90
 * If the DOT source is cleared when an error is indicated in the text editor, the old error message is still displayed. #88
 * When the DOT source is cleared in the text editor, the old graph is still visible. #87
 * The error button in the text editor might be covered by the highlighting of the current line. #85

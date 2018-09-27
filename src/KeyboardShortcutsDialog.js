@@ -19,6 +19,8 @@ const keyboardShortcuts = [
   {key: 'Ctrl-C', description: 'Copy the selected node.'},
   {key: 'Ctrl-V', description: 'Paste the cut/copied node.'},
   {key: 'Ctrl-X', description: 'Cut the selected node.'},
+  {key: 'Ctrl-Y', description: 'Redo. Reimplement the last DOT source change.'},
+  {key: 'Ctrl-Z', description: 'Undo. Revert the last DOT source change.'},
   {key: 'DEL', description: 'Delete the selected nodes and edges.'},
   {key: 'ESC', description: 'De-select the selected nodes and edges. Abort the current drawing operation.'},
   {key: '?', description: 'Show keyboard shortcuts.'},
