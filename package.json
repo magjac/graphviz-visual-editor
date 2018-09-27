@@ -33,6 +33,7 @@
     "d3-zoom": "^1.7.3",
     "moment": "^2.22.2",
     "prop-types": "latest",
+    "qs": "^6.5.2",
     "react": "latest",
     "react-ace": "^6.1.4",
     "react-color": "^2.14.1",

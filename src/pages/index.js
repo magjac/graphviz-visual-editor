@@ -20,6 +20,7 @@ import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
 import MouseOperationsDialog from '../MouseOperationsDialog';
 import AboutDialog from '../AboutDialog';
+import { parse as qs_parse } from 'qs';
 
 const styles = theme => ({
   root: {
@@ -83,6 +84,13 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
+    const urlParams = qs_parse(window.location.search.slice(1));
+    if (urlParams.dot) {
+      const dotSrc = urlParams.dot;
+      const newName = this.createUntitledName(this.state.projects, this.state.name);
+      this.handleSaveAsToBrowser(newName, dotSrc);
+      window.history.pushState(null, null, '/');
+    }
     document.onblur = () => {
       // Needed when the user clicks outside the document,
       // e.g. the browser address bar
@@ -260,10 +268,10 @@ class Index extends React.Component {
     this.handleOpenFromBrowserClose();
   }
 
-  createUntitledName = (projects) => {
+  createUntitledName = (projects, currentName) => {
     const baseName = 'Untitled Graph';
     let newName = baseName;
-    while (projects[newName]) {
+    while (projects[newName] || newName === currentName) {
       newName = baseName + ' ' + (+newName.replace(baseName, '') + 1);
     }
     return newName;
@@ -301,7 +309,7 @@ class Index extends React.Component {
     });
   }
 
-  handleSaveAsToBrowser = (newName) => {
+  handleSaveAsToBrowser = (newName, newDotSrc) => {
     const currentName = this.state.name;
     if (newName !== currentName) {
       this.setPersistentState((state) => {
@@ -320,7 +328,8 @@ class Index extends React.Component {
             ...projects,
           },
           name: newName,
-          dotSrc: newName ? state.dotSrc : '',
+          dotSrc: newDotSrc ? newDotSrc : (newName ? state.dotSrc : ''),
+          dotSrcLastChangeTime: newDotSrc ? Date.now() : state.dotSrcLastChangeTime,
         };
       });
     }
