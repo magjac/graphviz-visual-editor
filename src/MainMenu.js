@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -47,5 +48,14 @@ class MainMenu extends React.Component {
     );
   }
 }
+
+MainMenu.propTypes = {
+  onMenuClose: PropTypes.func.isRequired,
+  onSettingsClick: PropTypes.func.isRequired,
+  onNewClick: PropTypes.func.isRequired,
+  onOpenFromBrowserClick: PropTypes.func.isRequired,
+  onSaveAsToBrowserClick: PropTypes.func.isRequired,
+  anchorEl: PropTypes.object.isRequired,
+};
 
 export default MainMenu;
