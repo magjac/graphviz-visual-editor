@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+* Disabling of the undo and redo buttons when there is nothing to undo or redo.
 * Allow multiple graphs to be stored in the browser's local storage. #70
   * Name and save a graph to local storage
   * Open a named graph from local storage

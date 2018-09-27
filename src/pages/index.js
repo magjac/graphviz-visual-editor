@@ -52,6 +52,8 @@ class Index extends React.Component {
       name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
       dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
+      hasUndo: false,
+      hasRedo: false,
       mainMenuIsOpen: false,
       helpMenuIsOpen: false,
       settingsDialogIsOpen: false,
@@ -111,7 +113,7 @@ class Index extends React.Component {
     });
   }
 
-  handleTextChange = (text) => {
+  handleTextChange = (text, undoRedoState) => {
     this.setPersistentState((state) => {
       return {
         name: state.name || (text ? this.createUntitledName(state.projects) : ''),
@@ -119,6 +121,7 @@ class Index extends React.Component {
         dotSrcLastChangeTime: Date.now(),
       };
     });
+    this.setState(undoRedoState);
   }
 
   handleMainMenuButtonClick = (anchorEl) => {
@@ -622,6 +625,8 @@ class Index extends React.Component {
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
+          hasUndo={this.state.hasUndo}
+          hasRedo={this.state.hasRedo}
           onMenuButtonClick={this.handleMainMenuButtonClick}
           onNewButtonClick={this.handleNewClick}
           onUndoButtonClick={this.handleUndoButtonClick}

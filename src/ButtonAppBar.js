@@ -142,6 +142,7 @@ function ButtonAppBar(props) {
           <IconButton
             className={classes.undoButton}
             color="inherit"
+            disabled={!props.hasUndo}
             aria-label="Undo"
             onClick={handleUndoButtonClick}
           >
@@ -150,6 +151,7 @@ function ButtonAppBar(props) {
           <IconButton
             className={classes.redoButton}
             color="inherit"
+            disabled={!props.hasRedo}
             aria-label="Redo"
             onClick={handleRedoButtonClick}
           >
@@ -247,6 +249,8 @@ function ButtonAppBar(props) {
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  hasUndo: PropTypes.bool.isRequired,
+  hasRedo: PropTypes.bool.isRequired,
   onMenuButtonClick: PropTypes.func.isRequired,
   onNewButtonClick: PropTypes.func.isRequired,
   onOpenInBrowserButtonClick: PropTypes.func.isRequired,
