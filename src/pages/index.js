@@ -115,12 +115,16 @@ class Index extends React.Component {
 
   handleTextChange = (text, undoRedoState) => {
     this.setPersistentState((state) => {
-      return {
+      const newState = {
         name: state.name || (text ? this.createUntitledName(state.projects) : ''),
         dotSrc: text,
-        dotSrcLastChangeTime: Date.now(),
       };
+      if (!this.disableDotSrcLastChangeTimeUpdate) {
+        newState.dotSrcLastChangeTime = Date.now();
+      }
+      return newState;
     });
+    this.disableDotSrcLastChangeTimeUpdate = false;
     this.setState(undoRedoState);
   }
 
@@ -245,6 +249,7 @@ class Index extends React.Component {
         }
         const newCurrentProject = projects[newCurrentName];
         delete projects[newCurrentName];
+        this.disableDotSrcLastChangeTimeUpdate = true;
         return {
           name: newCurrentName,
           ...newCurrentProject,
