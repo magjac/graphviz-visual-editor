@@ -29,6 +29,11 @@ class MainMenu extends React.Component {
     this.props.onSaveAsToBrowserClick();
   };
 
+  handleRename = () => {
+    this.props.onMenuClose();
+    this.props.onRenameClick();
+  };
+
   render() {
 
     return (
@@ -42,6 +47,7 @@ class MainMenu extends React.Component {
           <MenuItem onClick={this.handleNew}>New</MenuItem>
           <MenuItem onClick={this.handleOpenFromBrowser}>Open from browser</MenuItem>
           <MenuItem onClick={this.handleSaveAsToBrowser}>Save as to browser</MenuItem>
+          <MenuItem onClick={this.handleRename}>Rename</MenuItem>
           <MenuItem onClick={this.handleSettings}>Settings</MenuItem>
         </Menu>
       </div>
@@ -55,6 +61,7 @@ MainMenu.propTypes = {
   onNewClick: PropTypes.func.isRequired,
   onOpenFromBrowserClick: PropTypes.func.isRequired,
   onSaveAsToBrowserClick: PropTypes.func.isRequired,
+  onRenameClick: PropTypes.func.isRequired,
   anchorEl: PropTypes.object.isRequired,
 };
 

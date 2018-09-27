@@ -84,7 +84,9 @@ class SaveAsToBrowserDialog extends React.Component {
           aria-labelledby="form-dialog-title"
         >
           <div className={classes.title}>
-            <DialogTitle id="form-dialog-title">Save graph to browser</DialogTitle>
+            <DialogTitle id="form-dialog-title">
+              {this.props.rename ? 'Rename graph' : 'Save graph to browser'}
+            </DialogTitle>
             <IconButton
               aria-label="Close"
               onClick={this.handleClose}
@@ -94,7 +96,10 @@ class SaveAsToBrowserDialog extends React.Component {
           </div>
           <DialogContent classes={{root: classes.content}}>
             <DialogContentText>
-              Save a the current graph to the browser&apos;s local storage under a new name.
+              {this.props.rename ?
+                "Give the current graph a new name in the browser's local storage." :
+                "Save a the current graph to the browser's local storage under a new name."
+              }
             </DialogContentText>
             <TextField
               autoFocus
@@ -113,7 +118,7 @@ class SaveAsToBrowserDialog extends React.Component {
               Cancel
             </Button>
             <Button onClick={this.handleSave} color="secondary">
-              Save
+              {this.props.rename ? 'Rename' : 'Save'}
             </Button>
           </DialogActions>
         </Dialog>

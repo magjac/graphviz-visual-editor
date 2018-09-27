@@ -132,6 +132,13 @@ class Index extends React.Component {
     this.handleSaveAsToBrowser('');
   }
 
+  handleRenameClick = () => {
+    this.setState({
+      rename: true,
+      saveToBrowserAsDialogIsOpen: true,
+    });
+  }
+
   handleUndoButtonClick = () => {
     this.undo();
   }
@@ -275,6 +282,7 @@ class Index extends React.Component {
 
   handleSaveAsToBrowserClick = () => {
     this.setState({
+      rename: false,
       saveToBrowserAsDialogIsOpen: true,
     });
   }
@@ -291,7 +299,7 @@ class Index extends React.Component {
       this.setPersistentState((state) => {
         const projects = {...state.projects};
         delete projects[newName];
-        if (currentName) {
+        if (currentName && !state.rename) {
           const currentProject = {
             dotSrc: this.state.dotSrc,
             dotSrcLastChangeTime: state.dotSrcLastChangeTime,
@@ -639,6 +647,7 @@ class Index extends React.Component {
             onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
             onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}
             onNewClick={this.handleNewClick}
+            onRenameClick={this.handleRenameClick}
           />
         }
         {this.state.settingsDialogIsOpen &&
@@ -679,6 +688,7 @@ class Index extends React.Component {
         {this.state.saveToBrowserAsDialogIsOpen &&
           <SaveAsToBrowserDialog
             name={this.state.name}
+            rename={this.state.rename}
             defaultNewName={this.state.name || this.createUntitledName(this.state.projects)}
             projects={this.state.projects}
             onSave={this.handleSaveAsToBrowser}
