@@ -21,6 +21,8 @@ import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
 import MouseOperationsDialog from '../MouseOperationsDialog';
 import AboutDialog from '../AboutDialog';
 import { parse as qs_parse } from 'qs';
+import { stringify as qs_stringify } from 'qs';
+import ExportAsUrlDialog from '../ExportAsUrlDialog';
 
 const styles = theme => ({
   root: {
@@ -61,6 +63,7 @@ class Index extends React.Component {
       openFromBrowserDialogIsOpen: false,
       saveToBrowserAsDialogIsOpen: false,
       replaceName: '',
+      exportAsUrlDialogIsOpen: false,
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
@@ -151,6 +154,18 @@ class Index extends React.Component {
     this.setState({
       rename: true,
       saveToBrowserAsDialogIsOpen: true,
+    });
+  }
+
+  handleExportAsUrlClick = () => {
+    this.setState({
+      exportAsUrlDialogIsOpen: true,
+    });
+  }
+
+  handleExportAsUrlClose = () => {
+    this.setState({
+      exportAsUrlDialogIsOpen: false,
     });
   }
 
@@ -667,6 +682,7 @@ class Index extends React.Component {
             onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}
             onNewClick={this.handleNewClick}
             onRenameClick={this.handleRenameClick}
+            onExportAsUrlClick={this.handleExportAsUrlClick}
           />
         }
         {this.state.settingsDialogIsOpen &&
@@ -712,6 +728,12 @@ class Index extends React.Component {
             projects={this.state.projects}
             onSave={this.handleSaveAsToBrowser}
             onClose={this.handleSaveAsToBrowserClose}
+          />
+        }
+        {this.state.exportAsUrlDialogIsOpen &&
+          <ExportAsUrlDialog
+            URL={window.location.href + '?' + qs_stringify({dot: this.state.dotSrc})}
+            onClose={this.handleExportAsUrlClose}
           />
         }
         <Grid container

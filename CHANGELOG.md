@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+* Export as URL. Generates a link to the application with the DOT source code as an URL parameter.
 * Specification of the DOT source code through a URL parameter. #69
 * Disabling of the undo and redo buttons when there is nothing to undo or redo.
 * Allow multiple graphs to be stored in the browser's local storage. #70

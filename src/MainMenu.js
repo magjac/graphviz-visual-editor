@@ -34,6 +34,11 @@ class MainMenu extends React.Component {
     this.props.onRenameClick();
   };
 
+  handleExportAsUrl = () => {
+    this.props.onMenuClose();
+    this.props.onExportAsUrlClick();
+  };
+
   render() {
 
     return (
@@ -48,6 +53,7 @@ class MainMenu extends React.Component {
           <MenuItem onClick={this.handleOpenFromBrowser}>Open from browser</MenuItem>
           <MenuItem onClick={this.handleSaveAsToBrowser}>Save as to browser</MenuItem>
           <MenuItem onClick={this.handleRename}>Rename</MenuItem>
+          <MenuItem onClick={this.handleExportAsUrl}>Export as URL</MenuItem>
           <MenuItem onClick={this.handleSettings}>Settings</MenuItem>
         </Menu>
       </div>
@@ -62,6 +68,7 @@ MainMenu.propTypes = {
   onOpenFromBrowserClick: PropTypes.func.isRequired,
   onSaveAsToBrowserClick: PropTypes.func.isRequired,
   onRenameClick: PropTypes.func.isRequired,
+  onExportAsUrlClick: PropTypes.func.isRequired,
   anchorEl: PropTypes.object.isRequired,
 };
 
