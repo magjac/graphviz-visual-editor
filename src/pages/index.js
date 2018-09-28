@@ -90,9 +90,12 @@ class Index extends React.Component {
   componentDidMount() {
     const urlParams = qs_parse(window.location.search.slice(1));
     if (urlParams.dot) {
-      const dotSrc = urlParams.dot;
-      const newName = this.createUntitledName(this.state.projects, this.state.name);
-      this.handleSaveAsToBrowser(newName, dotSrc);
+      const currentDotSrc = this.state.dotSrc;
+      const newDotSrc = urlParams.dot;
+      if (newDotSrc !== currentDotSrc) {
+        const newName = this.createUntitledName(this.state.projects, this.state.name);
+        this.handleSaveAsToBrowser(newName, newDotSrc);
+      }
       window.history.pushState(null, null, '/');
     }
     document.onblur = () => {
