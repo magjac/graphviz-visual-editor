@@ -55,6 +55,7 @@ class Index extends React.Component {
       name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
       dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
+      svg: localStorage.getItem('svg') || '',
       hasUndo: false,
       hasRedo: false,
       mainMenuIsOpen: false,
@@ -541,7 +542,7 @@ class Index extends React.Component {
   getSvgString() {
     const svg = this.getSvg();
     const serializer = new XMLSerializer();
-    return svg ? serializer.serializeToString(svg) : '';
+    return svg ? serializer.serializeToString(svg) : this.state.svg;
   }
 
   handleGraphComponentSelect = (components) => {
@@ -553,6 +554,9 @@ class Index extends React.Component {
   handleGraphInitialized = () => {
     this.setState({
       graphInitialized: true,
+    });
+    this.setPersistentState({
+      svg: this.getSvgString(),
     });
   }
 
