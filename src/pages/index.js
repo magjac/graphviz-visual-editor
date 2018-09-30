@@ -93,8 +93,16 @@ class Index extends React.Component {
       const currentDotSrc = this.state.dotSrc;
       const newDotSrc = urlParams.dot;
       if (newDotSrc !== currentDotSrc) {
-        const newName = this.createUntitledName(this.state.projects, this.state.name);
-        this.handleSaveAsToBrowser(newName, newDotSrc);
+        const names = Object.keys(this.state.projects).filter((name) => {
+          const project = this.state.projects[name];
+          return newDotSrc === project.dotSrc;
+        });
+        if (names.length > 0) {
+          this.handleOpenFromBrowser(names[0]);
+        } else {
+          const newName = this.createUntitledName(this.state.projects, this.state.name);
+          this.handleSaveAsToBrowser(newName, newDotSrc);
+        }
       }
       window.history.pushState(null, null, '/');
     }
