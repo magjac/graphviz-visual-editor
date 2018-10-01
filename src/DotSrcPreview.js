@@ -7,7 +7,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 const styles = {
   scrollbars: {
     width: 200,
-    height: 50,
+    height: '6em',
   },
   pre: {
     margin: 0,
