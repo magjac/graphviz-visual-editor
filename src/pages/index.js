@@ -148,6 +148,14 @@ class Index extends React.Component {
       return newState;
     });
     this.disableDotSrcLastChangeTimeUpdate = false;
+    if (this.resetUndoAtNextTextChange) {
+      this.resetUndoStack();
+      undoRedoState = {
+        hasUndo: false,
+        hasRedo: false,
+      };
+      this.resetUndoAtNextTextChange = false;
+    }
     this.setState(undoRedoState);
   }
 
@@ -160,6 +168,7 @@ class Index extends React.Component {
 
   handleNewClick = () => {
     this.handleSaveAsToBrowser('');
+    this.resetUndoAtNextTextChange = true;
   }
 
   handleRenameClick = () => {
@@ -291,6 +300,7 @@ class Index extends React.Component {
           projects: projects,
         }
       });
+      this.resetUndoAtNextTextChange = true;
     }
     this.handleOpenFromBrowserClose();
   }
@@ -590,6 +600,10 @@ class Index extends React.Component {
     this.redo = redo;
   }
 
+  registerUndoReset = (resetUndoStack) => {
+    this.resetUndoStack = resetUndoStack;
+  }
+
   handleTextEditorFocus = () => {
     this.setFocus('TextEditor');
   }
@@ -797,6 +811,7 @@ class Index extends React.Component {
                   tabSize={this.state.tabSize}
                   registerUndo={this.registerUndo}
                   registerRedo={this.registerRedo}
+                  registerUndoReset={this.registerUndoReset}
                 />
               </div>
             </Paper>
