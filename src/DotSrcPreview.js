@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const styles = {
+  scrollbars: {
+    width: 200,
+    height: 50,
+  },
   pre: {
     margin: 0,
   }
@@ -12,22 +18,12 @@ class DotSrcPreview extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const dotSrcLines = this.props.dotSrc.trimEnd().split('\n');
-    let dotSrcLinesPreview;
-    let extra = null;
-    if (dotSrcLines.length <= this.props.numLines) {
-      dotSrcLinesPreview = dotSrcLines;
-    } else {
-      dotSrcLinesPreview = dotSrcLines.slice(0, this.props.numLines - 1);
-      extra = '...';
-    }
     return (
-      <React.Fragment>
+      <PerfectScrollbar className={classes.scrollbars}>
         <pre className={classes.pre}>
-          {dotSrcLinesPreview.join('\n')}
+          {this.props.dotSrc}
         </pre>
-        {extra}
-      </React.Fragment>
+      </PerfectScrollbar>
     );
   }
 }

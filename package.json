@@ -38,6 +38,7 @@
     "react-ace": "^6.1.4",
     "react-color": "^2.14.1",
     "react-dom": "latest",
+    "react-perfect-scrollbar": "^1.2.2",
     "react-scripts": "latest",
     "typeface-roboto": "0.0.54"
   },
