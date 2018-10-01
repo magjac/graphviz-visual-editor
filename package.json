@@ -24,18 +24,21 @@
     "url": "https://github.com/magjac/graphviz-visual-editor.git"
   },
   "dependencies": {
-    "@material-ui/core": "^1.5.0",
-    "@material-ui/icons": "^1.1.1",
+    "@material-ui/core": "^3.1.0",
+    "@material-ui/icons": "^3.0.1",
     "d3-graphviz": "^2.6.0",
     "d3-scale-chromatic": "^1.3.3",
     "d3-selection": "^1.3.2",
     "d3-transition": "^1.1.3",
     "d3-zoom": "^1.7.3",
+    "moment": "^2.22.2",
     "prop-types": "latest",
+    "qs": "^6.5.2",
     "react": "latest",
     "react-ace": "^6.1.4",
     "react-color": "^2.14.1",
     "react-dom": "latest",
+    "react-perfect-scrollbar": "^1.2.2",
     "react-scripts": "latest",
     "typeface-roboto": "0.0.54"
   },

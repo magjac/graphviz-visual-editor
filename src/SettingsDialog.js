@@ -141,7 +141,7 @@ class SettingsDialog extends React.Component {
     return (
       <div>
         <Dialog
-          open={this.props.open}
+          open
           onClose={this.handleClose}
           scroll={'paper'}
           aria-labelledby="form-dialog-title"

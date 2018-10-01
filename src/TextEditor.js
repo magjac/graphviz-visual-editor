@@ -21,7 +21,10 @@ class TextEditor extends React.Component {
   }
 
   handleChange = (value, event) => {
-    this.props.onTextChange(value);
+    const hasUndo = this.editor.getSession().getUndoManager().hasUndo();
+    const hasRedo = this.editor.getSession().getUndoManager().hasRedo();
+    const undoRedoState = {hasUndo, hasRedo};
+    this.props.onTextChange(value, undoRedoState);
   };
 
   handleBeforeLoad = (ace) => {
@@ -32,6 +35,7 @@ class TextEditor extends React.Component {
     this.editor = editor;
     this.props.registerUndo(this.undo);
     this.props.registerRedo(this.redo);
+    this.props.registerUndoReset(this.resetUndoStack);
   };
 
   handleErrorButtonClick = (event) => {
@@ -44,6 +48,10 @@ class TextEditor extends React.Component {
 
   redo = () => {
     this.editor.getSession().getUndoManager().redo();
+  }
+
+  resetUndoStack = () => {
+    this.editor.getSession().getUndoManager().reset();
   }
 
   render() {

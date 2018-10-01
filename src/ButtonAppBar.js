@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import AddIcon from '@material-ui/icons/Add';
+import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import UndoIcon from '@material-ui/icons/Undo';
 import RedoIcon from '@material-ui/icons/Redo';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
@@ -40,6 +43,18 @@ function ButtonAppBar(props) {
 
   var handleMenuButtonClick = (event) => {
     props.onMenuButtonClick(event.currentTarget);
+  };
+
+  var handleNewButtonClick = (event) => {
+    props.onNewButtonClick(event.currentTarget);
+  };
+
+  var handleOpenInBrowserButtonClick = (event) => {
+    props.onOpenInBrowserButtonClick(event.currentTarget);
+  };
+
+  var handleSaveAltButtonClick = (event) => {
+    props.onSaveAltButtonClick(event.currentTarget);
   };
 
   var handleUndoButtonClick = (event) => {
@@ -101,8 +116,33 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <IconButton
+            className={classes.new}
+            color="inherit"
+            aria-label="New"
+            onClick={handleNewButtonClick}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            className={classes.openInBrowserButton}
+            color="inherit"
+            aria-label="OpenInBrowser"
+            onClick={handleOpenInBrowserButtonClick}
+          >
+            <OpenInBrowserIcon />
+          </IconButton>
+          <IconButton
+            className={classes.SaveAltButton}
+            color="inherit"
+            aria-label="SaveAlt"
+            onClick={handleSaveAltButtonClick}
+          >
+            <SaveAltIcon />
+          </IconButton>
+          <IconButton
             className={classes.undoButton}
             color="inherit"
+            disabled={!props.hasUndo}
             aria-label="Undo"
             onClick={handleUndoButtonClick}
           >
@@ -111,6 +151,7 @@ function ButtonAppBar(props) {
           <IconButton
             className={classes.redoButton}
             color="inherit"
+            disabled={!props.hasRedo}
             aria-label="Redo"
             onClick={handleRedoButtonClick}
           >
@@ -208,6 +249,23 @@ function ButtonAppBar(props) {
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  hasUndo: PropTypes.bool.isRequired,
+  hasRedo: PropTypes.bool.isRequired,
+  onMenuButtonClick: PropTypes.func.isRequired,
+  onNewButtonClick: PropTypes.func.isRequired,
+  onOpenInBrowserButtonClick: PropTypes.func.isRequired,
+  onSaveAltButtonClick: PropTypes.func.isRequired,
+  onUndoButtonClick: PropTypes.func.isRequired,
+  onRedoButtonClick: PropTypes.func.isRequired,
+  onZoomInButtonClick: PropTypes.func.isRequired,
+  onZoomOutButtonClick: PropTypes.func.isRequired,
+  onZoomOutMapButtonClick: PropTypes.func.isRequired,
+  onZoomResetButtonClick: PropTypes.func.isRequired,
+  onInsertClick: PropTypes.func.isRequired,
+  onNodeFormatClick: PropTypes.func.isRequired,
+  onEdgeFormatClick: PropTypes.func.isRequired,
+  onSettingsButtonClick: PropTypes.func.isRequired,
+  onHelpButtonClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(ButtonAppBar);

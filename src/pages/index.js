@@ -11,6 +11,8 @@ import TextEditor from '../TextEditor';
 import MainMenu from '../MainMenu';
 import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
+import OpenFromBrowserDialog from '../OpenFromBrowserDialog';
+import SaveAsToBrowserDialog from '../SaveAsToBrowserDialog';
 import InsertPanels from '../InsertPanels';
 import FormatDrawer from '../FormatDrawer';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
@@ -18,6 +20,9 @@ import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
 import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
 import MouseOperationsDialog from '../MouseOperationsDialog';
 import AboutDialog from '../AboutDialog';
+import { parse as qs_parse } from 'qs';
+import { stringify as qs_stringify } from 'qs';
+import ExportAsUrlDialog from '../ExportAsUrlDialog';
 
 const styles = theme => ({
   root: {
@@ -45,11 +50,21 @@ class Index extends React.Component {
 }`;
     }
     this.state = {
+      projects: JSON.parse(localStorage.getItem('projects')) || {},
       initialized: false,
+      name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
+      dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
+      svg: localStorage.getItem('svg') || '',
+      hasUndo: false,
+      hasRedo: false,
       mainMenuIsOpen: false,
       helpMenuIsOpen: false,
       settingsDialogIsOpen: false,
+      openFromBrowserDialogIsOpen: false,
+      saveToBrowserAsDialogIsOpen: false,
+      replaceName: '',
+      exportAsUrlDialogIsOpen: false,
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
@@ -73,6 +88,24 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
+    const urlParams = qs_parse(window.location.search.slice(1));
+    if (urlParams.dot) {
+      const currentDotSrc = this.state.dotSrc;
+      const newDotSrc = urlParams.dot;
+      if (newDotSrc !== currentDotSrc) {
+        const names = Object.keys(this.state.projects).filter((name) => {
+          const project = this.state.projects[name];
+          return newDotSrc === project.dotSrc;
+        });
+        if (names.length > 0) {
+          this.handleOpenFromBrowser(names[0]);
+        } else {
+          const newName = this.createUntitledName(this.state.projects, this.state.name);
+          this.handleSaveAsToBrowser(newName, newDotSrc);
+        }
+      }
+      window.history.pushState(null, null, '/');
+    }
     document.onblur = () => {
       // Needed when the user clicks outside the document,
       // e.g. the browser address bar
@@ -81,35 +114,79 @@ class Index extends React.Component {
   }
 
   setPersistentState = (updater) => {
-    this.setState(updater, function (updater) {
+    this.setState((state) => {
       if (typeof updater === 'function') {
-        var obj = updater(this.state);
+        var obj = updater(state);
       } else {
         obj = updater;
       }
-      Object.keys(obj).forEach((key) => {
-        let value = obj[key];
-        if (typeof value === 'boolean') {
-          value = value.toString();
-        }
-        else if (typeof value === 'object') {
-          value = JSON.stringify(value);
-        }
-        localStorage.setItem(key, value);
-      });
-    }.bind(this, updater));
+      if (obj != null) {
+        Object.keys(obj).forEach((key) => {
+          let value = obj[key];
+          if (typeof value === 'boolean') {
+            value = value.toString();
+          }
+          else if (typeof value === 'object') {
+            value = JSON.stringify(value);
+          }
+          localStorage.setItem(key, value);
+        });
+      }
+      return obj;
+    });
   }
 
-  handleTextChange = (text) => {
-    this.setPersistentState({
-      dotSrc: text
+  handleTextChange = (text, undoRedoState) => {
+    this.setPersistentState((state) => {
+      const newState = {
+        name: state.name || (text ? this.createUntitledName(state.projects) : ''),
+        dotSrc: text,
+      };
+      if (!this.disableDotSrcLastChangeTimeUpdate) {
+        newState.dotSrcLastChangeTime = Date.now();
+      }
+      return newState;
     });
+    this.disableDotSrcLastChangeTimeUpdate = false;
+    if (this.resetUndoAtNextTextChange) {
+      this.resetUndoStack();
+      undoRedoState = {
+        hasUndo: false,
+        hasRedo: false,
+      };
+      this.resetUndoAtNextTextChange = false;
+    }
+    this.setState(undoRedoState);
   }
 
   handleMainMenuButtonClick = (anchorEl) => {
     this.setState({
       mainMenuIsOpen: true,
       mainMenuAnchorEl: anchorEl,
+    });
+  }
+
+  handleNewClick = () => {
+    this.handleSaveAsToBrowser('');
+    this.resetUndoAtNextTextChange = true;
+  }
+
+  handleRenameClick = () => {
+    this.setState({
+      rename: true,
+      saveToBrowserAsDialogIsOpen: true,
+    });
+  }
+
+  handleExportAsUrlClick = () => {
+    this.setState({
+      exportAsUrlDialogIsOpen: true,
+    });
+  }
+
+  handleExportAsUrlClose = () => {
+    this.setState({
+      exportAsUrlDialogIsOpen: false,
     });
   }
 
@@ -182,10 +259,118 @@ class Index extends React.Component {
       settingsDialogIsOpen: true,
     });
   }
+
   handleSettingsClose = () => {
     this.setState({
       settingsDialogIsOpen: false,
     });
+  }
+
+  handleOpenFromBrowserClick = () => {
+    this.setState({
+      openFromBrowserDialogIsOpen: true,
+    });
+  }
+
+  handleOpenFromBrowserClose = () => {
+    this.setState({
+      openFromBrowserDialogIsOpen: false,
+    });
+  }
+
+  handleOpenFromBrowser = (newCurrentName) => {
+    const currentName = this.state.name;
+    if (newCurrentName !== currentName) {
+      this.setPersistentState(state => {
+        const projects = {...state.projects};
+        if (currentName) {
+          const currentProject = {
+            dotSrc: state.dotSrc,
+            dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+            svg: this.getSvgString(),
+          };
+          projects[currentName] = currentProject;
+        }
+        const newCurrentProject = projects[newCurrentName];
+        delete projects[newCurrentName];
+        this.disableDotSrcLastChangeTimeUpdate = true;
+        return {
+          name: newCurrentName,
+          ...newCurrentProject,
+          projects: projects,
+        }
+      });
+      this.resetUndoAtNextTextChange = true;
+    }
+    this.handleOpenFromBrowserClose();
+  }
+
+  createUntitledName = (projects, currentName) => {
+    const baseName = 'Untitled Graph';
+    let newName = baseName;
+    while (projects[newName] || newName === currentName) {
+      newName = baseName + ' ' + (+newName.replace(baseName, '') + 1);
+    }
+    return newName;
+  }
+
+  handleOpenFromBrowserDelete = (nameToDelete) => {
+    this.setPersistentState((state) => {
+      const currentName = state.name;
+      if (nameToDelete === currentName) {
+        return {
+          name: '',
+          dotSrc: '',
+          dotSrcLastChangeTime: Date.now(),
+        }
+      } else {
+        const projects = {...state.projects};
+        delete projects[nameToDelete];
+        return {
+          projects: projects,
+        }
+      }
+    });
+  }
+
+  handleSaveAsToBrowserClick = () => {
+    this.setState({
+      rename: false,
+      saveToBrowserAsDialogIsOpen: true,
+    });
+  }
+
+  handleSaveAsToBrowserClose = () => {
+    this.setState({
+      saveToBrowserAsDialogIsOpen: false,
+    });
+  }
+
+  handleSaveAsToBrowser = (newName, newDotSrc) => {
+    const currentName = this.state.name;
+    if (newName !== currentName) {
+      this.setPersistentState((state) => {
+        const projects = {...state.projects};
+        delete projects[newName];
+        if (currentName && !state.rename) {
+          const currentProject = {
+            dotSrc: this.state.dotSrc,
+            dotSrcLastChangeTime: state.dotSrcLastChangeTime,
+            svg: this.getSvgString(),
+          };
+          projects[currentName] = currentProject;
+        }
+        return {
+          projects: {
+            ...projects,
+          },
+          name: newName,
+          dotSrc: newDotSrc ? newDotSrc : (newName ? state.dotSrc : ''),
+          dotSrcLastChangeTime: newDotSrc ? Date.now() : state.dotSrcLastChangeTime,
+        };
+      });
+    }
+    this.handleSaveAsToBrowserClose();
   }
 
   handleEngineSelectChange = (engine) => {
@@ -350,6 +535,11 @@ class Index extends React.Component {
     this.handleNodeShapeDragEnd = handleNodeShapeDragEnd;
   }
 
+  handleZoomInButtonClick = () => {}
+  handleZoomOutButtonClick = () => {}
+  handleZoomOutMapButtonClick = () => {}
+  handleZoomResetButtonClick = () => {}
+
   registerZoomInButtonClick = (handleZoomInButtonClick) => {
     this.handleZoomInButtonClick = handleZoomInButtonClick;
   }
@@ -366,6 +556,16 @@ class Index extends React.Component {
     this.handleZoomResetButtonClick = handleZoomResetButtonClick;
   }
 
+  registerGetSvg = (getSvg) => {
+    this.getSvg = getSvg;
+  }
+
+  getSvgString() {
+    const svg = this.getSvg();
+    const serializer = new XMLSerializer();
+    return svg ? serializer.serializeToString(svg) : this.state.svg;
+  }
+
   handleGraphComponentSelect = (components) => {
     this.setState({
       selectedGraphComponents: components,
@@ -375,6 +575,9 @@ class Index extends React.Component {
   handleGraphInitialized = () => {
     this.setState({
       graphInitialized: true,
+    });
+    this.setPersistentState({
+      svg: this.getSvgString(),
     });
   }
 
@@ -395,6 +598,10 @@ class Index extends React.Component {
 
   registerRedo = (redo) => {
     this.redo = redo;
+  }
+
+  registerUndoReset = (resetUndoStack) => {
+    this.resetUndoStack = resetUndoStack;
   }
 
   handleTextEditorFocus = () => {
@@ -476,7 +683,10 @@ class Index extends React.Component {
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
         <ButtonAppBar
+          hasUndo={this.state.hasUndo}
+          hasRedo={this.state.hasRedo}
           onMenuButtonClick={this.handleMainMenuButtonClick}
+          onNewButtonClick={this.handleNewClick}
           onUndoButtonClick={this.handleUndoButtonClick}
           onRedoButtonClick={this.handleRedoButtonClick}
           onInsertClick={this.handleInsertButtonClick}
@@ -487,37 +697,74 @@ class Index extends React.Component {
           onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
           onZoomResetButtonClick={this.handleZoomResetButtonClick}
           onSettingsButtonClick={this.handleSettingsClick}
+          onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
+          onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
           onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>
-        <MainMenu
-          anchorEl={this.state.mainMenuAnchorEl}
-          open={this.state.mainMenuIsOpen}
-          onMenuClose={this.handleMainMenuClose}
-          onSettingsClick={this.handleSettingsClick}
-        />
-        <SettingsDialog
-          open={this.state.settingsDialogIsOpen}
-          engine={this.state.engine}
-          fitGraph={this.state.fitGraph}
-          transitionDuration={this.state.transitionDuration}
-          tweenPaths={this.state.tweenPaths}
-          tweenShapes={this.state.tweenShapes}
-          tweenPrecision={this.state.tweenPrecision}
-          onEngineSelectChange={this.handleEngineSelectChange}
-          onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
-          onTransitionDurationChange={this.handleTransitionDurationChange}
-          onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
-          onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
-          onTweenPrecisionChange={this.handleTweenPrecisionChange}
-          holdOff={this.state.holdOff}
-          onHoldOffChange={this.handleHoldOffChange}
-          fontSize={this.state.fontSize}
-          onFontSizeChange={this.handleFontSizeChange}
-          tabSize={this.state.tabSize}
-          onTabSizeChange={this.handleTabSizeChange}
-          onSettingsClose={this.handleSettingsClose}
-        />
+        {this.state.mainMenuIsOpen &&
+          <MainMenu
+            anchorEl={this.state.mainMenuAnchorEl}
+            onMenuClose={this.handleMainMenuClose}
+            onSettingsClick={this.handleSettingsClick}
+            onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
+            onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}
+            onNewClick={this.handleNewClick}
+            onRenameClick={this.handleRenameClick}
+            onExportAsUrlClick={this.handleExportAsUrlClick}
+          />
+        }
+        {this.state.settingsDialogIsOpen &&
+          <SettingsDialog
+            engine={this.state.engine}
+            fitGraph={this.state.fitGraph}
+            transitionDuration={this.state.transitionDuration}
+            tweenPaths={this.state.tweenPaths}
+            tweenShapes={this.state.tweenShapes}
+            tweenPrecision={this.state.tweenPrecision}
+            onEngineSelectChange={this.handleEngineSelectChange}
+            onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
+            onTransitionDurationChange={this.handleTransitionDurationChange}
+            onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
+            onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
+            onTweenPrecisionChange={this.handleTweenPrecisionChange}
+            holdOff={this.state.holdOff}
+            onHoldOffChange={this.handleHoldOffChange}
+            fontSize={this.state.fontSize}
+            onFontSizeChange={this.handleFontSizeChange}
+            tabSize={this.state.tabSize}
+            onTabSizeChange={this.handleTabSizeChange}
+            onSettingsClose={this.handleSettingsClose}
+          />
+        }
+        {this.state.openFromBrowserDialogIsOpen &&
+          <OpenFromBrowserDialog
+            projects={this.state.projects}
+            dotSrc={this.state.dotSrc}
+            dotSrcLastChangeTime={this.state.dotSrcLastChangeTime}
+            svg={this.getSvgString()}
+            name={this.state.name}
+            onOpen={this.handleOpenFromBrowser}
+            onClose={this.handleOpenFromBrowserClose}
+            onDelete={this.handleOpenFromBrowserDelete}
+          />
+        }
+        {this.state.saveToBrowserAsDialogIsOpen &&
+          <SaveAsToBrowserDialog
+            name={this.state.name}
+            rename={this.state.rename}
+            defaultNewName={this.state.name || this.createUntitledName(this.state.projects)}
+            projects={this.state.projects}
+            onSave={this.handleSaveAsToBrowser}
+            onClose={this.handleSaveAsToBrowserClose}
+          />
+        }
+        {this.state.exportAsUrlDialogIsOpen &&
+          <ExportAsUrlDialog
+            URL={window.location.href + '?' + qs_stringify({dot: this.state.dotSrc})}
+            onClose={this.handleExportAsUrlClose}
+          />
+        }
         <Grid container
           spacing={24}
           style={{
@@ -527,26 +774,28 @@ class Index extends React.Component {
         >
           <Grid item xs={columns.textEditor}>
             <Paper elevation={leftPaneElevation} className={classes.paper}>
-              <FormatDrawer
-                type='node'
-                open={this.state.nodeFormatDrawerIsOpen}
-                defaultAttributes={this.state.defaultNodeAttributes}
-                onClick={this.handleNodeFormatDrawerClick}
-                onFormatDrawerClose={this.handleNodeFormatDrawerClose}
-                onStyleChange={this.handleNodeStyleChange}
-                onColorChange={this.handleNodeColorChange}
-                onFillColorChange={this.handleNodeFillColorChange}
-              />
-              <FormatDrawer
-                type='edge'
-                open={this.state.edgeFormatDrawerIsOpen}
-                defaultAttributes={this.state.defaultEdgeAttributes}
-                onClick={this.handleEdgeFormatDrawerClick}
-                onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
-                onStyleChange={this.handleEdgeStyleChange}
-                onColorChange={this.handleEdgeColorChange}
-                onFillColorChange={this.handleEdgeFillColorChange}
-              />
+              {this.state.nodeFormatDrawerIsOpen &&
+                <FormatDrawer
+                  type='node'
+                  defaultAttributes={this.state.defaultNodeAttributes}
+                  onClick={this.handleNodeFormatDrawerClick}
+                  onFormatDrawerClose={this.handleNodeFormatDrawerClose}
+                  onStyleChange={this.handleNodeStyleChange}
+                  onColorChange={this.handleNodeColorChange}
+                  onFillColorChange={this.handleNodeFillColorChange}
+                />
+              }
+              {this.state.edgeFormatDrawerIsOpen &&
+                <FormatDrawer
+                  type='edge'
+                  defaultAttributes={this.state.defaultEdgeAttributes}
+                  onClick={this.handleEdgeFormatDrawerClick}
+                  onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
+                  onStyleChange={this.handleEdgeStyleChange}
+                  onColorChange={this.handleEdgeColorChange}
+                  onFillColorChange={this.handleEdgeFillColorChange}
+                />
+              }
               <div style={{display: editorIsOpen ? 'block' : 'none'}}>
                 <TextEditor
                   // allocated viewport width - 2 * padding
@@ -562,6 +811,7 @@ class Index extends React.Component {
                   tabSize={this.state.tabSize}
                   registerUndo={this.registerUndo}
                   registerRedo={this.registerRedo}
+                  registerUndoReset={this.registerUndoReset}
                 />
               </div>
             </Paper>
@@ -604,32 +854,37 @@ class Index extends React.Component {
                 registerZoomOutButtonClick={this.registerZoomOutButtonClick}
                 registerZoomOutMapButtonClick={this.registerZoomOutMapButtonClick}
                 registerZoomResetButtonClick={this.registerZoomResetButtonClick}
+                registerGetSvg={this.registerGetSvg}
                 onInitialized={this.handleGraphInitialized}
                 onError={this.handleError}
               />
             </Paper>
           </Grid>
         </Grid>
-        <HelpMenu
-          anchorEl={this.state.helpMenuAnchorEl}
-          open={this.state.helpMenuIsOpen}
-          onMenuClose={this.handleHelpMenuClose}
-          onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
-          onMouseOperationsClick={this.handleMouseOperationsClick}
-          onAboutClick={this.handleAboutClick}
-        />
-        <KeyboardShortcutsDialog
-          open={this.state.keyboardShortcutsDialogIsOpen}
-          onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
-        />
-        <MouseOperationsDialog
-          open={this.state.mouseOperationsDialogIsOpen}
-          onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
-        />
-        <AboutDialog
-          open={this.state.aboutDialogIsOpen}
-          onAboutDialogClose={this.handleAboutDialogClose}
-        />
+        {this.state.helpMenuIsOpen &&
+          <HelpMenu
+            anchorEl={this.state.helpMenuAnchorEl}
+            onMenuClose={this.handleHelpMenuClose}
+            onKeyboardShortcutsClick={this.handleKeyboardShortcutsClick}
+            onMouseOperationsClick={this.handleMouseOperationsClick}
+            onAboutClick={this.handleAboutClick}
+          />
+        }
+        {this.state.keyboardShortcutsDialogIsOpen &&
+          <KeyboardShortcutsDialog
+            onKeyboardShortcutsDialogClose={this.handleKeyboardShortcutsDialogClose}
+          />
+        }
+        {this.state.mouseOperationsDialogIsOpen &&
+          <MouseOperationsDialog
+            onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
+          />
+        }
+        {this.state.aboutDialogIsOpen &&
+          <AboutDialog
+            onAboutDialogClose={this.handleAboutDialogClose}
+          />
+        }
       </div>
     );
   }

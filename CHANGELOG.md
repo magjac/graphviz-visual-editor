@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+* Export as URL. Generates a link to the application with the DOT source code as an URL parameter.
+* Specification of the DOT source code through a URL parameter. #69
+* Disabling of the undo and redo buttons when there is nothing to undo or redo.
+* Allow multiple graphs to be stored in the browser's local storage. #70
+  * Name and save a graph to local storage
+  * Open a named graph from local storage
+  * Allow sorting graphs on name, DOT source and last modification time in the open from browser dialog
+  * Allow deleting graphs in the open from browser dialog
+  * Show graph thumbnails and allow preview in the open from browser dialog
+  * Create new empty graph
+  * Rename current graph
+
 ### Fixed
 * Ctrl-Y and Ctrl-Z descriptions are missing in the keyboard shortcuts help dialog. #90
 * If the DOT source is cleared when an error is indicated in the text editor, the old error message is still displayed. #88
