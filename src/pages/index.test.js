@@ -32,4 +32,14 @@ describe('<Index />', () => {
     expect(actualDotSrc).toEqual(expectedDotSrc);
   });
 
+  it('receives updated DOT source', () => {
+    const wrapper = mount(<Index />);
+    const indexWrapper = wrapper.find('Index');
+    const index = indexWrapper.instance();
+    const expectedDotSrc = 'digraph {a -> b}';
+    index.setState({dotSrc: expectedDotSrc});
+    const actualDotSrc = index.state.dotSrc;
+    expect(actualDotSrc).toEqual(expectedDotSrc);
+  });
+
 });
