@@ -1,8 +1,12 @@
 import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import Index from './index';
+import polyfillSVGElement from '../test-utils/polyfillSVGElement';
 
 describe('<Index />', () => {
+
+  polyfillSVGElement();
+
   let mount;
 
   beforeAll(() => {
