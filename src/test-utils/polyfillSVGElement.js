@@ -51,6 +51,14 @@ export default function polyfillSVGElement() {
           var xmax = Math.max.apply(null, x);
           var ymin = Math.min.apply(null, y);
           var ymax = Math.max.apply(null, y);
+      } else if (this.nodeName === 'g' && this.attributes[0].name === 'id' && this.attributes[0].value === 'graph0') {
+          const polygon = this.querySelector('polygon');
+          var x = +polygon.getAttribute('x');
+          var y = +polygon.getAttribute('y');
+          var xmin = x;
+          var xmax = x + 0;
+          var ymin = y;
+          var ymax = y + 0;
       } else {
           throw "WTF!" + this;
       }
