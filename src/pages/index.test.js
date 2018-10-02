@@ -2,10 +2,12 @@ import React from 'react';
 import { createMount } from '@material-ui/core/test-utils';
 import Index from './index';
 import polyfillSVGElement from '../test-utils/polyfillSVGElement';
+import polyfillXMLSerializer from '../test-utils/polyfillXMLSerializer';
 
 describe('<Index />', () => {
 
   polyfillSVGElement();
+  polyfillXMLSerializer();
 
   let mount;
 
