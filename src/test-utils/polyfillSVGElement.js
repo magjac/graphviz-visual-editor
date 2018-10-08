@@ -70,6 +70,14 @@ export default function polyfillSVGElement() {
       };
       return bbox;
   }
+  window.SVGElement.prototype.getCTM = function () {
+      if (this.nodeName != 'g') {
+          throw 'jsdom.js: getCTM: unexpected element ' + this.nodeName;
+      }
+    return {
+      a: 1,
+    };
+  }
   if (!('width' in window.SVGElement.prototype)) {
       Object.defineProperty(window.SVGElement.prototype, 'width', {
           get: function() {
