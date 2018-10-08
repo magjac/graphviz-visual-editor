@@ -89,4 +89,81 @@ describe('<Index />', () => {
     expect(actualSvgString).toEqual(expectedSvgString);
   });
 
+  it('transitions rendered SVG after receiving updated DOT source', (done) => {
+    const wrapper = mount(<Index />);
+    const indexWrapper = wrapper.find('Index');
+    const index = indexWrapper.instance();
+    const graph = wrapper.find('Graph').instance();
+    const graphviz = graph.graphviz;
+    graphviz.fade(false); // FIXME: remove when style="opacity: 1" is removed by d3-graphviz
+    const width = divProperties.clientWidth;
+    const height = divProperties.clientHeight;
+    const widthPt = width * 3 / 4;
+    const heightPt = height * 3 / 4;
+    const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="translate(4,112) scale(1)">
+<title>%0</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
+<!-- a -->
+<g id="node1" class="node">
+<title>a</title>
+<ellipse fill="none" stroke="#000000" cx="27" cy="-90" rx="27" ry="18"/>
+<text text-anchor="middle" x="27" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#000000">a</text>
+</g>
+<!-- b -->
+<g id="node2" class="node">
+<title>b</title>
+<ellipse fill="none" stroke="#000000" cx="27" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="27" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">b</text>
+</g>
+<!-- a&#45;&gt;b -->
+<g id="edge1" class="edge">
+<title>a-&gt;b</title>
+<path fill="none" stroke="#000000" d="M27,-71.8314C27,-64.131 27,-54.9743 27,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="30.5001,-46.4132 27,-36.4133 23.5001,-46.4133 30.5001,-46.4132"/>
+</g>
+</g>
+</svg>`;
+    const dotSrc = 'digraph {a -> b}';
+    index.setState({
+      dotSrc: dotSrc,
+      transitionDuration: 0,
+    });
+    const actualSvg = graph.getSvg();
+    const actualSvgString = index.getSvgString();
+    expect(actualSvgString).toEqual(expectedSvgString);
+    const dotSrc2 = 'digraph {a -> c}';
+    index.setState({dotSrc: dotSrc2});
+    graphviz.on('end', () => {
+      const actualSvg = graph.getSvg();
+      const actualSvgString = index.getSvgString();
+      const expectedSvgString2 = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="translate(4,112) scale(1)">
+<title>%0</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
+<!-- a -->
+<g id="node1" class="node">
+<title>a</title>
+<ellipse fill="none" stroke="#000000" cx="27" cy="-90" rx="27" ry="18"/>
+<text text-anchor="middle" x="27" y="-85.8" font-family="Times,serif" font-size="14.00" fill="#000000">a</text>
+</g>
+<!-- b -->
+<g id="node2" class="node">
+<title>c</title>
+<ellipse fill="none" stroke="rgb(0, 0, 0)" cx="27" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="27" y="-13.8" font-family="Times,serif" font-size="14.00" fill="rgb(0, 0, 0)">c</text>
+</g>
+<!-- a&#45;&gt;b -->
+<g id="edge1" class="edge">
+<title>a-&gt;c</title>
+<path fill="none" stroke="#000000" d="M27,-71.8314C27,-64.131 27,-54.9743 27,-46.4166"/>
+<polygon fill="#000000" stroke="#000000" points="30.5001,-46.4132 27,-36.4133 23.5001,-46.4133 30.5001,-46.4132"/>
+</g>
+</g>
+</svg>`;
+      expect(actualSvgString).toEqual(expectedSvgString2);
+      done();
+    });
+  });
+
 });
