@@ -28,7 +28,7 @@ dots parse-all-graphviz-dots: dotfiles.txt
 	done
 
 dotfiles.txt:
-	find graphviz -name '*.dot' > $@
+	find graphviz -name '*.dot' | grep -v "nullderefrebuildlist\.dot$$" > $@
 
 readme: readme.html
 
