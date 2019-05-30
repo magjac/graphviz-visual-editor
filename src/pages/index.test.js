@@ -11,11 +11,11 @@ describe('<Index />', () => {
 
   let mount;
 
-  beforeAll(() => {
+  beforeEach(() => {
     mount = createMount();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     mount.cleanUp();
   });
 
