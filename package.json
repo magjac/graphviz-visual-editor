@@ -24,40 +24,52 @@
     "url": "https://github.com/magjac/graphviz-visual-editor.git"
   },
   "dependencies": {
-    "@material-ui/core": "^3.1.0",
-    "@material-ui/icons": "^3.0.1",
-    "d3-graphviz": "^2.6.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
+    "d3-graphviz": "^2.6.1",
     "d3-scale-chromatic": "^1.3.3",
-    "d3-selection": "^1.3.2",
-    "d3-transition": "^1.1.3",
+    "d3-selection": "^1.4.0",
+    "d3-transition": "^1.2.0",
     "d3-zoom": "^1.7.3",
-    "moment": "^2.22.2",
-    "prop-types": "latest",
-    "qs": "^6.5.2",
-    "react": "latest",
-    "react-ace": "^6.1.4",
-    "react-color": "^2.14.1",
-    "react-dom": "latest",
-    "react-perfect-scrollbar": "^1.2.2",
-    "react-scripts": "latest",
+    "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
+    "qs": "^6.7.0",
+    "react": "^16.8.6",
+    "react-ace": "^6.6.0",
+    "react-color": "^2.17.3",
+    "react-dom": "^16.8.6",
+    "react-perfect-scrollbar": "^1.5.3",
+    "react-scripts": "^3.0.1",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --max_old_space_size=4096 start",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject"
   },
   "homepage": ".",
   "devDependencies": {
-    "@harrison-ifeanyichukwu/xml-serializer": "^1.2.0",
-    "codecov": "^3.1.0",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
-    "jest-localstorage-mock": "^2.2.0",
+    "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
+    "codecov": "^3.5.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.2",
+    "jest-localstorage-mock": "^2.4.0",
     "markdown-to-html": "0.0.13",
     "pegjs": "^0.9.0",
-    "react-test-renderer": "^16.5.2"
+    "react-test-renderer": "^16.8.6"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
