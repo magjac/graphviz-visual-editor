@@ -167,7 +167,7 @@ class Graph extends React.Component {
 
   handleRenderStaged() {
     if (this.renderGraphReady) {
-      this.selectComponents(this.selectedComponents);
+      this.markSelectedComponents(this.selectedComponents);
     }
   }
 
@@ -541,6 +541,12 @@ class Graph extends React.Component {
       this.unSelectComponents();
       this.selectedComponents = components;
     }
+    this.markSelectedComponents(components, extendSelection);
+    const selectedComponents = this.selectNames.map((name) => this.dotGraph.components[name]);
+    this.props.onSelect(selectedComponents);
+  }
+
+  markSelectedComponents(components, extendSelection=false) {
     let scale = this.graph0.node().getCTM().a * 3 / 4;
     let dashLength = Math.max(4 / scale, 2);
     let dashWidth = Math.max(4 / scale, 2);
@@ -576,8 +582,6 @@ class Graph extends React.Component {
       this.selectRects = d3_selectAll(rectNodes);
       this.selectNames = titles;
     }
-    const selectedComponents = this.selectNames.map((name) => this.dotGraph.components[name]);
-    this.props.onSelect(selectedComponents);
   }
 
   unSelectComponents() {
