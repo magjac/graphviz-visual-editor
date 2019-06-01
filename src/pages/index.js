@@ -104,7 +104,7 @@ class Index extends React.Component {
           this.handleSaveAsToBrowser(newName, newDotSrc);
         }
       }
-      window.history.pushState(null, null, '/');
+      window.history.pushState(null, null, window.location.pathname);
     }
     document.onblur = () => {
       // Needed when the user clicks outside the document,
