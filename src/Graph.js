@@ -279,7 +279,7 @@ class Graph extends React.Component {
     this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
     this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
-    this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
+    this.svg.on("click", this.handleClickSvg.bind(this));
     nodes.on("click mousedown", this.handleClickNode.bind(this));
     nodes.on("dblclick", this.handleDblClickNode.bind(this));
     nodes.on("contextmenu", this.handleRightClickNode.bind(this));
@@ -493,7 +493,7 @@ class Graph extends React.Component {
     }
   }
 
-  handleMouseUpSvg(d, i, nodes) {
+  handleClickSvg(d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
@@ -509,6 +509,7 @@ class Graph extends React.Component {
       let height = Math.abs(y1 - y0);
       if (width === 0 && height === 0) {
         this.selectArea = null;
+        this.unSelectComponents();
         return;
       }
       let components = this.graph0.selectAll('.node,.edge');
