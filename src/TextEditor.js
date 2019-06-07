@@ -11,6 +11,11 @@ const styles = {
     position: 'absolute',
     top: 'calc(64px + 12px)',
   },
+  aceSelectedWord: {
+    position: 'absolute',
+    background: 'rgb(250, 250, 255)',
+    border: '1px solid rgb(200, 200, 250)',
+  },
 };
 
 class TextEditor extends React.Component {
@@ -88,7 +93,7 @@ class TextEditor extends React.Component {
       startCol: location.start.column - 1,
       endRow: location.end.line - 1,
       endCol: location.end.column - 1,
-      className: 'ace_selected-word',
+      className: classes.aceSelectedWord,
       type: 'background',
     }));
     // FIXME: There must be a better way...
