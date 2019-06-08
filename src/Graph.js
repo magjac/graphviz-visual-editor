@@ -280,6 +280,7 @@ class Graph extends React.Component {
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
     this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
     this.svg.on("click", this.handleClickSvg.bind(this));
+    this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
     nodes.on("click mousedown", this.handleClickNode.bind(this));
     nodes.on("dblclick", this.handleDblClickNode.bind(this));
     nodes.on("contextmenu", this.handleRightClickNode.bind(this));
@@ -525,7 +526,13 @@ class Graph extends React.Component {
       this.selectComponents(components, extendSelection);
       this.selectArea = null;
     }
-    else if (event.which === 2) {
+  }
+
+  handleMouseUpSvg(d, i, nodes) {
+    this.props.onFocus();
+    document.activeElement.blur();
+    var event = d3_event;
+    if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
       if (event.shiftKey) {
         this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
