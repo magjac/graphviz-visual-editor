@@ -61,3 +61,9 @@ jobs:
             - ~/.npm
             - ~/.cache
       - run: make && npm run start & $(npm bin)/wait-on http://localhost:3000/ && $(npm bin)/cypress run --record --key a12725d3-851c-4e67-b432-079b4fb1a875
+workflows:
+  version: 2
+  build-and-itegration-test:
+    jobs:
+      - build
+      - integration-test
