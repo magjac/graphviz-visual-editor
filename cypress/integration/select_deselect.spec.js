@@ -4,6 +4,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -29,6 +31,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -60,6 +64,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -91,6 +97,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -123,6 +131,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -155,6 +165,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -180,6 +192,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
@@ -211,6 +225,8 @@ describe('Selection and deselection in graph', function() {
     cy.visit('http://localhost:3000/');
 
     cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+    cy.get('#graph0 > .node').should('have.length', 0);
+    cy.get('#graph0 > .edge').should('have.length', 0);
     cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
 
     cy.get('#graph0 > #node1').should('exist');
