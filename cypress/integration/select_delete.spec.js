@@ -1,12 +1,8 @@
-import { startApplication } from './utils';
-import { clearAndRender } from './utils';
-import { waitForTransition } from './utils';
-
 describe('Selection and deletion in graph', function() {
 
   it('Selects a node and deletes it and the edge connected to it', function() {
-    startApplication();
-    clearAndRender('digraph {{}Alice -> Bob}');
+    cy.startApplication();
+    cy.clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
@@ -21,7 +17,7 @@ describe('Selection and deletion in graph', function() {
 
     cy.get('#graph0 > #node1').click();
     cy.get('body').type('{del}');
-    waitForTransition();
+    cy.waitForTransition();
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('not.exist');
@@ -34,8 +30,8 @@ describe('Selection and deletion in graph', function() {
   })
 
   it('Selects an edge and deletes it', function() {
-    startApplication();
-    clearAndRender('digraph {{}Alice -> Bob}');
+    cy.startApplication();
+    cy.clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
@@ -50,7 +46,7 @@ describe('Selection and deletion in graph', function() {
 
     cy.get('#graph0 > #edge1').click();
     cy.get('body').type('{del}');
-    waitForTransition();
+    cy.waitForTransition();
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
@@ -64,8 +60,8 @@ describe('Selection and deletion in graph', function() {
   })
 
   it('Selects a node, adds another node to the selection and deletes them and the connected edge', function() {
-    startApplication();
-    clearAndRender('digraph {{}Alice -> Bob}');
+    cy.startApplication();
+    cy.clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
@@ -82,7 +78,7 @@ describe('Selection and deletion in graph', function() {
     cy.get('body').type('{shift}', { release: false })
       .get('#graph0 > #node2').click();
     cy.get('body').type('{del}');
-    waitForTransition();
+    cy.waitForTransition();
 
     cy.get('#graph0 > #node1').should('not.exist');
     cy.get('#graph0 > #node2').should('not.exist');

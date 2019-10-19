@@ -1,12 +1,8 @@
-import { startApplication } from './utils';
-import { clearAndRender } from './utils';
-import { waitForTransition } from './utils';
-
 describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node when middle mouse button is clicked', function() {
-    startApplication();
-    clearAndRender('digraph {{}Alice -> Bob}');
+    cy.startApplication();
+    cy.clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
@@ -21,7 +17,7 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
     cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
-    waitForTransition();
+    cy.waitForTransition();
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
