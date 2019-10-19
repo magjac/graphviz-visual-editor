@@ -779,6 +779,7 @@ class Graph extends React.Component {
             unmountOnExit
           >
              <CircularProgress
+               id="busy-indicator"
                className={classes.progress}
                color="secondary"
                size={20}
