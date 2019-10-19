@@ -1,12 +1,11 @@
+import { clearAndRender } from './utils';
+import { waitForTransition } from './utils';
+
 describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node when middle mouse button is clicked', function() {
     cy.visit('http://localhost:3000/');
-
-    cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
-    cy.get('#graph0 > .node').should('have.length', 0);
-    cy.get('#graph0 > .edge').should('have.length', 0);
-    cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
+    clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
@@ -21,6 +20,7 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
     cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    waitForTransition();
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');

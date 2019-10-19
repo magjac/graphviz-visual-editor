@@ -1,12 +1,10 @@
+import { clearAndRender } from './utils';
+
 describe('Basic rendering from DOT source', function() {
 
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
     cy.visit('http://localhost:3000/');
-
-    cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
-    cy.get('#graph0 > .node').should('have.length', 0);
-    cy.get('#graph0 > .edge').should('have.length', 0);
-    cy.get('.ace_text-input').type('digraph {{}Alice -> Bob}', {force: true});
+    clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
     cy.get('#graph0 > #node2').should('exist');
