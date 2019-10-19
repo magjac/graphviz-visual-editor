@@ -1,10 +1,11 @@
+import { startApplication } from './utils';
 import { clearAndRender } from './utils';
 import { waitForTransition } from './utils';
 
 describe('Selection and deletion in graph', function() {
 
   it('Selects a node and deletes it and the edge connected to it', function() {
-    cy.visit('http://localhost:3000/');
+    startApplication();
     clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
@@ -33,7 +34,7 @@ describe('Selection and deletion in graph', function() {
   })
 
   it('Selects an edge and deletes it', function() {
-    cy.visit('http://localhost:3000/');
+    startApplication();
     clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
@@ -63,7 +64,7 @@ describe('Selection and deletion in graph', function() {
   })
 
   it('Selects a node, adds another node to the selection and deletes them and the connected edge', function() {
-    cy.visit('http://localhost:3000/');
+    startApplication();
     clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');

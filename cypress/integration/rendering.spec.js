@@ -1,9 +1,10 @@
+import { startApplication } from './utils';
 import { clearAndRender } from './utils';
 
 describe('Basic rendering from DOT source', function() {
 
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
-    cy.visit('http://localhost:3000/');
+    startApplication();
     clearAndRender('digraph {{}Alice -> Bob}');
 
     cy.get('#graph0 > #node1').should('exist');
