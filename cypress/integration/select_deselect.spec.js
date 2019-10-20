@@ -291,6 +291,40 @@ describe('Selection and deselection in graph', function() {
     cy.edge(1).shouldBeSelected();
     cy.edge(2).shouldBeSelected();
   })
+
+  it('Selects nodes and edges by dragging the canvas', function() {
+    cy.startApplication();
+    cy.clearAndRender('digraph { Eve -> Alice; Eve -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.edge(1).should('exist');
+    cy.edge(2).should('exist');
+
+    cy.node(1).shouldHaveName('Eve');
+    cy.node(2).shouldHaveName('Alice');
+    cy.node(3).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Eve->Alice');
+    cy.edge(2).shouldHaveName('Eve->Bob');
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.node(3).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+    cy.edge(2).shouldNotBeSelected();
+
+    cy.get('#graph0')
+      .trigger('mousedown', 'bottomLeft', {which: 1})
+      .trigger('mousemove', 'top', {which: 1})
+      .trigger('click', 'top', {which: 1})
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldBeSelected();
+    cy.node(3).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
+    cy.edge(2).shouldNotBeSelected();
+
   })
 
 })
