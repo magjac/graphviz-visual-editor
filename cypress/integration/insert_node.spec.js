@@ -2,7 +2,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node when middle mouse button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {{}Alice -> Bob}');
+    cy.clearAndRender('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

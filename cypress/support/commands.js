@@ -70,6 +70,6 @@ Cypress.Commands.add("waitForTransition", () => {
 
 Cypress.Commands.add("clearAndRender", (dotSrc) => {
   cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
-  cy.get('.ace_text-input').type(dotSrc, {force: true});
+  cy.get('.ace_text-input').type(dotSrc.replace(/{/g, '{{}'), {force: true});
   cy.waitForTransition();
 });
