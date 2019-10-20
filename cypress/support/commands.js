@@ -3,20 +3,56 @@ Cypress.Commands.add("startApplication", () => {
   cy.checkDefaultGraph();
 });
 
+Cypress.Commands.add("node", (index) => {
+  return cy.get('#graph0 > #node' + index);
+});
+
+Cypress.Commands.add("edge", (index) => {
+  return cy.get('#graph0 > #edge' + index);
+});
+
+Cypress.Commands.add("nodes", () => {
+  return cy.get('#graph0 > .node');
+});
+
+Cypress.Commands.add("edges", () => {
+  return cy.get('#graph0 > .edge');
+});
+
+Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
+  cy.wrap(subject).find('title').should('have.text', label);
+});
+
+Cypress.Commands.add("shouldHaveLabel", {prevSubject: true}, (subject, label) => {
+  cy.wrap(subject).find('text').should('have.text', label);
+});
+
+Cypress.Commands.add("shouldBeSelected", {prevSubject: true}, (subject) => {
+  cy.wrap(subject).within(() => {
+    cy.get('rect').should('exist');
+  });
+});
+
+Cypress.Commands.add("shouldNotBeSelected", {prevSubject: true}, (subject) => {
+  cy.wrap(subject).within(() => {
+    cy.get('rect').should('not.exist');
+  });
+});
+
 Cypress.Commands.add("checkDefaultGraph", () => {
-  cy.get('#graph0 > #node1').should('exist');
-  cy.get('#graph0 > #node2').should('exist');
-  cy.get('#graph0 > #edge1').should('exist');
+  cy.node(1).should('exist');
+  cy.node(2).should('exist');
+  cy.edge(1).should('exist');
 
-  cy.get('#graph0 > #node1 > text').should('have.text', 'a');
-  cy.get('#graph0 > #node2 > text').should('have.text', 'b');
+  cy.node(1).shouldHaveLabel('a');
+  cy.node(2).shouldHaveLabel('b');
 
-  cy.get('#graph0 > #node1 > title').should('have.text', 'a');
-  cy.get('#graph0 > #node2 > title').should('have.text', 'b');
-  cy.get('#graph0 > #edge1 > title').should('have.text', 'a->b');
+  cy.node(1).shouldHaveName('a');
+  cy.node(2).shouldHaveName('b');
+  cy.edge(1).shouldHaveName('a->b');
 
-  cy.get('#graph0 > .node').should('have.length', 2);
-  cy.get('#graph0 > .edge').should('have.length', 1);
+  cy.nodes().should('have.length', 2);
+  cy.edges().should('have.length', 1);
 });
 
 Cypress.Commands.add("waitForBusy", () => {

@@ -4,292 +4,293 @@ describe('Selection and deselection in graph', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #node1').click();
+    cy.node(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Deselects a selected node when the graph is clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #node1').click();
+    cy.node(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
     cy.get('#graph0').click('topLeft');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Deselects a selected node when another node is clicked and selects that node instead', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #node1').click();
+    cy.node(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #node2').click();
+    cy.node(2).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Extends selection when another node is shift-clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #node1').click();
+    cy.node(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
     cy.get('body').type('{shift}', { release: false })
-      .get('#graph0 > #node2').click();
+      .node(2).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Extends selection when another node is ctrl-clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #node1').click();
+    cy.node(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
     cy.get('body').type('{ctrl}', { release: false })
-      .get('#graph0 > #node2').click();
+      .node(2).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Selects an edge when clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #edge1').click();
+    cy.edge(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
   })
 
   it('Deselects a selected edge when the graph is clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #edge1').click();
+    cy.edge(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
 
     cy.get('#graph0').click('topLeft');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Deselects a selected edge when a node is clicked and selects that node instead', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0 > #edge1').click();
+    cy.edge(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
 
-    cy.get('#graph0 > #node1').click();
+    cy.node(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
   })
 
   it('Extends selection when another edge is shift-clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob -> Alice}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
-    cy.get('#graph0 > #edge2').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+    cy.edge(2).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
-    cy.get('#graph0 > #edge2 > title').should('have.text', 'Bob->Alice');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+    cy.edge(2).shouldHaveName('Bob->Alice');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
-    cy.get('#graph0 > #edge2 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+    cy.edge(2).shouldNotBeSelected();
 
-    cy.get('#graph0 > #edge1').click();
+    cy.edge(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
-    cy.get('#graph0 > #edge2 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
+    cy.edge(2).shouldNotBeSelected();
 
     cy.get('body').type('{shift}', { release: false })
-      .get('#graph0 > #edge2').click();
+      .edge(2).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
-    cy.get('#graph0 > #edge2 > rect').should('exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
+    cy.edge(2).shouldBeSelected();
   })
 
   it('Extends selection when another edge is ctrl-clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob -> Alice}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
-    cy.get('#graph0 > #edge2').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+    cy.edge(2).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
-    cy.get('#graph0 > #edge2 > title').should('have.text', 'Bob->Alice');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+    cy.edge(2).shouldHaveName('Bob->Alice');
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('not.exist');
-    cy.get('#graph0 > #edge2 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+    cy.edge(2).shouldNotBeSelected();
 
-    cy.get('#graph0 > #edge1').click();
+    cy.edge(1).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
-    cy.get('#graph0 > #edge2 > rect').should('not.exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
+    cy.edge(2).shouldNotBeSelected();
 
     cy.get('body').type('{ctrl}', { release: false })
-      .get('#graph0 > #edge2').click();
+      .edge(2).click();
 
-    cy.get('#graph0 > #node1 > rect').should('not.exist');
-    cy.get('#graph0 > #node2 > rect').should('not.exist');
-    cy.get('#graph0 > #edge1 > rect').should('exist');
-    cy.get('#graph0 > #edge2 > rect').should('exist');
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldBeSelected();
+    cy.edge(2).shouldBeSelected();
+  })
   })
 
 })

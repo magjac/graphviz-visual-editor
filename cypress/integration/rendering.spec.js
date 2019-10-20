@@ -4,19 +4,19 @@ describe('Basic rendering from DOT source', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice -> Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > text').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > text').should('have.text', 'Bob');
+    cy.node(1).shouldHaveLabel('Alice');
+    cy.node(2).shouldHaveLabel('Bob');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > .node').should('have.length', 2);
-    cy.get('#graph0 > .edge').should('have.length', 1);
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
   })
 
 })

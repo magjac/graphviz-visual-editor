@@ -4,83 +4,83 @@ describe('Draw edges in the graph', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('not.exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('not.exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
 
-    cy.get('#graph0 > .node').should('have.length', 2);
-    cy.get('#graph0 > .edge').should('have.length', 0);
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 0);
 
-    cy.get('#graph0 > #node1').trigger('contextmenu');
-    cy.get('#graph0 > #edge1').should('exist');
-    cy.get('#graph0 > #node2').trigger('mousemove');
-    cy.get('#graph0 > #node2').dblclick();
+    cy.node(1).trigger('contextmenu');
+    cy.edge(1).should('exist');
+    cy.node(2).trigger('mousemove');
+    cy.node(2).dblclick();
     cy.waitForTransition();
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > .node').should('have.length', 2);
-    cy.get('#graph0 > .edge').should('have.length', 1);
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
   })
 
   it('Draws edges in both directions between two nodes', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {{}Alice Bob}');
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('not.exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('not.exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
 
-    cy.get('#graph0 > .node').should('have.length', 2);
-    cy.get('#graph0 > .edge').should('have.length', 0);
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 0);
 
-    cy.get('#graph0 > #node1').trigger('contextmenu');
-    cy.get('#graph0 > #edge1').should('exist');
-    cy.get('#graph0 > #node2').trigger('mousemove');
-    cy.get('#graph0 > #node2').dblclick();
+    cy.node(1).trigger('contextmenu');
+    cy.edge(1).should('exist');
+    cy.node(2).trigger('mousemove');
+    cy.node(2).dblclick();
     cy.waitForTransition();
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
 
-    cy.get('#graph0 > .node').should('have.length', 2);
-    cy.get('#graph0 > .edge').should('have.length', 1);
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
 
-    cy.get('#graph0 > #node2').trigger('contextmenu');
-    cy.get('#graph0 > #edge2').should('exist');
-    cy.get('#graph0 > #node1').trigger('mousemove');
-    cy.get('#graph0 > #node1').dblclick();
+    cy.node(2).trigger('contextmenu');
+    cy.edge(2).should('exist');
+    cy.node(1).trigger('mousemove');
+    cy.node(1).dblclick();
     cy.waitForTransition();
 
-    cy.get('#graph0 > #node1').should('exist');
-    cy.get('#graph0 > #node2').should('exist');
-    cy.get('#graph0 > #edge1').should('exist');
-    cy.get('#graph0 > #edge2').should('exist');
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+    cy.edge(2).should('exist');
 
-    cy.get('#graph0 > #node1 > title').should('have.text', 'Alice');
-    cy.get('#graph0 > #node2 > title').should('have.text', 'Bob');
-    cy.get('#graph0 > #edge1 > title').should('have.text', 'Alice->Bob');
-    cy.get('#graph0 > #edge2 > title').should('have.text', 'Bob->Alice');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+    cy.edge(2).shouldHaveName('Bob->Alice');
 
-    cy.get('#graph0 > .node').should('have.length', 2);
-    cy.get('#graph0 > .edge').should('have.length', 2);
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 2);
 })
 
 })
