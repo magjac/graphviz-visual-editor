@@ -193,33 +193,38 @@ describe('Selection and deselection in graph', function() {
     cy.edge(1).shouldNotBeSelected();
   })
 
-  it('Deselects a selected edge when a node is clicked and selects that node instead', function() {
+  it('Deselects a selected edge when another edge is clicked and selects that edge instead', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRender('digraph {Alice -> Bob -> Alice}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
     cy.edge(1).should('exist');
+    cy.edge(2).should('exist');
 
     cy.node(1).shouldHaveName('Alice');
     cy.node(2).shouldHaveName('Bob');
     cy.edge(1).shouldHaveName('Alice->Bob');
+    cy.edge(2).shouldHaveName('Bob->Alice');
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
+    cy.edge(2).shouldNotBeSelected();
 
     cy.edge(1).click();
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldBeSelected();
+    cy.edge(2).shouldNotBeSelected();
 
-    cy.node(1).click();
+    cy.edge(2).click();
 
-    cy.node(1).shouldBeSelected();
+    cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
+    cy.edge(2).shouldBeSelected();
   })
 
   it('Extends selection when another edge is shift-clicked', function() {
