@@ -294,7 +294,9 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectComponents();
+    if (!(event.which === 1 && (event.ctrlKey || event.shiftKey))) {
+      this.unSelectComponents();
+    }
   }
 
   handleKeyDownDocument(d, i, nodes) {
@@ -511,7 +513,9 @@ class Graph extends React.Component {
       let height = Math.abs(y1 - y0);
       if (width === 0 && height === 0) {
         this.selectArea = null;
-        this.unSelectComponents();
+        if (!(event.ctrlKey || event.shiftKey)) {
+          this.unSelectComponents();
+        }
         return;
       }
       let components = this.graph0.selectAll('.node,.edge');

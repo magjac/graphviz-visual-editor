@@ -141,6 +141,82 @@ describe('Selection and deselection in graph', function() {
     cy.edge(1).shouldNotBeSelected();
   })
 
+  it('Keeps selection when the graph is shift-clicked', function() {
+    cy.startApplication();
+    cy.clearAndRender('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.node(1).click();
+
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.get('#graph0')
+      .trigger('click', 'topLeft', {which: 1, shiftKey: true});
+
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.get('#graph0')
+      .trigger('click', 'topLeft', {which: 1, shiftKey: false});
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+  })
+
+  it('Keeps selection when the graph is ctrl-clicked', function() {
+    cy.startApplication();
+    cy.clearAndRender('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.node(1).click();
+
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.get('#graph0')
+      .trigger('click', 'topLeft', {which: 1, ctrlKey: true});
+
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.get('#graph0')
+      .trigger('click', 'topLeft', {which: 1, ctrlKey: false});
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+  })
+
   it('Selects an edge when clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {Alice -> Bob}');
