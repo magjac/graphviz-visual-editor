@@ -35,3 +35,35 @@ jobs:
 
       # run tests!
       - run: make && yarn test:coverage && yarn run codecov
+  integration-test:
+    docker:
+      - image: cypress/base:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+      - run:
+          name: Install Dependencies
+          no_output_timeout: 30m
+          command: npm ci
+
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          # cache NPM modules and the folder with the Cypress binary
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run: make && npm run start & $(npm bin)/wait-on http://localhost:3000/ && $(npm bin)/cypress run --record --key a12725d3-851c-4e67-b432-079b4fb1a875
+workflows:
+  version: 2
+  build-and-itegration-test:
+    jobs:
+      - build
+      - integration-test

@@ -53,12 +53,14 @@
   "devDependencies": {
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
     "codecov": "^3.5.0",
+    "cypress": "^3.4.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.2",
     "jest-localstorage-mock": "^2.4.0",
     "markdown-to-html": "0.0.13",
     "pegjs": "^0.9.0",
-    "react-test-renderer": "^16.8.6"
+    "react-test-renderer": "^16.8.6",
+    "wait-on": "^3.3.0"
   },
   "browserslist": {
     "production": [

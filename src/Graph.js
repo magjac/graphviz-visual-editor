@@ -424,6 +424,7 @@ class Graph extends React.Component {
       this.edgeIndex += 1;
     }
     this.latestEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
+    this.latestEdgeAttributes.id = 'edge' + (this.edgeIndex + 1);
 
     this.graphviz
       .drawEdge(x0, y0, x0, y0, this.latestEdgeAttributes);
@@ -778,6 +779,7 @@ class Graph extends React.Component {
             unmountOnExit
           >
              <CircularProgress
+               id="busy-indicator"
                className={classes.progress}
                color="secondary"
                size={20}
