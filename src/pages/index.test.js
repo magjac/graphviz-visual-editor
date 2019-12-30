@@ -18,6 +18,7 @@ describe('<Index />', () => {
   let mount;
 
   beforeEach(() => {
+    localStorage.setItem('holdOff', 0);
     mount = createMount();
   });
 
