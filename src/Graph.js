@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
@@ -12,6 +17,7 @@ import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
 import 'd3-graphviz';
 import DotGraph from './dot'
+import { dictionary } from './Dictionary';
 
 const styles = {
   root: {
@@ -36,6 +42,9 @@ class Graph extends React.Component {
     super(props);
     this.state = {
       busy: false,
+      showPopup:false,
+      dialogTitle:"",
+      dialogContentTextArray:[]
     };
     this.svg = d3_select(null);
     this.createGraph = this.createGraph.bind(this)
@@ -298,7 +307,7 @@ class Graph extends React.Component {
   }
 
   handleKeyDownDocument(d, i, nodes) {
-    if (!this.props.hasFocus) {
+      if (!this.props.hasFocus) {
       return;
     }
     var event = d3_event;
@@ -386,10 +395,20 @@ class Graph extends React.Component {
       let extendSelection = event.ctrlKey || event.shiftKey;
       this.selectComponents(d3_select(nodes[i]), extendSelection);
     }
+    const matchingObj = dictionary[d.key];
+    //show popup
+    //js evaluation: dictionary[d.key] && dictionary[d.key].directions && dictionary[d.key].directions.toString();
+
+    this.setState({
+      showPopup:true,
+      dialogTitle: (d && d.key) || "" ,
+      dialogContentTextArray: matchingObj && matchingObj.directions || []
+    });
   }
 
   handleDblClickNode(d, i, nodes) {
     this.props.onFocus();
+    console.log('kukudouble')
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
@@ -565,6 +584,9 @@ class Graph extends React.Component {
       let component = d3_select(this);
       let color = 'black';
       const title = component.select('title').text();
+      component.style("fillcolor", function() {
+        return "green" ;
+      });
       if (component.classed('edge') && self.dotGraph.getEdgeAttributes(title) == null) {
         color = 'red';
       } else {
@@ -759,10 +781,41 @@ class Graph extends React.Component {
     this.insertNodeWithLatestAttributes(x0, y0, attributesToOverride);
   }
 
+
+
+  handleDialogClose = (addNode)=>{
+    this.setState({
+      showPopup:false
+    });
+    const params = {
+      nodeId:"moran"
+    }
+    addNode(params)
+  }
+
+
+
   render() {
-    const { classes } = this.props;
+    const { classes, addNode } = this.props;
     return (
       <React.Fragment>
+        <Dialog
+          open={this.state.showPopup}
+          // onClose={this.handleDialogClose(addNode)}
+            onClose={()=>{
+              this.handleDialogClose(addNode);
+            }}
+          // fullScreen={true}
+        >
+          <DialogTitle >{this.state.dialogTitle}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {this.state.dialogContentTextArray &&  this.state.dialogContentTextArray.map(direction=>{
+                return <Typography>{direction}</Typography>
+              })}
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
         <div
           ref={div => this.div = d3_select(div)}
           onDragOver={this.handleNodeShapeDragOver}
