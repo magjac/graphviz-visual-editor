@@ -41,14 +41,63 @@ class Index extends React.Component {
 
   constructor(props) {
     super(props);
-    let dotSrc = localStorage.getItem('dotSrc');
+    let dotSrc = null
     if (dotSrc == null) {
-      dotSrc = `strict digraph {
-    a [shape="ellipse" style="filled" fillcolor="` + d3_schemeCategory10[0] + `"]
-    b [shape="polygon" style="filled" fillcolor="` + d3_schemeCategory10[1] + `"]
-    a -> b [fillcolor="` + d3_schemePaired[0] + `" color="` + d3_schemePaired[1] + `"]
-}`;
+      dotSrc = `digraph "graph_onion_soup238_1_1_20sum.gv" {
+\trankdir=LR ratio=auto
+\t{
+\t\trank=source
+\t\t0
+\t}
+\t{
+\t\trank=same
+\t\t1266
+\t}
+\t{
+\t\trank=same
+\t\t882
+\t}
+\t{
+\t\trank=same
+\t\t1503
+\t}
+\t{
+\t\trank=same
+\t\t1326
+\t}
+\t{
+\t\trank=same
+\t\t1408
+\t}
+\t{
+\t\trank=same
+\t\t1516
+\t}
+\t{
+\t\trank=sink
+\t\t1
+\t}
+\t882 [label="(882)\\n\\nadd\\n\\n1 - 1 1/2 onion (75%)" fillcolor="#eef5fc" style=filled]
+\t1266 [label="(1266)\\n\\nheat\\n\\n1 tablespoon - 2 tablespoon oil (70%)\\n2 tablespoon olive oil (40%)\\n2 slice - 3 slice medium (10%)\\n1 tablespoon - 2 tablespoon buttery spread (10%)\\n\\ncooking pot (50%)\\npan (50%)\\ndutch oven (20%)" fillcolor="#ddeaf6" style=filled]
+\t1326 [label="(1326)\\n\\nreduce\\n\\n2 1/2 - 3 onion (100%)\\n2 tablespoon margarine (25%)\\n\\n30 minute - 60 minute" fillcolor="#eef5fc" style=filled]
+\t1408 [label="(1408)\\n\\nadd\\n\\n2 tablespoon flour (100%)\\n3 slice onion (33%)\\n\\n3 minute - 4 minute" fillcolor="#f1f7fd" style=filled]
+\t1503 [label="(1503)\\n\\ncook\\n\\ncooking pot (2%)\\n\\n10 minute - 35 minute" fillcolor="#3888c0" style=filled]
+\t1516 [label="(1516)\\n\\nmix\\n\\npan (3%)\\n\\n3 minute - 10 minute" fillcolor="#95c5df" style=filled]
+\t0 [label="(0)\\n\\nSTART" fillcolor="#f7fbff" style=filled]
+\t1 [label="(1)\\n\\nEND" fillcolor="#f7fbff" style=filled]
+\t0 [label=<<font point-size='18'><b>START</b></font>> shape=doublecircle style=bold]
+\t1 [label=<<font point-size='18'><b>END</b></font>> shape=doublecircle style=bold]
+\t1266 -> 882 [label=3 penwidth=2.090909090909091]
+\t882 -> 1503 [label=4 penwidth=2.6363636363636362]
+\t1326 -> 1408 [label=2 penwidth=1.5454545454545454]
+\t1503 -> 1326 [label=2 penwidth=1.5454545454545454]
+\t1408 -> 1516 [label=2 penwidth=1.5454545454545454]
+\t0 -> 1266 [label=12 penwidth=7.0]
+\t1516 -> 1 [label=1 penwidth=1.0]
+}
+`;
     }
+
     this.state = {
       projects: JSON.parse(localStorage.getItem('projects')) || {},
       initialized: false,
@@ -65,7 +114,7 @@ class Index extends React.Component {
       saveToBrowserAsDialogIsOpen: false,
       replaceName: '',
       exportAsUrlDialogIsOpen: false,
-      insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
+      insertPanelsAreOpen: false,
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
       keyboardShortcutsDialogIsOpen: false,
@@ -134,6 +183,22 @@ class Index extends React.Component {
       }
       return obj;
     });
+  }
+
+  addNode = ({lbael, nodeId, kuku}) =>{
+    const originalGraph = this.state.dotSrc;
+    const lastClosure = originalGraph.lastIndexOf("}");
+    if(lastClosure === -1){
+      return;
+    }
+    const closureChar = "}";
+    const template = `${nodeId} [label="(${nodeId})\\n\\ncook\\n\\ncooking pot (2%)\\n\\n10 minute - 35 minute" fillcolor="#3888c0" style=filled]`
+    const patternToAdd = template+closureChar;
+
+    this.setState({
+      dotSrc: `${originalGraph.substring(0,lastClosure)}${patternToAdd}`
+    })
+    console.log('omri');
   }
 
   handleTextChange = (text, undoRedoState) => {
@@ -673,98 +738,98 @@ class Index extends React.Component {
       }
     } else { /* browse */
       columns = {
-        textEditor: 6,
+        textEditor: 3,
         insertPanels: false,
-        graph: 6,
+        graph: 9,
       }
     }
     return (
       <div className={classes.root}>
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
-        <ButtonAppBar
-          hasUndo={this.state.hasUndo}
-          hasRedo={this.state.hasRedo}
-          onMenuButtonClick={this.handleMainMenuButtonClick}
-          onNewButtonClick={this.handleNewClick}
-          onUndoButtonClick={this.handleUndoButtonClick}
-          onRedoButtonClick={this.handleRedoButtonClick}
-          onInsertClick={this.handleInsertButtonClick}
-          onNodeFormatClick={this.handleNodeFormatButtonClick}
-          onEdgeFormatClick={this.handleEdgeFormatButtonClick}
-          onZoomInButtonClick={this.handleZoomInButtonClick}
-          onZoomOutButtonClick={this.handleZoomOutButtonClick}
-          onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
-          onZoomResetButtonClick={this.handleZoomResetButtonClick}
-          onSettingsButtonClick={this.handleSettingsClick}
-          onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
-          onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
-          onHelpButtonClick={this.handleHelpButtonClick}
-        >
-        </ButtonAppBar>
-        {this.state.mainMenuIsOpen &&
-          <MainMenu
-            anchorEl={this.state.mainMenuAnchorEl}
-            onMenuClose={this.handleMainMenuClose}
-            onSettingsClick={this.handleSettingsClick}
-            onOpenFromBrowserClick={this.handleOpenFromBrowserClick}
-            onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}
-            onNewClick={this.handleNewClick}
-            onRenameClick={this.handleRenameClick}
-            onExportAsUrlClick={this.handleExportAsUrlClick}
-          />
-        }
-        {this.state.settingsDialogIsOpen &&
-          <SettingsDialog
-            engine={this.state.engine}
-            fitGraph={this.state.fitGraph}
-            transitionDuration={this.state.transitionDuration}
-            tweenPaths={this.state.tweenPaths}
-            tweenShapes={this.state.tweenShapes}
-            tweenPrecision={this.state.tweenPrecision}
-            onEngineSelectChange={this.handleEngineSelectChange}
-            onFitGraphSwitchChange={this.handleFitGraphSwitchChange}
-            onTransitionDurationChange={this.handleTransitionDurationChange}
-            onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}
-            onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}
-            onTweenPrecisionChange={this.handleTweenPrecisionChange}
-            holdOff={this.state.holdOff}
-            onHoldOffChange={this.handleHoldOffChange}
-            fontSize={this.state.fontSize}
-            onFontSizeChange={this.handleFontSizeChange}
-            tabSize={this.state.tabSize}
-            onTabSizeChange={this.handleTabSizeChange}
-            onSettingsClose={this.handleSettingsClose}
-          />
-        }
-        {this.state.openFromBrowserDialogIsOpen &&
-          <OpenFromBrowserDialog
-            projects={this.state.projects}
-            dotSrc={this.state.dotSrc}
-            dotSrcLastChangeTime={this.state.dotSrcLastChangeTime}
-            svg={this.getSvgString()}
-            name={this.state.name}
-            onOpen={this.handleOpenFromBrowser}
-            onClose={this.handleOpenFromBrowserClose}
-            onDelete={this.handleOpenFromBrowserDelete}
-          />
-        }
-        {this.state.saveToBrowserAsDialogIsOpen &&
-          <SaveAsToBrowserDialog
-            name={this.state.name}
-            rename={this.state.rename}
-            defaultNewName={this.state.name || this.createUntitledName(this.state.projects)}
-            projects={this.state.projects}
-            onSave={this.handleSaveAsToBrowser}
-            onClose={this.handleSaveAsToBrowserClose}
-          />
-        }
-        {this.state.exportAsUrlDialogIsOpen &&
-          <ExportAsUrlDialog
-            URL={window.location.href + '?' + qs_stringify({dot: this.state.dotSrc})}
-            onClose={this.handleExportAsUrlClose}
-          />
-        }
+        {/*<ButtonAppBar*/}
+        {/*  hasUndo={this.state.hasUndo}*/}
+        {/*  hasRedo={this.state.hasRedo}*/}
+        {/*  onMenuButtonClick={this.handleMainMenuButtonClick}*/}
+        {/*  onNewButtonClick={this.handleNewClick}*/}
+        {/*  onUndoButtonClick={this.handleUndoButtonClick}*/}
+        {/*  onRedoButtonClick={this.handleRedoButtonClick}*/}
+        {/*  onInsertClick={this.handleInsertButtonClick}*/}
+        {/*  onNodeFormatClick={this.handleNodeFormatButtonClick}*/}
+        {/*  onEdgeFormatClick={this.handleEdgeFormatButtonClick}*/}
+        {/*  onZoomInButtonClick={this.handleZoomInButtonClick}*/}
+        {/*  onZoomOutButtonClick={this.handleZoomOutButtonClick}*/}
+        {/*  onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}*/}
+        {/*  onZoomResetButtonClick={this.handleZoomResetButtonClick}*/}
+        {/*  onSettingsButtonClick={this.handleSettingsClick}*/}
+        {/*  onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}*/}
+        {/*  onSaveAltButtonClick={this.handleSaveAsToBrowserClick}*/}
+        {/*  onHelpButtonClick={this.handleHelpButtonClick}*/}
+        {/*>*/}
+        {/*</ButtonAppBar>*/}
+        {/*{this.state.mainMenuIsOpen &&*/}
+        {/*  <MainMenu*/}
+        {/*    anchorEl={this.state.mainMenuAnchorEl}*/}
+        {/*    onMenuClose={this.handleMainMenuClose}*/}
+        {/*    onSettingsClick={this.handleSettingsClick}*/}
+        {/*    onOpenFromBrowserClick={this.handleOpenFromBrowserClick}*/}
+        {/*    onSaveAsToBrowserClick={this.handleSaveAsToBrowserClick}*/}
+        {/*    onNewClick={this.handleNewClick}*/}
+        {/*    onRenameClick={this.handleRenameClick}*/}
+        {/*    onExportAsUrlClick={this.handleExportAsUrlClick}*/}
+        {/*  />*/}
+        {/*}*/}
+        {/*{this.state.settingsDialogIsOpen &&*/}
+        {/*  <SettingsDialog*/}
+        {/*    engine={this.state.engine}*/}
+        {/*    fitGraph={this.state.fitGraph}*/}
+        {/*    transitionDuration={this.state.transitionDuration}*/}
+        {/*    tweenPaths={this.state.tweenPaths}*/}
+        {/*    tweenShapes={this.state.tweenShapes}*/}
+        {/*    tweenPrecision={this.state.tweenPrecision}*/}
+        {/*    onEngineSelectChange={this.handleEngineSelectChange}*/}
+        {/*    onFitGraphSwitchChange={this.handleFitGraphSwitchChange}*/}
+        {/*    onTransitionDurationChange={this.handleTransitionDurationChange}*/}
+        {/*    onTweenPathsSwitchChange={this.handleTweenPathsSwitchChange}*/}
+        {/*    onTweenShapesSwitchChange={this.handleTweenShapesSwitchChange}*/}
+        {/*    onTweenPrecisionChange={this.handleTweenPrecisionChange}*/}
+        {/*    holdOff={this.state.holdOff}*/}
+        {/*    onHoldOffChange={this.handleHoldOffChange}*/}
+        {/*    fontSize={this.state.fontSize}*/}
+        {/*    onFontSizeChange={this.handleFontSizeChange}*/}
+        {/*    tabSize={this.state.tabSize}*/}
+        {/*    onTabSizeChange={this.handleTabSizeChange}*/}
+        {/*    onSettingsClose={this.handleSettingsClose}*/}
+        {/*  />*/}
+        {/*}*/}
+        {/*{this.state.openFromBrowserDialogIsOpen &&*/}
+        {/*  <OpenFromBrowserDialog*/}
+        {/*    projects={this.state.projects}*/}
+        {/*    dotSrc={this.state.dotSrc}*/}
+        {/*    dotSrcLastChangeTime={this.state.dotSrcLastChangeTime}*/}
+        {/*    svg={this.getSvgString()}*/}
+        {/*    name={this.state.name}*/}
+        {/*    onOpen={this.handleOpenFromBrowser}*/}
+        {/*    onClose={this.handleOpenFromBrowserClose}*/}
+        {/*    onDelete={this.handleOpenFromBrowserDelete}*/}
+        {/*  />*/}
+        {/*}*/}
+        {/*{this.state.saveToBrowserAsDialogIsOpen &&*/}
+        {/*  <SaveAsToBrowserDialog*/}
+        {/*    name={this.state.name}*/}
+        {/*    rename={this.state.rename}*/}
+        {/*    defaultNewName={this.state.name || this.createUntitledName(this.state.projects)}*/}
+        {/*    projects={this.state.projects}*/}
+        {/*    onSave={this.handleSaveAsToBrowser}*/}
+        {/*    onClose={this.handleSaveAsToBrowserClose}*/}
+        {/*  />*/}
+        {/*}*/}
+        {/*{this.state.exportAsUrlDialogIsOpen &&*/}
+        {/*  <ExportAsUrlDialog*/}
+        {/*    URL={window.location.href + '?' + qs_stringify({dot: this.state.dotSrc})}*/}
+        {/*    onClose={this.handleExportAsUrlClose}*/}
+        {/*  />*/}
+        {/*}*/}
         <Grid container
           spacing={24}
           style={{
@@ -774,28 +839,28 @@ class Index extends React.Component {
         >
           <Grid item xs={columns.textEditor}>
             <Paper elevation={leftPaneElevation} className={classes.paper}>
-              {this.state.nodeFormatDrawerIsOpen &&
-                <FormatDrawer
-                  type='node'
-                  defaultAttributes={this.state.defaultNodeAttributes}
-                  onClick={this.handleNodeFormatDrawerClick}
-                  onFormatDrawerClose={this.handleNodeFormatDrawerClose}
-                  onStyleChange={this.handleNodeStyleChange}
-                  onColorChange={this.handleNodeColorChange}
-                  onFillColorChange={this.handleNodeFillColorChange}
-                />
-              }
-              {this.state.edgeFormatDrawerIsOpen &&
-                <FormatDrawer
-                  type='edge'
-                  defaultAttributes={this.state.defaultEdgeAttributes}
-                  onClick={this.handleEdgeFormatDrawerClick}
-                  onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
-                  onStyleChange={this.handleEdgeStyleChange}
-                  onColorChange={this.handleEdgeColorChange}
-                  onFillColorChange={this.handleEdgeFillColorChange}
-                />
-              }
+              {/*{this.state.nodeFormatDrawerIsOpen &&*/}
+              {/*  <FormatDrawer*/}
+              {/*    type='node'*/}
+              {/*    defaultAttributes={this.state.defaultNodeAttributes}*/}
+              {/*    onClick={this.handleNodeFormatDrawerClick}*/}
+              {/*    onFormatDrawerClose={this.handleNodeFormatDrawerClose}*/}
+              {/*    onStyleChange={this.handleNodeStyleChange}*/}
+              {/*    onColorChange={this.handleNodeColorChange}*/}
+              {/*    onFillColorChange={this.handleNodeFillColorChange}*/}
+              {/*  />*/}
+              {/*}*/}
+              {/*{this.state.edgeFormatDrawerIsOpen &&*/}
+              {/*  <FormatDrawer*/}
+              {/*    type='edge'*/}
+              {/*    defaultAttributes={this.state.defaultEdgeAttributes}*/}
+              {/*    onClick={this.handleEdgeFormatDrawerClick}*/}
+              {/*    onFormatDrawerClose={this.handleEdgeFormatDrawerClose}*/}
+              {/*    onStyleChange={this.handleEdgeStyleChange}*/}
+              {/*    onColorChange={this.handleEdgeColorChange}*/}
+              {/*    onFillColorChange={this.handleEdgeFillColorChange}*/}
+              {/*  />*/}
+              {/*}*/}
               <div style={{display: editorIsOpen ? 'block' : 'none'}}>
                 <TextEditor
                   // allocated viewport width - 2 * padding
@@ -831,6 +896,7 @@ class Index extends React.Component {
           <Grid item xs={columns.graph}>
             <Paper elevation={rightPaneElevation} className={classes.paper}>
               <Graph
+                addNode={this.addNode}
                 hasFocus={graphHasFocus}
                 dotSrc={this.state.dotSrc}
                 engine={this.state.engine}
