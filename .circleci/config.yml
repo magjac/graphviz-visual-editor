@@ -60,7 +60,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npx cypress run --record --key a12725d3-851c-4e67-b432-079b4fb1a875 && yarn run codecov
+      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npx cypress run --browser=chrome --headless --record --key a12725d3-851c-4e67-b432-079b4fb1a875 && yarn run codecov
 workflows:
   version: 2
   build-and-itegration-test:
