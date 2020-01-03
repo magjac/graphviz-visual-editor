@@ -80,9 +80,3 @@ A limitation is a feature deliberately released without full functionality. A li
 There are numerous cool features missing. They are or will be listed as [enhancement requests](https://github.com/magjac/graphviz-visual-editor/labels/enhancement) on [GitHub](https://github.com/magjac/graphviz-visual-editor).
 
 There is also a [project board](https://github.com/magjac/graphviz-visual-editor/projects/1) showing the short-term activities.
-
-The medium-term plan is:
-
-* Implement some of the nicest-to-have features, learn from that and rework the UI.
-* Provide documentation.
-* Open up for collaboration.
