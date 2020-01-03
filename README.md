@@ -7,10 +7,6 @@ A web application for interactive visual editing of [Graphviz](http://www.graphv
 [![CircleCI](https://circleci.com/gh/magjac/graphviz-visual-editor.svg?style=svg)](https://circleci.com/gh/magjac/graphviz-visual-editor)
 [![codecov](https://codecov.io/gh/magjac/graphviz-visual-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/magjac/graphviz-visual-editor)
 
-*Disclaimer: This project just started (2018-07-17) and so far contains just some basic features. Apart from on-line help regarding keyboard shortcuts and mouse operations, there's still **no documentation** of the the rest of the UI (although it's fairly intuitive). The UI is probably going to change a lot in upcoming releases (The author is learning [Material UI](https://material-ui.com/) and [React](https://material-ui.com/) while coding).*
-
-That said, it's perfectly possible to use it in its current state :smiley:.
-
 ## Installation ##
 
 ```
@@ -84,9 +80,3 @@ A limitation is a feature deliberately released without full functionality. A li
 There are numerous cool features missing. They are or will be listed as [enhancement requests](https://github.com/magjac/graphviz-visual-editor/labels/enhancement) on [GitHub](https://github.com/magjac/graphviz-visual-editor).
 
 There is also a [project board](https://github.com/magjac/graphviz-visual-editor/projects/1) showing the short-term activities.
-
-The medium-term plan is:
-
-* Implement some of the nicest-to-have features, learn from that and rework the UI.
-* Provide documentation.
-* Open up for collaboration.
