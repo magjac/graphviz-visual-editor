@@ -47,8 +47,9 @@
     "start:coverage": "react-scripts --max_old_space_size=4096 -r @cypress/instrument-cra start",
     "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test --env=jsdom --verbose=false",
-    "test:coverage": "react-scripts test --env=jsdom --coverage",
+    "test:coverage": "react-scripts test --env=jsdom --coverage --coverageDirectory=./coverage-jest",
     "integration-test": "cypress run --config video=false --browser=chrome --headless",
+    "merge-coverage": "mkdir -p coverage && cp -p coverage-jest/coverage-final.json coverage/coverage-final-jest.json && cp -p coverage-cypress/coverage-final.json coverage/coverage-final-cypress.json && nyc report --exclude src/dotParser.js --exclude src/shapes.js --temp-dir coverage --report-dir coverage --reporter lcov --reporter clover --reporter json --reporter text",
     "eject": "react-scripts eject"
   },
   "homepage": ".",
@@ -85,5 +86,8 @@
       "src/shapes.js",
       "src/dotParser.js"
     ]
+  },
+  "nyc": {
+    "report-dir": "coverage-cypress"
   }
 }
