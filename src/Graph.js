@@ -17,7 +17,8 @@ import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
 import 'd3-graphviz';
 import DotGraph from './dot'
-import { dictionary } from './Dictionary';
+import { dictionary } from './utils/Dictionary';
+import { graphDict } from './utils/graph_dict'
 
 const styles = {
   root: {
@@ -44,7 +45,14 @@ class Graph extends React.Component {
       busy: false,
       showPopup:false,
       dialogTitle:"",
-      dialogContentTextArray:[]
+      dialogContentTextArray:[],
+      pathDrawingMode: false,
+      isStartPressed: false,
+      isEndPressed: false,
+      markedVertices: [],
+      markedEdges: []
+
+
     };
     this.svg = d3_select(null);
     this.createGraph = this.createGraph.bind(this)
@@ -285,15 +293,15 @@ class Graph extends React.Component {
     this.div.on("click", this.handleClickDiv.bind(this));
     d3_select(document).on("keydown", this.handleKeyDownDocument.bind(this));
     this.div.on("mousemove", this.handleMouseMoveDiv.bind(this));
-    this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
+    // this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
     this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
     this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
     this.svg.on("click", this.handleClickSvg.bind(this));
     this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
     nodes.on("click mousedown", this.handleClickNode.bind(this));
     nodes.on("dblclick", this.handleDblClickNode.bind(this));
-    nodes.on("contextmenu", this.handleRightClickNode.bind(this));
-    edges.on("click mousedown", this.handleClickEdge.bind(this));
+    nodes.on("contextmenu", this.handleRightClickNode2.bind(this));
+    // edges.on("click mousedown", this.handleClickEdge.bind(this));
 
   }
 
@@ -391,19 +399,41 @@ class Graph extends React.Component {
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    if (!this.isDrawingEdge && event.which === 1) {
-      let extendSelection = event.ctrlKey || event.shiftKey;
-      this.selectComponents(d3_select(nodes[i]), extendSelection);
-    }
-    const matchingObj = dictionary[d.key];
-    //show popup
-    //js evaluation: dictionary[d.key] && dictionary[d.key].directions && dictionary[d.key].directions.toString();
 
-    this.setState({
-      showPopup:true,
-      dialogTitle: (d && d.key) || "" ,
-      dialogContentTextArray: matchingObj && matchingObj.directions || []
-    });
+    // if (!this.isDrawingEdge && event.which === 1) {
+    //   let extendSelection = event.ctrlKey || event.shiftKey;
+    //   this.selectComponents(d3_select(nodes[i]), extendSelection);
+    // }
+
+
+    // const matchingObj = graphDict[d.key];
+    // //show popup
+    // //js evaluation: dictionary[d.key] && dictionary[d.key].directions && dictionary[d.key].directions.toString();
+
+    // this.setState({
+    //   showPopup:true,
+    //   dialogTitle: (d && d.key) || "" ,
+    //   dialogContentTextArray: matchingObj && matchingObj.directions || []
+    // });
+    console.log("moran")
+
+    if (d.key == 0){
+      this.setState((prev)=>({
+        pathDrawingMode: !prev.pathDrawingMode,
+        markedVertices: prev.pathDrawingMode ? [] : [d.key],
+        markedEdges: prev.pathDrawingMode? [] : prev.markedEdges
+      }));
+    } else{
+      if (this.state.pathDrawingMode){
+        this.setState((prev)=>({
+          markedVertices: [...prev.markedVertices, d.key]
+          //TODO: update markedEdges
+        }))
+      }
+    }
+
+    
+    // debugger
   }
 
   handleDblClickNode(d, i, nodes) {
@@ -427,26 +457,48 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
   }
 
-  handleRightClickNode(d, i, nodes) {
+  handleRightClickNode2(d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
     var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
-    this.unSelectComponents();
-    this.graphviz.removeDrawnEdge();
-    this.startNode = d3_select(nodes[i]);
-    var [x0, y0] = d3_mouse(this.graph0.node());
-    if (this.edgeIndex === null) {
-      this.edgeIndex = d3_selectAll('.edge').size();
-    } else {
-      this.edgeIndex += 1;
-    }
-    this.latestEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
+    // if (!this.isDrawingEdge && event.which === 1) {
+    //   let extendSelection = event.ctrlKey || event.shiftKey;
+    //   this.selectComponents(d3_select(nodes[i]), extendSelection);
+    // }
+    const matchingObj = graphDict[d.key];
+    //show popup
+    //js evaluation: dictionary[d.key] && dictionary[d.key].directions && dictionary[d.key].directions.toString();
 
-    this.graphviz
-      .drawEdge(x0, y0, x0, y0, this.latestEdgeAttributes);
-    this.isDrawingEdge = true;
+    this.setState({
+      showPopup:true,
+      dialogTitle: (d && d.key) || "" ,
+      dialogContentTextArray: matchingObj && matchingObj.directions || []
+    });
+  }
+
+  handleRightClickNode(d, i, nodes) {
+    // this.props.onFocus();
+    // document.activeElement.blur();
+    // var event = d3_event;
+    // event.preventDefault();
+    // event.stopPropagation();
+    // this.unSelectComponents();
+    // this.graphviz.removeDrawnEdge();
+    // this.startNode = d3_select(nodes[i]);
+    // var [x0, y0] = d3_mouse(this.graph0.node());
+    // if (this.edgeIndex === null) {
+    //   this.edgeIndex = d3_selectAll('.edge').size();
+    // } else {
+    //   this.edgeIndex += 1;
+    // }
+    // this.latestEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
+
+    // this.graphviz
+    //   .drawEdge(x0, y0, x0, y0, this.latestEdgeAttributes);
+    // this.isDrawingEdge = true;
+    console.log("hello!")
   }
 
   handleClickEdge(d, i, nodes) {
@@ -783,35 +835,48 @@ class Graph extends React.Component {
 
 
 
-  handleDialogClose = (addNode)=>{
+  handleDialogClose = (addNode, updateColorByNodeIds)=>{
     this.setState({
       showPopup:false
     });
-    const params = {
-      nodeId:"moran"
-    }
-    addNode(params)
+
+    updateColorByNodeIds([4416, 4108,4263, 100]);
+    
   }
+
+  // componentDidUpdate(){
+  //   this.
+  // }
 
 
 
   render() {
-    const { classes, addNode } = this.props;
+    const { classes, addNode, updateColorByNodeIds } = this.props;
     return (
       <React.Fragment>
         <Dialog
           open={this.state.showPopup}
           // onClose={this.handleDialogClose(addNode)}
             onClose={()=>{
-              this.handleDialogClose(addNode);
+              this.handleDialogClose(addNode, updateColorByNodeIds);
             }}
           // fullScreen={true}
         >
           <DialogTitle >{this.state.dialogTitle}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {this.state.dialogContentTextArray &&  this.state.dialogContentTextArray.map(direction=>{
-                return <Typography>{direction}</Typography>
+              {this.state.dialogContentTextArray &&  this.state.dialogContentTextArray.map((directionObj,index)=>{
+                let color = "white"
+                if (directionObj.constraint === "GOOD"){
+                  color = "green"
+                } else if (directionObj.constraint === "BAD"){
+                  color = "red"
+                }
+              return <Typography key={index} style={{
+                backgroundColor: color
+              }}>
+                {`${directionObj.title}`}
+                </Typography>
               })}
             </DialogContentText>
           </DialogContent>

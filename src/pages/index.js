@@ -23,6 +23,7 @@ import AboutDialog from '../AboutDialog';
 import { parse as qs_parse } from 'qs';
 import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
+import { graphDot } from '../utils/graphSrc'
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,6 @@ const styles = theme => ({
   },
   paper: {
     height: "calc(100vh - 64px - 2 * 12px)",
-    width:"111"
   }
 });
 
@@ -43,59 +43,7 @@ class Index extends React.Component {
     super(props);
     let dotSrc = null
     if (dotSrc == null) {
-      dotSrc = `digraph "graph_onion_soup238_1_1_20sum.gv" {
-\trankdir=LR ratio=auto
-\t{
-\t\trank=source
-\t\t0
-\t}
-\t{
-\t\trank=same
-\t\t1266
-\t}
-\t{
-\t\trank=same
-\t\t882
-\t}
-\t{
-\t\trank=same
-\t\t1503
-\t}
-\t{
-\t\trank=same
-\t\t1326
-\t}
-\t{
-\t\trank=same
-\t\t1408
-\t}
-\t{
-\t\trank=same
-\t\t1516
-\t}
-\t{
-\t\trank=sink
-\t\t1
-\t}
-\t882 [label="(882)\\n\\nadd\\n\\n1 - 1 1/2 onion (75%)" fillcolor="#eef5fc" style=filled]
-\t1266 [label="(1266)\\n\\nheat\\n\\n1 tablespoon - 2 tablespoon oil (70%)\\n2 tablespoon olive oil (40%)\\n2 slice - 3 slice medium (10%)\\n1 tablespoon - 2 tablespoon buttery spread (10%)\\n\\ncooking pot (50%)\\npan (50%)\\ndutch oven (20%)" fillcolor="#ddeaf6" style=filled]
-\t1326 [label="(1326)\\n\\nreduce\\n\\n2 1/2 - 3 onion (100%)\\n2 tablespoon margarine (25%)\\n\\n30 minute - 60 minute" fillcolor="#eef5fc" style=filled]
-\t1408 [label="(1408)\\n\\nadd\\n\\n2 tablespoon flour (100%)\\n3 slice onion (33%)\\n\\n3 minute - 4 minute" fillcolor="#f1f7fd" style=filled]
-\t1503 [label="(1503)\\n\\ncook\\n\\ncooking pot (2%)\\n\\n10 minute - 35 minute" fillcolor="#3888c0" style=filled]
-\t1516 [label="(1516)\\n\\nmix\\n\\npan (3%)\\n\\n3 minute - 10 minute" fillcolor="#95c5df" style=filled]
-\t0 [label="(0)\\n\\nSTART" fillcolor="#f7fbff" style=filled]
-\t1 [label="(1)\\n\\nEND" fillcolor="#f7fbff" style=filled]
-\t0 [label=<<font point-size='18'><b>START</b></font>> shape=doublecircle style=bold]
-\t1 [label=<<font point-size='18'><b>END</b></font>> shape=doublecircle style=bold]
-\t1266 -> 882 [label=3 penwidth=2.090909090909091]
-\t882 -> 1503 [label=4 penwidth=2.6363636363636362]
-\t1326 -> 1408 [label=2 penwidth=1.5454545454545454]
-\t1503 -> 1326 [label=2 penwidth=1.5454545454545454]
-\t1408 -> 1516 [label=2 penwidth=1.5454545454545454]
-\t0 -> 1266 [label=12 penwidth=7.0]
-\t1516 -> 1 [label=1 penwidth=1.0]
-}
-`;
+      dotSrc = graphDot;
     }
 
     this.state = {
@@ -188,6 +136,7 @@ class Index extends React.Component {
   addNode = ({lbael, nodeId, kuku}) =>{
     const originalGraph = this.state.dotSrc;
     const lastClosure = originalGraph.lastIndexOf("}");
+    debugger
     if(lastClosure === -1){
       return;
     }
@@ -717,6 +666,34 @@ class Index extends React.Component {
     });
   }
 
+
+  updateColorByNodeIds = (arrayOfIds)=>{
+      const originalSrc = this.state.dotSrc;
+      let fullString = "";
+      fullString =  this.state.dotSrc;
+      arrayOfIds && arrayOfIds.forEach(id=>{
+
+        const regex = new RegExp(`${id}`+"\\s\\[");
+          const startIndex =  fullString.search(regex);
+          if(startIndex > -1){
+              const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
+              if(closingIndex > -1){
+                const a = fullString.substring(startIndex,closingIndex);
+                const nodeString = a + " penwidth=10]";
+                const firstPart = fullString.substring(0,startIndex);
+                const lastPart = fullString.substring(closingIndex+2);
+                fullString = firstPart.concat(nodeString.concat(lastPart));
+              }
+          } else{
+            return;
+          }
+      })
+
+     this.setState({
+       dotSrc : fullString
+     })
+  }
+
   render() {
     const { classes } = this.props;
     const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen;
@@ -896,6 +873,7 @@ class Index extends React.Component {
           <Grid item xs={columns.graph}>
             <Paper elevation={rightPaneElevation} className={classes.paper}>
               <Graph
+              updateColorByNodeIds = {this.updateColorByNodeIds}
                 addNode={this.addNode}
                 hasFocus={graphHasFocus}
                 dotSrc={this.state.dotSrc}
