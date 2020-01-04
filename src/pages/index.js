@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import 'typeface-roboto';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
@@ -26,11 +26,11 @@ import ExportAsUrlDialog from '../ExportAsUrlDialog';
 
 const styles = theme => ({
   root: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   paper: {
-    // viewport height - app bar - 2 * padding
     height: "calc(100vh - 64px - 2 * 12px)",
+    width:"111"
   }
 });
 
