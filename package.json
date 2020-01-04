@@ -39,7 +39,7 @@
     "react-color": "^2.17.3",
     "react-dom": "^16.8.6",
     "react-perfect-scrollbar": "^1.5.3",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^3.3.0",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
