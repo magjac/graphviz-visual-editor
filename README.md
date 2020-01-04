@@ -52,8 +52,8 @@ Learn more from the Create React App [README](https://github.com/facebook/create
 
 ## Tested Browsers ##
 
-* Firefox 61.0.1
-* Chrome 64.0.3282.167
+* Firefox 71
+* Chrome 79
 
 ## Known Issues ##
 
