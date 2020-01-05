@@ -183,6 +183,7 @@ function ButtonAppBar(props) {
             <ZoomOutIcon />
           </IconButton>
           <IconButton
+            id="zoom-out-map"
             className={classes.zoomOutMapButton}
             color="inherit"
             aria-label="ZoomOutMap"

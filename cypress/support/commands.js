@@ -51,6 +51,10 @@ Cypress.Commands.add("zoomOutButton", () => {
   return cy.get('#toolbar').find('#zoom-out');
 });
 
+Cypress.Commands.add("zoomOutMapButton", () => {
+  return cy.get('#toolbar').find('#zoom-out-map');
+});
+
 Cypress.Commands.add("zoomResetButton", () => {
   return cy.get('#toolbar').find('#zoom-reset');
 });
