@@ -630,7 +630,7 @@ class Graph extends React.Component {
 
   getNextNodeId() {
     if (this.nodeIndex === null) {
-      this.nodeIndex = d3_selectAll('.node').size();
+      this.nodeIndex = d3_select('#canvas').selectAll('.node').size();
     } else {
       this.nodeIndex += 1;
     }
@@ -769,6 +769,7 @@ class Graph extends React.Component {
     return (
       <React.Fragment>
         <div
+          id="canvas"
           ref={div => this.div = d3_select(div)}
           onDragOver={this.handleNodeShapeDragOver}
           onDrop={this.handleNodeShapeDrop.bind(this)}
