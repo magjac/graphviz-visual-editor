@@ -4,19 +4,31 @@ Cypress.Commands.add("startApplication", () => {
 });
 
 Cypress.Commands.add("node", (index) => {
-  return cy.get('#graph0 > #node' + index);
+  return cy.get('#canvas #graph0 > #node' + index);
 });
 
 Cypress.Commands.add("edge", (index) => {
-  return cy.get('#graph0 > #edge' + index);
+  return cy.get('#canvas #graph0 > #edge' + index);
 });
 
 Cypress.Commands.add("nodes", () => {
-  return cy.get('#graph0 > .node');
+  return cy.get('#canvas #graph0 > .node');
 });
 
 Cypress.Commands.add("edges", () => {
-  return cy.get('#graph0 > .edge');
+  return cy.get('#canvas #graph0 > .edge');
+});
+
+Cypress.Commands.add("toolbarButton", (buttonName) => {
+  return cy.get('#toolbar').contains(buttonName);
+});
+
+Cypress.Commands.add("insertPanels", () => {
+  return cy.get('#insert-panels');
+});
+
+Cypress.Commands.add("nodeShapeCategory", (nodeShapeCategoryName) => {
+  return cy.insertPanels().contains(nodeShapeCategoryName);
 });
 
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {

@@ -106,7 +106,7 @@ function ButtonAppBar(props) {
       <AppBar
         position="static"
       >
-        <Toolbar>
+        <Toolbar id="toolbar">
           <IconButton
             className={classes.menuButton}
             color="inherit"
