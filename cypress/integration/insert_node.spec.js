@@ -1,6 +1,6 @@
 describe('Insertion of nodes into the graph', function() {
 
-  it('Inserts a node when middle mouse button is clicked', function() {
+  it('Inserts a node with latest attributes when middle mouse button is clicked', function() {
     cy.startApplication();
     cy.clearAndRender('digraph {Alice -> Bob}');
 
