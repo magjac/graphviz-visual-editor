@@ -512,4 +512,28 @@ describe('Selection and deselection in graph', function() {
 
   })
 
+  it('Selects all nodes and edges when Ctrl-A is pressed', function() {
+    cy.startApplication();
+    cy.clearAndRender('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).shouldNotBeSelected();
+    cy.node(2).shouldNotBeSelected();
+    cy.edge(1).shouldNotBeSelected();
+
+    cy.get('#graph0').click();
+    cy.get('body').type('{ctrl}a');
+
+    cy.node(1).shouldBeSelected();
+    cy.node(2).shouldBeSelected();
+    cy.edge(1).shouldBeSelected();
+  })
+
 })
