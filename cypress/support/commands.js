@@ -43,6 +43,10 @@ Cypress.Commands.add("style", (styleName) => {
   return cy.styles().find('#' + styleName);
 });
 
+Cypress.Commands.add("zoomInButton", () => {
+  return cy.get('#toolbar').find('#zoom-in');
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });

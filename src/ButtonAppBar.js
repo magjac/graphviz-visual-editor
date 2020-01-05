@@ -165,6 +165,7 @@ function ButtonAppBar(props) {
             Graphviz Visual Editor
           </Typography>
           <IconButton
+            id="zoom-in"
             className={classes.zoomInButton}
             color="inherit"
             aria-label="ZoomIn"
