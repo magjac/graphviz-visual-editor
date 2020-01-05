@@ -191,6 +191,7 @@ function ButtonAppBar(props) {
             <ZoomOutMapIcon />
           </IconButton>
           <Button
+            id="zoom-reset"
             color="inherit"
             onClick={handleZoomResetButtonClick}
           >
