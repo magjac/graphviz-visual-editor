@@ -47,6 +47,10 @@ Cypress.Commands.add("zoomInButton", () => {
   return cy.get('#toolbar').find('#zoom-in');
 });
 
+Cypress.Commands.add("zoomOutButton", () => {
+  return cy.get('#toolbar').find('#zoom-out');
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });

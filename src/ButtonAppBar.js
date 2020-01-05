@@ -174,6 +174,7 @@ function ButtonAppBar(props) {
             <ZoomInIcon />
           </IconButton>
           <IconButton
+            id="zoom-out"
             className={classes.zoomOutButton}
             color="inherit"
             aria-label="ZoomOut"
