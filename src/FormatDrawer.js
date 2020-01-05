@@ -184,6 +184,7 @@ class FormatDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <Drawer
+          id="format-drawer"
           variant="persistent"
           anchor='left'
           open
@@ -207,6 +208,7 @@ class FormatDrawer extends React.Component {
                 className={classes.styleSwitch}
                 control={
                   <Switch
+                    id="style-switch"
                     checked={currentStyle.size !== 0}
                     onChange={this.handleStyleSwitchChange}
                   />
@@ -215,12 +217,13 @@ class FormatDrawer extends React.Component {
                 labelPlacement="start"
               />
             </FormGroup>
-            <FormGroup row>
+            <FormGroup row id="styles">
               {styles.map((style) =>
                 <FormControlLabel
                 className={classes.styleCheckbox}
                   control={
                     <Checkbox
+                      id={style}
                       checked={currentStyle.has(style)}
                     onChange={this.handleStyleChange(style)}
                     value={style}

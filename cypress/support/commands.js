@@ -31,6 +31,18 @@ Cypress.Commands.add("nodeShapeCategory", (nodeShapeCategoryName) => {
   return cy.insertPanels().contains(nodeShapeCategoryName);
 });
 
+Cypress.Commands.add("styleSwitch", () => {
+  return cy.formatDrawer().find('#style-switch');
+});
+
+Cypress.Commands.add("styles", () => {
+  return cy.formatDrawer().find('#styles');
+});
+
+Cypress.Commands.add("style", (styleName) => {
+  return cy.styles().find('#' + styleName);
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });
