@@ -41,6 +41,7 @@ function isNumeric(n) {
 class Graph extends React.Component {
   constructor(props) {
     super(props);
+    console.log('contsructor!!!')
     this.state = {
       busy: false,
       showPopup:false,
@@ -54,6 +55,7 @@ class Graph extends React.Component {
 
 
     };
+    this.kuku = props.updateColorByNodeIds.bind(this);
     this.svg = d3_select(null);
     this.createGraph = this.createGraph.bind(this)
     this.renderGraph = this.renderGraph.bind(this)
@@ -84,7 +86,11 @@ class Graph extends React.Component {
     this.createGraph()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    if(JSON.stringify(prevState.markedVertices)!=JSON.stringify( this.state.markedVertices)){
+      this.kuku(this.state.markedVertices);
+    }
+
     this.renderGraph()
   }
 
@@ -289,17 +295,17 @@ class Graph extends React.Component {
     var nodes = this.svg.selectAll(".node");
     var edges = this.svg.selectAll(".edge");
 
-    d3_select(window).on("resize", this.resizeSVG.bind(this));
-    this.div.on("click", this.handleClickDiv.bind(this));
-    d3_select(document).on("keydown", this.handleKeyDownDocument.bind(this));
-    this.div.on("mousemove", this.handleMouseMoveDiv.bind(this));
+    // d3_select(window).on("resize", this.resizeSVG.bind(this));
+    // this.div.on("click", this.handleClickDiv.bind(this));
+    // d3_select(document).on("keydown", this.handleKeyDownDocument.bind(this));
+    // this.div.on("mousemove", this.handleMouseMoveDiv.bind(this));
     // this.div.on("contextmenu", this.handleRightClickDiv.bind(this));
-    this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
-    this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
-    this.svg.on("click", this.handleClickSvg.bind(this));
-    this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
-    nodes.on("click mousedown", this.handleClickNode.bind(this));
-    nodes.on("dblclick", this.handleDblClickNode.bind(this));
+    // this.svg.on("mousedown", this.handleMouseDownSvg.bind(this));
+    // this.svg.on("mousemove", this.handleMouseMoveSvg.bind(this));
+    // this.svg.on("click", this.handleClickSvg.bind(this));
+    // this.svg.on("mouseup", this.handleMouseUpSvg.bind(this));
+    nodes.on("click", this.handleClickNode.bind(this));
+    // nodes.on("dblclick", this.handleDblClickNode.bind(this));
     nodes.on("contextmenu", this.handleRightClickNode2.bind(this));
     // edges.on("click mousedown", this.handleClickEdge.bind(this));
 
@@ -415,20 +421,35 @@ class Graph extends React.Component {
     //   dialogTitle: (d && d.key) || "" ,
     //   dialogContentTextArray: matchingObj && matchingObj.directions || []
     // });
-    console.log("moran")
 
-    if (d.key == 0){
-      this.setState((prev)=>({
-        pathDrawingMode: !prev.pathDrawingMode,
-        markedVertices: prev.pathDrawingMode ? [] : [d.key],
-        markedEdges: prev.pathDrawingMode? [] : prev.markedEdges
-      }));
+    if (d.key === "0"){
+      let desiredState = {};
+      if(this.state.pathDrawingMode){
+          desiredState = {
+            pathDrawingMode:false,
+            markedVertices:[],
+            markedEdges:[]
+          }
+      } else{
+        desiredState = {
+          pathDrawingMode:true,
+          markedVertices:[d.key],
+          markedEdges:[]
+        }
+      }
+      this.setState({
+        ...desiredState
+      })
     } else{
       if (this.state.pathDrawingMode){
-        this.setState((prev)=>({
-          markedVertices: [...prev.markedVertices, d.key]
-          //TODO: update markedEdges
-        }))
+        console.log("this is key ", d.key)
+        this.setState(prevState => ({
+          markedVertices: [...prevState.markedVertices,d.key],
+        }));
+        // this.setState((prev)=>(
+        //   {
+        //   markedVertices: [...prev.markedVertices, d.key]
+        // }));
       }
     }
 
@@ -835,30 +856,24 @@ class Graph extends React.Component {
 
 
 
-  handleDialogClose = (addNode, updateColorByNodeIds)=>{
+  handleDialogClose = (addNode)=>{
     this.setState({
       showPopup:false
     });
 
-    updateColorByNodeIds([4416, 4108,4263, 100]);
     
   }
 
-  // componentDidUpdate(){
-  //   this.
-  // }
-
-
 
   render() {
-    const { classes, addNode, updateColorByNodeIds } = this.props;
+    const { classes, addNode } = this.props;
     return (
       <React.Fragment>
         <Dialog
           open={this.state.showPopup}
           // onClose={this.handleDialogClose(addNode)}
             onClose={()=>{
-              this.handleDialogClose(addNode, updateColorByNodeIds);
+              this.handleDialogClose(addNode);
             }}
           // fullScreen={true}
         >

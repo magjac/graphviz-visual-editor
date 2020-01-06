@@ -668,7 +668,6 @@ class Index extends React.Component {
 
 
   updateColorByNodeIds = (arrayOfIds)=>{
-      const originalSrc = this.state.dotSrc;
       let fullString = "";
       fullString =  this.state.dotSrc;
       arrayOfIds && arrayOfIds.forEach(id=>{
@@ -679,6 +678,9 @@ class Index extends React.Component {
               const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
               if(closingIndex > -1){
                 const a = fullString.substring(startIndex,closingIndex);
+                if(a.includes("penwidth")){
+                  return
+                }
                 const nodeString = a + " penwidth=10]";
                 const firstPart = fullString.substring(0,startIndex);
                 const lastPart = fullString.substring(closingIndex+2);
