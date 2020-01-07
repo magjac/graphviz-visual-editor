@@ -124,6 +124,7 @@ function ButtonAppBar(props) {
             <AddIcon />
           </IconButton>
           <IconButton
+            id="open"
             className={classes.openInBrowserButton}
             color="inherit"
             aria-label="OpenInBrowser"

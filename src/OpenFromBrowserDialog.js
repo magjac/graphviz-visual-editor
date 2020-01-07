@@ -204,6 +204,7 @@ class OpenFromBrowserDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="open-from-browser-dialog"
           maxWidth={false}
           className={classes.root}
           open
