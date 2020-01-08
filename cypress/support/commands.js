@@ -55,6 +55,14 @@ Cypress.Commands.add("savedGraphPreview", (index) => {
   return cy.savedGraphs().eq(index).find('td').eq(2);
 });
 
+Cypress.Commands.add("openGraphCancelButton", (index) => {
+  return cy.openFromBrowserDialog().find('#cancel');
+});
+
+Cypress.Commands.add("openGraphOpenButton", (index) => {
+  return cy.openFromBrowserDialog().find('#open');
+});
+
 Cypress.Commands.add("saveAsButton", () => {
   return cy.get('#toolbar').find('#save-as');
 });

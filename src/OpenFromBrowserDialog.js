@@ -276,10 +276,10 @@ class OpenFromBrowserDialog extends React.Component {
             </Table>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="secondary">
+            <Button onClick={this.props.onClose} color="secondary" id="cancel">
               Cancel
             </Button>
-            <Button onClick={this.handleOpen} color="secondary">
+            <Button onClick={this.handleOpen} color="secondary" id="open">
               Open
             </Button>
           </DialogActions>
