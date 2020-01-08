@@ -55,12 +55,28 @@ Cypress.Commands.add("savedGraphPreview", (index) => {
   return cy.savedGraphs().eq(index).find('td').eq(2);
 });
 
+Cypress.Commands.add("savedGraphDeleteButton", (index) => {
+  return cy.savedGraphs().eq(index).find('td').eq(3).find('#delete');
+});
+
 Cypress.Commands.add("openGraphCancelButton", (index) => {
   return cy.openFromBrowserDialog().find('#cancel');
 });
 
 Cypress.Commands.add("openGraphOpenButton", (index) => {
   return cy.openFromBrowserDialog().find('#open');
+});
+
+Cypress.Commands.add("deleteGraphDialog", (index) => {
+  return cy.get('#delete-graph-dialog');
+});
+
+Cypress.Commands.add("deleteGraphDeleteButton", () => {
+  return cy.deleteGraphDialog().find('#delete');
+});
+
+Cypress.Commands.add("deleteGraphDialog", (index) => {
+  return cy.get('#delete-graph-dialog');
 });
 
 Cypress.Commands.add("saveAsButton", () => {

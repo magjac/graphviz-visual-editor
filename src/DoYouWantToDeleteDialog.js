@@ -41,6 +41,7 @@ class DoYouWantToDeleteDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="delete-graph-dialog"
           className={classes.root}
           open
           onClose={this.handleClose}
@@ -64,7 +65,7 @@ class DoYouWantToDeleteDialog extends React.Component {
             <Button onClick={this.props.onClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.handleDelete} color="secondary">
+            <Button onClick={this.handleDelete} color="secondary" id ="delete">
               Delete
             </Button>
           </DialogActions>

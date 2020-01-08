@@ -263,6 +263,7 @@ class OpenFromBrowserDialog extends React.Component {
                       </TableCell>
                       <TableCell>
                         <IconButton
+                          id="delete"
                           aria-label="Delete"
                           onClick={this.handleDelete(name)}
                         >
