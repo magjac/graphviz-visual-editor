@@ -55,6 +55,22 @@ Cypress.Commands.add("savedGraphPreview", (index) => {
   return cy.savedGraphs().eq(index).find('td').eq(2);
 });
 
+Cypress.Commands.add("saveAsButton", () => {
+  return cy.get('#toolbar').find('#save-as');
+});
+
+Cypress.Commands.add("saveToBrowserDialog", () => {
+  return cy.get('#save-to-browser-dialog');
+});
+
+Cypress.Commands.add("saveToBrowserNameInput", () => {
+  return cy.saveToBrowserDialog().find('#name');
+});
+
+Cypress.Commands.add("saveToBrowserSaveButton", () => {
+  return cy.saveToBrowserDialog().find('#save');
+});
+
 Cypress.Commands.add("insertPanels", () => {
   return cy.get('#insert-panels');
 });

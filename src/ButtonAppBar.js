@@ -133,6 +133,7 @@ function ButtonAppBar(props) {
             <OpenInBrowserIcon />
           </IconButton>
           <IconButton
+            id="save-as"
             className={classes.SaveAltButton}
             color="inherit"
             aria-label="SaveAlt"

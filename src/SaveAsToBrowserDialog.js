@@ -78,6 +78,7 @@ class SaveAsToBrowserDialog extends React.Component {
     return (
       <div>
         <Dialog
+           id="save-to-browser-dialog"
           className={classes.root}
           open
           onClose={this.handleClose}
@@ -117,7 +118,7 @@ class SaveAsToBrowserDialog extends React.Component {
             <Button onClick={this.props.onClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.handleSave} color="secondary">
+            <Button onClick={this.handleSave} color="secondary" id="save">
               {this.props.rename ? 'Rename' : 'Save'}
             </Button>
           </DialogActions>
