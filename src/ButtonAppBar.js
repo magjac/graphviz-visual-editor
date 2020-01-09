@@ -108,6 +108,7 @@ function ButtonAppBar(props) {
       >
         <Toolbar id="toolbar">
           <IconButton
+            id="menu"
             className={classes.menuButton}
             color="inherit"
             aria-label="Menu"
