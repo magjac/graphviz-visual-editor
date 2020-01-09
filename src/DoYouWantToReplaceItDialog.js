@@ -36,6 +36,7 @@ class DoYouWantToReplaceItDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="replace-graph-dialog"
           className={classes.root}
           open
           onClose={this.handleClose}
@@ -59,7 +60,7 @@ class DoYouWantToReplaceItDialog extends React.Component {
             <Button onClick={this.props.onClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.handleReplace} color="secondary">
+            <Button onClick={this.handleReplace} color="secondary" id="replace">
               Replace
             </Button>
           </DialogActions>
