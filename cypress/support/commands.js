@@ -200,8 +200,16 @@ Cypress.Commands.add("waitForTransition", () => {
   cy.waitForNotBusy();
 });
 
-Cypress.Commands.add("clearAndRenderDotSource", (dotSrc) => {
+Cypress.Commands.add("clearDotSource", () => {
   cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+});
+
+Cypress.Commands.add("insertDotSource", (dotSrc) => {
   cy.get('.ace_text-input').type(dotSrc.replace(/{/g, '{{}'), {force: true});
+});
+
+Cypress.Commands.add("clearAndRenderDotSource", (dotSrc) => {
+  cy.clearDotSource();
+  cy.insertDotSource(dotSrc);
   cy.waitForTransition();
 });
