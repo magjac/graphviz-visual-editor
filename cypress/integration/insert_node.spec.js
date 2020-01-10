@@ -2,7 +2,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node with latest attributes when middle mouse button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -35,7 +35,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node with default attributes when middle mouse button is shift-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -76,7 +76,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node when a node in an insert panel is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -111,7 +111,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node when a node is dragged from an insert panel to the canvas', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -152,7 +152,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Inserts a node by copy-and-paste another node', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -186,7 +186,7 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Replaces a node by cut-and-paste it thereby removing its connected edges', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

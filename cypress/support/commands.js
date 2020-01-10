@@ -200,7 +200,7 @@ Cypress.Commands.add("waitForTransition", () => {
   cy.waitForNotBusy();
 });
 
-Cypress.Commands.add("clearAndRender", (dotSrc) => {
+Cypress.Commands.add("clearAndRenderDotSource", (dotSrc) => {
   cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
   cy.get('.ace_text-input').type(dotSrc.replace(/{/g, '{{}'), {force: true});
   cy.waitForTransition();

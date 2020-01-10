@@ -2,7 +2,7 @@ describe('Browser save and open', function() {
 
   it('The current graph is automatically stored in browser local storage', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -28,7 +28,7 @@ describe('Browser save and open', function() {
 
   it('The graph is saved to browser local storage when the save as button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -63,7 +63,7 @@ describe('Browser save and open', function() {
 
   it('The graph is loaded from a saved graph in browser local storage when to open button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -99,7 +99,7 @@ describe('Browser save and open', function() {
 
     cy.openFromBrowserDialog().should('not.exist');
 
-    cy.clearAndRender('digraph {Charlie -> Daphne -> Ernie}');
+    cy.clearAndRenderDotSource('digraph {Charlie -> Daphne -> Ernie}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -153,7 +153,7 @@ describe('Browser save and open', function() {
 
   it('A graph saved in browser local storage is deleted when the delete icon is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -189,7 +189,7 @@ describe('Browser save and open', function() {
 
     cy.openFromBrowserDialog().should('not.exist');
 
-    cy.clearAndRender('digraph {Charlie -> Daphne -> Ernie}');
+    cy.clearAndRenderDotSource('digraph {Charlie -> Daphne -> Ernie}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -267,7 +267,7 @@ describe('Browser save and open', function() {
 
   it('The graph is renamed in browser local storage through the menu item Rename', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -339,7 +339,7 @@ describe('Browser save and open', function() {
 
   it('Saving a graph to browser local storge under a name that already exist, opens a dialog asking the user for confirmation and then writes over that graph', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

@@ -2,7 +2,7 @@ describe('Draw edges in the graph', function() {
 
   it('Draws an edge from a node to another node when the right mouse button is clicked on the source node and then the left mouse button double-clicked on the destination node', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -34,7 +34,7 @@ describe('Draw edges in the graph', function() {
 
   it('Draws edges in both directions between two nodes', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

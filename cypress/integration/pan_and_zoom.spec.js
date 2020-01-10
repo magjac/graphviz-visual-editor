@@ -2,7 +2,7 @@ describe('Pan and zoom of graph', function() {
 
   it('Zoom in in graph when zoom in button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -25,7 +25,7 @@ describe('Pan and zoom of graph', function() {
 
   it('Zoom out in graph when zoom out button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -48,7 +48,7 @@ describe('Pan and zoom of graph', function() {
 
   it('Reset zoom of graph when zoom reset button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -75,7 +75,7 @@ describe('Pan and zoom of graph', function() {
 
   it('Reset zoom graph to map to available area when zoom out map button is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

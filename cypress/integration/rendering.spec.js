@@ -2,7 +2,7 @@ describe('Basic rendering from DOT source', function() {
 
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

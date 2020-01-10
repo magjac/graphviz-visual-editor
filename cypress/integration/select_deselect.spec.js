@@ -2,7 +2,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Selects a node when clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -25,7 +25,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Deselects a selected node when the graph is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -54,7 +54,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Deselects a selected node when the graph is right-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -83,7 +83,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Deselects a selected node when another node is clicked and selects that node instead', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -112,7 +112,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Deselects a selected node when ESC is pressed', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -141,7 +141,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Extends selection when another node is shift-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -171,7 +171,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Extends selection when another node is ctrl-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -201,7 +201,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Keeps selection when the graph is shift-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -239,7 +239,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Keeps selection when the graph is ctrl-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -277,7 +277,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Selects an edge when clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -300,7 +300,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Deselects a selected edge when the graph is clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -329,7 +329,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Deselects a selected edge when another edge is clicked and selects that edge instead', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob -> Alice}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob -> Alice}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -363,7 +363,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Extends selection when another edge is shift-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob -> Alice}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob -> Alice}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -398,7 +398,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Extends selection when another edge is ctrl-clicked', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob -> Alice}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob -> Alice}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -433,7 +433,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Selects nodes and edges by dragging the canvas', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph { Eve -> Alice; Eve -> Bob}');
+    cy.clearAndRenderDotSource('digraph { Eve -> Alice; Eve -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -468,7 +468,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Extends nodes and edges selection by shift-dragging the canvas', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph { Eve -> Alice; Eve -> Bob}');
+    cy.clearAndRenderDotSource('digraph { Eve -> Alice; Eve -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -514,7 +514,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Selects all nodes and edges when Ctrl-A is pressed', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -538,7 +538,7 @@ describe('Selection and deselection in graph', function() {
 
   it('Selects all edges when Shift-Ctrl-A is pressed', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob -> Alice}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob -> Alice}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
