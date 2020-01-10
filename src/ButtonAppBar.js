@@ -117,6 +117,7 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <IconButton
+            id="new"
             className={classes.new}
             color="inherit"
             aria-label="New"

@@ -43,6 +43,10 @@ Cypress.Commands.add("replaceGraphReplaceButton", () => {
   return cy.replaceGraphDialog().find('#replace');
 });
 
+Cypress.Commands.add("newButton", () => {
+  return cy.get('#toolbar').find('#new');
+});
+
 Cypress.Commands.add("openButton", () => {
   return cy.get('#toolbar').find('#open');
 });

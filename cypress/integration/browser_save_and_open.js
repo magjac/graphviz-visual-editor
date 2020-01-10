@@ -411,4 +411,74 @@ describe('Browser save and open', function() {
     cy.savedGraphPreview(0).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
   })
 
+  it('A new empty graph is created when the new button is clicked', function() {
+    cy.startApplication();
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+    cy.openButton().click();
+
+    cy.openFromBrowserDialog().should('exist');
+
+    cy.savedGraphs().should('have.length', 1);
+    cy.savedGraphName(0).should('have.text', 'Untitled Graph');
+    cy.savedGraphDotSource(0).should('have.text', 'digraph {Alice -> Bob}');
+    cy.savedGraphTime(0).should('have.text', 'a few seconds ago');
+    cy.savedGraphPreview(0).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+
+    cy.openGraphCancelButton().click();
+
+    cy.openFromBrowserDialog().should('not.exist');
+
+    cy.newButton().click();
+
+    cy.openButton().click();
+
+    cy.openFromBrowserDialog().should('exist');
+
+    cy.savedGraphs().should('have.length', 1);
+
+    cy.savedGraphName(0).should('have.text', 'Untitled Graph');
+    cy.savedGraphDotSource(0).should('have.text', 'digraph {Alice -> Bob}');
+    cy.savedGraphTime(0).should('have.text', 'a few seconds ago');
+    cy.savedGraphPreview(0).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+
+    cy.openGraphCancelButton().click();
+
+    cy.openFromBrowserDialog().should('not.exist');
+
+    cy.insertDotSource('digraph {Charlie -> Daphne -> Ernie}');
+    cy.waitForTransition();
+
+    cy.openFromBrowserDialog().should('not.exist');
+
+    cy.newButton().click();
+
+    cy.openButton().click();
+
+    cy.openFromBrowserDialog().should('exist');
+
+    cy.savedGraphs().should('have.length', 2);
+
+    cy.savedGraphName(0).should('have.text', 'Untitled Graph 1');
+    cy.savedGraphDotSource(0).should('have.text', 'digraph {Charlie -> Daphne -> Ernie}');
+    cy.savedGraphTime(0).should('have.text', 'a few seconds ago');
+    cy.savedGraphPreview(0).should('have.text', '\n\n%0\n\n\n\nCharlie\n\nCharlie\n\n\n\nDaphne\n\nDaphne\n\n\n\nCharlie->Daphne\n\n\n\n\n\nErnie\n\nErnie\n\n\n\nDaphne->Ernie\n\n\n\n\n');
+
+    cy.savedGraphName(1).should('have.text', 'Untitled Graph');
+    cy.savedGraphDotSource(1).should('have.text', 'digraph {Alice -> Bob}');
+    cy.savedGraphTime(1).should('have.text', 'a few seconds ago');
+    cy.savedGraphPreview(1).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+  })
+
 })
