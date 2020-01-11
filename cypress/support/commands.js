@@ -43,6 +43,26 @@ Cypress.Commands.add("replaceGraphReplaceButton", () => {
   return cy.replaceGraphDialog().find('#replace');
 });
 
+Cypress.Commands.add("menuItemExportAsUrl", () => {
+  return cy.get('#main-menu').find('#export-as-url');
+});
+
+Cypress.Commands.add("exportGraphAsUrlDialog", () => {
+  return cy.get('#export-graph-as-url-dialog');
+});
+
+Cypress.Commands.add("exportGraphAsUrlExportedUrl", () => {
+  return cy.exportGraphAsUrlDialog().find('#export');
+});
+
+Cypress.Commands.add("exportGraphAsUrlCopyButton", () => {
+  return cy.exportGraphAsUrlDialog().find('#copy');
+});
+
+Cypress.Commands.add("exportGraphAsUrlCancelButton", () => {
+  return cy.exportGraphAsUrlDialog().find('#cancel');
+});
+
 Cypress.Commands.add("newButton", () => {
   return cy.get('#toolbar').find('#new');
 });

@@ -53,7 +53,7 @@ class MainMenu extends React.Component {
           <MenuItem onClick={this.handleOpenFromBrowser}>Open from browser</MenuItem>
           <MenuItem onClick={this.handleSaveAsToBrowser}>Save as to browser</MenuItem>
           <MenuItem onClick={this.handleRename} id="rename">Rename</MenuItem>
-          <MenuItem onClick={this.handleExportAsUrl}>Export as URL</MenuItem>
+          <MenuItem onClick={this.handleExportAsUrl} id="export-as-url">Export as URL</MenuItem>
           <MenuItem onClick={this.handleSettings}>Settings</MenuItem>
         </Menu>
       </div>
