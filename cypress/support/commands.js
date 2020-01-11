@@ -1,5 +1,5 @@
-Cypress.Commands.add("startApplication", () => {
-  cy.visit('http://localhost:3000/');
+Cypress.Commands.add("startApplication", (options) => {
+  cy.visit('http://localhost:3000/', options);
   cy.checkDefaultGraph();
 });
 
@@ -61,6 +61,10 @@ Cypress.Commands.add("exportGraphAsUrlCopyButton", () => {
 
 Cypress.Commands.add("exportGraphAsUrlCancelButton", () => {
   return cy.exportGraphAsUrlDialog().find('#cancel');
+});
+
+Cypress.Commands.add("exportGraphAsUrlOpenLinkButton", () => {
+  return cy.exportGraphAsUrlDialog().find('#open-link');
 });
 
 Cypress.Commands.add("newButton", () => {
