@@ -141,6 +141,7 @@ class SettingsDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="settings-dialog"
           open
           onClose={this.handleClose}
           scroll={'paper'}
@@ -188,6 +189,7 @@ class SettingsDialog extends React.Component {
                 className={classes.formControlLabel}
                 control={
                   <Switch
+                    id="fit-switch"
                     checked={this.props.fitGraph}
                     onChange={this.handleFitSwitchChange}
                   />

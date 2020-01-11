@@ -221,6 +221,7 @@ function ButtonAppBar(props) {
             Edge format
           </Button>
           <IconButton
+            id="settings"
             color="inherit"
             aria-label="Settings"
             onClick={handleSettingsButtonClick}

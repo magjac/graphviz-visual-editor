@@ -225,6 +225,9 @@ describe('Insertion of nodes into the graph', function() {
 
   it('Default node style is seleced from one of the styles in the node format drawer', function() {
     cy.startApplication();
+    cy.settingsButton().click();
+    cy.fitSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
     cy.clearAndRenderDotSource('digraph {}');
 
     cy.nodes().should('have.length', 0);

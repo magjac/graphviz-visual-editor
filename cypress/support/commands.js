@@ -199,6 +199,18 @@ Cypress.Commands.add("zoomResetButton", () => {
   return cy.get('#toolbar').find('#zoom-reset');
 });
 
+Cypress.Commands.add("settingsButton", () => {
+  return cy.get('#toolbar').find('#settings');
+});
+
+Cypress.Commands.add("settingsDialog", () => {
+  return cy.get('#settings-dialog');
+});
+
+Cypress.Commands.add("fitSwitch", () => {
+  return cy.settingsDialog().find('#fit-switch');
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });
