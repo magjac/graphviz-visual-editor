@@ -3,20 +3,32 @@ Cypress.Commands.add("startApplication", (options) => {
   cy.checkDefaultGraph();
 });
 
+Cypress.Commands.add("canvas", () => {
+  return cy.get('#canvas');
+});
+
+Cypress.Commands.add("canvasSvg", () => {
+  return cy.canvas().find('svg');
+});
+
+Cypress.Commands.add("canvasGraph", () => {
+  return cy.canvasSvg().find('#graph0');
+});
+
 Cypress.Commands.add("node", (index) => {
-  return cy.get('#canvas #graph0 > #node' + index);
+  return cy.canvasGraph().find('> #node' + index);
 });
 
 Cypress.Commands.add("edge", (index) => {
-  return cy.get('#canvas #graph0 > #edge' + index);
+  return cy.canvasGraph().find('> #edge' + index);
 });
 
 Cypress.Commands.add("nodes", () => {
-  return cy.get('#canvas #graph0 > .node');
+  return cy.canvasGraph().find(' > .node');
 });
 
 Cypress.Commands.add("edges", () => {
-  return cy.get('#canvas #graph0 > .edge');
+  return cy.canvasGraph().find('> .edge');
 });
 
 Cypress.Commands.add("toolbarButton", (buttonName) => {
