@@ -34,4 +34,26 @@ describe('Browser save and open', function() {
     cy.exportGraphAsUrlDialog().should('not.exist');
   })
 
+  it('The DOT source is imported from the dot parameter in the URL', function() {
+    cy.startApplication();
+    cy.clearAndRenderDotSource('digraph {}');
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+
+    cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+  })
+
 })
