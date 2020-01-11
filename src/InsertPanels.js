@@ -171,6 +171,7 @@ class InsertPanels extends React.Component {
             <ExpansionPanelDetails className={classes.columns}>
               {nodeShapeCategory.shapes.map((shape) =>
                 <div
+                  id={shape}
                   dangerouslySetInnerHTML={{__html: shapes[shape]}}
                   key={shape}
                   className={classes.column}

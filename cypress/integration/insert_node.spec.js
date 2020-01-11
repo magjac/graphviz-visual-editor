@@ -223,4 +223,140 @@ describe('Insertion of nodes into the graph', function() {
     cy.edges().should('have.length', 0);
   })
 
+  it('Default node style is seleced from one of the styles in the node format drawer', function() {
+    cy.startApplication();
+    cy.clearAndRenderDotSource('digraph {}');
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+
+    cy.toolbarButton('Insert').click();
+    cy.nodeShapeCategory('Basic shapes').click()
+
+    cy.toolbarButton('Node format').click();
+
+    const styles = [
+      'dashed',
+      'dotted',
+      'solid',
+      'invis',
+      'bold',
+      'filled',
+      'striped',
+      'wedged',
+      'diagonals',
+      'rounded',
+      'radial',
+    ];
+
+    cy.styles().should('have.text', styles.join(''));
+
+    cy.styleSwitch().click();
+
+    let numberOfVisibleNodes = 0;
+    styles.forEach((style, i) => {
+      const nodeIndex = i + 1;
+
+      cy.style(style).click();
+
+      cy.nodeShape('box').click({force: true});
+      cy.waitForTransition();
+
+      if (style != 'invis') {
+        numberOfVisibleNodes += 1;
+
+        cy.node(nodeIndex).should('exist');
+        cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+        switch(style) {
+        case 'dashed':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'stroke-dasharray', '5,2');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'dotted':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'stroke-dasharray', '1,5');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'solid':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'bold':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'stroke-width', '2');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'filled':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'striped':
+          cy.node(nodeIndex).find('polygon').should('have.length', 2);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(1).should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'wedged':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'diagonals':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 4);
+          break;
+        case 'rounded':
+          cy.node(nodeIndex).find('polygon').should('have.length', 0);
+          cy.node(nodeIndex).find('path').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('path').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('path').should('have.attr', 'fill', 'none');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        case 'radial':
+          cy.node(nodeIndex).find('polygon').should('have.length', 1);
+          cy.node(nodeIndex).find('path').should('have.length', 0);
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
+          cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polyline').should('have.length', 0);
+          break;
+        }
+      }
+      cy.nodes().should('have.length', numberOfVisibleNodes);
+
+      cy.style(style).click();
+    });
+  })
+
 })
