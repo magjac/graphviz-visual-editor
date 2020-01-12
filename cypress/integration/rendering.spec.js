@@ -4,6 +4,8 @@ describe('Basic rendering from DOT source', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
+    cy.textEditorContent().should('have.text', 'digraph {Alice -> Bob}');
+
     cy.node(1).should('exist');
     cy.node(2).should('exist');
     cy.edge(1).should('exist');
