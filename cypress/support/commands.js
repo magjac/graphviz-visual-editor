@@ -195,6 +195,34 @@ Cypress.Commands.add("style", (styleName) => {
   return cy.styles().find('#' + styleName);
 });
 
+Cypress.Commands.add("colorPickerForm", () => {
+  return cy.formatDrawer().find('#color-picker-form');
+});
+
+Cypress.Commands.add("colorSwitch", () => {
+  return cy.colorPickerForm().find('#color-switch');
+});
+
+Cypress.Commands.add("colorPickerSwatch", () => {
+  return cy.colorPickerForm().find('#color-picker-swatch');
+});
+
+Cypress.Commands.add("colorPicker", () => {
+  return cy.colorPickerForm().find('#color-picker-popover > .chrome-picker');
+});
+
+Cypress.Commands.add("colorPickerSaturation", () => {
+  return cy.colorPicker().find('.saturation-white');
+});
+
+Cypress.Commands.add("colorPickerHue", () => {
+  return cy.colorPicker().find('.hue-horizontal');
+});
+
+Cypress.Commands.add("colorPickerOpacity", () => {
+  return cy.colorPickerHue().parent().parent().parent().find('> div').eq(1).find(' > div > div').eq(2);
+});
+
 Cypress.Commands.add("zoomInButton", () => {
   return cy.get('#toolbar').find('#zoom-in');
 });

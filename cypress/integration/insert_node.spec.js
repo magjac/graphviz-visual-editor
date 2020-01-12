@@ -1,5 +1,46 @@
 describe('Insertion of nodes into the graph', function() {
 
+  function hsvToHex(h, s, v) {
+        const x = 1 - Math.abs((h * 360 / 60) % 2 - 1);
+        if (h <= 1 / 6) {
+          return rgbToHex(1 * 255, x * 255, 0 * 255);
+        } else if (1 / 6 <= h && h < 2 / 6) {
+          return rgbToHex(x * 255, 1 * 255, 0 * 255);
+        } else if (2 / 6 <= h && h < 3 / 6) {
+          return rgbToHex(0 * 255, 1 * 255, x * 255);
+        } else if (3 / 6 <= h && h < 4 / 6) {
+          return rgbToHex(0 * 255, x * 255, 1 * 255);
+        } else if (4 / 6 <= h && h < 5 / 6) {
+          return rgbToHex(x * 255, 0 * 255, 1 * 255);
+        } else {
+          return rgbToHex(1 * 255, 0 * 255, x * 255);
+        }
+  }
+
+  function rgbToHex(r, g, b) {
+    return ('00000' + ((Math.round(r) << 16) | (Math.round(g) << 8) | Math.round(b)).toString(16)).slice(-6);
+  }
+
+  function checkColor(actualHexColor, expectedHexColor, colorTolerance, propertyName='the') {
+    const expectedColor = parseInt(expectedHexColor.slice(1), 16);
+    const expectedRed = (expectedColor & 0xff0000) >> 16;
+    const expectedGreen = (expectedColor & 0x00ff00) >> 8;
+    const expectedBlue = (expectedColor & 0x0000ff);
+
+    const actualColor = parseInt(actualHexColor.slice(1), 16);
+    const actualRed = (actualColor & 0xff0000) >> 16;
+    const actualGreen = (actualColor & 0x00ff00) >> 8;
+    const actualBlue = (actualColor & 0x0000ff);
+
+    const absDiffRed = Math.abs(actualRed - expectedRed);
+    const absDiffGreen = Math.abs(actualGreen - expectedGreen);
+    const absDiffBlue = Math.abs(actualBlue - expectedBlue);
+
+    assert.isAtMost(absDiffRed, colorTolerance, propertyName + ' red component');
+    assert.isAtMost(absDiffGreen, colorTolerance, propertyName + ' green component');
+    assert.isAtMost(absDiffBlue, colorTolerance, propertyName + ' blue component');
+  }
+
   it('Inserts a node with latest attributes when middle mouse button is clicked', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
@@ -662,6 +703,152 @@ describe('Insertion of nodes into the graph', function() {
       cy.nodes().should('have.length', numberOfVisibleNodes);
 
     });
+  })
+
+  it('Default node color is seleced from the color picker in the node format drawer', function() {
+    cy.startApplication();
+    cy.settingsButton().click();
+    cy.fitSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
+    cy.clearAndRenderDotSource('digraph {}');
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+
+    cy.textEditorContent().should('have.text', 'digraph {}');
+
+    cy.toolbarButton('Node format').click();
+
+    let nodeIndex = 0;
+
+    const positions = {
+      'topLeft': {x: 0, y: 1},
+      'top': {x: 0.5, y: 1},
+      'topRight': {x: 1, y: 1},
+      'left': {x: 0, y: 0.5},
+      'center': {x: 0.5, y: 0.5},
+      'right': {x: 1, y: 0.5},
+      'bottomLeft': {x: 0, y: 0},
+      'bottom': {x: 0.5, y: 0},
+      'bottomRight': {x: 1, y: 0},
+    };
+
+    const horizontalPositions = {
+      'left': {x: 0, y: 0.5},
+      'center': {x: 0.5, y: 0.5},
+      'right': {x: 1, y: 0.5},
+    };
+
+    cy.colorSwitch().click();
+
+    for (let positionName of Object.keys(positions)) {
+      const colorTolerance = 8;
+      cy.colorPickerSwatch().click();
+      cy.colorPickerSaturation().click(positionName);
+
+      cy.toolbarButton('Insert').click();
+      cy.nodeShapeCategory('Basic shapes').click()
+      cy.nodeShape('ellipse').click({force: true});
+      nodeIndex += 1;
+      cy.waitForTransition();
+      cy.toolbarButton('Insert').click();
+
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+      cy.node(nodeIndex).find('ellipse').then(ellipse => {
+        expect(ellipse).to.have.length(1);
+        expect(ellipse).to.have.attr('stroke');
+        expect(ellipse).to.have.attr('fill', 'none');
+        expect(ellipse).to.not.have.attr('stroke-opacity');
+        expect(ellipse).to.not.have.attr('fill-opacity');
+        const {x, y} = positions[positionName];
+        const expectedStrokeColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
+        const actualStrokeColor = ellipse.attr('stroke').replace('#', '');
+        checkColor(actualStrokeColor, expectedStrokeColor, colorTolerance, 'stroke');
+      });
+    }
+
+    cy.colorPickerSwatch().click();
+    cy.colorPickerSaturation().click('topRight', {force: true});
+
+    for (let positionName of Object.keys(horizontalPositions)) {
+      const colorTolerance = 16;
+      cy.colorPickerSwatch().click();
+      cy.colorPickerHue().click(positionName, {force: true});
+
+      cy.toolbarButton('Insert').click();
+      cy.nodeShapeCategory('Basic shapes').click()
+      cy.nodeShape('ellipse').click({force: true});
+      nodeIndex += 1;
+      cy.waitForTransition();
+      cy.toolbarButton('Insert').click();
+
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+      cy.node(nodeIndex).find('ellipse').then(ellipse => {
+        expect(ellipse).to.have.length(1);
+        expect(ellipse).to.have.attr('stroke');
+        expect(ellipse).to.have.attr('fill', 'none');
+        expect(ellipse).to.not.have.attr('stroke-opacity');
+        expect(ellipse).to.not.have.attr('fill-opacity');
+        const {x, y} = horizontalPositions[positionName];
+        const expectedStrokeColor = hsvToHex(x, 1, 1)
+        const actualStrokeColor = ellipse.attr('stroke').replace('#', '');
+        checkColor(actualStrokeColor, expectedStrokeColor, colorTolerance, 'stroke');
+      });
+    }
+
+    cy.colorPickerSwatch().click();
+    cy.colorPickerHue().click('left', {force: true});
+
+    for (let positionName of Object.keys(horizontalPositions)) {
+      const colorTolerance = 4;
+      let expectedStrokeColor;
+      let expectedStrokeOpacity;
+      if (positionName == 'left') {
+        expectedStrokeColor = 'transparent';
+        expectedStrokeOpacity = null;
+      } else {
+        const {x, y} = positions['topRight'];
+        expectedStrokeColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
+        expectedStrokeOpacity = horizontalPositions[positionName].x;
+      }
+      cy.colorPickerSwatch().click();
+      cy.colorPickerOpacity().click(positionName);
+
+      cy.toolbarButton('Insert').click();
+      cy.nodeShapeCategory('Basic shapes').click()
+      cy.nodeShape('ellipse').click({force: true});
+      nodeIndex += 1;
+      cy.waitForTransition();
+      cy.toolbarButton('Insert').click();
+
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+      cy.node(nodeIndex).find('ellipse').then(ellipse => {
+        expect(ellipse).to.have.length(1);
+        expect(ellipse).to.have.attr('stroke');
+        expect(ellipse).to.have.attr('fill', 'none');
+        expect(ellipse).to.not.have.attr('fill-opacity');
+        const actualStrokeColor = ellipse.attr('stroke').replace('#', '');
+        if (expectedStrokeColor == 'transparent') {
+          expect(actualStrokeColor).to.eq(expectedStrokeColor);
+        } else {
+          checkColor(actualStrokeColor, expectedStrokeColor, colorTolerance);
+        }
+        if (expectedStrokeOpacity != null) {
+          const actualStrokeOpacity = ellipse.attr('stroke-opacity');
+          const strokeOpacityAbsDiff = Math.abs(actualStrokeOpacity - expectedStrokeOpacity)
+          expect(strokeOpacityAbsDiff).to.be.lessThan(0.02);
+        } else {
+          expect(ellipse).to.not.have.attr('stroke-opacity');
+        }
+      });
+    }
+
   })
 
 })

@@ -235,12 +235,13 @@ class FormatDrawer extends React.Component {
               )}
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl}>
+          <FormControl className={classes.colorFormControl} id="color-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}
                 control={
                   <Switch
+                    id="color-switch"
                     checked={this.props.defaultAttributes.color != null}
                     onChange={this.handleColorSwitchChange}
                   />
@@ -251,6 +252,7 @@ class FormatDrawer extends React.Component {
             </FormGroup>
             <FormGroup row>
               <ColorPicker
+                id="color-picker"
                 open={this.state.colorColorPickerIsOpen}
                 setOpen={this.setColorColorPickerOpen}
                 invert={true}

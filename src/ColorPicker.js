@@ -61,7 +61,7 @@ class ColorPicker extends React.Component {
     }
     return (
       <div>
-        <div className={classes.swatch} style={{background: borderBackground}} onClick={this.handleClick}>
+        <div id="color-picker-swatch" className={classes.swatch} style={{background: borderBackground}} onClick={this.handleClick}>
           <div className={classes.color} style={{background: contentBackground}} />
         </div>
         <FormControl>
@@ -73,7 +73,7 @@ class ColorPicker extends React.Component {
           />
         </FormControl>
         {this.props.open ?
-          <div className={classes.popover}>
+          <div id="color-picker-popover" className={classes.popover}>
             <ChromePicker color={this.props.color} onChange={this.handleChange} />
           </div>
           :
