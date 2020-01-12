@@ -272,12 +272,20 @@ Cypress.Commands.add("waitForTransition", () => {
   cy.waitForNotBusy();
 });
 
+Cypress.Commands.add("textEditorInput", () => {
+  cy.get('.ace_text-input');
+});
+
+Cypress.Commands.add("typeDotSource", (dotSrc) => {
+  cy.textEditorInput().type(dotSrc, {force: true});
+});
+
 Cypress.Commands.add("clearDotSource", () => {
-  cy.get('.ace_text-input').type('{ctrl}a{del}', {force: true});
+  cy.typeDotSource('{ctrl}a{del}');
 });
 
 Cypress.Commands.add("insertDotSource", (dotSrc) => {
-  cy.get('.ace_text-input').type(dotSrc.replace(/{/g, '{{}'), {force: true});
+  cy.typeDotSource(dotSrc.replace(/{/g, '{{}'), {force: true});
 });
 
 Cypress.Commands.add("clearAndRenderDotSource", (dotSrc) => {
