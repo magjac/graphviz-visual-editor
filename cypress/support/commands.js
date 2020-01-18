@@ -1,6 +1,6 @@
 Cypress.Commands.add("startApplication", (options) => {
   cy.visit('http://localhost:3000/', options);
-  cy.checkDefaultGraph();
+  cy.waitForTransition();
 });
 
 Cypress.Commands.add("textEditorWrapper", () => {
