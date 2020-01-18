@@ -229,6 +229,34 @@ Cypress.Commands.add("colorPickerOpacity", () => {
   return cy.colorPickerHue().parent().parent().parent().find('> div').eq(1).find(' > div > div').eq(2);
 });
 
+Cypress.Commands.add("fillColorPickerForm", () => {
+  return cy.formatDrawer().find('#fillcolor-picker-form');
+});
+
+Cypress.Commands.add("fillColorSwitch", () => {
+  return cy.fillColorPickerForm().find('#fillcolor-switch');
+});
+
+Cypress.Commands.add("fillColorPickerSwatch", () => {
+  return cy.fillColorPickerForm().find('#color-picker-swatch');
+});
+
+Cypress.Commands.add("fillColorPicker", () => {
+  return cy.fillColorPickerForm().find('#color-picker-popover > .chrome-picker');
+});
+
+Cypress.Commands.add("fillColorPickerSaturation", () => {
+  return cy.fillColorPicker().find('.saturation-white');
+});
+
+Cypress.Commands.add("fillColorPickerHue", () => {
+  return cy.fillColorPicker().find('.hue-horizontal');
+});
+
+Cypress.Commands.add("fillColorPickerOpacity", () => {
+  return cy.fillColorPickerHue().parent().parent().parent().find('> div').eq(1).find(' > div > div').eq(2);
+});
+
 Cypress.Commands.add("zoomInButton", () => {
   return cy.get('#toolbar').find('#zoom-in');
 });

@@ -851,4 +851,147 @@ describe('Insertion of nodes into the graph', function() {
 
   })
 
+  it('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
+    cy.startCleanApplication();
+
+    cy.settingsButton().click();
+    cy.fitSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.toolbarButton('Node format').click();
+    cy.styleSwitch().click();
+    cy.style('filled').click();
+
+    let nodeIndex = 0;
+
+    const positions = {
+      'topLeft': {x: 0, y: 1},
+      'top': {x: 0.5, y: 1},
+      'topRight': {x: 1, y: 1},
+      'left': {x: 0, y: 0.5},
+      'center': {x: 0.5, y: 0.5},
+      'right': {x: 1, y: 0.5},
+      'bottomLeft': {x: 0, y: 0},
+      'bottom': {x: 0.5, y: 0},
+      'bottomRight': {x: 1, y: 0},
+    };
+
+    const horizontalPositions = {
+      'left': {x: 0, y: 0.5},
+      'center': {x: 0.5, y: 0.5},
+      'right': {x: 1, y: 0.5},
+    };
+
+    cy.fillColorSwitch().click();
+
+    for (let positionName of Object.keys(positions)) {
+      const colorTolerance = 8;
+      cy.fillColorPickerSwatch().click();
+      cy.fillColorPickerSaturation().click(positionName);
+
+      cy.toolbarButton('Insert').click();
+      cy.nodeShapeCategory('Basic shapes').click()
+      cy.nodeShape('ellipse').click({force: true});
+      nodeIndex += 1;
+      cy.waitForTransition();
+      cy.toolbarButton('Insert').click();
+
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+      cy.node(nodeIndex).find('ellipse').then(ellipse => {
+        expect(ellipse).to.have.length(1);
+        expect(ellipse).to.not.have.attr('fill-opacity');
+        expect(ellipse).to.have.attr('fill');
+        expect(ellipse).to.not.have.attr('stroke-opacity');
+        expect(ellipse).to.have.attr('stroke', '#000000');
+        const {x, y} = positions[positionName];
+        const expectedFillColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
+        const actualFillColor = ellipse.attr('fill').replace('#', '');
+        checkColor(actualFillColor, expectedFillColor, colorTolerance, 'fill');
+      });
+    }
+
+    cy.fillColorPickerSwatch().click();
+    cy.fillColorPickerSaturation().click('topRight', {force: true});
+
+    for (let positionName of Object.keys(horizontalPositions)) {
+      const colorTolerance = 16;
+      cy.fillColorPickerSwatch().click();
+      cy.fillColorPickerHue().click(positionName, {force: true});
+
+      cy.toolbarButton('Insert').click();
+      cy.nodeShapeCategory('Basic shapes').click()
+      cy.nodeShape('ellipse').click({force: true});
+      nodeIndex += 1;
+      cy.waitForTransition();
+      cy.toolbarButton('Insert').click();
+
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+      cy.node(nodeIndex).find('ellipse').then(ellipse => {
+        expect(ellipse).to.have.length(1);
+        expect(ellipse).to.have.attr('stroke', '#000000');
+        expect(ellipse).to.have.attr('fill');
+        expect(ellipse).to.not.have.attr('stroke-opacity');
+        expect(ellipse).to.not.have.attr('fill-opacity');
+        const {x, y} = horizontalPositions[positionName];
+        const expectedFillColor = hsvToHex(x, 1, 1)
+        const actualFillColor = ellipse.attr('fill').replace('#', '');
+        checkColor(actualFillColor, expectedFillColor, colorTolerance, 'fill');
+      });
+    }
+
+    cy.fillColorPickerSwatch().click();
+    cy.fillColorPickerHue().click('left', {force: true});
+
+    for (let positionName of Object.keys(horizontalPositions)) {
+      const colorTolerance = 4;
+      let expectedFillColor;
+      let expectedFillOpacity;
+      if (positionName == 'left') {
+        expectedFillColor = 'transparent';
+        expectedFillOpacity = null;
+      } else {
+        const {x, y} = positions['topRight'];
+        expectedFillColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
+        expectedFillOpacity = horizontalPositions[positionName].x;
+      }
+      cy.fillColorPickerSwatch().click();
+      cy.fillColorPickerOpacity().click(positionName);
+
+      cy.toolbarButton('Insert').click();
+      cy.nodeShapeCategory('Basic shapes').click()
+      cy.nodeShape('ellipse').click({force: true});
+      nodeIndex += 1;
+      cy.waitForTransition();
+      cy.toolbarButton('Insert').click();
+
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+      cy.node(nodeIndex).find('ellipse').then(ellipse => {
+        expect(ellipse).to.have.length(1);
+        expect(ellipse).to.have.attr('fill');
+        expect(ellipse).to.not.have.attr('stroke-opacity');
+        expect(ellipse).to.have.attr('stroke', '#000000');
+        const actualFillColor = ellipse.attr('fill').replace('#', '');
+        if (expectedFillColor == 'transparent') {
+          expect(actualFillColor).to.eq(expectedFillColor);
+        } else {
+          checkColor(actualFillColor, expectedFillColor, colorTolerance, 'fill');
+        }
+        if (expectedFillOpacity != null) {
+          const actualFillOpacity = ellipse.attr('fill-opacity');
+          const fillOpacityAbsDiff = Math.abs(actualFillOpacity - expectedFillOpacity)
+          expect(fillOpacityAbsDiff).to.be.lessThan(0.02);
+        } else {
+          expect(ellipse).to.not.have.attr('fill-opacity');
+        }
+      });
+    }
+
+  })
+
 })
