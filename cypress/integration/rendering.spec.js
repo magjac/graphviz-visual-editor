@@ -2,6 +2,7 @@ describe('Basic rendering from DOT source', function() {
 
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
     cy.startApplication();
+    cy.checkDefaultGraph();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.textEditorContent().should('have.text', 'digraph {Alice -> Bob}');
