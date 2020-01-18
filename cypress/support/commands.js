@@ -3,6 +3,12 @@ Cypress.Commands.add("startApplication", (options) => {
   cy.waitForTransition();
 });
 
+Cypress.Commands.add("startCleanApplication", (options) => {
+  localStorage.setItem('dotSrc', 'digraph {}');
+  cy.visit('http://localhost:3000/', options);
+  cy.canvasGraph().should('exist');
+});
+
 Cypress.Commands.add("textEditorWrapper", () => {
   return cy.get('#text-editor-wrapper');
 });
