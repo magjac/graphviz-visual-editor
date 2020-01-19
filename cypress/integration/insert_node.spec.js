@@ -42,7 +42,7 @@ describe('Insertion of nodes into the graph', function() {
   }
 
   it('Inserts a node with latest attributes when middle mouse button is clicked', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
@@ -75,7 +75,7 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Inserts a node with default attributes when middle mouse button is shift-clicked', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
@@ -116,7 +116,7 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Inserts a node when a node in an insert panel is clicked', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
@@ -151,7 +151,7 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Inserts a node when a node is dragged from an insert panel to the canvas', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
@@ -192,7 +192,7 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Inserts a node by copy-and-paste another node', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
@@ -226,7 +226,7 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Replaces a node by cut-and-paste it thereby removing its connected edges', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
@@ -265,14 +265,10 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Default node style is seleced from one of the styles in the node format drawer', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.settingsButton().click();
     cy.fitSwitch().click();
     cy.get('body').type('{esc}', { release: false });
-    cy.clearAndRenderDotSource('digraph {}');
-
-    cy.nodes().should('have.length', 0);
-    cy.edges().should('have.length', 0);
 
     cy.toolbarButton('Insert').click();
     cy.nodeShapeCategory('Basic shapes').click()
@@ -404,14 +400,10 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Default node style is seleced from multiple styles in the node format drawer', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.settingsButton().click();
     cy.fitSwitch().click();
     cy.get('body').type('{esc}', { release: false });
-    cy.clearAndRenderDotSource('digraph {}');
-
-    cy.nodes().should('have.length', 0);
-    cy.edges().should('have.length', 0);
 
     cy.toolbarButton('Insert').click();
     cy.nodeShapeCategory('Basic shapes').click()
@@ -553,11 +545,7 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Default node styles are deseleced in the node format drawer', function() {
-    cy.startApplication();
-    cy.clearAndRenderDotSource('digraph {}');
-
-    cy.nodes().should('have.length', 0);
-    cy.edges().should('have.length', 0);
+    cy.startCleanApplication();
 
     cy.toolbarButton('Insert').click();
     cy.nodeShapeCategory('Basic shapes').click()
@@ -706,16 +694,10 @@ describe('Insertion of nodes into the graph', function() {
   })
 
   it('Default node color is seleced from the color picker in the node format drawer', function() {
-    cy.startApplication();
+    cy.startCleanApplication();
     cy.settingsButton().click();
     cy.fitSwitch().click();
     cy.get('body').type('{esc}', { release: false });
-    cy.clearAndRenderDotSource('digraph {}');
-
-    cy.nodes().should('have.length', 0);
-    cy.edges().should('have.length', 0);
-
-    cy.textEditorContent().should('have.text', 'digraph {}');
 
     cy.toolbarButton('Node format').click();
 
