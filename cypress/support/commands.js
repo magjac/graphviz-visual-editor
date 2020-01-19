@@ -229,6 +229,10 @@ Cypress.Commands.add("colorPickerOpacity", () => {
   return cy.colorPickerHue().parent().parent().parent().find('> div').eq(1).find(' > div > div').eq(2);
 });
 
+Cypress.Commands.add("colorPickerInput", () => {
+  return cy.colorPickerForm().find('#color-input');
+});
+
 Cypress.Commands.add("fillColorPickerForm", () => {
   return cy.formatDrawer().find('#fillcolor-picker-form');
 });

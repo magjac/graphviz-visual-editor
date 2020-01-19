@@ -723,6 +723,29 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.colorSwitch().click();
 
+    cy.colorPickerInput().type('#12345678');
+
+    cy.toolbarButton('Insert').click();
+    cy.nodeShapeCategory('Basic shapes').click()
+    cy.nodeShape('ellipse').click({force: true});
+    nodeIndex += 1;
+    cy.waitForTransition();
+    cy.toolbarButton('Insert').click();
+
+    cy.node(nodeIndex).should('exist');
+    cy.node(nodeIndex).shouldHaveName('n' + (nodeIndex - 1));
+
+    cy.node(nodeIndex).find('ellipse').then(ellipse => {
+      expect(ellipse).to.have.length(1);
+      expect(ellipse).to.have.attr('stroke', '#123456');
+      expect(ellipse).to.have.attr('fill', 'none');
+      const expectedStrokeOpacity = (Math.floor((0x78 / 255) * 1000000) / 1000000).toString();
+      expect(ellipse).to.have.attr('stroke-opacity', expectedStrokeOpacity);
+      expect(ellipse).to.not.have.attr('fill-opacity');
+    });
+
+    cy.colorPickerInput().type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}ff0000');
+
     for (let positionName of Object.keys(positions)) {
       const colorTolerance = 8;
       cy.colorPickerSwatch().click();

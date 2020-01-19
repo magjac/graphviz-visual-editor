@@ -67,7 +67,7 @@ class ColorPicker extends React.Component {
         <FormControl>
           <Input style={{color: this.props.color}}
             className={classes.input}
-            id="color"
+            id="color-input"
             value={this.props.color}
             onChange={this.handleInputChange}
           />
