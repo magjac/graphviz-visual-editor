@@ -297,6 +297,34 @@ Cypress.Commands.add("fitSwitch", () => {
   return cy.settingsDialog().find('#fit-switch');
 });
 
+Cypress.Commands.add("helpButton", () => {
+  return cy.get('#toolbar').find('#help');
+});
+
+Cypress.Commands.add("helpMenu", () => {
+  return cy.get('#help-menu');
+});
+
+Cypress.Commands.add("helpMenuItemKeyboardShortcuts", () => {
+  return cy.helpMenu().find('#keyboard-shortcuts');
+});
+
+Cypress.Commands.add("keyboardShortcutsDialog", () => {
+  return cy.get('#keyboard-shortcuts-dialog');
+});
+
+Cypress.Commands.add("keyboardShortcutsDialogCloseButton", () => {
+  return cy.keyboardShortcutsDialog().find('#close-button');
+});
+
+Cypress.Commands.add("keyboardShortcutsTable", () => {
+  return cy.keyboardShortcutsDialog().find('table');
+});
+
+Cypress.Commands.add("keyboardShortcutsTableRows", () => {
+  return cy.keyboardShortcutsTable().find('tr');
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });

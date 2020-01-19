@@ -243,7 +243,7 @@ function ButtonAppBar(props) {
               />
             </IconButton>
           </a>
-          <IconButton
+          <IconButton id="help"
             color="inherit"
             aria-label="Help"
             onClick={handleHelpButtonClick}

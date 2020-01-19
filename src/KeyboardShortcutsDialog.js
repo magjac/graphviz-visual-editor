@@ -46,7 +46,7 @@ class KeyboardShortcutsDialog extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Dialog
+        <Dialog id="keyboard-shortcuts-dialog"
           open
           onClose={this.handleClose}
           scroll={'paper'}
@@ -55,6 +55,7 @@ class KeyboardShortcutsDialog extends React.Component {
           <div className={classes.title}>
             <DialogTitle id="form-dialog-title">Keyboard shortcuts in the graph</DialogTitle>
             <IconButton
+              id="close-button"
               aria-label="Close"
               onClick={this.handleClose}
             >
