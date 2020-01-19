@@ -30,4 +30,20 @@ describe('Help menu', function() {
     cy.aboutDialog().should('not.exist');
   })
 
+  it('The help menu is closed when ESC is pressed', function() {
+    cy.startCleanApplication();
+    cy.helpButton().click();
+    cy.helpMenu().should('exist');
+    cy.helpMenu().type('{esc}');
+    cy.helpMenu().should('not.exist');
+  })
+
+  it('The help menu is closed when clicking outside the help menu', function() {
+    cy.startCleanApplication();
+    cy.helpButton().click();
+    cy.helpMenu().should('exist');
+    cy.helpMenuBackdrop().click();
+    cy.helpMenu().should('not.exist');
+  })
+
 })

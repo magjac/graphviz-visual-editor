@@ -305,6 +305,10 @@ Cypress.Commands.add("helpMenu", () => {
   return cy.get('#help-menu');
 });
 
+Cypress.Commands.add("helpMenuBackdrop", () => {
+  return cy.helpMenu().find(' > div').first();
+});
+
 Cypress.Commands.add("helpMenuItemKeyboardShortcuts", () => {
   return cy.helpMenu().find('#keyboard-shortcuts');
 });
