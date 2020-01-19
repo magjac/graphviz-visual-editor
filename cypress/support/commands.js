@@ -49,8 +49,12 @@ Cypress.Commands.add("edges", () => {
   return cy.canvasGraph().find('> .edge');
 });
 
+Cypress.Commands.add("toolbar", (buttonName) => {
+  return cy.get('#toolbar');
+});
+
 Cypress.Commands.add("toolbarButton", (buttonName) => {
-  return cy.get('#toolbar').contains(buttonName);
+  return cy.toolbar().contains(buttonName);
 });
 
 Cypress.Commands.add("menuButton", () => {
