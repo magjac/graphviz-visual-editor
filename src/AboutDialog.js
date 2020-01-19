@@ -30,7 +30,7 @@ class AboutDialog extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Dialog
+        <Dialog id="about-dialog"
           open
           onClose={this.handleClose}
           scroll={'paper'}
@@ -39,6 +39,7 @@ class AboutDialog extends React.Component {
           <div className={classes.title}>
             <DialogTitle id="form-dialog-title">About the Graphviz Visual Editor</DialogTitle>
             <IconButton
+              id="close-button"
               aria-label="Close"
               onClick={this.handleClose}
             >

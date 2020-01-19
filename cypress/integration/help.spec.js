@@ -20,4 +20,14 @@ describe('Help menu', function() {
     cy.mouseOperationsDialog().should('not.exist');
   })
 
+  it('An about dialog is shown when about is clicked in the help menu', function() {
+    cy.startCleanApplication();
+    cy.helpButton().click();
+    cy.helpMenuItemAbout().click();
+    cy.aboutDialog().should('exist');
+    cy.aboutDialogParagraphs().should('have.length.of.at.least', 4);
+    cy.aboutDialogCloseButton().click();
+    cy.aboutDialog().should('not.exist');
+  })
+
 })

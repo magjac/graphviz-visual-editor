@@ -345,6 +345,22 @@ Cypress.Commands.add("mouseOperationsTableRows", () => {
   return cy.mouseOperationsTable().find('tr');
 });
 
+Cypress.Commands.add("helpMenuItemAbout", () => {
+  return cy.helpMenu().find('#about');
+});
+
+Cypress.Commands.add("aboutDialog", () => {
+  return cy.get('#about-dialog');
+});
+
+Cypress.Commands.add("aboutDialogCloseButton", () => {
+  return cy.aboutDialog().find('#close-button');
+});
+
+Cypress.Commands.add("aboutDialogParagraphs", () => {
+  return cy.aboutDialog().find('p');
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });
