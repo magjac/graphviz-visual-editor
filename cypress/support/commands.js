@@ -418,12 +418,8 @@ Cypress.Commands.add("waitForTransition", () => {
   cy.waitForNotBusy();
 });
 
-Cypress.Commands.add("textEditorInput", () => {
-  cy.get('.ace_text-input');
-});
-
 Cypress.Commands.add("typeDotSource", (dotSrc) => {
-  cy.textEditorInput().type(dotSrc, {force: true});
+  cy.textEditorContent().type(dotSrc);
 });
 
 Cypress.Commands.add("clearDotSource", () => {
