@@ -325,6 +325,26 @@ Cypress.Commands.add("keyboardShortcutsTableRows", () => {
   return cy.keyboardShortcutsTable().find('tr');
 });
 
+Cypress.Commands.add("helpMenuItemMouseOperations", () => {
+  return cy.helpMenu().find('#mouse-operations');
+});
+
+Cypress.Commands.add("mouseOperationsDialog", () => {
+  return cy.get('#mouse-operations-dialog');
+});
+
+Cypress.Commands.add("mouseOperationsDialogCloseButton", () => {
+  return cy.mouseOperationsDialog().find('#close-button');
+});
+
+Cypress.Commands.add("mouseOperationsTable", () => {
+  return cy.mouseOperationsDialog().find('table');
+});
+
+Cypress.Commands.add("mouseOperationsTableRows", () => {
+  return cy.mouseOperationsTable().find('tr');
+});
+
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
 });

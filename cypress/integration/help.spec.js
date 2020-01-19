@@ -10,4 +10,14 @@ describe('Help menu', function() {
     cy.keyboardShortcutsDialog().should('not.exist');
   })
 
+  it('A mouse operations help dialog is shown when mouse operations is clicked in the help menu', function() {
+    cy.startCleanApplication();
+    cy.helpButton().click();
+    cy.helpMenuItemMouseOperations().click();
+    cy.mouseOperationsDialog().should('exist');
+    cy.mouseOperationsTableRows().should('have.length.of.at.least', 12);
+    cy.mouseOperationsDialogCloseButton().click();
+    cy.mouseOperationsDialog().should('not.exist');
+  })
+
 })

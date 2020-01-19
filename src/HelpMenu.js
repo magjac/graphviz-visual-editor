@@ -34,7 +34,7 @@ class HelpMenu extends React.Component {
           onClose={this.handleClose}
         >
           <MenuItem id="keyboard-shortcuts" onClick={this.handleKeyboardShortcutsClick}>Keyboard shortcuts</MenuItem>
-          <MenuItem onClick={this.handleMouseOperationsClick}>Mouse operations</MenuItem>
+          <MenuItem id ="mouse-operations" onClick={this.handleMouseOperationsClick}>Mouse operations</MenuItem>
           <MenuItem onClick={this.handleAboutClick}>About</MenuItem>
         </Menu>
       </div>

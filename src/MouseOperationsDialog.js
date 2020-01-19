@@ -45,7 +45,7 @@ class MouseOperationsDialog extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-        <Dialog
+        <Dialog id="mouse-operations-dialog"
           open
           onClose={this.handleClose}
           scroll={'paper'}
@@ -54,6 +54,7 @@ class MouseOperationsDialog extends React.Component {
           <div className={classes.title}>
             <DialogTitle id="form-dialog-title">Mouse operations in the graph</DialogTitle>
             <IconButton
+              id="close-button"
               aria-label="Close"
               onClick={this.handleClose}
             >
