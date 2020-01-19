@@ -261,6 +261,10 @@ Cypress.Commands.add("fillColorPickerOpacity", () => {
   return cy.fillColorPickerHue().parent().parent().parent().find('> div').eq(1).find(' > div > div').eq(2);
 });
 
+Cypress.Commands.add("fillColorPickerInput", () => {
+  return cy.fillColorPickerForm().find('#color-input');
+});
+
 Cypress.Commands.add("zoomInButton", () => {
   return cy.get('#toolbar').find('#zoom-in');
 });
