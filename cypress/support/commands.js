@@ -193,6 +193,10 @@ Cypress.Commands.add("styleSwitch", () => {
   return cy.formatDrawer().find('#style-switch');
 });
 
+Cypress.Commands.add("formatDrawerCloseButton", () => {
+  return cy.formatDrawer().find('#close-button');
+});
+
 Cypress.Commands.add("styles", () => {
   return cy.formatDrawer().find('#styles');
 });

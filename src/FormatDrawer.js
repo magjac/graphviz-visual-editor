@@ -197,7 +197,7 @@ class FormatDrawer extends React.Component {
             <DialogTitle id="form-dialog-title">
               Default {this.props.type} attributes
             </DialogTitle>
-            <IconButton onClick={this.handleDrawerClose}>
+            <IconButton id="close-button" onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>

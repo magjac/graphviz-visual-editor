@@ -854,6 +854,8 @@ describe('Insertion of nodes into the graph', function() {
       });
     }
 
+    cy.formatDrawerCloseButton().click()
+    cy.formatDrawer().should('not.exist');
   })
 
   it('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
