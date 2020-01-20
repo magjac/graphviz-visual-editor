@@ -19,4 +19,22 @@ describe('Text editor', function() {
     cy.edges().should('have.length', 1);
   })
 
+  it('The previous graph is rendered when a DOT source code change is undone with Ctrl-Z', function() {
+    cy.startCleanApplication();
+    cy.textEditorContent().type('{leftArrow}{enter}Alice');
+
+    cy.nodes().should('have.length', 1);
+    cy.edges().should('have.length', 0);
+
+    cy.node(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+
+    cy.textEditorContent().type('{ctrl}z');
+    cy.waitForTransition();
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+  })
+
 })
