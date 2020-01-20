@@ -24,6 +24,7 @@ import { parse as qs_parse } from 'qs';
 import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
 import { graphDot } from '../utils/graphSrc'
+import { graphDict } from '../utils/graph_dict'
 
 const styles = theme => ({
   root: {
@@ -666,10 +667,86 @@ class Index extends React.Component {
     });
   }
 
+  changeNodeLabel = (nodeId, verb, ingredients, tools, time, color) => {
+    console.log("in changeNodeLable!!!")
+    let fullString = '';
+    fullString =  this.state.dotSrc;
+    let nodeString = '';
+    const regex = new RegExp(`${nodeId}`+"\\s\\[");
+    const startIndex =  fullString.search(regex);
+    if(startIndex > -1){
+      const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
+      const a = fullString.substring(startIndex, closingIndex);
+      const startPart = `${nodeId}` + " [label="
+      if(closingIndex > -1){
+        const verbPart = "<<font point-size='18'><b>" + verb + "</b><br/>" 
+        let ingrPart = "";
+        if (ingredients !== ""){
+          ingrPart = ingredients.split('\n').join('<br/>')
+          ingrPart = ingrPart + "<br/>"
+        }
+        let toolPart = ""; 
+        if (tools !== ""){
+          toolPart = tools.split('\n').join('<br/>')
+          toolPart = toolPart + "<br/>"
+        }
+        const timePart = (time === "") ? "" : time
+        let leftovers = `</font>> style=filled fillcolor="` + color + `"`
+        if(a.includes("penwidth")){
+          leftovers = leftovers + " color=springgreen4, penwidth=5";
+        }
+        leftovers = leftovers + "]"
+        nodeString = startPart + verbPart + ingrPart + toolPart + timePart + leftovers;
+        console.log(nodeString)
 
-  updateColorByNodeIds = (arrayOfIds)=>{
-      let fullString = "";
+        const firstPart = fullString.substring(0, startIndex);
+        const lastPart = fullString.substring(closingIndex + 1);
+        fullString = firstPart.concat(nodeString.concat(lastPart));
+      }
+    }
+    
+    console.log(fullString)
+    this.setState({
+      dotSrc : fullString
+    })
+  }
+
+  enlargeContentByNodeIds = (prevArrayOfIds, curArrayOfIds)=>{
+    let fullString = "";
+    console.log(prevArrayOfIds)
+    console.log(curArrayOfIds)
+    let specialId = ""
+    if (curArrayOfIds.length > prevArrayOfIds.length){ // in this case we want to enlarge the node that in curArray and not in prevArray
+      // find the special node to enlarge:
+      curArrayOfIds.forEach(node=>{
+        specialId = (prevArrayOfIds.indexOf(node) == -1) ? node : specialId
+      })
+      console.log("enlarge!")
+      console.log(specialId)
+      this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients, graphDict[specialId].tool, graphDict[specialId].time, graphDict[specialId].color)
+    }
+    else{ // in this case we want to shrink the node that in prevArray and not in curArray
+      prevArrayOfIds.forEach(node=>{
+        specialId = (curArrayOfIds.indexOf(node) == -1) ? node : specialId
+      })
+      console.log("shrink!")
+      console.log(specialId)
+      this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients_abbr, graphDict[specialId].tool_abbr, graphDict[specialId].time, graphDict[specialId].color)
+    }
+  }
+
+  updateColorByNodeIds = (arrayOfIds, prevArrayOfEdges, arrayOfEdges)=>{
+    console.log("here here here")
+    console.log(arrayOfIds)
+    let fullString = "";
       fullString =  this.state.dotSrc;
+      if(arrayOfIds.length === 0 || arrayOfIds.length === 1){
+        console.log("moran");
+        fullString = fullString.split(" color=springgreen4, penwidth=7").join("");
+        fullString = fullString.split(" color=springgreen4, penwidth=3").join("");
+        fullString = fullString.split(" color=springgreen4, penwidth=5").join("");
+        fullString = fullString.split("[color=springgreen4, penwidth=5]").join("");
+      } 
       arrayOfIds && arrayOfIds.forEach(id=>{
 
         const regex = new RegExp(`${id}`+"\\s\\[");
@@ -681,7 +758,12 @@ class Index extends React.Component {
                 if(a.includes("penwidth")){
                   return
                 }
-                const nodeString = a + " penwidth=10]";
+                let nodeString = ""
+                if(id == 0 || id == 1){
+                  nodeString = a + " color=springgreen4, penwidth=3]";
+                }else{
+                  nodeString = a + " color=springgreen4, penwidth=7]";
+                }
                 const firstPart = fullString.substring(0,startIndex);
                 const lastPart = fullString.substring(closingIndex+2);
                 fullString = firstPart.concat(nodeString.concat(lastPart));
@@ -689,6 +771,44 @@ class Index extends React.Component {
           } else{
             return;
           }
+      })
+
+      let newEdges = []
+      arrayOfEdges && arrayOfEdges.forEach(edge=>{
+        if(prevArrayOfEdges.indexOf(edge) === -1){
+          newEdges.push(edge)
+        }
+      })
+
+      console.log("new edges!")
+      console.log(newEdges)
+      newEdges && newEdges.forEach(edge=>{
+        console.log(edge)
+        const regexStr = `${edge.first}`+" -> " + `${edge.second}`
+        const regex = new RegExp(regexStr);
+        const regex2 = new RegExp(regexStr + " \\[");
+        const startIndex = fullString.search(regex2);
+        if(startIndex > -1){ 
+          const endIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
+          const a = fullString.substring(startIndex,endIndex);
+          if(a.includes("color")){
+            return
+          }
+          // const penWidthStart = fullString.slice(startIndex).search(/penwidth/g) + startIndex;
+          const penWidthStart = fullString.slice(startIndex).search(/\]/g) + startIndex;
+          const edgeStr = fullString.substring(startIndex, penWidthStart) + " color=springgreen4, penwidth=5]";
+          const firstPart = fullString.substring(0, startIndex);
+          const lastPart = fullString.substring(fullString.slice(startIndex).search(/\]/g) + startIndex + 1);
+          fullString = firstPart.concat(edgeStr.concat(lastPart));
+        }
+        else{
+          const startIndex = fullString.search(regex);
+          const closingIndex = startIndex + regexStr.length + 1;
+          const edgeStr = fullString.substring(startIndex, closingIndex) + " [color=springgreen4, penwidth=5]";
+          const firstPart = fullString.substring(0, startIndex);
+          const lastPart = fullString.substring(closingIndex);
+          fullString = firstPart.concat(edgeStr.concat(lastPart));
+        }
       })
 
      this.setState({
@@ -726,6 +846,7 @@ class Index extends React.Component {
       <div className={classes.root}>
         {/* FIXME: Find a way to get viz.js from the graphviz-visual-editor bundle */}
         <script src="https://unpkg.com/viz.js@1.8.2/viz.js" type="javascript/worker"></script>
+       
         {/*<ButtonAppBar*/}
         {/*  hasUndo={this.state.hasUndo}*/}
         {/*  hasRedo={this.state.hasRedo}*/}
@@ -745,7 +866,7 @@ class Index extends React.Component {
         {/*  onSaveAltButtonClick={this.handleSaveAsToBrowserClick}*/}
         {/*  onHelpButtonClick={this.handleHelpButtonClick}*/}
         {/*>*/}
-        {/*</ButtonAppBar>*/}
+        {/* </ButtonAppBar>*/}
         {/*{this.state.mainMenuIsOpen &&*/}
         {/*  <MainMenu*/}
         {/*    anchorEl={this.state.mainMenuAnchorEl}*/}
@@ -757,7 +878,7 @@ class Index extends React.Component {
         {/*    onRenameClick={this.handleRenameClick}*/}
         {/*    onExportAsUrlClick={this.handleExportAsUrlClick}*/}
         {/*  />*/}
-        {/*}*/}
+        {/*} */}
         {/*{this.state.settingsDialogIsOpen &&*/}
         {/*  <SettingsDialog*/}
         {/*    engine={this.state.engine}*/}
@@ -875,7 +996,8 @@ class Index extends React.Component {
           <Grid item xs={columns.graph}>
             <Paper elevation={rightPaneElevation} className={classes.paper}>
               <Graph
-              updateColorByNodeIds = {this.updateColorByNodeIds}
+                updateColorByNodeIds = {this.updateColorByNodeIds}
+                enlargeContentByNodeIds = {this.enlargeContentByNodeIds}
                 addNode={this.addNode}
                 hasFocus={graphHasFocus}
                 dotSrc={this.state.dotSrc}

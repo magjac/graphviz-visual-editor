@@ -3,24 +3,24 @@ export const graphDict = {
     "color": "#f7fbff",
     "hidden": false,
     "marked": false,
-    "verb": null,
-    "ingredients": null,
-    "ingredients_abbr": null,
-    "tool": null,
-    "tool_abbr": null,
-    "time": null,
-    "oven_heat": null,
+    "verb": "",
+    "ingredients": "",
+    "ingredients_abbr": "",
+    "tool": "",
+    "tool_abbr": "",
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
-      [
-        "3902",
-        1,
-        1.0
-      ],
-      [
-        "4108",
-        1,
-        1
-      ]
+      {
+        node_name: "3902",
+        weight: 1,
+        pen_width: 1.0
+      },
+      {
+        node_name:"4108",
+        weight: 1,
+        pen_width: 1
+      }
     ],
     "in_edges": [
       
@@ -30,19 +30,23 @@ export const graphDict = {
     "color": "#f7fbff",
     "hidden": false,
     "marked": false,
-    "verb": null,
-    "ingredients": null,
-    "ingredients_abbr": null,
-    "tool": null,
-    "tool_abbr": null,
-    "time": null,
-    "oven_heat": null,
+    "verb": "",
+    "ingredients": "",
+    "ingredients_abbr": "",
+    "tool": "",
+    "tool_abbr": "",
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
       
     ],
     "in_edges": [
-      "4402",
-      "4294"
+      {
+        node_name:"4402"
+      },
+      {
+        node_name:"4294"
+      }
     ]
   },
   "3902": {
@@ -53,7 +57,7 @@ export const graphDict = {
       },
       {
         "title": "In a large bowl, mix together the eggs and sugar.",
-        "constraint": "NEUTRAL"
+        "constraint": "BAD"
       },
       {
         "title": "Combine eggs, oil and sugar in large bowl with electric mixer.",
@@ -66,19 +70,21 @@ export const graphDict = {
     "verb": "mix",
     "ingredients": "1 - 3 egg (82%)\n1/2 cup - 1 1/2 cup sugar (76%)\n1/4 cup - 1 1/4 cup oil (70%)\n1 teaspoon - 2 teaspoon vanilla (23%)\n1 3/4 cup - 2 cup white sugar (11%)\n1 cup vegetable oil (5%)\n1 cup brown sugar (5%)\n1 tablespoon - 1 1/2 tablespoon molasses (5%)\n\nbowl (99%)\nmixer (23%)",
     "ingredients_abbr": "1 - 3 egg (82%)\n1/2 cup - 1 1/2 cup sugar (76%)\n",
-    "tool": null,
-    "tool_abbr": null,
-    "time": null,
-    "oven_heat": null,
+    "tool": "",
+    "tool_abbr": "",
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
-      [
-        "4416",
-        12,
-        1.0
-      ]
+      {
+        node_name: "4416",
+        weight: 12,
+        pen_width: 1.0
+      }
     ],
     "in_edges": [
-      "0"
+      {
+        node_name: "0"
+      }
     ]
   },
   "4108": {
@@ -89,28 +95,30 @@ export const graphDict = {
       },
       {
         "title": "Preheat an oven to 350 degrees F (175 degrees C).",
-        "constraint": "NEUTRAL"
+        "constraint": "GOOD"
       }
     ],
     "color": "#e1edf8",
     "hidden": false,
     "marked": false,
     "verb": "preheat",
-    "ingredients": null,
-    "ingredients_abbr": null,
+    "ingredients": "",
+    "ingredients_abbr": "",
     "tool": "oven (99%)\nbaking dish (6%)",
     "tool_abbr": "oven (99%)\nbaking dish (6%)\n",
-    "time": null,
-    "oven_heat": null,
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
-      [
-        "4294",
-        1,
-        7.0
-      ]
+      {
+        node_name: "4294",
+        weight: 1,
+        pen_width: 7.0
+      }
     ],
     "in_edges": [
-      "0"
+      {
+        node_name: "0"
+      }
     ]
   },
   "4263": {
@@ -130,19 +138,21 @@ export const graphDict = {
     "verb": "roll",
     "ingredients": "3 slice - 3 apple (100%)\n1/2 cup - 1 cup walnut (55%)\n1/2 cup raisin (22%)\n1 cup coconut (11%)\n1 1/2 cup pecan (5%)\n3/4 cup banana (5%)",
     "ingredients_abbr": "3 slice - 3 apple (100%)\n1/2 cup - 1 cup walnut (55%)\n",
-    "tool": null,
-    "tool_abbr": null,
-    "time": null,
-    "oven_heat": null,
+    "tool": "",
+    "tool_abbr": "",
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
-      [
-        "4402",
-        12,
-        1.0
-      ]
+      {
+        node_name: "4402",
+        weight: 12,
+        pen_width: 1.0
+      }
     ],
     "in_edges": [
-      "4416"
+      {
+        node_name: "4416"
+      }
     ]
   },
   "4294": {
@@ -158,25 +168,29 @@ export const graphDict = {
     "verb": "mix",
     "ingredients": "3 slice - 4 apple (100%)\n3/4 cup - 1 cup walnut (15%)\n1 3/4 cup - 3 cup flour (8%)\n1/2 cup raisin (6%)\n1/2 cup - 3/4 cup pecan (6%)\n1 tablespoon - 1 1/2 tablespoon lemon juice (6%)\n1/2 teaspoon - 1 teaspoon vanilla extract (4%)\n3 tablespoon - 1/4 cup sugar (4%)\n1/2 teaspoon - 1/2 tablespoon cinnamon (4%)\n2 cup zucchini (2%)\n10 ounce - 11 ounce sauerkraut (2%)\n3/4 cup - 1 cup chocolate chip (2%)\n1 lemon (2%)\n3 slice pear (2%)\n1 cup - 1 1/4 cup cold water (2%)\n1/2 cup cinnamon chip (2%)\n2 - 3 egg (2%)\n1 1/2 - 1 3/4 millet (2%)\n16 caramel (2%)\n\nbowl (8%)\nbaking dish (2%)",
     "ingredients_abbr": "3 slice - 4 apple (100%)\n3/4 cup - 1 cup walnut (15%)\n",
-    "tool": null,
-    "tool_abbr": null,
-    "time": null,
-    "oven_heat": null,
+    "tool": "",
+    "tool_abbr": "",
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
-      [
-        "4402",
-        1,
-        1
-      ],
-      [
-        "1",
-        1,
-        1
-      ]
+      {
+        node_name: "4402",
+        weight: 1,
+        pen_width: 1
+      },
+      {
+        node_name: "1",
+        weight: 1,
+        pen_width: 1
+      }
     ],
     "in_edges": [
-      "4416",
-      "4108"
+      {
+        node_name: "4416"
+      }, 
+      {
+        node_name: "4108"
+      }
     ]
   },
   "4402": {
@@ -190,23 +204,29 @@ export const graphDict = {
     "hidden": false,
     "marked": false,
     "verb": "pour",
-    "ingredients": null,
-    "ingredients_abbr": null,
+    "ingredients": "",
+    "ingredients_abbr": "",
     "tool": "pan (62%)\nbaking dish (4%)\nplate (3%)\nrice steamer (1%)\noven (1%)\n",
     "tool_abbr": "pan (62%)\nbaking dish (4%)\n",
-    "time": null,
-    "oven_heat": null,
+    "time": "",
+    "oven_heat": "",
     "out_edges": [
-      [
-        "1",
-        1,
-        1
-      ]
+      {
+        node_name: "1",
+        weight: 1,
+        pen_width: 1
+      }
     ],
     "in_edges": [
-      "4416",
-      "4294",
-      "4263"
+      {
+        node_name: "4416"
+      },
+      {
+        node_name: "4294"
+      },
+      {
+        node_name: "4263"
+      }
     ]
   },
   "4416": {
@@ -220,31 +240,33 @@ export const graphDict = {
     "hidden": false,
     "marked": false,
     "verb": "mix",
-    "ingredients": null,
-    "ingredients_abbr": null,
+    "ingredients": "",
+    "ingredients_abbr": "",
     "tool": "mixer (2%)\nspatula (1%)\npan (1%)\n",
     "tool_abbr": "mixer (2%)\nspatula (1%)\n",
     "time": "3 minute - 5 minute",
-    "oven_heat": null,
+    "oven_heat": "",
     "out_edges": [
-      [
-        "4263",
-        1,
-        1
-      ],
-      [
-        "4294",
-        1,
-        7
-      ],
-      [
-        "4402",
-        1,
-        1
-      ]
+      {
+        node_name: "4263",
+        weight: 1,
+        pen_width: 1
+      },
+      {
+        node_name: "4294",
+        weight: 1,
+        pen_width: 7
+      },
+      {
+        node_name: "4402",
+        weight: 1,
+        pen_width: 1
+      }
     ],
     "in_edges": [
-      "3902"
+      {
+        node_name: "3902"
+      }
     ]
   }
 }

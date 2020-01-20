@@ -48,14 +48,13 @@ class Graph extends React.Component {
       dialogTitle:"",
       dialogContentTextArray:[],
       pathDrawingMode: false,
-      isStartPressed: false,
-      isEndPressed: false,
       markedVertices: [],
-      markedEdges: []
-
-
+      markedEdges: [],
+      enlargedVertices: []
     };
-    this.kuku = props.updateColorByNodeIds.bind(this);
+
+    this.updatePathColor = props.updateColorByNodeIds.bind(this);
+    this.enlargeRelevantNodes = props.enlargeContentByNodeIds.bind(this);
     this.svg = d3_select(null);
     this.createGraph = this.createGraph.bind(this)
     this.renderGraph = this.renderGraph.bind(this)
@@ -88,9 +87,14 @@ class Graph extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if(JSON.stringify(prevState.markedVertices)!=JSON.stringify( this.state.markedVertices)){
-      this.kuku(this.state.markedVertices);
+      console.log("MORAN!!!!")
+      this.updatePathColor(this.state.markedVertices, prevState.markedEdges, this.state.markedEdges);
     }
-
+    if(JSON.stringify(prevState.enlargedVertices)!=JSON.stringify( this.state.enlargedVertices)){
+      // console.log(prevState.enlargedVertices)
+      // console.log(this.state.enlargedVertices)
+      this.enlargeRelevantNodes(prevState.enlargedVertices, this.state.enlargedVertices);
+    }
     this.renderGraph()
   }
 
@@ -422,35 +426,64 @@ class Graph extends React.Component {
     //   dialogContentTextArray: matchingObj && matchingObj.directions || []
     // });
 
-    if (d.key === "0"){
-      let desiredState = {};
+    if (d.key === "0"){ // if pressed on START
       if(this.state.pathDrawingMode){
-          desiredState = {
-            pathDrawingMode:false,
-            markedVertices:[],
-            markedEdges:[]
-          }
+        console.log("if!!!!!")
+        this.setState(prevState => ({
+          pathDrawingMode:false,
+          markedVertices:[],
+          markedEdges:[]
+        }));
       } else{
-        desiredState = {
+        console.log("else!!!!")
+        this.setState(prevState => ({
           pathDrawingMode:true,
           markedVertices:[d.key],
           markedEdges:[]
+        }));
+      }
+    } else{
+      let marked = [...this.state.markedVertices, d.key]
+      marked = [...new Set(marked)]
+      let edges = []
+      if (this.state.pathDrawingMode){
+          graphDict[d.key].in_edges && graphDict[d.key].in_edges.forEach(inEdgesContent=>{
+            if (inEdgesContent.node_name == marked[marked.length-2]){
+              let curEdge = {first: marked[marked.length-2], second: d.key}
+              edges.push(curEdge)
+            }
+        })
+        this.setState(prevState => ({
+          markedVertices: marked, 
+          markedEdges: prevState.markedEdges.concat(edges)
+        }));
+        console.log(this.state.markedVertices)
+        console.log(this.state.markedEdges)
+      } else{
+        // TODO: enlarge / shrink node content.
+        console.log("enlarge / shrink mode");
+        const idx = this.state.enlargedVertices.indexOf(d.key)
+        if (idx == -1){
+          console.log("enlarge")
+          this.setState(prevState => ({
+            enlargedVertices: [...prevState.enlargedVertices,d.key],
+          }));
+          console.log(this.state.enlargedVertices)
+        }else{
+          console.log("shrink")
+          let tempArray = [...this.state.enlargedVertices]
+          tempArray.splice(idx,1)
+          this.setState(prevState => ({
+            enlargedVertices: tempArray
+          }));
+          console.log(this.state.enlargedVertices)
         }
       }
-      this.setState({
-        ...desiredState
-      })
-    } else{
-      if (this.state.pathDrawingMode){
-        console.log("this is key ", d.key)
-        this.setState(prevState => ({
-          markedVertices: [...prevState.markedVertices,d.key],
-        }));
-        // this.setState((prev)=>(
-        //   {
-        //   markedVertices: [...prev.markedVertices, d.key]
-        // }));
-      }
+    }
+    if(d.key === "1"){
+      this.setState(prevState => ({
+        pathDrawingMode: false
+      }));
     }
 
     
@@ -854,8 +887,6 @@ class Graph extends React.Component {
     this.insertNodeWithLatestAttributes(x0, y0, attributesToOverride);
   }
 
-
-
   handleDialogClose = (addNode)=>{
     this.setState({
       showPopup:false
@@ -881,14 +912,15 @@ class Graph extends React.Component {
           <DialogContent>
             <DialogContentText>
               {this.state.dialogContentTextArray &&  this.state.dialogContentTextArray.map((directionObj,index)=>{
-                let color = "white"
+                let color = "#ffe4b5" // yellow - neutral 
                 if (directionObj.constraint === "GOOD"){
-                  color = "green"
+                  color = "#9fc69f" // green
                 } else if (directionObj.constraint === "BAD"){
-                  color = "red"
+                  color = "#cf6363" // red
                 }
               return <Typography key={index} style={{
-                backgroundColor: color
+                backgroundColor: color,
+                fontSize: 20
               }}>
                 {`${directionObj.title}`}
                 </Typography>
