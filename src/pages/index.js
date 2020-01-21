@@ -25,6 +25,7 @@ import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
 import { graphDot } from '../utils/graphSrc'
 import { graphDict } from '../utils/graph_dict'
+import TogglesPanel from '../Toggles';
 
 const styles = theme => ({
   root: {
@@ -735,6 +736,27 @@ class Index extends React.Component {
     }
   }
 
+intersect = (a, b)=> {
+    return [...new Set(a)].filter(x => new Set(b).has(x));
+}
+
+  findNodesByIngredients = (leastCommonIngredients) =>{
+    const nodesIds = Object.keys(graphDict);
+      const nodesContainingIngredients = nodesIds && nodesIds.map(nodeId=>{
+        const ingredientsPerNode = graphDict[nodeId] && graphDict[nodeId].instruments_full_info;
+        if(!ingredientsPerNode){
+          return null;
+        }
+        const nodeActualIngredients = Object.keys(ingredientsPerNode);
+        const intersection = this.intersect(leastCommonIngredients,nodeActualIngredients);
+        if(!(intersection && intersection.length)){
+          return null;
+        }
+        return nodeId;
+      }).filter(id=>id);
+      return nodesContainingIngredients
+  }
+
   updateColorByNodeIds = (arrayOfIds, prevArrayOfEdges, arrayOfEdges)=>{
     console.log("here here here")
     console.log(arrayOfIds)
@@ -994,7 +1016,13 @@ class Index extends React.Component {
               </Grid>
           )}
           <Grid item xs={columns.graph}>
-            <Paper elevation={rightPaneElevation} className={classes.paper}>
+            
+            <Grid container  direction="row" justify="flex-start" alignItems="flex-start" spacin={1}>
+              <Grid item xs={3}>
+              <TogglesPanel findNodesByIngredients={this.findNodesByIngredients}/>
+              </Grid>
+              <Grid item xs={9}>
+              <Paper elevation={rightPaneElevation} className={classes.paper}>
               <Graph
                 updateColorByNodeIds = {this.updateColorByNodeIds}
                 enlargeContentByNodeIds = {this.enlargeContentByNodeIds}
@@ -1027,6 +1055,11 @@ class Index extends React.Component {
                 onError={this.handleError}
               />
             </Paper>
+
+              </Grid>
+            </Grid>
+              
+
           </Grid>
         </Grid>
         {this.state.helpMenuIsOpen &&
