@@ -21,6 +21,18 @@ Cypress.Commands.add("textEditorContent", () => {
   return cy.textEditor().find('.ace_content');
 });
 
+Cypress.Commands.add("textEditorGutter", () => {
+  return cy.textEditor().find('.ace_gutter');
+});
+
+Cypress.Commands.add("textEditorGutterCells", () => {
+  return cy.textEditorGutter().find('.ace_gutter-cell');
+});
+
+Cypress.Commands.add("textEditorTooltip", () => {
+  return cy.textEditor().find('.ace_tooltip');
+});
+
 Cypress.Commands.add("canvas", () => {
   return cy.get('#canvas');
 });
