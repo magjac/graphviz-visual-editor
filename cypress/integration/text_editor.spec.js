@@ -91,4 +91,43 @@ describe('Text editor', function() {
     cy.textEditorTooltip().should('have.text', 'Expected "<", "\\"", "edge", "graph", "node", "subgraph", "{", "}", NUMBER or UNICODE_STRING but "-" found.');
   })
 
+  it('The line with the DOT source error is scrolled into view when the error icon in the text edtitor is clicked', function() {
+    cy.startCleanApplication();
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+
+    cy.textEditorGutterCellWithError().should('not.exist');
+
+    const num_blank_rows = 48;
+    const textEditorContent = cy.textEditorContent();
+    let text = '{leftArrow}{enter}'
+    for (let row = 0; row < num_blank_rows; row++) {
+      text += '{enter}';
+    }
+    text += '-';
+    textEditorContent.type(text);
+
+    cy.textEditorGutterCells().should('to.have.length.of.at.least', 41);
+    cy.textEditorGutterCells().should('to.have.length.of.at.most', 49);
+
+    cy.textEditorVisibleLines().should('to.have.length.of.at.least', 41);
+    cy.textEditorVisibleLines().should('to.have.length.of.at.most', 49);
+
+    cy.textEditorGutterCellWithError().should('exist');
+
+    text = "";
+    for (let row = 1; row < num_blank_rows; row++) {
+      text += '{upArrow}';
+    }
+    cy.textEditorContent().type(text);
+
+    cy.textEditorGutterCellWithError().should('not.exist');
+
+    cy.textEditorErrorButton().click();
+
+    cy.textEditorGutterCellWithError().should('exist');
+
+  })
+
 })

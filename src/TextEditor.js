@@ -135,6 +135,7 @@ class TextEditor extends React.Component {
           markers={markers}
         />
         <IconButton
+          id="error-button"
           className={classes.errorButton}
           style={{
             left: `calc(${this.props.width} - 2 * 12px - 12px - ${scrollbarWidth}px`,

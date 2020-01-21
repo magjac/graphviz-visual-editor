@@ -29,8 +29,24 @@ Cypress.Commands.add("textEditorGutterCells", () => {
   return cy.textEditorGutter().find('.ace_gutter-cell');
 });
 
+Cypress.Commands.add("textEditorGutterCellWithError", () => {
+  return cy.textEditorGutter().find('.ace_error');
+});
+
 Cypress.Commands.add("textEditorTooltip", () => {
   return cy.textEditor().find('.ace_tooltip');
+});
+
+Cypress.Commands.add("textEditorTextLayer", () => {
+  return cy.textEditorContent().find('> .ace_text-layer');
+});
+
+Cypress.Commands.add("textEditorVisibleLines", () => {
+  return cy.textEditorTextLayer().find('> .ace_line_group > .ace_line');
+});
+
+Cypress.Commands.add("textEditorErrorButton", () => {
+  return cy.textEditorWrapper().find('#error-button');
 });
 
 Cypress.Commands.add("canvas", () => {
