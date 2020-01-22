@@ -81,6 +81,6 @@ describe('Draw edges in the graph', function() {
 
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 2);
-})
+  })
 
 })
