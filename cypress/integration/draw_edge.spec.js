@@ -622,4 +622,173 @@ describe('Draw edges in the graph', function() {
     cy.formatDrawer().should('not.exist');
   })
 
+  it('Default edge fillcolor is seleced from the fillcolor picker in the edge format drawer', function() {
+    cy.startCleanApplication();
+
+    cy.clearAndRenderDotSource('digraph {Alice Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('not.exist');
+
+    cy.toolbarButton('Edge format').click();
+
+    let edgeIndex = 0;
+
+    const positions = {
+      'topLeft': {x: 0, y: 1},
+      'top': {x: 0.5, y: 1},
+      'topRight': {x: 1, y: 1},
+      'left': {x: 0, y: 0.5},
+      'center': {x: 0.5, y: 0.5},
+      'right': {x: 1, y: 0.5},
+      'bottomLeft': {x: 0, y: 0},
+      'bottom': {x: 0.5, y: 0},
+      'bottomRight': {x: 1, y: 0},
+    };
+
+    const horizontalPositions = {
+      'left': {x: 0, y: 0.5},
+      'center': {x: 0.5, y: 0.5},
+      'right': {x: 1, y: 0.5},
+    };
+
+    cy.fillColorSwitch().click();
+
+    cy.fillColorPickerInput().type('#12345678');
+
+    cy.node(1).trigger('contextmenu', {force: true});
+    edgeIndex += 1;
+    cy.edge(edgeIndex).should('exist');
+    cy.node(2).trigger('mousemove');
+    cy.node(2).dblclick();
+    cy.waitForTransition();
+
+    cy.edge(edgeIndex).should('exist');
+    cy.edge(edgeIndex).shouldHaveName('Alice->Bob');
+
+    cy.edge(edgeIndex).find('polygon').then(polygon => {
+      expect(polygon).to.have.length(1);
+      expect(polygon).to.have.attr('stroke', '#000000');
+      expect(polygon).to.have.attr('fill', '#123456');
+      const expectedFillOpacity = (Math.floor((0x78 / 255) * 1000000) / 1000000).toString();
+      expect(polygon).to.have.attr('fill-opacity', expectedFillOpacity);
+    });
+
+    cy.fillColorPickerInput().type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}ff0000');
+
+    for (let positionName of Object.keys(positions)) {
+      const colorTolerance = 8;
+      cy.fillColorPickerSwatch().click();
+      cy.fillColorPickerSaturation().click(positionName);
+
+      cy.node(1).trigger('contextmenu', {force: true});
+      cy.edge(edgeIndex).should('exist');
+      cy.node(2).trigger('mousemove');
+      cy.node(2).dblclick();
+      edgeIndex += 1;
+      cy.waitForTransition();
+
+      cy.edge(edgeIndex).should('exist');
+      cy.edge(edgeIndex).shouldHaveName('Alice->Bob');
+
+      cy.edge(edgeIndex).find('polygon').then(polygon => {
+        expect(polygon).to.have.length(1);
+        expect(polygon).to.have.attr('fill');
+        expect(polygon).to.have.attr('stroke', '#000000');
+        expect(polygon).to.not.have.attr('fill-opacity');
+        const {x, y} = positions[positionName];
+        const expectedFillColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
+        const actualFillColor = polygon.attr('fill').replace('#', '');
+        checkColor(actualFillColor, expectedFillColor, colorTolerance, 'fill');
+      });
+    }
+
+    cy.fillColorPickerSwatch().click();
+    cy.fillColorPickerSaturation().click('topRight', {force: true});
+
+    for (let positionName of Object.keys(horizontalPositions)) {
+      const colorTolerance = 16;
+      cy.fillColorPickerSwatch().click();
+      cy.fillColorPickerHue().click(positionName, {force: true});
+
+      cy.node(1).trigger('contextmenu', {force: true});
+      cy.edge(edgeIndex).should('exist');
+      cy.node(2).trigger('mousemove');
+      cy.node(2).dblclick();
+      edgeIndex += 1;
+      cy.waitForTransition();
+
+      cy.edge(edgeIndex).should('exist');
+      cy.edge(edgeIndex).shouldHaveName('Alice->Bob');
+
+      cy.edge(edgeIndex).find('polygon').then(polygon => {
+        expect(polygon).to.have.length(1);
+        expect(polygon).to.have.attr('fill');
+        expect(polygon).to.have.attr('stroke', '#000000');
+        expect(polygon).to.not.have.attr('fill-opacity');
+        const {x, y} = horizontalPositions[positionName];
+        const expectedFillColor = hsvToHex(x, 1, 1)
+        const actualFillColor = polygon.attr('fill').replace('#', '');
+        checkColor(actualFillColor, expectedFillColor, colorTolerance, 'fill');
+      });
+    }
+
+    cy.fillColorPickerSwatch().click();
+    cy.fillColorPickerHue().click('left', {force: true});
+
+    for (let positionName of Object.keys(horizontalPositions)) {
+      const colorTolerance = 4;
+      let expectedFillColor;
+      let expectedFillOpacity;
+      if (positionName == 'left') {
+        expectedFillColor = 'transparent';
+        expectedFillOpacity = null;
+      } else {
+        const {x, y} = positions['topRight'];
+        expectedFillColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
+        expectedFillOpacity = horizontalPositions[positionName].x;
+      }
+      cy.fillColorPickerSwatch().click();
+      cy.fillColorPickerOpacity().click(positionName);
+
+      cy.node(1).trigger('contextmenu', {force: true});
+      cy.edge(edgeIndex).should('exist');
+      cy.node(2).trigger('mousemove');
+      cy.node(2).dblclick();
+      edgeIndex += 1;
+      cy.waitForTransition();
+
+      cy.edge(edgeIndex).should('exist');
+      cy.edge(edgeIndex).shouldHaveName('Alice->Bob');
+
+      cy.edge(edgeIndex).find('polygon').then(polygon => {
+        expect(polygon).to.have.length(1);
+        expect(polygon).to.have.attr('fill');
+        expect(polygon).to.have.attr('stroke', '#000000');
+        const actualFillColor = polygon.attr('fill').replace('#', '');
+        if (expectedFillColor == 'transparent') {
+          expect(actualFillColor).to.eq(expectedFillColor);
+        } else {
+          checkColor(actualFillColor, expectedFillColor, colorTolerance);
+        }
+        if (expectedFillOpacity != null) {
+          const actualFillOpacity = polygon.attr('fill-opacity');
+          const fillOpacityAbsDiff = Math.abs(actualFillOpacity - expectedFillOpacity)
+          expect(fillOpacityAbsDiff).to.be.lessThan(0.02);
+        } else {
+          expect(polygon).to.not.have.attr('fill-opacity');
+        }
+      });
+    }
+
+    cy.formatDrawerCloseButton().click()
+    cy.formatDrawer().should('not.exist');
+  })
+
 })
