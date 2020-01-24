@@ -9,6 +9,12 @@ Cypress.Commands.add("startCleanApplication", (options) => {
   cy.canvasGraph().should('exist');
 });
 
+Cypress.Commands.add("startApplicationWithDotSource", (dotSrc, options) => {
+  localStorage.setItem('dotSrc', dotSrc);
+  cy.visit('http://localhost:3000/', options);
+  cy.canvasGraph().should('exist');
+});
+
 Cypress.Commands.add("textEditorWrapper", () => {
   return cy.get('#text-editor-wrapper');
 });
@@ -343,6 +349,18 @@ Cypress.Commands.add("settingsDialog", () => {
 
 Cypress.Commands.add("fitSwitch", () => {
   return cy.settingsDialog().find('#fit-switch');
+});
+
+Cypress.Commands.add("engineSelector", () => {
+  return cy.settingsDialog().find('#select-engine');
+});
+
+Cypress.Commands.add("engineMenu", () => {
+  return cy.get('#menu-engine');
+});
+
+Cypress.Commands.add("engineMenuAlternative", (engine) => {
+  return cy.engineMenu().find('#' + engine);
 });
 
 Cypress.Commands.add("helpButton", () => {

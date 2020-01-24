@@ -163,12 +163,14 @@ class SettingsDialog extends React.Component {
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="engine-simple">Engine</InputLabel>
               <Select
+                id="engine-selector"
                 value={this.props.engine}
                 onChange={this.handleEngineSelectChange}
                 input={<Input name="engine" id="engine-helper" />}
               >
                 {engines.map((engine) =>
                   <MenuItem
+                    id={engine}
                     key={engine}
                     value={engine}
                   >
