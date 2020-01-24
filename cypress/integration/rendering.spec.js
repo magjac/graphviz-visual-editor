@@ -21,4 +21,15 @@ describe('Basic rendering from DOT source', function() {
     });
   })
 
+  it('Starts by rendering an empty graph stored in browser local storage', function() {
+    localStorage.setItem('dotSrc', 'digraph {}');
+    cy.visit('http://localhost:3000/');
+
+    cy.textEditorContent().should('have.text', 'digraph {}');
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNodes().should('have.length', 0);
+    });
+  })
+
 })
