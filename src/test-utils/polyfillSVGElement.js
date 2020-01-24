@@ -59,6 +59,12 @@ export default function polyfillSVGElement() {
           var xmax = x + 0;
           var ymin = y;
           var ymax = y + 0;
+      } else if (this.nodeName === 'g' && this.attributes[1].name === 'class' && this.attributes[1].value == 'node') {
+          const shape = this.querySelector('ellipse,polygon,path');
+          return shape.getBBox();
+      } else if (this.nodeName === 'g' && this.attributes[1].name === 'class' && this.attributes[1].value == 'edge') {
+          const shape = this.querySelector('path');
+          return shape.getBBox();
       } else {
           throw "WTF!" + this;
       }

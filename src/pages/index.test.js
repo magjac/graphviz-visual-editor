@@ -166,4 +166,20 @@ describe('<Index />', () => {
     });
   });
 
+  it('selects all nodes and edges', () => {
+    const wrapper = mount(<Index />);
+    const indexWrapper = wrapper.find('Index');
+    const index = indexWrapper.instance();
+    const expectedDotSrc = 'digraph {a [shape=box]; b [shape=circle]; a -> b}';
+    index.setState({dotSrc: expectedDotSrc});
+    const graph = wrapper.find('Graph').instance();
+    const graphviz = graph.graphviz;
+    const actualSvgString = index.getSvgString();
+    let selectionMarkers = graph.graph0.selectAll('rect').nodes();
+    expect(selectionMarkers).toHaveLength(0);
+    graph.selectAllComponents();
+    selectionMarkers = graph.graph0.selectAll('rect').nodes();
+    expect(selectionMarkers).toHaveLength(3);
+  });
+
 });
