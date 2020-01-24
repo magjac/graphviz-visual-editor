@@ -7,19 +7,18 @@ describe('Basic rendering from DOT source', function() {
 
     cy.textEditorContent().should('have.text', 'digraph {Alice -> Bob}');
 
-    cy.node(1).should('exist');
-    cy.node(2).should('exist');
-    cy.edge(1).should('exist');
-
-    cy.node(1).shouldHaveLabel('Alice');
-    cy.node(2).shouldHaveLabel('Bob');
-
-    cy.node(1).shouldHaveName('Alice');
-    cy.node(2).shouldHaveName('Bob');
-    cy.edge(1).shouldHaveName('Alice->Bob');
-
-    cy.nodes().should('have.length', 2);
-    cy.edges().should('have.length', 1);
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNodes().should('have.length', 2);
+      cy.wrap(graph0).findNode(1)
+        .should('exist')
+        .shouldHaveLabel('Alice');
+      cy.wrap(graph0).findNode(2)
+        .should('exist')
+        .shouldHaveLabel('Bob');
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob');
+    });
   })
 
 })
