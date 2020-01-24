@@ -434,19 +434,19 @@ Cypress.Commands.add("shouldNotBeSelected", {prevSubject: true}, (subject) => {
 });
 
 Cypress.Commands.add("checkDefaultGraph", () => {
-  cy.node(1).should('exist');
-  cy.node(2).should('exist');
-  cy.edge(1).should('exist');
-
-  cy.node(1).shouldHaveLabel('a');
-  cy.node(2).shouldHaveLabel('b');
-
-  cy.node(1).shouldHaveName('a');
-  cy.node(2).shouldHaveName('b');
-  cy.edge(1).shouldHaveName('a->b');
-
-  cy.nodes().should('have.length', 2);
-  cy.edges().should('have.length', 1);
+  cy.canvasGraph().then(graph0 => {
+    cy.wrap(graph0).findNodes().should('have.length', 2);
+    cy.wrap(graph0).findEdges().should('have.length', 1);
+    cy.wrap(graph0).findNode(1)
+      .should('exist')
+      .shouldHaveLabel('a');
+    cy.wrap(graph0).findNode(2)
+      .should('exist')
+      .shouldHaveLabel('b');
+    cy.wrap(graph0).findEdge(1)
+      .should('exist')
+      .shouldHaveName('a->b');
+  });
 });
 
 Cypress.Commands.add("waitForBusy", () => {
