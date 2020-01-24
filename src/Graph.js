@@ -334,8 +334,7 @@ class Graph extends React.Component {
       this.deleteSelectedComponents.call(this);
     }
     else if (event.ctrlKey && event.key === 'a') {
-      let components = this.graph0.selectAll('.node,.edge');
-      this.selectComponents(components);
+      this.selectAllComponents();
     }
     else if (event.ctrlKey && event.key === 'A') {
       let components = this.graph0.selectAll('.edge');
@@ -545,6 +544,11 @@ class Graph extends React.Component {
         this.insertNodeWithLatestAttributes(x0, y0);
       }
     }
+  }
+
+  selectAllComponents() {
+    let components = this.graph0.selectAll('.node,.edge');
+    this.selectComponents(components);
   }
 
   selectComponents(components, extendSelection=false) {
