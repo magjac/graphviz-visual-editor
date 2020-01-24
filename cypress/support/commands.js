@@ -61,6 +61,22 @@ Cypress.Commands.add("canvasGraph", () => {
   return cy.canvasSvg().find('#graph0');
 });
 
+Cypress.Commands.add("findNode", {prevSubject: true}, (subject, index) => {
+  return cy.wrap(subject).find('> #node' + index);
+});
+
+Cypress.Commands.add("findNodes", {prevSubject: true}, (subject, index) => {
+  return cy.wrap(subject).find('> .node');
+});
+
+Cypress.Commands.add("findEdge", {prevSubject: true}, (subject, index) => {
+  return cy.wrap(subject).find('> #edge' + index);
+});
+
+Cypress.Commands.add("findEdges", {prevSubject: true}, (subject, index) => {
+  return cy.wrap(subject).find('> .edge');
+});
+
 Cypress.Commands.add("node", (index) => {
   return cy.canvasGraph().find('> #node' + index);
 });
