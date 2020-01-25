@@ -83,6 +83,7 @@
   },
   "jest": {
     "coveragePathIgnorePatterns": [
+      "src/test-utils",
       "src/shapes.js",
       "src/dotParser.js"
     ]
