@@ -88,4 +88,32 @@ describe('Basic rendering from DOT source', function() {
 
   })
 
+  it('Fits the graph to the available area when enabled in settings', function() {
+    cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('eq', 95.8629150390625);
+    });
+
+    cy.settingsButton().click();
+    cy.fitSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).invoke('height').should('eq', 572);
+      cy.wrap(graph0).invoke('width').should('eq', 354.527587890625);
+    });
+
+    cy.settingsButton().click();
+    cy.fitSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('eq', 95.8629150390625);
+    });
+
+  })
+
 })
