@@ -112,7 +112,7 @@ class Graph extends React.Component {
       this.renderGraphReady = false;
       return;
     }
-    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine) {
+    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine && this.props.fit === this.prevFit) {
       return;
     }
     if (this.rendering) {
