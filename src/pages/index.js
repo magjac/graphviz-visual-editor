@@ -84,6 +84,7 @@ class Index extends React.Component {
       fontSize: localStorage.getItem('fontSize') || 12,
       tabSize: +localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
+      test: JSON.parse(localStorage.getItem('test')) || {},
     };
   }
 
