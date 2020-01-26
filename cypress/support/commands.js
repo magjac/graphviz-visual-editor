@@ -469,6 +469,11 @@ Cypress.Commands.add("shouldHaveLabel", {prevSubject: true}, (subject, label) =>
   return cy.wrap(subject);
 });
 
+Cypress.Commands.add("shouldHaveShape", {prevSubject: true}, (subject, shape) => {
+  cy.wrap(subject).find(':nth-child(2)').should('have.prop', 'tagName', shape);
+  return cy.wrap(subject);
+});
+
 Cypress.Commands.add("shouldBeSelected", {prevSubject: true}, (subject) => {
   cy.wrap(subject).within(() => {
     cy.get('rect').should('exist');
