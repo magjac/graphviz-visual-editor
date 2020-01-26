@@ -231,6 +231,10 @@ Cypress.Commands.add("undoButton", () => {
   return cy.toolbar().find('#undo');
 });
 
+Cypress.Commands.add("redoButton", () => {
+  return cy.toolbar().find('#redo');
+});
+
 Cypress.Commands.add("insertPanels", () => {
   return cy.get('#insert-panels');
 });

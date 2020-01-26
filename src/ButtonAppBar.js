@@ -154,6 +154,7 @@ function ButtonAppBar(props) {
             <UndoIcon />
           </IconButton>
           <IconButton
+            id="redo"
             className={classes.redoButton}
             color="inherit"
             disabled={!props.hasRedo}
