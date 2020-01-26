@@ -163,6 +163,10 @@ Cypress.Commands.add("exportGraphAsUrlOpenLinkButton", () => {
   return cy.exportGraphAsUrlDialog().find('#open-link');
 });
 
+Cypress.Commands.add("menuItemSettings", () => {
+  return cy.mainMenu().find('#settings');
+});
+
 Cypress.Commands.add("newButton", () => {
   return cy.get('#toolbar').find('#new');
 });
