@@ -115,6 +115,10 @@ Cypress.Commands.add("mainMenu", () => {
   return cy.get('#main-menu');
 });
 
+Cypress.Commands.add("menuItemNew", () => {
+  return cy.mainMenu().find('#new');
+});
+
 Cypress.Commands.add("menuItemOpen", () => {
   return cy.mainMenu().find('#open');
 });

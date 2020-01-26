@@ -49,7 +49,7 @@ class MainMenu extends React.Component {
           open
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleNew}>New</MenuItem>
+          <MenuItem onClick={this.handleNew} id="new">New</MenuItem>
           <MenuItem onClick={this.handleOpenFromBrowser} id="open">Open from browser</MenuItem>
           <MenuItem onClick={this.handleSaveAsToBrowser} id="save-as">Save as to browser</MenuItem>
           <MenuItem onClick={this.handleRename} id="rename">Rename</MenuItem>
