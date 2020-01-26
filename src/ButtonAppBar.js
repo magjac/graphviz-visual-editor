@@ -144,6 +144,7 @@ function ButtonAppBar(props) {
             <SaveAltIcon />
           </IconButton>
           <IconButton
+            id="undo"
             className={classes.undoButton}
             color="inherit"
             disabled={!props.hasUndo}

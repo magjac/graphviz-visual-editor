@@ -227,6 +227,10 @@ Cypress.Commands.add("saveToBrowserSaveButton", () => {
   return cy.saveToBrowserDialog().find('#save');
 });
 
+Cypress.Commands.add("undoButton", () => {
+  return cy.toolbar().find('#undo');
+});
+
 Cypress.Commands.add("insertPanels", () => {
   return cy.get('#insert-panels');
 });
