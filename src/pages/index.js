@@ -858,6 +858,7 @@ class Index extends React.Component {
                 registerGetSvg={this.registerGetSvg}
                 onInitialized={this.handleGraphInitialized}
                 onError={this.handleError}
+                test={this.state.test}
               />
             </Paper>
           </Grid>

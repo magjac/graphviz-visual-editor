@@ -134,7 +134,9 @@ class Graph extends React.Component {
     this.prevDotSrc = this.props.dotSrc;
     this.prevEngine = this.props.engine;
     try {
-      this.prelDotGraph = new DotGraph(this.props.dotSrc);
+      if (!this.props.test.disableDotParsing) {
+        this.prelDotGraph = new DotGraph(this.props.dotSrc);
+      }
       this.props.onError(null);
     }
     catch(error) {
