@@ -236,6 +236,7 @@ class SettingsDialog extends React.Component {
                 className={classes.formControlLabel}
                 control={
                   <Switch
+                    id="shape-tween-switch"
                     checked={this.props.tweenShapes}
                     onChange={this.handleTweenShapesSwitchChange}
                   />

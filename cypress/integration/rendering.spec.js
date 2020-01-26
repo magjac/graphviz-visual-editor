@@ -234,4 +234,56 @@ describe('Basic rendering from DOT source', function() {
 
   })
 
+  it('Renders a new graph without shape tweening when disabled in settings', function() {
+    cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
+
+    cy.settingsButton().click();
+    cy.shapeTweenSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNodes().should('have.length', 2);
+      cy.wrap(graph0).findNode(1)
+        .should('exist')
+        .shouldHaveLabel('Alice')
+        .shouldHaveShape('ellipse');
+      cy.wrap(graph0).findNode(2)
+        .should('exist')
+        .shouldHaveLabel('Bob')
+        .shouldHaveShape('ellipse');
+    });
+
+    cy.clearDotSource();
+    cy.insertDotSource('digraph {node [shape=box] Alice -> Bob}');
+
+    cy.waitForBusy();
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNodes().should('have.length', 2);
+      cy.wrap(graph0).findNode(1)
+        .should('exist')
+        .shouldHaveLabel('Alice')
+        .shouldHaveShape('polygon');
+      cy.wrap(graph0).findNode(2)
+        .should('exist')
+        .shouldHaveLabel('Bob')
+        .shouldHaveShape('polygon');
+    });
+
+    cy.waitForNotBusy();
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNodes().should('have.length', 2);
+      cy.wrap(graph0).findNode(1)
+        .should('exist')
+        .shouldHaveLabel('Alice')
+        .shouldHaveShape('polygon');
+      cy.wrap(graph0).findNode(2)
+        .should('exist')
+        .shouldHaveLabel('Bob')
+        .shouldHaveShape('polygon');
+    });
+
+  })
+
 })
