@@ -371,6 +371,10 @@ Cypress.Commands.add("engineMenuAlternative", (engine) => {
   return cy.engineMenu().find('#' + engine);
 });
 
+Cypress.Commands.add("gitHubButton", () => {
+  return cy.toolbar().find('#github');
+});
+
 Cypress.Commands.add("helpButton", () => {
   return cy.get('#toolbar').find('#help');
 });

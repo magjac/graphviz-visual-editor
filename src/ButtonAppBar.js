@@ -231,6 +231,7 @@ function ButtonAppBar(props) {
             <SettingsIcon />
           </IconButton>
           <a
+            id="github"
             className={classes.gitHubLink}
             href="https://github.com/magjac/graphviz-visual-editor"
             target="_blank"
