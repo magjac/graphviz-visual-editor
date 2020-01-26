@@ -667,36 +667,45 @@ class Index extends React.Component {
     });
   }
 
-  changeNodeLabel = (nodeId, verb, ingredients, tools, time, color) => {
+  // changeNodeLabel = (nodeId, verb, ingredients, tools, time, color) => {
+  changeNodeLabel = (nodeId, nodeContent, nodeColor) => {
     console.log("in changeNodeLable!!!")
+    console.log("nodeId: " + nodeId) 
+    console.log("nodeContent: " + nodeContent)
+    console.log("nodeColor: " + nodeColor)
     let fullString = '';
     fullString =  this.state.dotSrc;
     let nodeString = '';
-    const regex = new RegExp(`${nodeId}`+"\\s\\[");
+    const regex = new RegExp("\\t"+`${nodeId}`+"\\s\\[");
     const startIndex =  fullString.search(regex);
+    console.log("here1")
+
     if(startIndex > -1){
+      console.log("here2")
       const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
       const a = fullString.substring(startIndex, closingIndex);
-      const startPart = `${nodeId}` + " [label="
+      const startPart = "\t" + `${nodeId}` + " [label="
       if(closingIndex > -1){
-        const verbPart = "<<font point-size='18'><b>" + verb + "</b><br/>" 
-        let ingrPart = "";
-        if (ingredients !== ""){
-          ingrPart = ingredients.split('\n').join('<br/>')
-          ingrPart = ingrPart + "<br/>"
-        }
-        let toolPart = ""; 
-        if (tools !== ""){
-          toolPart = tools.split('\n').join('<br/>')
-          toolPart = toolPart + "<br/>"
-        }
-        const timePart = (time === "") ? "" : time
-        let leftovers = `</font>> style=filled fillcolor="` + color + `"`
+        // const verbPart = "<<font point-size='18'><b>" + verb + "</b><br/>" 
+        // let ingrPart = "";
+        // if (ingredients !== ""){
+        //   // ingrPart = ingredients.split('\n').join('<br/>')
+        //   ingrPart = ingrPart + "<br/>"
+        // }
+        // let toolPart = ""; 
+        // if (tools !== ""){
+        //   // toolPart = tools.split('\n').join('<br/>')
+        //   toolPart = toolPart + "<br/>"
+        // }
+        // const timePart = (time === "") ? "" : time
+        let leftovers = ` style=filled fillcolor="` + nodeColor + `"`
         if(a.includes("penwidth")){
           leftovers = leftovers + " color=springgreen4, penwidth=5";
         }
         leftovers = leftovers + "]"
-        nodeString = startPart + verbPart + ingrPart + toolPart + timePart + leftovers;
+        nodeString = startPart + nodeContent + leftovers;
+        // nodeString = startPart + verbPart + ingrPart + toolPart + timePart + leftovers;
+        console.log("node content: " + nodeContent)
         console.log(nodeString)
 
         const firstPart = fullString.substring(0, startIndex);
@@ -705,7 +714,7 @@ class Index extends React.Component {
       }
     }
     
-    console.log(fullString)
+    // console.log(fullString)
     this.setState({
       dotSrc : fullString
     })
@@ -723,7 +732,8 @@ class Index extends React.Component {
       })
       console.log("enlarge!")
       console.log(specialId)
-      this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients, graphDict[specialId].tool, graphDict[specialId].time, graphDict[specialId].color)
+      // this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients, graphDict[specialId].tool, graphDict[specialId].time, graphDict[specialId].color)
+      this.changeNodeLabel(specialId, graphDict[specialId].summary, graphDict[specialId].color)
     }
     else{ // in this case we want to shrink the node that in prevArray and not in curArray
       prevArrayOfIds.forEach(node=>{
@@ -731,30 +741,32 @@ class Index extends React.Component {
       })
       console.log("shrink!")
       console.log(specialId)
-      this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients_abbr, graphDict[specialId].tool_abbr, graphDict[specialId].time, graphDict[specialId].color)
+      // this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients_abbr, graphDict[specialId].tool_abbr, graphDict[specialId].time, graphDict[specialId].color)
+      this.changeNodeLabel(specialId, graphDict[specialId].summary_abbr, graphDict[specialId].color)
     }
   }
 
   updateColorByNodeIds = (arrayOfIds, prevArrayOfEdges, arrayOfEdges)=>{
-    console.log("here here here")
-    console.log(arrayOfIds)
+    console.log("update color by node ID") // TODO: remove
+    console.log(arrayOfIds) // TODO: remove
     let fullString = "";
       fullString =  this.state.dotSrc;
       if(arrayOfIds.length === 0 || arrayOfIds.length === 1){
-        console.log("moran");
         fullString = fullString.split(" color=springgreen4, penwidth=7").join("");
         fullString = fullString.split(" color=springgreen4, penwidth=3").join("");
         fullString = fullString.split(" color=springgreen4, penwidth=5").join("");
         fullString = fullString.split("[color=springgreen4, penwidth=5]").join("");
       } 
       arrayOfIds && arrayOfIds.forEach(id=>{
-
-        const regex = new RegExp(`${id}`+"\\s\\[");
+        console.log("in for each")
+        const regex = new RegExp("\\t"+`${id}`+"\\s\\[");
           const startIndex =  fullString.search(regex);
+          console.log(startIndex) // TODO: remove
           if(startIndex > -1){
               const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
               if(closingIndex > -1){
                 const a = fullString.substring(startIndex,closingIndex);
+                console.log("==="+a+"===") // TODO: remove
                 if(a.includes("penwidth")){
                   return
                 }
@@ -765,7 +777,7 @@ class Index extends React.Component {
                   nodeString = a + " color=springgreen4, penwidth=7]";
                 }
                 const firstPart = fullString.substring(0,startIndex);
-                const lastPart = fullString.substring(closingIndex+2);
+                const lastPart = fullString.substring(closingIndex+1);
                 fullString = firstPart.concat(nodeString.concat(lastPart));
               }
           } else{

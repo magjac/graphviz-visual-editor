@@ -45,7 +45,7 @@ class Graph extends React.Component {
     this.state = {
       busy: false,
       showPopup:false,
-      dialogTitle:"",
+      dialogTitle:"Directions in current cluster:",
       dialogContentTextArray:[],
       pathDrawingMode: false,
       markedVertices: [],
@@ -447,12 +447,20 @@ class Graph extends React.Component {
       marked = [...new Set(marked)]
       let edges = []
       if (this.state.pathDrawingMode){
-          graphDict[d.key].in_edges && graphDict[d.key].in_edges.forEach(inEdgesContent=>{
-            if (inEdgesContent.node_name == marked[marked.length-2]){
+        if (graphDict[d.key].in_edges){
+          for(var node_name in graphDict[d.key].in_edges){
+            if (node_name == marked[marked.length-2]){
               let curEdge = {first: marked[marked.length-2], second: d.key}
               edges.push(curEdge)
             }
-        })
+          }    
+        }
+        // graphDict[d.key].in_edges && graphDict[d.key].in_edges.forEach(inEdgesContent=>{
+        //   if (inEdgesContent.node_name == marked[marked.length-2]){
+        //     let curEdge = {first: marked[marked.length-2], second: d.key}
+        //     edges.push(curEdge)
+        //   }
+        // })
         this.setState(prevState => ({
           markedVertices: marked, 
           markedEdges: prevState.markedEdges.concat(edges)
@@ -527,7 +535,7 @@ class Graph extends React.Component {
 
     this.setState({
       showPopup:true,
-      dialogTitle: (d && d.key) || "" ,
+      // dialogTitle: (d && d.key) || "" ,
       dialogContentTextArray: matchingObj && matchingObj.directions || []
     });
   }
@@ -920,8 +928,14 @@ class Graph extends React.Component {
                 }
               return <Typography key={index} style={{
                 backgroundColor: color,
-                fontSize: 20
-              }}>
+                fontSize: 16,
+                // paragraph: true,
+                // variant: 'subtitle1',
+                // display: 'block',
+                // textAlign: 'justify',
+                noWrap: true,
+                lineHeight: 3
+                }}>
                 {`${directionObj.title}`}
                 </Typography>
               })}
