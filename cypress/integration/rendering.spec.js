@@ -149,4 +149,41 @@ describe('Basic rendering from DOT source', function() {
 
   })
 
+  it('Resizes the graph when the window is resized if fit graph is enabled', function() {
+    cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
+
+    cy.settingsButton().click();
+    cy.fitSwitch().click();
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasSvg().then(svg => {
+      cy.wrap(svg).invoke('width').should('eq', 469);
+      cy.wrap(svg).invoke('height').should('eq', 572);
+      cy.wrap(svg).should('have.attr', 'viewBox', '0 0 71.90 116.00');
+      cy.wrap(svg).should('have.attr', 'width', '469');
+      cy.wrap(svg).should('have.attr', 'height', '572');
+    });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).invoke('width').should('eq', 354.527587890625);
+      cy.wrap(graph0).invoke('height').should('eq', 572);
+    });
+
+    cy.viewport(1000 * 2, 660 * 2);
+
+    cy.canvasSvg().then(svg => {
+      cy.wrap(svg).invoke('width').should('eq', 469);
+      cy.wrap(svg).invoke('height').should('eq', 572);
+      cy.wrap(svg).should('have.attr', 'viewBox', '0 0 71.90 116.00');
+      cy.wrap(svg).should('have.attr', 'width', '976');
+      cy.wrap(svg).should('have.attr', 'height', '1232');
+    });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).invoke('width').should('eq', 763.597900390625);
+      cy.wrap(graph0).invoke('height').should('eq', 1232);
+    });
+
+  })
+
 })
