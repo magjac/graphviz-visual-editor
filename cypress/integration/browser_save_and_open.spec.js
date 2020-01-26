@@ -61,7 +61,7 @@ describe('Browser save and open', function() {
     cy.savedGraphPreview(1).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
   })
 
-  it('The graph is loaded from a saved graph in browser local storage when to open button is clicked', function() {
+  it('The graph is loaded from a saved graph in browser local storage when the open button is clicked', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
@@ -479,6 +479,23 @@ describe('Browser save and open', function() {
     cy.savedGraphDotSource(1).should('have.text', 'digraph {Alice -> Bob}');
     cy.savedGraphTime(1).should('have.text', 'a few seconds ago');
     cy.savedGraphPreview(1).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+  })
+
+  it('The main menu item Open from browser opens the open from browser dialog', function() {
+    cy.startCleanApplication();
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+
+    cy.menuButton().click();
+    cy.menuItemOpen().click()
+
+    cy.openFromBrowserDialog().should('exist');
+
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.openFromBrowserDialog().should('not.exist');
+
   })
 
 })
