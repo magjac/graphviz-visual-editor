@@ -71,7 +71,7 @@ Lists both bugs and enhancement requests.
 
 ### [Known limitations](https://github.com/magjac/graphviz-visual-editor/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3Abug+label%3Aenhancement) ###
 
-A limitation is a feature deliberately released without full functionality. A limitation is classifed both as a bug and as an enhancement request to reflect that although it's an enhancement not yet implemented from the author's perspective, it might be perceived as a bug from the user's perspective).
+A limitation is a feature deliberately released without full functionality. A limitation is classifed both as a bug and as an enhancement request to reflect that although it's an enhancement not yet implemented from the author's perspective, it might be perceived as a bug from the user's perspective.
 
 ### [Closed issues](https://github.com/magjac/graphviz-visual-editor/issues?q=is%3Aissue+is%3Aclosed) ###
 
