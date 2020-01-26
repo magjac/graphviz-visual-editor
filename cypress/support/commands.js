@@ -461,10 +461,12 @@ Cypress.Commands.add("aboutDialogParagraphs", () => {
 
 Cypress.Commands.add("shouldHaveName", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('title').should('have.text', label);
+  return cy.wrap(subject);
 });
 
 Cypress.Commands.add("shouldHaveLabel", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('text').should('have.text', label);
+  return cy.wrap(subject);
 });
 
 Cypress.Commands.add("shouldBeSelected", {prevSubject: true}, (subject) => {
