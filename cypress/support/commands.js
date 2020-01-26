@@ -119,6 +119,10 @@ Cypress.Commands.add("menuItemOpen", () => {
   return cy.mainMenu().find('#open');
 });
 
+Cypress.Commands.add("menuItemSaveAs", () => {
+  return cy.mainMenu().find('#save-as');
+});
+
 Cypress.Commands.add("menuItemRename", () => {
   return cy.mainMenu().find('#rename');
 });

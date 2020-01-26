@@ -498,4 +498,21 @@ describe('Browser save and open', function() {
 
   })
 
+  it('The main menu item Save as to browser opens the save to browser dialog', function() {
+    cy.startCleanApplication();
+
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
+
+    cy.menuButton().click();
+    cy.menuItemSaveAs().click()
+
+    cy.saveToBrowserDialog().should('exist');
+
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.saveToBrowserDialog().should('not.exist');
+
+  })
+
 })
