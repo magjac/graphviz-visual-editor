@@ -224,6 +224,7 @@ class SettingsDialog extends React.Component {
                 className={classes.formControlLabel}
                 control={
                   <Switch
+                    id="path-tween-switch"
                     checked={this.props.tweenPaths}
                     onChange={this.handleTweenPathsSwitchChange}
                   />

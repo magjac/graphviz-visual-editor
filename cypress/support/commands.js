@@ -387,6 +387,10 @@ Cypress.Commands.add("engineMenuAlternative", (engine) => {
   return cy.engineMenu().find('#' + engine);
 });
 
+Cypress.Commands.add("pathTweenSwitch", () => {
+  return cy.settingsDialog().find('#path-tween-switch');
+});
+
 Cypress.Commands.add("shapeTweenSwitch", () => {
   return cy.settingsDialog().find('#shape-tween-switch');
 });
