@@ -48,12 +48,17 @@ class Index extends React.Component {
     if (dotSrc == null) {
       dotSrc = graphDot;
     }
+    // let updatedGraphDict = null
+    // if (updatedGraphDict == null){
+    //   updatedGraphDict = {...graphDict};
+    // }
 
     this.state = {
       projects: JSON.parse(localStorage.getItem('projects')) || {},
       initialized: false,
       name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
+      updatedGraphDict: {...graphDict}, 
       dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
       svg: localStorage.getItem('svg') || '',
       hasUndo: false,
@@ -772,6 +777,8 @@ class Index extends React.Component {
     // console.log("nodeIds:")
     // console.log(nodeIds)
     this.updateFillColorByNodeIds(nodeIds)
+    this.updateCurGraphDict(leastCommonIngredients, nodeIds)
+    
 
     // const nodesIds = Object.keys(graphDict);
     // const nodesContainingIngredients = nodesIds && nodesIds.map(nodeId=>{
@@ -821,6 +828,35 @@ class Index extends React.Component {
 
     this.setState({
       dotSrc : fullString
+
+    })
+  }
+
+  updateCurGraphDict =(leastCommonIngredients, nodeIds)=>{
+    console.log("update cur graph dict") // TODO: remove
+    console.log(nodeIds)
+    let updatedDict = {...graphDict}
+    nodeIds && nodeIds.forEach(id=>{
+      console.log(id)
+      leastCommonIngredients && leastCommonIngredients.forEach(uncommonIngr=>{
+        console.log(uncommonIngr)
+        const regex = new RegExp(uncommonIngr);
+        updatedDict[id].directions && updatedDict[id].directions.forEach(direction=>{
+          console.log(direction);
+          console.log(direction.title);
+          const startInx = direction.title.search(regex);
+          if (startInx !== -1){
+            updatedDict[id].directions.constraint = "UNCOMMON";
+          }
+        })
+      })
+    })
+    
+    console.log(updatedDict)
+    console.log("here")
+
+    this.setState({
+      updatedGraphDict : updatedDict
     })
   }
 
@@ -1100,6 +1136,7 @@ class Index extends React.Component {
                 enlargeContentByNodeIds = {this.enlargeContentByNodeIds}
                 addNode={this.addNode}
                 hasFocus={graphHasFocus}
+                updatedGraphDict = {this.state.updatedGraphDict}
                 dotSrc={this.state.dotSrc}
                 engine={this.state.engine}
                 fit={this.state.fitGraph}

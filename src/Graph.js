@@ -42,7 +42,7 @@ function isNumeric(n) {
 class Graph extends React.Component {
   constructor(props) {
     super(props);
-    console.log('contsructor!!!')
+    console.log('contsructor!!!') // TODO: remove
     this.state = {
       busy: false,
       showPopup:false,
@@ -530,7 +530,11 @@ class Graph extends React.Component {
     //   let extendSelection = event.ctrlKey || event.shiftKey;
     //   this.selectComponents(d3_select(nodes[i]), extendSelection);
     // }
-    const matchingObj = graphDict[d.key];
+
+    const matchingObj = graphDict[d.key]; // TODO: changed
+    console.log(this.props.updatedGraphDict) //updatedGraphDict) // TODO: added
+    // const matchingObj = this.props.updatedGraphDict[d.key]; // TODO: added.
+
     //show popup
     //js evaluation: dictionary[d.key] && dictionary[d.key].directions && dictionary[d.key].directions.toString();
 
@@ -921,14 +925,18 @@ class Graph extends React.Component {
           <DialogContent>
             <DialogContentText> 
               {this.state.dialogContentTextArray &&  this.state.dialogContentTextArray.map((directionObj,index)=>{
-                let color = "#ffe4b5" // yellow - neutral 
-                if (directionObj.constraint === "GOOD"){
-                  color = "#9fc69f" // green
-                } else if (directionObj.constraint === "BAD"){
-                  color = "#cf6363" // red
+                let color = "#ffffff" // white - neutral 
+                if (directionObj.constraint){
+                  if (directionObj.constraint === "GOOD"){
+                    color = "#9fc69f" // green
+                  } else if (directionObj.constraint === "BAD"){
+                    color = "#cf6363" // red
+                  } else if (directionObj.constraint === "UNCOMMON"){
+                    color = "#ffe4b5" // yellow
+                  }
                 }
               return <Typography key={index} style={{
-                // backgroundColor: color,
+                backgroundColor: color,
                 color: 'gray',
                 fontSize: 16,
                 // paragraph: true,
