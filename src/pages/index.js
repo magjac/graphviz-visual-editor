@@ -25,6 +25,7 @@ import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
 import { graphDot } from '../utils/graphSrc'
 import { graphDict } from '../utils/graph_dict'
+import { graphIngrDict } from '../utils/graph_dict'
 import TogglesPanel from '../Toggles';
 
 const styles = theme => ({
@@ -703,6 +704,9 @@ class Index extends React.Component {
         if(a.includes("penwidth")){
           leftovers = leftovers + " color=springgreen4, penwidth=5";
         }
+        if(a.includes("fillcolor=gold")){
+          leftovers = leftovers + " fillcolor=gold"
+        }
         leftovers = leftovers + "]"
         nodeString = startPart + nodeContent + leftovers;
         // nodeString = startPart + verbPart + ingrPart + toolPart + timePart + leftovers;
@@ -747,107 +751,159 @@ class Index extends React.Component {
     }
   }
 
-intersect = (a, b)=> {
-    return [...new Set(a)].filter(x => new Set(b).has(x));
-}
+  intersect = (a, b)=> {
+      return [...new Set(a)].filter(x => new Set(b).has(x));
+  }
 
   findNodesByIngredients = (leastCommonIngredients) =>{
-    const nodesIds = Object.keys(graphDict);
-      const nodesContainingIngredients = nodesIds && nodesIds.map(nodeId=>{
-        const ingredientsPerNode = graphDict[nodeId] && graphDict[nodeId].instruments_full_info;
-        if(!ingredientsPerNode){
-          return null;
+    console.log("least common!!")
+    console.log(leastCommonIngredients) 
+    var nodeIds = []
+    leastCommonIngredients && leastCommonIngredients.forEach(ingr=>{
+      // console.log(graphIngrDict[ingr]);
+      // console.log(graphIngrDict[ingr].in_nodes);
+      const inNodes = graphIngrDict[ingr].in_nodes;
+      inNodes && inNodes.forEach(node=>{
+        if(nodeIds.indexOf(node) === -1){
+          nodeIds.push(node)
         }
-        const nodeActualIngredients = Object.keys(ingredientsPerNode);
-        const intersection = this.intersect(leastCommonIngredients,nodeActualIngredients);
-        if(!(intersection && intersection.length)){
-          return null;
+      })
+    })
+    // console.log("nodeIds:")
+    // console.log(nodeIds)
+    this.updateFillColorByNodeIds(nodeIds)
+
+    // const nodesIds = Object.keys(graphDict);
+    // const nodesContainingIngredients = nodesIds && nodesIds.map(nodeId=>{
+    //   const ingredientsPerNode = graphDict[nodeId] && graphDict[nodeId].instruments_full_info;
+    //   if(!ingredientsPerNode){
+    //     return null;
+    //   }
+    //   const nodeActualIngredients = Object.keys(ingredientsPerNode);
+    //   const intersection = this.intersect(leastCommonIngredients,nodeActualIngredients);
+    //   if(!(intersection && intersection.length)){
+    //     return null;
+    //   }
+    //   return nodeId;
+    // }).filter(id=>id);
+    // return nodesContainingIngredients
+  }
+
+  updateFillColorByNodeIds = (arrayOfIds)=>{
+    console.log("update fill color by node ID") // TODO: remove
+    console.log(arrayOfIds)
+    let fullString = "";
+    fullString =  this.state.dotSrc;
+    fullString = fullString.split(" fillcolor=gold").join("");
+
+    arrayOfIds && arrayOfIds.forEach(id=>{
+      const regex = new RegExp("\\t"+`${id}`+"\\s\\[");
+      const startIndex =  fullString.search(regex);
+      if(startIndex > -1){
+        const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
+        if(closingIndex > -1){
+          const a = fullString.substring(startIndex,closingIndex);
+          let nodeString = ""
+          // console.log(a) 
+          if(a.includes("fillcolor=gold")){
+            return
+          }else{
+            nodeString = a + " fillcolor=gold]";
+          }
+          const firstPart = fullString.substring(0,startIndex);
+          const lastPart = fullString.substring(closingIndex+1);
+          fullString = firstPart.concat(nodeString.concat(lastPart));
         }
-        return nodeId;
-      }).filter(id=>id);
-      return nodesContainingIngredients
+      } else{
+        return;
+      }
+    })
+
+    this.setState({
+      dotSrc : fullString
+    })
   }
 
   updateColorByNodeIds = (arrayOfIds, prevArrayOfEdges, arrayOfEdges)=>{
     console.log("update color by node ID") // TODO: remove
     console.log(arrayOfIds) // TODO: remove
     let fullString = "";
-      fullString =  this.state.dotSrc;
-      if(arrayOfIds.length === 0 || arrayOfIds.length === 1){
-        fullString = fullString.split(" color=springgreen4, penwidth=7").join("");
-        fullString = fullString.split(" color=springgreen4, penwidth=3").join("");
-        fullString = fullString.split(" color=springgreen4, penwidth=5").join("");
-        fullString = fullString.split("[color=springgreen4, penwidth=5]").join("");
-      } 
-      arrayOfIds && arrayOfIds.forEach(id=>{
-        console.log("in for each")
-        const regex = new RegExp("\\t"+`${id}`+"\\s\\[");
-          const startIndex =  fullString.search(regex);
-          console.log(startIndex) // TODO: remove
-          if(startIndex > -1){
-              const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
-              if(closingIndex > -1){
-                const a = fullString.substring(startIndex,closingIndex);
-                console.log("==="+a+"===") // TODO: remove
-                if(a.includes("penwidth")){
-                  return
-                }
-                let nodeString = ""
-                if(id == 0 || id == 1){
-                  nodeString = a + " color=springgreen4, penwidth=3]";
-                }else{
-                  nodeString = a + " color=springgreen4, penwidth=7]";
-                }
-                const firstPart = fullString.substring(0,startIndex);
-                const lastPart = fullString.substring(closingIndex+1);
-                fullString = firstPart.concat(nodeString.concat(lastPart));
+    fullString =  this.state.dotSrc;
+    if(arrayOfIds.length === 0 || arrayOfIds.length === 1){
+      fullString = fullString.split(" color=springgreen4, penwidth=7").join("");
+      fullString = fullString.split(" color=springgreen4, penwidth=3").join("");
+      fullString = fullString.split(" color=springgreen4, penwidth=5").join("");
+      fullString = fullString.split("[color=springgreen4, penwidth=5]").join("");
+    } 
+    arrayOfIds && arrayOfIds.forEach(id=>{
+      console.log("in for each")
+      const regex = new RegExp("\\t"+`${id}`+"\\s\\[");
+        const startIndex =  fullString.search(regex);
+        console.log(startIndex) // TODO: remove
+        if(startIndex > -1){
+            const closingIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
+            if(closingIndex > -1){
+              const a = fullString.substring(startIndex,closingIndex);
+              console.log("==="+a+"===") // TODO: remove
+              if(a.includes("penwidth")){
+                return
               }
-          } else{
-            return;
-          }
-      })
-
-      let newEdges = []
-      arrayOfEdges && arrayOfEdges.forEach(edge=>{
-        if(prevArrayOfEdges.indexOf(edge) === -1){
-          newEdges.push(edge)
+              let nodeString = ""
+              if(id == 0 || id == 1){
+                nodeString = a + " color=springgreen4, penwidth=3]";
+              }else{
+                nodeString = a + " color=springgreen4, penwidth=7]";
+              }
+              const firstPart = fullString.substring(0,startIndex);
+              const lastPart = fullString.substring(closingIndex+1);
+              fullString = firstPart.concat(nodeString.concat(lastPart));
+            }
+        } else{
+          return;
         }
       })
 
-      console.log("new edges!")
-      console.log(newEdges)
-      newEdges && newEdges.forEach(edge=>{
-        console.log(edge)
-        const regexStr = `${edge.first}`+" -> " + `${edge.second}`
-        const regex = new RegExp(regexStr);
-        const regex2 = new RegExp(regexStr + " \\[");
-        const startIndex = fullString.search(regex2);
-        if(startIndex > -1){ 
-          const endIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
-          const a = fullString.substring(startIndex,endIndex);
-          if(a.includes("color")){
-            return
-          }
-          // const penWidthStart = fullString.slice(startIndex).search(/penwidth/g) + startIndex;
-          const penWidthStart = fullString.slice(startIndex).search(/\]/g) + startIndex;
-          const edgeStr = fullString.substring(startIndex, penWidthStart) + " color=springgreen4, penwidth=5]";
-          const firstPart = fullString.substring(0, startIndex);
-          const lastPart = fullString.substring(fullString.slice(startIndex).search(/\]/g) + startIndex + 1);
-          fullString = firstPart.concat(edgeStr.concat(lastPart));
-        }
-        else{
-          const startIndex = fullString.search(regex);
-          const closingIndex = startIndex + regexStr.length + 1;
-          const edgeStr = fullString.substring(startIndex, closingIndex) + " [color=springgreen4, penwidth=5]";
-          const firstPart = fullString.substring(0, startIndex);
-          const lastPart = fullString.substring(closingIndex);
-          fullString = firstPart.concat(edgeStr.concat(lastPart));
-        }
-      })
+    let newEdges = []
+    arrayOfEdges && arrayOfEdges.forEach(edge=>{
+      if(prevArrayOfEdges.indexOf(edge) === -1){
+        newEdges.push(edge) 
+      }
+    })
 
-     this.setState({
-       dotSrc : fullString
-     })
+    console.log("new edges!")
+    console.log(newEdges)
+    newEdges && newEdges.forEach(edge=>{
+      console.log(edge)
+      const regexStr = `${edge.first}`+" -> " + `${edge.second}`
+      const regex = new RegExp(regexStr);
+      const regex2 = new RegExp(regexStr + " \\[");
+      const startIndex = fullString.search(regex2);
+      if(startIndex > -1){ 
+        const endIndex = fullString.slice(startIndex).search(/\]/g) + startIndex;
+        const a = fullString.substring(startIndex,endIndex);
+        if(a.includes("color")){
+          return
+        }
+        // const penWidthStart = fullString.slice(startIndex).search(/penwidth/g) + startIndex;
+        const penWidthStart = fullString.slice(startIndex).search(/\]/g) + startIndex;
+        const edgeStr = fullString.substring(startIndex, penWidthStart) + " color=springgreen4, penwidth=5]";
+        const firstPart = fullString.substring(0, startIndex);
+        const lastPart = fullString.substring(fullString.slice(startIndex).search(/\]/g) + startIndex + 1);
+        fullString = firstPart.concat(edgeStr.concat(lastPart));
+      }
+      else{
+        const startIndex = fullString.search(regex);
+        const closingIndex = startIndex + regexStr.length + 1;
+        const edgeStr = fullString.substring(startIndex, closingIndex) + " [color=springgreen4, penwidth=5]";
+        const firstPart = fullString.substring(0, startIndex);
+        const lastPart = fullString.substring(closingIndex);
+        fullString = firstPart.concat(edgeStr.concat(lastPart));
+      }
+    })
+
+    this.setState({
+      dotSrc : fullString
+    })
   }
 
   render() {
@@ -973,6 +1029,8 @@ intersect = (a, b)=> {
         >
           <Grid item xs={columns.textEditor}>
             <Paper elevation={leftPaneElevation} className={classes.paper}>
+
+
               {/*{this.state.nodeFormatDrawerIsOpen &&*/}
               {/*  <FormatDrawer*/}
               {/*    type='node'*/}
@@ -995,6 +1053,8 @@ intersect = (a, b)=> {
               {/*    onFillColorChange={this.handleEdgeFillColorChange}*/}
               {/*  />*/}
               {/*}*/}
+
+
               <div style={{display: editorIsOpen ? 'block' : 'none'}}>
                 <TextEditor
                   // allocated viewport width - 2 * padding

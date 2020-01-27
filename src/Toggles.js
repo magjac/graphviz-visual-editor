@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { createMuiTheme  } from '@material-ui/core/styles';
-// import { uncommonIngrList } from './utils/graph_dict'      /*uncomment when the uncommonIngerList is ready*/
+import { uncommonIngrList } from './utils/graph_dict'      /*uncomment when the uncommonIngerList is ready*/
 
 const styles = {
     root: {
@@ -53,14 +53,14 @@ class TogglesPanel extends React.Component{
     }
 
 /*uncomment below function when the uncommonIngerList is ready*/
-// componentDidMount(){                                                      
-//     const leastCommonList = uncommonIngrList.map(obj=>obj.ingr_name);
-//     this.setState({
-//         leastCommonIngredients:leastCommonList
-//     })
-// }
+componentDidMount(){                                                      
+    const leastCommonList = uncommonIngrList.slice(0, 10) //.map(obj=>obj.ingr_name);
+    this.setState({
+        leastCommonIngredients:leastCommonList
+    })
+}
 
- handleChangeSwitchChange = switchName => event => {
+handleChangeSwitchChange = switchName => event => {
     event.persist();
     this.setState((prev) => {
         return {
@@ -68,8 +68,8 @@ class TogglesPanel extends React.Component{
             selectedLeastCommon: !(event.target && event.target.checked) ? [] : [...prev.selectedLeastCommon],
             [switchName]: event.target && event.target.checked
         };
-      })
-      };
+    })
+};
 
 handleLeastCommonIngredientChange = value => () => {
     const currentIndex = this.state.selectedLeastCommon.indexOf(value);

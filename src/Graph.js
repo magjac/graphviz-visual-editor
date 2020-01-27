@@ -19,6 +19,7 @@ import 'd3-graphviz';
 import DotGraph from './dot'
 import { dictionary } from './utils/Dictionary';
 import { graphDict } from './utils/graph_dict'
+import { yellow } from '@material-ui/core/colors';
 
 const styles = {
   root: {
@@ -908,7 +909,7 @@ class Graph extends React.Component {
     const { classes, addNode } = this.props;
     return (
       <React.Fragment>
-        <Dialog
+        <Dialog //maxWidth={false} //fullWidth={true}
           open={this.state.showPopup}
           // onClose={this.handleDialogClose(addNode)}
             onClose={()=>{
@@ -918,7 +919,7 @@ class Graph extends React.Component {
         >
           <DialogTitle >{this.state.dialogTitle}</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText> 
               {this.state.dialogContentTextArray &&  this.state.dialogContentTextArray.map((directionObj,index)=>{
                 let color = "#ffe4b5" // yellow - neutral 
                 if (directionObj.constraint === "GOOD"){
@@ -927,14 +928,24 @@ class Graph extends React.Component {
                   color = "#cf6363" // red
                 }
               return <Typography key={index} style={{
-                backgroundColor: color,
+                // backgroundColor: color,
+                color: 'gray',
                 fontSize: 16,
                 // paragraph: true,
                 // variant: 'subtitle1',
                 // display: 'block',
                 // textAlign: 'justify',
-                noWrap: true,
-                lineHeight: 3
+                // noWrap: true,
+                // whiteSpace: 'pre-line',
+                // whiteSpace: 'pre-wrap',
+                // whiteSpace: 'inherit',
+                // whiteSpace: 'initial',
+                // whiteSpace: 'normal',
+                // whiteSpace: 'nowrap',
+                whiteSpace: 'pre',
+                // whiteSpace: 'revert',
+                // whiteSpace: 'unset'
+                lineHeight: 2
                 }}>
                 {`${directionObj.title}`}
                 </Typography>
