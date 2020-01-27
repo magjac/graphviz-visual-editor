@@ -776,6 +776,7 @@ class Index extends React.Component {
     })
     // console.log("nodeIds:")
     // console.log(nodeIds)
+    // this.addSpecialPaths(leastCommonIngredients)
     this.updateFillColorByNodeIds(nodeIds)
     this.updateCurGraphDict(leastCommonIngredients, nodeIds)
     
@@ -794,6 +795,30 @@ class Index extends React.Component {
     //   return nodeId;
     // }).filter(id=>id);
     // return nodesContainingIngredients
+  }
+
+  addSpecialPaths = (uncommonIngredients)=>{
+    console.log("add special paths")
+    let fullString = "";
+    fullString = this.state.dotSrc;
+    //remove START_SPECIAL ... END_SPECIAL part from dot source:
+
+    //add START_SPEACIAL ... END_SPECIAL to dot source:
+    const regex = new RegExp(`labelloc="t"`);
+    const startInx = fullString.search(regex)
+    console.log(startInx) 
+    // const srcStart = fullString.slice(0,startInx)
+    // let middle = "\n#START_SPECIAL\n"
+    // const srcEnd = fullString.slice(startInx)
+
+    // uncommonIngredients && uncommonIngredients.forEach(ingr=>{
+    //   console.log(graphIngrDict[ingr].paths);
+    //   uncommonIngredients && uncommonIngredients.forEach(ingr=>{
+    // })
+    
+    // this.setState({
+    //   dotSrc : fullString
+    // })
   }
 
   updateFillColorByNodeIds = (arrayOfIds)=>{
@@ -828,7 +853,6 @@ class Index extends React.Component {
 
     this.setState({
       dotSrc : fullString
-
     })
   }
 
@@ -846,17 +870,18 @@ class Index extends React.Component {
           console.log(direction.title);
           const startInx = direction.title.search(regex);
           if (startInx !== -1){
-            updatedDict[id].directions.constraint = "UNCOMMON";
+            direction.constraint = "UNCOMMON";
+            // updatedDict[id].directions.constraint = "UNCOMMON";
           }
         })
       })
     })
-    
+
     console.log(updatedDict)
     console.log("here")
 
     this.setState({
-      updatedGraphDict : updatedDict
+      updatedGraphDict: updatedDict
     })
   }
 
