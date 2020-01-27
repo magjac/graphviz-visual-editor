@@ -763,6 +763,7 @@ class Index extends React.Component {
   findNodesByIngredients = (leastCommonIngredients) =>{
     console.log("least common!!")
     console.log(leastCommonIngredients) 
+    debugger
     var nodeIds = []
     leastCommonIngredients && leastCommonIngredients.forEach(ingr=>{
       // console.log(graphIngrDict[ingr]);
@@ -876,6 +877,19 @@ class Index extends React.Component {
         })
       })
     })
+
+    if(nodeIds && !nodeIds.length){
+      const nodeIds = Object.keys(updatedDict);
+      nodeIds && nodeIds.forEach(nodeId=>{
+        const obj = updatedDict[nodeId];
+        if(obj && obj.directions){
+          obj.directions.forEach(direction=>{
+              delete  direction.constraint;
+            })
+        }
+
+      })
+    } 
 
     console.log(updatedDict)
     console.log("here")
