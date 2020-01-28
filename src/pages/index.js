@@ -706,11 +706,14 @@ class Index extends React.Component {
         // }
         // const timePart = (time === "") ? "" : time
         let leftovers = ` style=filled fillcolor="` + nodeColor + `"`
-        if(a.includes("penwidth")){
+        if(a.includes("penwidth=5")){
           leftovers = leftovers + " color=springgreen4, penwidth=5";
+        }else if(a.includes("penwidth=2")){
+          leftovers = leftovers + " color=darkorange, penwidth=2";
+
         }
-        if(a.includes("fillcolor=gold")){
-          leftovers = leftovers + " fillcolor=gold"
+        if(a.includes(`fillcolor="#ffe4b5"`)){
+          leftovers = leftovers + ` fillcolor="#ffe4b5"`
         }
         leftovers = leftovers + "]"
         nodeString = startPart + nodeContent + leftovers;
@@ -743,7 +746,11 @@ class Index extends React.Component {
       console.log("enlarge!")
       console.log(specialId)
       // this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients, graphDict[specialId].tool, graphDict[specialId].time, graphDict[specialId].color)
-      this.changeNodeLabel(specialId, graphDict[specialId].summary, graphDict[specialId].color)
+      let nodeColor = "#ffffff" // white 
+      if(graphDict[specialId].color){
+        nodeColor = graphDict[specialId].color
+      }
+      this.changeNodeLabel(specialId, graphDict[specialId].summary, nodeColor)
     }
     else{ // in this case we want to shrink the node that in prevArray and not in curArray
       prevArrayOfIds.forEach(node=>{
@@ -752,7 +759,11 @@ class Index extends React.Component {
       console.log("shrink!")
       console.log(specialId)
       // this.changeNodeLabel(specialId, graphDict[specialId].verb, graphDict[specialId].ingredients_abbr, graphDict[specialId].tool_abbr, graphDict[specialId].time, graphDict[specialId].color)
-      this.changeNodeLabel(specialId, graphDict[specialId].summary_abbr, graphDict[specialId].color)
+      let nodeColor = "#ffffff" // white 
+      if(graphDict[specialId].color){
+        nodeColor = graphDict[specialId].color
+      }
+      this.changeNodeLabel(specialId, graphDict[specialId].summary_abbr, nodeColor)
     }
   }
 
@@ -777,49 +788,71 @@ class Index extends React.Component {
     })
     // console.log("nodeIds:")
     // console.log(nodeIds)
-    // this.addSpecialPaths(leastCommonIngredients)
-    this.updateFillColorByNodeIds(nodeIds)
-    this.updateCurGraphDict(leastCommonIngredients, nodeIds)
-    
 
-    // const nodesIds = Object.keys(graphDict);
-    // const nodesContainingIngredients = nodesIds && nodesIds.map(nodeId=>{
-    //   const ingredientsPerNode = graphDict[nodeId] && graphDict[nodeId].instruments_full_info;
-    //   if(!ingredientsPerNode){
-    //     return null;
-    //   }
-    //   const nodeActualIngredients = Object.keys(ingredientsPerNode);
-    //   const intersection = this.intersect(leastCommonIngredients,nodeActualIngredients);
-    //   if(!(intersection && intersection.length)){
-    //     return null;
-    //   }
-    //   return nodeId;
-    // }).filter(id=>id);
-    // return nodesContainingIngredients
+    this.addSpecialPaths(leastCommonIngredients, nodeIds)
+    // this.updateFillColorByNodeIds(nodeIds)  
+    // this.updateCurGraphDict(leastCommonIngredients, nodeIds) // TODO: uncomment
+    
   }
 
-  addSpecialPaths = (uncommonIngredients)=>{
+  addSpecialPaths = (uncommonIngredients, nodeIds)=>{
     console.log("add special paths")
     let fullString = "";
     fullString = this.state.dotSrc;
     //remove START_SPECIAL ... END_SPECIAL part from dot source:
+    const specialStartInx = fullString.search(new RegExp("\\n\\t#START_SPECIAL\\n"));
+    const specialEndInx = fullString.search(new RegExp("\\t#END_SPECIAL\\n\\n")); //length: 15 chars.
+    fullString = fullString.split(fullString.slice(specialStartInx, specialEndInx + 15)).join("")
 
     //add START_SPEACIAL ... END_SPECIAL to dot source:
-    const regex = new RegExp(`labelloc="t"`);
-    const startInx = fullString.search(regex)
-    console.log(startInx) 
-    // const srcStart = fullString.slice(0,startInx)
-    // let middle = "\n#START_SPECIAL\n"
-    // const srcEnd = fullString.slice(startInx)
+    const regex = new RegExp(`\\tlabelloc="t"`);
+    const startInx = fullString.search(regex) 
+    const srcStart = fullString.slice(0,startInx)
+    let middle = "\n\t#START_SPECIAL\n"
+    const srcEnd = fullString.slice(startInx)
 
-    // uncommonIngredients && uncommonIngredients.forEach(ingr=>{
-    //   console.log(graphIngrDict[ingr].paths);
-    //   uncommonIngredients && uncommonIngredients.forEach(ingr=>{
-    // })
-    
-    // this.setState({
-    //   dotSrc : fullString
-    // })
+    let lastNodeId = ""
+
+    uncommonIngredients && uncommonIngredients.forEach(ingr=>{
+      const paths = graphIngrDict[ingr].paths
+      // paths && paths.forEach(path=>{
+      if (paths){
+        const path = paths[0];
+        console.log(path)
+        path && path.forEach(nodeId=>{
+          // if node is hidden we want to add it and the edge for it in path:
+          if(graphDict[nodeId].hidden){
+            const nodeContent = graphDict[nodeId].summary_abbr
+            middle = middle + "\t" + `${nodeId}` + " [label=" + nodeContent + " style=filled fillcolor=white color=darkorange penwidth=2]\n"; // adding node
+            const edgeRegex = new RegExp(`${lastNodeId}` + "\s\-\>\s" + `${nodeId}`);
+            const startEdgeReg = middle.search(edgeRegex)
+            if (startEdgeReg === -1){
+              middle = middle + "\t" + `${lastNodeId}` + " -> " + `${nodeId}` + " [color=darkorange penwidth=2]\n"; // adding edge
+            }
+          }else{
+            if(lastNodeId && graphDict[lastNodeId].hidden){
+              const edgeRegex = new RegExp(`${lastNodeId}` + "\s\-\>\s" + `${nodeId}`);
+              const startEdgeReg = middle.search(edgeRegex)
+              if (startEdgeReg === -1){
+                middle = middle + "\t" + `${lastNodeId}` + " -> " + `${nodeId}` + " [color=darkorange penwidth=2]\n"; // adding edge
+              }
+            }
+          }
+          lastNodeId = nodeId;
+        })
+      }
+    })
+
+    middle = middle + "\t#END_SPECIAL\n\n"
+    fullString = srcStart.concat(middle.concat(srcEnd))
+    // console.log(fullString)
+
+    this.setState({
+      dotSrc : fullString
+    }, () => {
+      this.updateFillColorByNodeIds(nodeIds)
+      this.updateCurGraphDict(uncommonIngredients, nodeIds)
+     })
   }
 
   updateFillColorByNodeIds = (arrayOfIds)=>{
@@ -827,7 +860,9 @@ class Index extends React.Component {
     console.log(arrayOfIds)
     let fullString = "";
     fullString =  this.state.dotSrc;
-    fullString = fullString.split(" fillcolor=gold").join("");
+    console.log(fullString)
+
+    fullString = fullString.split(` fillcolor="#ffe4b5"`).join("");
 
     arrayOfIds && arrayOfIds.forEach(id=>{
       const regex = new RegExp("\\t"+`${id}`+"\\s\\[");
@@ -838,10 +873,10 @@ class Index extends React.Component {
           const a = fullString.substring(startIndex,closingIndex);
           let nodeString = ""
           // console.log(a) 
-          if(a.includes("fillcolor=gold")){
+          if(a.includes(`fillcolor="#ffe4b5"`)){
             return
           }else{
-            nodeString = a + " fillcolor=gold]";
+            nodeString = a + ` fillcolor="#ffe4b5"]`;
           }
           const firstPart = fullString.substring(0,startIndex);
           const lastPart = fullString.substring(closingIndex+1);
@@ -884,8 +919,10 @@ class Index extends React.Component {
         const obj = updatedDict[nodeId];
         if(obj && obj.directions){
           obj.directions.forEach(direction=>{
+            if(direction.constraint && direction.constraint === "UNCOMMON"){
               delete  direction.constraint;
-            })
+            }
+          })
         }
 
       })

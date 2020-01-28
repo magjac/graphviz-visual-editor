@@ -937,7 +937,7 @@ class Graph extends React.Component {
                 }
               return <Typography key={index} style={{
                 backgroundColor: color,
-                color: 'gray',
+                color: 'dimgray',
                 fontSize: 16,
                 // paragraph: true,
                 // variant: 'subtitle1',
