@@ -162,4 +162,51 @@ describe('Text editor', function() {
 
   })
 
+  it('A graph is not rendered after typing in the text editor until after the hold-off time specified in settings', function() {
+
+    cy.startCleanApplication();
+
+    cy.settingsButton().click();
+    cy.holdOffTimeInput().should('have.value', '0.2');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNode(1).should('not.exist')
+      let start;
+      cy.textEditorContent().type('{leftArrow}{enter}Alice').then(() => {
+        start = Date.now();
+      });
+      cy.wrap(graph0).findNode(1).then(node => {
+        const stop = Date.now();
+        const actualHoldOffTime = stop - start;
+        expect(actualHoldOffTime).to.be.at.least(100);
+        expect(actualHoldOffTime).to.be.lessThan(1200);
+      });
+    });
+
+    cy.settingsButton().click();
+    cy.holdOffTimeInput().should('have.value', '0.2');
+    cy.holdOffTimeInput().type('{backspace}{backspace}{backspace}5');
+    cy.holdOffTimeInput().should('have.value', '5');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.clearDotSource();
+    cy.insertDotSource('digraph {}');
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findNode(1).should('not.exist')
+      let start;
+      cy.textEditorContent().type('{leftArrow}{enter}Alice').then(() => {
+        start = Date.now();
+      });
+      cy.wrap(graph0).findNode(1).then(node => {
+        const stop = Date.now();
+        const actualHoldOffTime = stop - start;
+        expect(actualHoldOffTime).to.be.at.least(4900);
+        expect(actualHoldOffTime).to.be.lessThan(6000);
+      });
+    });
+
+  })
+
 })
