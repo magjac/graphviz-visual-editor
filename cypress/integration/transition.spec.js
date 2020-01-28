@@ -186,4 +186,49 @@ describe('Transitioning when DOT source changes', function() {
 
   })
 
+  it('The transition duration is set through the transition duration input field in settings', function() {
+    cy.startApplicationWithDotSource('digraph {Alice Bob}');
+
+    cy.settingsButton().click();
+    cy.transitionDurationInput().should('have.value', '1');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('not.exist')
+    });
+
+    cy.typeDotSource('{leftArrow}{leftArrow}{leftArrow}{leftArrow}-> ', {force: true});
+
+    let start;
+    cy.waitForBusy().then(() => {
+      start = Date.now();
+    });
+
+    cy.waitForNotBusy().then(() => {
+      const stop = Date.now();
+      const actualTransitionDuration = stop - start;
+      expect(actualTransitionDuration).to.be.at.least(1000);
+      expect(actualTransitionDuration).to.be.lessThan(2000);
+    });
+
+    cy.settingsButton().click();
+    cy.transitionDurationInput().type('{backspace}5');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.typeDotSource('{leftArrow}{leftArrow}{leftArrow}{leftArrow}{backspace}{backspace}{backspace}', {force: true});
+
+    cy.waitForBusy().then(() => {
+      start = Date.now();
+    });
+
+    cy.waitForNotBusy().then(() => {
+      const stop = Date.now();
+      const actualTransitionDuration = stop - start;
+      expect(actualTransitionDuration).to.be.at.least(5000);
+      expect(actualTransitionDuration).to.be.lessThan(6000);
+    });
+
+  })
+
 })
