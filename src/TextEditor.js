@@ -109,6 +109,8 @@ class TextEditor extends React.Component {
     return (
       <div ref={div => this.div = div}>
         <AceEditor
+          // FIXME: Remove workaround when https://github.com/securingsincity/react-ace/issues/767 is fixed
+          key={this.props.holdOff}
           mode="dot"
           theme="github"
           fontSize={this.props.fontSize + 'px'}
