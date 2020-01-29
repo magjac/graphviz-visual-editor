@@ -1,8 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AceEditor from 'react-ace';
-import 'brace/mode/dot';
-import 'brace/theme/github';
+import "ace-builds/src-noconflict/mode-dot";
+import "ace-builds/src-noconflict/theme-github";
 import IconButton from '@material-ui/core/IconButton';
 import ErrorOutline from '@material-ui/icons/ErrorOutline';
 
