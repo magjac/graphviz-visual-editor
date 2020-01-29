@@ -26,6 +26,7 @@ class TextEditor extends React.Component {
   }
 
   handleChange = (value, event) => {
+    console.log('handleChange');
     const hasUndo = this.editor.getSession().getUndoManager().hasUndo();
     const hasRedo = this.editor.getSession().getUndoManager().hasRedo();
     const undoRedoState = {hasUndo, hasRedo};
@@ -106,6 +107,7 @@ class TextEditor extends React.Component {
         scrollbarWidth = scrollbarInnerDiv.clientWidth - 5;
       }
     }
+    console.log('debounceChangePeriod =', this.props.holdOff * 1000);
     return (
       <div ref={div => this.div = div}>
         <AceEditor
