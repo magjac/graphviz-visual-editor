@@ -235,4 +235,26 @@ describe('Text editor', function() {
 
   })
 
+  it('The text editor uses font size specified in settings', function() {
+
+    cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
+
+    cy.settingsButton().click();
+    cy.fontSizeInput().should('have.value', '12');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.textEditorContent().should('have.text', 'digraph {Alice -> Bob}');
+    cy.textEditor().should('have.css', 'font-size', '12px');
+
+    cy.settingsButton().click();
+    cy.fontSizeInput().type('{backspace}8');
+    cy.fontSizeInput().should('have.value', '18');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.textEditorContent().should('have.text', 'digraph {Alice -> Bob}');
+    cy.textEditor().should('have.css', 'font-size', '18px');
+
+
+  })
+
 })

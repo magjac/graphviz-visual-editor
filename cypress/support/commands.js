@@ -399,6 +399,10 @@ Cypress.Commands.add("shapeTweenSwitch", () => {
   return cy.settingsDialog().find('#shape-tween-switch');
 });
 
+Cypress.Commands.add("fontSizeInput", () => {
+  return cy.settingsDialog().find('#font-size');
+});
+
 Cypress.Commands.add("tabSizeInput", () => {
   return cy.settingsDialog().find('#tab-size');
 });
