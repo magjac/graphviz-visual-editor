@@ -209,4 +209,30 @@ describe('Text editor', function() {
 
   })
 
+  it('The text editor uses tab size specified in settings', function() {
+
+    cy.startCleanApplication();
+
+    cy.settingsButton().click();
+    cy.tabSizeInput().should('have.value', '4');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.textEditorContent().type('{leftArrow}{enter}Alice{enter}Bob');
+
+    cy.textEditorContent().should('have.text', 'digraph {    Alice    Bob}');
+
+    cy.settingsButton().click();
+    cy.tabSizeInput().type('{backspace}2');
+    cy.tabSizeInput().should('have.value', '2');
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.clearDotSource();
+    cy.insertDotSource('digraph {}');
+
+    cy.textEditorContent().type('{leftArrow}{enter}Alice{enter}Bob');
+
+    cy.textEditorContent().should('have.text', 'digraph {  Alice  Bob}');
+
+  })
+
 })
