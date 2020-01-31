@@ -142,6 +142,123 @@ describe('Transitioning when DOT source changes', function() {
 
   })
 
+  it('Renders a new graph with absolute path tweening precision specified in settings', function() {
+    localStorage.setItem('fitGraph', true);
+    cy.startApplicationWithDotSource('digraph {\n    edge [minlen=5]\n    Alice -> Bob\n    Alice -> Charlie\n}');
+
+    cy.settingsButton().click();
+    cy.tweenPrecisionRadioButtonAbsolute().click();
+    cy.tweenPrecisionRadioButtonAbsolute().should('be.checked');
+    cy.tweenPrecisionRadioButtonRelative().should('not.be.checked');
+    cy.tweenPrecisionInput().should('have.value', '1');
+    cy.tweenPrecisionInput().type('{backspace}50{del}');
+    cy.tweenPrecisionInput().should('have.value', '50');
+    cy.tweenPrecisionInputAdornment().should('have.text', ' points ');
+
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob')
+        .shouldHaveShape('path')
+        .find('> path')
+        .then(path => {
+          expect(path.attr('d').split(',').length).to.equal(11)
+        });
+    });
+
+    cy.typeDotSource('{leftArrow}{leftArrow}\nCharlie -> Bob', {force: true});
+
+    cy.waitForBusy();
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob')
+        .shouldHaveShape('path')
+        .find('> path')
+        .should(path => {
+          expect(path.attr('d').split(',').length).to.not.equal(11)
+        })
+        .then(path => {
+          expect(path.attr('d').split(',').length).to.equal(10);
+        });
+    });
+
+    cy.waitForNotBusy();
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob')
+        .shouldHaveShape('path')
+        .find('> path')
+        .should(path => {
+          expect(path.attr('d').split(',').length).to.equal(11)
+        })
+    });
+
+  });
+
+  it('Renders a new graph with relative path tweening precision specified in settings', function() {
+    localStorage.setItem('fitGraph', true);
+    cy.startApplicationWithDotSource('digraph {\n    edge [minlen=5]\n    Alice -> Bob\n    Alice -> Charlie\n}');
+
+    cy.settingsButton().click();
+    cy.tweenPrecisionRadioButtonAbsolute().should('not.be.checked');
+    cy.tweenPrecisionRadioButtonRelative().should('be.checked');
+    cy.tweenPrecisionInput().should('have.value', '1');
+    cy.tweenPrecisionInput().type('{backspace}50{del}');
+    cy.tweenPrecisionInput().should('have.value', '50');
+    cy.tweenPrecisionInputAdornment().should('have.text', ' % ');
+
+    cy.get('body').type('{esc}', { release: false });
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob')
+        .shouldHaveShape('path')
+        .find('> path')
+        .then(path => {
+          expect(path.attr('d').split(',').length).to.equal(11)
+        });
+    });
+
+    cy.typeDotSource('{leftArrow}{leftArrow}\nCharlie -> Bob', {force: true});
+
+    cy.waitForBusy();
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob')
+        .shouldHaveShape('path')
+        .find('> path')
+        .should(path => {
+          expect(path.attr('d').split(',').length).to.not.equal(11)
+        })
+        .then(path => {
+          expect(path.attr('d').split(',').length).to.equal(4);
+        });
+    });
+
+    cy.waitForNotBusy();
+
+    cy.canvasGraph().then(graph0 => {
+      cy.wrap(graph0).findEdge(1)
+        .should('exist')
+        .shouldHaveName('Alice->Bob')
+        .shouldHaveShape('path')
+        .find('> path')
+        .should(path => {
+          expect(path.attr('d').split(',').length).to.equal(11)
+        })
+    });
+
+  });
+
   it('Renders a new graph without path tweening when disabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 

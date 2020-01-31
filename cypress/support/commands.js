@@ -399,6 +399,30 @@ Cypress.Commands.add("shapeTweenSwitch", () => {
   return cy.settingsDialog().find('#shape-tween-switch');
 });
 
+Cypress.Commands.add("tweenPrecisionForm", () => {
+  return cy.settingsDialog().find('#tween-precision-form');
+});
+
+Cypress.Commands.add("tweenPrecisionRadioGroup", () => {
+  return cy.tweenPrecisionForm().find('#tween-precision-radio-group');
+});
+
+Cypress.Commands.add("tweenPrecisionRadioButtonAbsolute", () => {
+  return cy.tweenPrecisionRadioGroup().find('#absolute');
+});
+
+Cypress.Commands.add("tweenPrecisionRadioButtonRelative", () => {
+  return cy.tweenPrecisionRadioGroup().find('#relative');
+});
+
+Cypress.Commands.add("tweenPrecisionInput", () => {
+  return cy.tweenPrecisionForm().find('#tween-precision-input');
+});
+
+Cypress.Commands.add("tweenPrecisionInputAdornment", () => {
+  return cy.tweenPrecisionForm().find('#tween-precision-input-adornment');
+});
+
 Cypress.Commands.add("fontSizeInput", () => {
   return cy.settingsDialog().find('#font-size');
 });
