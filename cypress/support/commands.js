@@ -183,6 +183,10 @@ Cypress.Commands.add("openFromBrowserDialog", () => {
   return cy.get('#open-from-browser-dialog');
 });
 
+Cypress.Commands.add("graphTableHeader", {prevSubject: 'optional'}, (subject, name) => {
+  return (subject ? cy.wrap(subject) : cy.openFromBrowserDialog()).find('thead > tr > th > #' + name);
+});
+
 Cypress.Commands.add("savedGraphs", {prevSubject: 'optional'}, (subject) => {
   return (subject ? cy.wrap(subject) : cy.openFromBrowserDialog()).find('tbody').find('tr');
 });
