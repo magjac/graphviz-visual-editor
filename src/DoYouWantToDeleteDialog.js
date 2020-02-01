@@ -27,10 +27,6 @@ class DoYouWantToDeleteDialog extends React.Component {
     this.props.onClose();
   };
 
-  handleChange = (event) => {
-    this.name = event.target.value;
-  };
-
   handleDelete = (event) => {
     const askForConfirmationIfExist = false;
     this.props.onDelete(this.props.name, askForConfirmationIfExist);
