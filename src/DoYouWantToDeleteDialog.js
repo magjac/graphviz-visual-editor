@@ -58,7 +58,7 @@ class DoYouWantToDeleteDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="secondary">
+            <Button onClick={this.props.onClose} color="secondary" id="cancel">
               Cancel
             </Button>
             <Button onClick={this.handleDelete} color="secondary" id ="delete">

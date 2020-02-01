@@ -223,6 +223,10 @@ Cypress.Commands.add("deleteGraphDeleteButton", () => {
   return cy.deleteGraphDialog().find('#delete');
 });
 
+Cypress.Commands.add("deleteGraphCancelButton", () => {
+  return cy.deleteGraphDialog().find('#cancel');
+});
+
 Cypress.Commands.add("deleteGraphDialog", (index) => {
   return cy.get('#delete-graph-dialog');
 });

@@ -226,6 +226,12 @@ describe('Browser save and open', function() {
 
     cy.deleteGraphDialog().should('exist');
 
+    cy.deleteGraphCancelButton().click();
+
+    cy.deleteGraphDialog().should('not.exist');
+
+    cy.savedGraphDeleteButton(1).click();
+
     cy.deleteGraphDeleteButton().click();
 
     cy.deleteGraphDialog().should('not.exist');
