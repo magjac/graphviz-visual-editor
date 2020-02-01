@@ -57,7 +57,7 @@ class DoYouWantToReplaceItDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="secondary">
+            <Button onClick={this.handleClose} color="secondary" id="cancel">
               Cancel
             </Button>
             <Button onClick={this.handleReplace} color="secondary" id="replace">
