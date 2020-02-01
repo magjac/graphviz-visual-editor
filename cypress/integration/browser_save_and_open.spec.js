@@ -402,6 +402,14 @@ describe('Browser save and open', function() {
 
     cy.replaceGraphDialog().should('exist');
 
+    cy.replaceGraphCancelButton().click();
+
+    cy.replaceGraphDialog().should('not.exist');
+
+    cy.saveToBrowserSaveButton().click()
+
+    cy.replaceGraphDialog().should('exist');
+
     cy.replaceGraphReplaceButton().click();
 
     cy.saveToBrowserDialog().should('not.exist');

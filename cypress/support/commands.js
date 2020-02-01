@@ -135,6 +135,10 @@ Cypress.Commands.add("replaceGraphDialog", () => {
   return cy.get('#replace-graph-dialog');
 });
 
+Cypress.Commands.add("replaceGraphCancelButton", () => {
+  return cy.replaceGraphDialog().find('#cancel');
+});
+
 Cypress.Commands.add("replaceGraphReplaceButton", () => {
   return cy.replaceGraphDialog().find('#replace');
 });
