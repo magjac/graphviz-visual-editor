@@ -183,28 +183,28 @@ Cypress.Commands.add("openFromBrowserDialog", () => {
   return cy.get('#open-from-browser-dialog');
 });
 
-Cypress.Commands.add("savedGraphs", () => {
-  return cy.openFromBrowserDialog().find('tbody').find('tr');
+Cypress.Commands.add("savedGraphs", {prevSubject: 'optional'}, (subject) => {
+  return (subject ? cy.wrap(subject) : cy.openFromBrowserDialog()).find('tbody').find('tr');
 });
 
-Cypress.Commands.add("savedGraph", (index) => {
-  return cy.savedGraphs().eq(index);
+Cypress.Commands.add("savedGraph", {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraphs()).eq(index);
 });
 
-Cypress.Commands.add("savedGraphName", (index) => {
-  return cy.savedGraphs().eq(index).find('th');
+Cypress.Commands.add("savedGraphName",  {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraph(index)).find('th');
 });
 
-Cypress.Commands.add("savedGraphDotSource", (index) => {
-  return cy.savedGraphs().eq(index).find('td').eq(0);
+Cypress.Commands.add("savedGraphDotSource", {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraph(index)).find('td').eq(0);
 });
 
-Cypress.Commands.add("savedGraphTime", (index) => {
-  return cy.savedGraphs().eq(index).find('td').eq(1);
+Cypress.Commands.add("savedGraphTime", {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraph(index)).find('td').eq(1);
 });
 
-Cypress.Commands.add("savedGraphPreview", (index) => {
-  return cy.savedGraphs().eq(index).find('td').eq(2);
+Cypress.Commands.add("savedGraphPreview", {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraph(index)).find('td').eq(2);
 });
 
 Cypress.Commands.add("savedGraphDeleteButton", (index) => {
