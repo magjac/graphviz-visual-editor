@@ -315,6 +315,46 @@ describe('Browser save and open', function() {
 
   })
 
+  it('The open from browser dialog shows a pop-up with a larger preview of the stored graph when the small graph preview is hovered.', function() {
+    cy.startApplication();
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 1)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'Untitled Graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice -> Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().then(savedGraphPreview => {
+            cy.wrap(savedGraphPreview)
+              .should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n')
+              .savedGraphPreviewGraph().trigger('mouseenter');
+            cy.wrap(savedGraphPreview)
+              .savedGraphPreviewPopUp().should('exist');
+            cy.wrap(savedGraphPreview)
+              .savedGraphPreviewGraph().trigger('mouseleave');
+            cy.wrap(savedGraphPreview)
+              .savedGraphPreviewPopUp().should('not.exist');
+          });
+        });
+        cy.openGraphCancelButton().click();
+      });
+
+  })
+
   it('A graph saved in browser local storage is deleted when the delete icon is clicked', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');

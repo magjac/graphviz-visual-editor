@@ -211,6 +211,14 @@ Cypress.Commands.add("savedGraphPreview", {prevSubject: 'optional'}, (subject, i
   return (subject ? cy.wrap(subject) : cy.savedGraph(index)).find('td').eq(2);
 });
 
+Cypress.Commands.add("savedGraphPreviewGraph", {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraphPreview(index)).find('#svg-wrapper > svg > #graph0');
+});
+
+Cypress.Commands.add("savedGraphPreviewPopUp", {prevSubject: 'optional'}, (subject, index) => {
+  return (subject ? cy.wrap(subject) : cy.savedGraphPreview(index)).find('#preview-pop-up');
+});
+
 Cypress.Commands.add("savedGraphDeleteButton", (index) => {
   return cy.savedGraphs().eq(index).find('td').eq(3).find('#delete');
 });
