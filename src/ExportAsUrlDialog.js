@@ -97,7 +97,7 @@ class ExportAsUrlDialog extends React.Component {
             </Button>
           </DialogContent>
           <DialogActions>
-            <Button id="cancel" onClick={this.props.onClose} color="secondary">
+            <Button id="cancel" onClick={this.handleClose} color="secondary">
               Cancel
             </Button>
             <Button id="open-link" onClick={this.handleOpen} color="secondary">
