@@ -747,6 +747,60 @@ describe('Insertion of nodes into the graph', function() {
     });
   })
 
+  it('Inserts a node with an empty color if color is enabled, but no color is selected', function() {
+    cy.startCleanApplication();
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+    cy.toolbarButton('Node format').click();
+    cy.colorSwitch().click();
+    cy.toolbarButton('Node format').click();
+
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+
+    cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]}');
+
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.node(3).shouldHaveName('n2');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(2).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(3).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+
+    cy.nodes().should('have.length', 3);
+    cy.edges().should('have.length', 1);
+
+    cy.toolbarButton('Node format').click();
+    cy.colorSwitch().click();
+    cy.toolbarButton('Node format').click();
+
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+
+    cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]    n3}');
+
+  })
+
   it('Default node color is seleced from the color picker in the node format drawer', function() {
     localStorage.setItem('engine', 'circo');
     cy.startCleanApplication();
