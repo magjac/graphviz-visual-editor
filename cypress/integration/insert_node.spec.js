@@ -264,6 +264,60 @@ describe('Insertion of nodes into the graph', function() {
     cy.edges().should('have.length', 0);
   })
 
+  it('Inserts a node with an empty style if style is enabled, but no style is selected', function() {
+    cy.startCleanApplication();
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+    cy.toolbarButton('Node format').click();
+    cy.styleSwitch().click();
+    cy.toolbarButton('Node format').click();
+
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+
+    cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]}');
+
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.node(3).shouldHaveName('n2');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(2).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(3).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+
+    cy.nodes().should('have.length', 3);
+    cy.edges().should('have.length', 1);
+
+    cy.toolbarButton('Node format').click();
+    cy.styleSwitch().click();
+    cy.toolbarButton('Node format').click();
+
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+
+    cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]    n3}');
+
+  })
+
   it('Default node style is seleced from one of the styles in the node format drawer', function() {
     cy.startCleanApplication();
     cy.settingsButton().click();
