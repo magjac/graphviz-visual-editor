@@ -942,4 +942,86 @@ describe('Browser save and open', function() {
 
   })
 
+  it('A DOT source that is imported from the dot parameter in the URL creates a new graph in browser local storage if not equal to any existing DOT source', function() {
+    cy.startApplicationWithNamedDotSource('digraph {Alice}', 'My first graph');
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 1)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My first graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n');
+        });
+        cy.openGraphCancelButton().click();
+      });
+
+    cy.saveAsButton().click();
+    cy.saveToBrowserDialog().should('exist');
+    cy.saveToBrowserNameInput().type('My second graph');
+    cy.saveToBrowserSaveButton().click()
+    cy.saveToBrowserDialog().should('not.exist');
+
+    cy.clearAndRenderDotSource('digraph {Bob}');
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 2)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My second graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nBob\n\nBob\n\n\n');
+          return cy.wrap(savedGraphs);
+        });
+        cy.wrap(savedGraphs).savedGraph(1).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My first graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n');
+        });
+        cy.openGraphCancelButton().click();
+      });
+
+    cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
+    cy.waitForTransition();
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 3)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'Untitled Graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice -> Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+          return cy.wrap(savedGraphs);
+        });
+        cy.wrap(savedGraphs).savedGraph(1).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My second graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nBob\n\nBob\n\n\n');
+          return cy.wrap(savedGraphs);
+        });
+        cy.wrap(savedGraphs).savedGraph(2).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My first graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n');
+        });
+        cy.openGraphCancelButton().click();
+      });
+
+  })
+
 })
