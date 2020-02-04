@@ -45,7 +45,9 @@ class ColorPicker extends React.Component {
   };
 
   handleChange = (color) => {
-    this.props.onChange(color.hex);
+    // Workaround for https://github.com/casesandberg/react-color/issues/655
+    const a = Math.round(color.rgb.a * 255);
+    this.props.onChange(color.hex + (a === 255 ? '' : Math.floor(a / 16).toString(16) + (a % 16).toString(16)));
   };
 
   render() {
