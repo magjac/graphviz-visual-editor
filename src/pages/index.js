@@ -428,12 +428,6 @@ class Index extends React.Component {
     });
   }
 
-  handleNodeShapeClick = (shape) => {
-    let x0 = null;
-    let y0 = null;
-    this.insertNode(x0, y0, {shape: shape});
-  }
-
   handleNodeStyleChange = (style) => {
     this.setPersistentState(state => ({
       defaultNodeAttributes: {
