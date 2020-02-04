@@ -1024,4 +1024,51 @@ describe('Browser save and open', function() {
 
   })
 
+  it('A DOT source that is imported from the dot parameter in the URL does not create a new graph if equal to the current DOT source', function() {
+    cy.startApplicationWithNamedDotSource('digraph {Alice -> Bob}', 'My graph');
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 1)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice -> Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+        });
+        cy.openGraphCancelButton().click();
+      });
+
+    cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 1)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice -> Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a few seconds ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+        });
+        cy.openGraphCancelButton().click();
+      });
+
+  })
+
 })

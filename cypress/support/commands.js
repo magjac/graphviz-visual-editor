@@ -15,6 +15,11 @@ Cypress.Commands.add("startApplicationWithDotSource", (dotSrc, options) => {
   cy.canvasGraph().should('exist');
 });
 
+Cypress.Commands.add("startApplicationWithNamedDotSource", (dotSrc, name, options) => {
+  localStorage.setItem('name', name);
+  cy.startApplicationWithDotSource(dotSrc, options);
+});
+
 Cypress.Commands.add("textEditorWrapper", () => {
   return cy.get('#text-editor-wrapper');
 });
