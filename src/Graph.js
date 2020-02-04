@@ -179,7 +179,6 @@ class Graph extends React.Component {
     this.dotGraph = this.prelDotGraph;
     this.addEventHandlers();
     this.rendering = false;
-    this.setState({busy: false});
     if (!this.renderGraphReady) {
       this.renderGraphReady = true;
       this.setZoomScale(1, true);
@@ -187,6 +186,7 @@ class Graph extends React.Component {
         .transition(() => d3_transition().duration(this.props.transitionDuration * 1000));
       this.props.onInitialized();
     }
+    this.setState({busy: false});
     if (this.pendingUpdate) {
       this.pendingUpdate = false;
       this.renderGraph();
