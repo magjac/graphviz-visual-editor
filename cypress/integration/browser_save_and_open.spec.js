@@ -684,7 +684,7 @@ describe('Browser save and open', function() {
     cy.savedGraphPreview(1).should('have.text', '\n\n%0\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
   })
 
-  it('Saving a graph to browser local storge under a name that already exist, opens a dialog asking the user for confirmation and then writes over that graph', function() {
+  it('Saving a graph to browser local storage under a name that already exist, opens a dialog asking the user for confirmation and then writes over that graph', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
