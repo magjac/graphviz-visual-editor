@@ -1,6 +1,6 @@
 describe('Browser save and open', function() {
 
-  it('The DOT source is exported as a URL to  the application genereated through the menu alternative Export As URL', function() {
+  it('The DOT source is exported as a URL to the application genereated through the menu alternative Export As URL', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
