@@ -966,6 +966,10 @@ describe('Browser save and open', function() {
     cy.saveToBrowserSaveButton().click()
     cy.saveToBrowserDialog().should('not.exist');
 
+    // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
+    cy.clearDotSource();
+    cy.canvasGraph().should('not.exist');
+
     cy.clearAndRenderDotSource('digraph {Bob}');
 
     cy.openButton().click();
@@ -1094,6 +1098,10 @@ describe('Browser save and open', function() {
     cy.saveToBrowserNameInput().type('My second graph');
     cy.saveToBrowserSaveButton().click()
     cy.saveToBrowserDialog().should('not.exist');
+
+    // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
+    cy.clearDotSource();
+    cy.canvasGraph().should('not.exist');
 
     cy.clearAndRenderDotSource('digraph {Alice}');
 
