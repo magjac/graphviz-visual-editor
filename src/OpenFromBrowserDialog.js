@@ -85,6 +85,7 @@ class EnhancedTableHead extends React.Component {
                   enterDelay={300}
                 >
                   <TableSortLabel
+                    id={row.id}
                     active={orderBy === row.id}
                     direction={order}
                     onClick={this.createSortHandler(row.id)}
@@ -204,6 +205,7 @@ class OpenFromBrowserDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="open-from-browser-dialog"
           maxWidth={false}
           className={classes.root}
           open
@@ -262,6 +264,7 @@ class OpenFromBrowserDialog extends React.Component {
                       </TableCell>
                       <TableCell>
                         <IconButton
+                          id="delete"
                           aria-label="Delete"
                           onClick={this.handleDelete(name)}
                         >
@@ -275,10 +278,10 @@ class OpenFromBrowserDialog extends React.Component {
             </Table>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="secondary">
+            <Button onClick={this.props.onClose} color="secondary" id="cancel">
               Cancel
             </Button>
-            <Button onClick={this.handleOpen} color="secondary">
+            <Button onClick={this.handleOpen} color="secondary" id="open">
               Open
             </Button>
           </DialogActions>

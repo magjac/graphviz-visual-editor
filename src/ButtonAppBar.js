@@ -106,8 +106,9 @@ function ButtonAppBar(props) {
       <AppBar
         position="static"
       >
-        <Toolbar>
+        <Toolbar id="toolbar">
           <IconButton
+            id="menu"
             className={classes.menuButton}
             color="inherit"
             aria-label="Menu"
@@ -116,6 +117,7 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <IconButton
+            id="new"
             className={classes.new}
             color="inherit"
             aria-label="New"
@@ -124,6 +126,7 @@ function ButtonAppBar(props) {
             <AddIcon />
           </IconButton>
           <IconButton
+            id="open"
             className={classes.openInBrowserButton}
             color="inherit"
             aria-label="OpenInBrowser"
@@ -132,6 +135,7 @@ function ButtonAppBar(props) {
             <OpenInBrowserIcon />
           </IconButton>
           <IconButton
+            id="save-as"
             className={classes.SaveAltButton}
             color="inherit"
             aria-label="SaveAlt"
@@ -140,6 +144,7 @@ function ButtonAppBar(props) {
             <SaveAltIcon />
           </IconButton>
           <IconButton
+            id="undo"
             className={classes.undoButton}
             color="inherit"
             disabled={!props.hasUndo}
@@ -149,6 +154,7 @@ function ButtonAppBar(props) {
             <UndoIcon />
           </IconButton>
           <IconButton
+            id="redo"
             className={classes.redoButton}
             color="inherit"
             disabled={!props.hasRedo}
@@ -165,6 +171,7 @@ function ButtonAppBar(props) {
             Graphviz Visual Editor
           </Typography>
           <IconButton
+            id="zoom-in"
             className={classes.zoomInButton}
             color="inherit"
             aria-label="ZoomIn"
@@ -173,6 +180,7 @@ function ButtonAppBar(props) {
             <ZoomInIcon />
           </IconButton>
           <IconButton
+            id="zoom-out"
             className={classes.zoomOutButton}
             color="inherit"
             aria-label="ZoomOut"
@@ -181,6 +189,7 @@ function ButtonAppBar(props) {
             <ZoomOutIcon />
           </IconButton>
           <IconButton
+            id="zoom-out-map"
             className={classes.zoomOutMapButton}
             color="inherit"
             aria-label="ZoomOutMap"
@@ -189,6 +198,7 @@ function ButtonAppBar(props) {
             <ZoomOutMapIcon />
           </IconButton>
           <Button
+            id="zoom-reset"
             color="inherit"
             onClick={handleZoomResetButtonClick}
           >
@@ -213,6 +223,7 @@ function ButtonAppBar(props) {
             Edge format
           </Button>
           <IconButton
+            id="settings"
             color="inherit"
             aria-label="Settings"
             onClick={handleSettingsButtonClick}
@@ -220,6 +231,7 @@ function ButtonAppBar(props) {
             <SettingsIcon />
           </IconButton>
           <a
+            id="github"
             className={classes.gitHubLink}
             href="https://github.com/magjac/graphviz-visual-editor"
             target="_blank"
@@ -234,7 +246,7 @@ function ButtonAppBar(props) {
               />
             </IconButton>
           </a>
-          <IconButton
+          <IconButton id="help"
             color="inherit"
             aria-label="Help"
             onClick={handleHelpButtonClick}

@@ -184,6 +184,7 @@ class FormatDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <Drawer
+          id="format-drawer"
           variant="persistent"
           anchor='left'
           open
@@ -196,7 +197,7 @@ class FormatDrawer extends React.Component {
             <DialogTitle id="form-dialog-title">
               Default {this.props.type} attributes
             </DialogTitle>
-            <IconButton onClick={this.handleDrawerClose}>
+            <IconButton id="close-button" onClick={this.handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>
@@ -207,6 +208,7 @@ class FormatDrawer extends React.Component {
                 className={classes.styleSwitch}
                 control={
                   <Switch
+                    id="style-switch"
                     checked={currentStyle.size !== 0}
                     onChange={this.handleStyleSwitchChange}
                   />
@@ -215,12 +217,13 @@ class FormatDrawer extends React.Component {
                 labelPlacement="start"
               />
             </FormGroup>
-            <FormGroup row>
+            <FormGroup row id="styles">
               {styles.map((style) =>
                 <FormControlLabel
                 className={classes.styleCheckbox}
                   control={
                     <Checkbox
+                      id={style}
                       checked={currentStyle.has(style)}
                     onChange={this.handleStyleChange(style)}
                     value={style}
@@ -232,12 +235,13 @@ class FormatDrawer extends React.Component {
               )}
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl}>
+          <FormControl className={classes.colorFormControl} id="color-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}
                 control={
                   <Switch
+                    id="color-switch"
                     checked={this.props.defaultAttributes.color != null}
                     onChange={this.handleColorSwitchChange}
                   />
@@ -248,6 +252,7 @@ class FormatDrawer extends React.Component {
             </FormGroup>
             <FormGroup row>
               <ColorPicker
+                id="color-picker"
                 open={this.state.colorColorPickerIsOpen}
                 setOpen={this.setColorColorPickerOpen}
                 invert={true}
@@ -256,12 +261,13 @@ class FormatDrawer extends React.Component {
               />
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl}>
+          <FormControl className={classes.colorFormControl} id="fillcolor-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}
                 control={
                   <Switch
+                    id="fillcolor-switch"
                     checked={this.props.defaultAttributes.fillcolor != null}
                     onChange={this.handleFillColorSwitchChange}
                   />
@@ -272,6 +278,7 @@ class FormatDrawer extends React.Component {
             </FormGroup>
             <FormGroup row>
               <ColorPicker
+                id="fillcolor-picker"
                 open={this.state.fillColorColorPickerIsOpen}
                 setOpen={this.setFillColorColorPickerOpen}
                 color={this.props.defaultAttributes.fillcolor || ''}

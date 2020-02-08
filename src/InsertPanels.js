@@ -158,7 +158,7 @@ class InsertPanels extends React.Component {
     const { expanded } = this.state;
 
     return (
-      <div className={classes.root} onClick={this.handleClick}>
+      <div id="insert-panels" className={classes.root} onClick={this.handleClick}>
         {nodeShapeCategories.map((nodeShapeCategory) =>
           <ExpansionPanel
             key={nodeShapeCategory.name}
@@ -171,6 +171,7 @@ class InsertPanels extends React.Component {
             <ExpansionPanelDetails className={classes.columns}>
               {nodeShapeCategory.shapes.map((shape) =>
                 <div
+                  id={shape}
                   dangerouslySetInnerHTML={{__html: shapes[shape]}}
                   key={shape}
                   className={classes.column}

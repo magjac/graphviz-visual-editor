@@ -84,6 +84,7 @@ class Index extends React.Component {
       fontSize: localStorage.getItem('fontSize') || 12,
       tabSize: +localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
+      test: JSON.parse(localStorage.getItem('test')) || {},
     };
   }
 
@@ -425,12 +426,6 @@ class Index extends React.Component {
     this.setPersistentState({
       tabSize: tabSize,
     });
-  }
-
-  handleNodeShapeClick = (shape) => {
-    let x0 = null;
-    let y0 = null;
-    this.insertNode(x0, y0, {shape: shape});
   }
 
   handleNodeStyleChange = (style) => {
@@ -857,6 +852,7 @@ class Index extends React.Component {
                 registerGetSvg={this.registerGetSvg}
                 onInitialized={this.handleGraphInitialized}
                 onError={this.handleError}
+                test={this.state.test}
               />
             </Paper>
           </Grid>

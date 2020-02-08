@@ -112,7 +112,7 @@ class Graph extends React.Component {
       this.renderGraphReady = false;
       return;
     }
-    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine) {
+    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine && this.props.fit === this.prevFit) {
       return;
     }
     if (this.rendering) {
@@ -134,7 +134,9 @@ class Graph extends React.Component {
     this.prevDotSrc = this.props.dotSrc;
     this.prevEngine = this.props.engine;
     try {
-      this.prelDotGraph = new DotGraph(this.props.dotSrc);
+      if (!this.props.test.disableDotParsing) {
+        this.prelDotGraph = new DotGraph(this.props.dotSrc);
+      }
       this.props.onError(null);
     }
     catch(error) {
@@ -177,7 +179,6 @@ class Graph extends React.Component {
     this.dotGraph = this.prelDotGraph;
     this.addEventHandlers();
     this.rendering = false;
-    this.setState({busy: false});
     if (!this.renderGraphReady) {
       this.renderGraphReady = true;
       this.setZoomScale(1, true);
@@ -185,6 +186,7 @@ class Graph extends React.Component {
         .transition(() => d3_transition().duration(this.props.transitionDuration * 1000));
       this.props.onInitialized();
     }
+    this.setState({busy: false});
     if (this.pendingUpdate) {
       this.pendingUpdate = false;
       this.renderGraph();
@@ -334,8 +336,7 @@ class Graph extends React.Component {
       this.deleteSelectedComponents.call(this);
     }
     else if (event.ctrlKey && event.key === 'a') {
-      let components = this.graph0.selectAll('.node,.edge');
-      this.selectComponents(components);
+      this.selectAllComponents();
     }
     else if (event.ctrlKey && event.key === 'A') {
       let components = this.graph0.selectAll('.edge');
@@ -547,6 +548,11 @@ class Graph extends React.Component {
     }
   }
 
+  selectAllComponents() {
+    let components = this.graph0.selectAll('.node,.edge');
+    this.selectComponents(components);
+  }
+
   selectComponents(components, extendSelection=false) {
     if (extendSelection) {
       this.selectedComponents = d3_selectAll(this.selectedComponents.nodes().concat(components.nodes()));
@@ -630,7 +636,7 @@ class Graph extends React.Component {
 
   getNextNodeId() {
     if (this.nodeIndex === null) {
-      this.nodeIndex = d3_selectAll('.node').size();
+      this.nodeIndex = d3_select('#canvas').selectAll('.node').size();
     } else {
       this.nodeIndex += 1;
     }
@@ -735,12 +741,6 @@ class Graph extends React.Component {
   };
 
   drawNodeWithDefaultAttributes(x0, y0, attributesToOverride={}) {
-    if (x0 == null || y0 == null) {
-      let node = this.graph0.node();
-      let bbox = node.getBBox();
-      x0 = x0 || bbox.x + bbox.width / 2;
-      y0 = y0 || bbox.y + bbox.height / 2;
-    }
     this.latestNodeAttributes = Object.assign({}, this.props.defaultNodeAttributes);
     Object.assign(this.latestNodeAttributes, attributesToOverride);
     this.drawnNodeName = this.getNextNodeId();
@@ -769,6 +769,7 @@ class Graph extends React.Component {
     return (
       <React.Fragment>
         <div
+          id="canvas"
           ref={div => this.div = d3_select(div)}
           onDragOver={this.handleNodeShapeDragOver}
           onDrop={this.handleNodeShapeDrop.bind(this)}

@@ -70,12 +70,14 @@ class SvgPreview extends React.Component {
     return (
       <React.Fragment>
         <div
+          id="svg-wrapper"
           ref={div => this.divThumbnail = div}
           dangerouslySetInnerHTML={{__html: this.props.svg}}
         >
         </div>
         {this.state.preview &&
           <Card
+            id="preview-pop-up"
             className={classes.card}
             raised
             style={{

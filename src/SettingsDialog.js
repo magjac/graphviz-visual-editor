@@ -141,6 +141,7 @@ class SettingsDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="settings-dialog"
           open
           onClose={this.handleClose}
           scroll={'paper'}
@@ -162,12 +163,14 @@ class SettingsDialog extends React.Component {
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="engine-simple">Engine</InputLabel>
               <Select
+                id="engine-selector"
                 value={this.props.engine}
                 onChange={this.handleEngineSelectChange}
                 input={<Input name="engine" id="engine-helper" />}
               >
                 {engines.map((engine) =>
                   <MenuItem
+                    id={engine}
                     key={engine}
                     value={engine}
                   >
@@ -188,6 +191,7 @@ class SettingsDialog extends React.Component {
                 className={classes.formControlLabel}
                 control={
                   <Switch
+                    id="fit-switch"
                     checked={this.props.fitGraph}
                     onChange={this.handleFitSwitchChange}
                   />
@@ -220,6 +224,7 @@ class SettingsDialog extends React.Component {
                 className={classes.formControlLabel}
                 control={
                   <Switch
+                    id="path-tween-switch"
                     checked={this.props.tweenPaths}
                     onChange={this.handleTweenPathsSwitchChange}
                   />
@@ -232,6 +237,7 @@ class SettingsDialog extends React.Component {
                 className={classes.formControlLabel}
                 control={
                   <Switch
+                    id="shape-tween-switch"
                     checked={this.props.tweenShapes}
                     onChange={this.handleTweenShapesSwitchChange}
                   />
@@ -239,9 +245,10 @@ class SettingsDialog extends React.Component {
                 label="Enable shape tweening during transitions"
               />
             </FormGroup>
-            <FormControl component="fieldset" className={classes.formControl}>
+            <FormControl id="tween-precision-form" component="fieldset" className={classes.formControl}>
               <FormLabel component="legend">Tweening precision</FormLabel>
               <RadioGroup
+                id="tween-precision-radio-group"
                 name="tweenPrecision"
                 className={classes.group}
                 value={tweenPrecisionType}
@@ -251,25 +258,25 @@ class SettingsDialog extends React.Component {
                   className={classes.formControlLabel}
                   value="absolute"
                   disabled={!enableTweenPrecisionSetting}
-                  control={<Radio />}
+                  control={<Radio id="absolute"/>}
                   label="Absolute"
                 />
                 <FormControlLabel
                   className={classes.formControlLabel}
                   value="relative"
                   disabled={!enableTweenPrecisionSetting}
-                  control={<Radio />}
+                  control={<Radio id="relative"/>}
                   label="Relative"
                 />
               </RadioGroup>
               <Input
                 className={tweenPrecisionInputClass}
-                id="tween-precision"
+                id="tween-precision-input"
                 type="number"
                 value={tweenPrecision}
                 disabled={!enableTweenPrecisionSetting}
                 onChange={this.handleTweenPrecisionChange}
-                endAdornment={<InputAdornment position="end"> {tweenPrecisionUnit} </InputAdornment>}
+                endAdornment={<InputAdornment id="tween-precision-input-adornment" position="end"> {tweenPrecisionUnit} </InputAdornment>}
                 inputProps={{
                   'aria-label': 'tweenPrecision',
                   min: tweenPrecisionStep,

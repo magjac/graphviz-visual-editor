@@ -107,7 +107,7 @@ class TextEditor extends React.Component {
       }
     }
     return (
-      <div ref={div => this.div = div}>
+      <div id="text-editor-wrapper" ref={div => this.div = div}>
         <AceEditor
           // FIXME: Remove workaround when https://github.com/securingsincity/react-ace/issues/767 is fixed
           key={this.props.holdOff}
@@ -120,7 +120,7 @@ class TextEditor extends React.Component {
           onLoad={this.handleLoad}
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
-          name="UNIQUE_ID_OF_DIV"
+          name="text-editor"
           value={this.props.dotSrc}
           // viewport height - app bar - 2 * padding
           height="calc(100vh - 64px - 2 * 12px)"
@@ -135,6 +135,7 @@ class TextEditor extends React.Component {
           markers={markers}
         />
         <IconButton
+          id="error-button"
           className={classes.errorButton}
           style={{
             left: `calc(${this.props.width} - 2 * 12px - 12px - ${scrollbarWidth}px`,

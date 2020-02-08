@@ -60,7 +60,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npx cypress run --browser=chrome --headless && yarn run codecov
+      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
 workflows:
   version: 2
   build-and-integration-test:

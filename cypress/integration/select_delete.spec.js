@@ -2,7 +2,7 @@ describe('Selection and deletion in graph', function() {
 
   it('Selects a node and deletes it and the edge connected to it', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -31,7 +31,7 @@ describe('Selection and deletion in graph', function() {
 
   it('Selects an edge and deletes it', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -61,7 +61,7 @@ describe('Selection and deletion in graph', function() {
 
   it('Selects a node, adds another node to the selection and deletes them and the connected edge', function() {
     cy.startApplication();
-    cy.clearAndRender('digraph {Alice -> Bob}');
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');

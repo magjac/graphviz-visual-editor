@@ -51,6 +51,7 @@ class ExportAsUrlDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="export-graph-as-url-dialog"
           className={classes.root}
           open
           onClose={this.handleClose}
@@ -84,6 +85,7 @@ class ExportAsUrlDialog extends React.Component {
               readOnly
             />
             <Button
+              id="copy"
               variant='text'
               size='medium'
               color="secondary"
@@ -95,10 +97,10 @@ class ExportAsUrlDialog extends React.Component {
             </Button>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="secondary">
+            <Button id="cancel" onClick={this.handleClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.handleOpen} color="secondary">
+            <Button id="open-link" onClick={this.handleOpen} color="secondary">
               Open link
             </Button>
           </DialogActions>

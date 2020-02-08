@@ -27,10 +27,6 @@ class DoYouWantToDeleteDialog extends React.Component {
     this.props.onClose();
   };
 
-  handleChange = (event) => {
-    this.name = event.target.value;
-  };
-
   handleDelete = (event) => {
     const askForConfirmationIfExist = false;
     this.props.onDelete(this.props.name, askForConfirmationIfExist);
@@ -41,6 +37,7 @@ class DoYouWantToDeleteDialog extends React.Component {
     return (
       <div>
         <Dialog
+          id="delete-graph-dialog"
           className={classes.root}
           open
           onClose={this.handleClose}
@@ -61,10 +58,10 @@ class DoYouWantToDeleteDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose} color="secondary">
+            <Button onClick={this.handleClose} color="secondary" id="cancel">
               Cancel
             </Button>
-            <Button onClick={this.handleDelete} color="secondary">
+            <Button onClick={this.handleDelete} color="secondary" id ="delete">
               Delete
             </Button>
           </DialogActions>
