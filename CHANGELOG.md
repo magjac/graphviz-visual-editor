@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1]
+### Fixed
+* Module not found: Can't resolve './DoYouWantToDeleteDialog'. #93
+* Stuck at "Starting the development server". #95
+* Exported URL to graph shows the graph correctly, but the new URL is wrong. #97
+* Characters are lost in the editor when typing fast. #99
+* Selection by dragging the canvas does not work in Firefox. #102
+* Ctrl- or Shift-click the canvas deselects already selected components. #107
+* Unselected components are not cleared in text editor. #108
+
 ## [0.6.0]
 ### Added
 * Export as URL. Generates a link to the application with the DOT source code as an URL parameter.
@@ -128,6 +138,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Mouse interactions
 
 [Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...HEAD
+[0.6.1]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.3.1...v0.4.0
