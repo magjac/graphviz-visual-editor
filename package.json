@@ -58,7 +58,7 @@
     "@cypress/instrument-cra": "^1.0.0",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
     "codecov": "^3.5.0",
-    "cypress": "^3.8.2",
+    "cypress": "^4.0.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.2",
     "istanbul-lib-coverage": "^3.0.0",
