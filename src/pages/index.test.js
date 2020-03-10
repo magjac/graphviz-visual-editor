@@ -4,6 +4,7 @@ import Index from './index';
 import polyfillElement from '../test-utils/polyfillElement';
 import polyfillSVGElement from '../test-utils/polyfillSVGElement';
 import polyfillXMLSerializer from '../test-utils/polyfillXMLSerializer';
+import polyfillFetch from '../test-utils/polyfillFetch';
 
 describe('<Index />', () => {
 
@@ -14,6 +15,7 @@ describe('<Index />', () => {
   polyfillElement(divProperties);
   polyfillSVGElement();
   polyfillXMLSerializer();
+  polyfillFetch();
 
   let mount;
 
@@ -26,41 +28,58 @@ describe('<Index />', () => {
     mount.cleanUp();
   });
 
-  it('mounts', () => {
+  it('mounts', (done) => {
     const wrapper = mount(<Index />);
-  });
-
-  it('state has default DOT source after mount', () => {
-    const wrapper = mount(<Index />);
-    const indexWrapper = wrapper.find('Index');
-    const index = indexWrapper.instance();
-    const expectedDotSrc = 'strict digraph {\n    a [shape="ellipse" style="filled" fillcolor="#1f77b4"]\n    b [shape="polygon" style="filled" fillcolor="#ff7f0e"]\n    a -> b [fillcolor="#a6cee3" color="#1f78b4"]\n}';
-    const actualDotSrc = index.state.dotSrc;
-    expect(actualDotSrc).toEqual(expectedDotSrc);
-  });
-
-  it('receives updated DOT source', () => {
-    const wrapper = mount(<Index />);
-    const indexWrapper = wrapper.find('Index');
-    const index = indexWrapper.instance();
-    const expectedDotSrc = 'digraph {a -> b}';
-    index.setState({dotSrc: expectedDotSrc});
-    const actualDotSrc = index.state.dotSrc;
-    expect(actualDotSrc).toEqual(expectedDotSrc);
-  });
-
-  it('renders updated SVG after receiving updated DOT source', () => {
-    const wrapper = mount(<Index />);
-    const indexWrapper = wrapper.find('Index');
-    const index = indexWrapper.instance();
-    const expectedDotSrc = 'digraph {a -> b}';
-    index.setState({dotSrc: expectedDotSrc});
     const graph = wrapper.find('Graph').instance();
-    const width = divProperties.clientWidth;
-    const height = divProperties.clientHeight;
-    const widthPt = width * 3 / 4;
-    const heightPt = height * 3 / 4;
-    const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    const graphviz = graph.graphviz;
+    graphviz.on('initEnd', () => {
+      done();
+    });
+  });
+
+  it('state has default DOT source after mount', (done) => {
+    const wrapper = mount(<Index />);
+    const indexWrapper = wrapper.find('Index');
+    const index = indexWrapper.instance();
+    const graph = wrapper.find('Graph').instance();
+    const graphviz = graph.graphviz;
+    graphviz.on('initEnd', () => {
+      const expectedDotSrc = 'strict digraph {\n    a [shape="ellipse" style="filled" fillcolor="#1f77b4"]\n    b [shape="polygon" style="filled" fillcolor="#ff7f0e"]\n    a -> b [fillcolor="#a6cee3" color="#1f78b4"]\n}';
+      const actualDotSrc = index.state.dotSrc;
+      expect(actualDotSrc).toEqual(expectedDotSrc);
+      done();
+    });
+  });
+
+  it('receives updated DOT source', (done) => {
+    const wrapper = mount(<Index />);
+    const indexWrapper = wrapper.find('Index');
+    const index = indexWrapper.instance();
+    const expectedDotSrc = 'digraph {a -> b}';
+    const graph = wrapper.find('Graph').instance();
+    const graphviz = graph.graphviz;
+    graphviz.on('initEnd', () => {
+      index.setState({dotSrc: expectedDotSrc});
+      const actualDotSrc = index.state.dotSrc;
+      expect(actualDotSrc).toEqual(expectedDotSrc);
+      done();
+    });
+  });
+
+  it('renders updated SVG after receiving updated DOT source', (done) => {
+    const wrapper = mount(<Index />);
+    const indexWrapper = wrapper.find('Index');
+    const index = indexWrapper.instance();
+    const expectedDotSrc = 'digraph {a -> b}';
+    const graph = wrapper.find('Graph').instance();
+    const graphviz = graph.graphviz;
+    graphviz.on('initEnd', () => {
+      index.setState({dotSrc: expectedDotSrc});
+      const width = divProperties.clientWidth;
+      const height = divProperties.clientHeight;
+      const widthPt = width * 3 / 4;
+      const heightPt = height * 3 / 4;
+      const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="translate(4,112) scale(1)">
 <title>%0</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
@@ -84,9 +103,11 @@ describe('<Index />', () => {
 </g>
 </g>
 </svg>`;
-    const actualSvg = graph.getSvg();
-    const actualSvgString = index.getSvgString();
-    expect(actualSvgString).toEqual(expectedSvgString);
+      const actualSvg = graph.getSvg();
+      const actualSvgString = index.getSvgString();
+      expect(actualSvgString).toEqual(expectedSvgString);
+      done();
+    });
   });
 
   it('transitions rendered SVG after receiving updated DOT source', (done) => {
@@ -96,11 +117,12 @@ describe('<Index />', () => {
     const graph = wrapper.find('Graph').instance();
     const graphviz = graph.graphviz;
     graphviz.fade(false); // FIXME: remove when style="opacity: 1" is removed by d3-graphviz
-    const width = divProperties.clientWidth;
-    const height = divProperties.clientHeight;
-    const widthPt = width * 3 / 4;
-    const heightPt = height * 3 / 4;
-    const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    graphviz.on('initEnd', () => {
+      const width = divProperties.clientWidth;
+      const height = divProperties.clientHeight;
+      const widthPt = width * 3 / 4;
+      const heightPt = height * 3 / 4;
+      const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="translate(4,112) scale(1)">
 <title>%0</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
@@ -124,20 +146,20 @@ describe('<Index />', () => {
 </g>
 </g>
 </svg>`;
-    const dotSrc = 'digraph {a -> b}';
-    index.setState({
-      dotSrc: dotSrc,
-      transitionDuration: 0,
-    });
-    const actualSvg = graph.getSvg();
-    const actualSvgString = index.getSvgString();
-    expect(actualSvgString).toEqual(expectedSvgString);
-    const dotSrc2 = 'digraph {a -> c}';
-    index.setState({dotSrc: dotSrc2});
-    graphviz.on('end', () => {
+      const dotSrc = 'digraph {a -> b}';
+      index.setState({
+        dotSrc: dotSrc,
+        transitionDuration: 0,
+      });
       const actualSvg = graph.getSvg();
       const actualSvgString = index.getSvgString();
-      const expectedSvgString2 = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      expect(actualSvgString).toEqual(expectedSvgString);
+      const dotSrc2 = 'digraph {a -> c}';
+      index.setState({dotSrc: dotSrc2});
+      graphviz.on('end', () => {
+        const actualSvg = graph.getSvg();
+        const actualSvgString = index.getSvgString();
+        const expectedSvgString2 = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="translate(4,112) scale(1)">
 <title>%0</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
@@ -161,25 +183,30 @@ describe('<Index />', () => {
 </g>
 </g>
 </svg>`;
-      expect(actualSvgString).toEqual(expectedSvgString2);
-      done();
+        expect(actualSvgString).toEqual(expectedSvgString2);
+        done();
+      });
     });
   });
 
-  it('selects all nodes and edges', () => {
+  it('selects all nodes and edges', (done) => {
     const wrapper = mount(<Index />);
     const indexWrapper = wrapper.find('Index');
     const index = indexWrapper.instance();
-    const expectedDotSrc = 'digraph {a [shape=box]; b [shape=circle]; a -> b}';
-    index.setState({dotSrc: expectedDotSrc});
     const graph = wrapper.find('Graph').instance();
     const graphviz = graph.graphviz;
-    const actualSvgString = index.getSvgString();
-    let selectionMarkers = graph.graph0.selectAll('rect').nodes();
-    expect(selectionMarkers).toHaveLength(0);
-    graph.selectAllComponents();
-    selectionMarkers = graph.graph0.selectAll('rect').nodes();
-    expect(selectionMarkers).toHaveLength(3);
+    graphviz.on('initEnd', () => {
+      const expectedDotSrc = 'digraph {a [shape=box]; b [shape=circle]; a -> b}';
+      index.setState({dotSrc: expectedDotSrc});
+      const graphviz = graph.graphviz;
+      const actualSvgString = index.getSvgString();
+      let selectionMarkers = graph.graph0.selectAll('rect').nodes();
+      expect(selectionMarkers).toHaveLength(0);
+      graph.selectAllComponents();
+      selectionMarkers = graph.graph0.selectAll('rect').nodes();
+      expect(selectionMarkers).toHaveLength(3);
+      done();
+    });
   });
 
 });
