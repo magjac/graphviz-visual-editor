@@ -11,14 +11,4 @@ export default function polyfillFetch() {
             });
         });
     }
-
-    Object.defineProperty(window.document, "currentScript", {
-        get() { return {src: './node_modules/@hpcc-js/wasm/dist/index.js'}; }
-    });
-
-    global.document = {
-        "currentScript": {
-            src: './node_modules/@hpcc-js/wasm/dist/index.js'
-        }
-    };
 }
