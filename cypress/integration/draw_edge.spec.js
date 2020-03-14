@@ -180,8 +180,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('have.attr', 'stroke-dasharray', '5,2');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'dotted':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -189,8 +189,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('have.attr', 'stroke-dasharray', '1,5');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'solid':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -198,8 +198,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'bold':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -207,17 +207,17 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('have.attr', 'stroke-width', '2');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'tapered':
             cy.wrap(edge).find('polygon').should('have.length', 2);
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-dasharray');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-width');
             cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'transparent');
-            cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', 'black');
             break;
           }
         });
@@ -284,8 +284,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('have.attr', 'stroke-dasharray', '5,2');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'dotted':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -293,8 +293,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('have.attr', 'stroke-dasharray', '1,5');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'solid':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -302,8 +302,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'bold':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -311,17 +311,17 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('have.attr', 'stroke-width', '2');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'tapered':
             cy.wrap(edge).find('polygon').should('have.length', 2);
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-dasharray');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have', 'stroke-width');
             cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'transparent');
-            cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', 'black');
             break;
           }
         });
@@ -401,8 +401,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('have.attr', 'stroke-width', '2');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'dotted':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -410,8 +410,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('have.attr', 'stroke-width', '2');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'solid':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -419,8 +419,8 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('have.attr', 'stroke-width', '2');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'bold':
             cy.wrap(edge).find('polygon').should('have.length', 1);
@@ -428,17 +428,17 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('path').should('have.attr', 'fill', 'none');
             cy.wrap(edge).find('path').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
-            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
+            cy.wrap(edge).find('polygon').should('have.attr', 'stroke', 'black');
             break;
           case 'tapered':
             cy.wrap(edge).find('polygon').should('have.length', 2);
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-dasharray');
-            cy.wrap(edge).find('polygon').should('have.attr', 'fill', '#000000');
+            cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have', 'stroke-width');
             cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'transparent');
-            cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', '#000000');
+            cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', 'black');
             break;
           }
         });
@@ -674,7 +674,7 @@ describe('Draw edges in the graph', function() {
 
     cy.edge(edgeIndex).find('polygon').then(polygon => {
       expect(polygon).to.have.length(1);
-      expect(polygon).to.have.attr('stroke', '#000000');
+      expect(polygon).to.have.attr('stroke', 'black');
       expect(polygon).to.have.attr('fill', '#123456');
       const expectedFillOpacity = (Math.floor((0x78 / 255) * 1000000) / 1000000).toString();
       expect(polygon).to.have.attr('fill-opacity', expectedFillOpacity);
@@ -700,7 +700,7 @@ describe('Draw edges in the graph', function() {
       cy.edge(edgeIndex).find('polygon').then(polygon => {
         expect(polygon).to.have.length(1);
         expect(polygon).to.have.attr('fill');
-        expect(polygon).to.have.attr('stroke', '#000000');
+        expect(polygon).to.have.attr('stroke', 'black');
         expect(polygon).to.not.have.attr('fill-opacity');
         const {x, y} = positions[positionName];
         const expectedFillColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
@@ -730,7 +730,7 @@ describe('Draw edges in the graph', function() {
       cy.edge(edgeIndex).find('polygon').then(polygon => {
         expect(polygon).to.have.length(1);
         expect(polygon).to.have.attr('fill');
-        expect(polygon).to.have.attr('stroke', '#000000');
+        expect(polygon).to.have.attr('stroke', 'black');
         expect(polygon).to.not.have.attr('fill-opacity');
         const {x, y} = horizontalPositions[positionName];
         const expectedFillColor = hsvToHex(x, 1, 1)
@@ -770,7 +770,7 @@ describe('Draw edges in the graph', function() {
       cy.edge(edgeIndex).find('polygon').then(polygon => {
         expect(polygon).to.have.length(1);
         expect(polygon).to.have.attr('fill');
-        expect(polygon).to.have.attr('stroke', '#000000');
+        expect(polygon).to.have.attr('stroke', 'black');
         const actualFillColor = polygon.attr('fill').replace('#', '');
         if (expectedFillColor == 'transparent') {
           expect(actualFillColor).to.eq(expectedFillColor);
