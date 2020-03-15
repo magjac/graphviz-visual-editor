@@ -69,7 +69,7 @@ describe('Pan and zoom of graph', function() {
 
     cy.zoomResetButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(143.92639923095703,268.5) scale(1)');
+    cy.get('#graph0').should('have.attr', 'transform', 'translate(143.92499923706055,268.5) scale(1)');
 
   })
 
@@ -92,7 +92,7 @@ describe('Pan and zoom of graph', function() {
 
     cy.zoomOutMapButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(57.72026094897039,414.2068965517241) scale(3.6982758620689653)');
+    cy.get('#graph0').should('have.attr', 'transform', 'translate(57.715083385336,414.2068965517241) scale(3.6982758620689653)');
   })
 
 })
