@@ -325,8 +325,8 @@ describe('Transitioning when DOT source changes', function() {
     cy.waitForNotBusy().then(() => {
       const stop = Date.now();
       const actualTransitionDuration = stop - start;
-      expect(actualTransitionDuration).to.be.at.least(1000);
-      expect(actualTransitionDuration).to.be.lessThan(2000);
+      expect(actualTransitionDuration).to.be.at.least(900);
+      expect(actualTransitionDuration).to.be.lessThan(1900);
     });
 
     cy.settingsButton().click();
@@ -342,8 +342,8 @@ describe('Transitioning when DOT source changes', function() {
     cy.waitForNotBusy().then(() => {
       const stop = Date.now();
       const actualTransitionDuration = stop - start;
-      expect(actualTransitionDuration).to.be.at.least(5000);
-      expect(actualTransitionDuration).to.be.lessThan(6000);
+      expect(actualTransitionDuration).to.be.at.least(4900);
+      expect(actualTransitionDuration).to.be.lessThan(5900);
     });
 
   })
