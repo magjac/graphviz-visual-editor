@@ -400,15 +400,15 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
-          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
           break;
         case 'striped':
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('not.have.attr', 'stroke-width');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -442,7 +442,7 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
-          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
           break;
         }
@@ -536,14 +536,14 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('polygon').should('have.attr', 'stroke-width', '2');
-          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
           break;
         case 'striped':
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -552,8 +552,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -562,8 +562,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -572,8 +572,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('path').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -582,8 +582,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -652,8 +652,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -662,8 +662,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -672,8 +672,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -682,8 +682,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('not.have.attr', 'stroke-width');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -692,8 +692,8 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '.5');
-          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
+          cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('not.have.attr', 'stroke-width');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'fill', 'none');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
@@ -702,7 +702,7 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('polygon').should('have.length', 1);
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
-          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 4);
           break;
         case 'wedged':
@@ -710,7 +710,7 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
-          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 4);
           break;
         case 'diagonals':
@@ -718,7 +718,7 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('path').should('have.length', 1);
           cy.node(nodeIndex).find('path').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('path').should('not.have.attr', 'stroke-width');
-          cy.node(nodeIndex).find('path').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('path').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
           break;
         case 'rounded':
@@ -726,7 +726,7 @@ describe('Insertion of nodes into the graph', function() {
           cy.node(nodeIndex).find('path').should('have.length', 0);
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('polygon').should('not.have.attr', 'stroke-width');
-          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', '#d3d3d3');
+          cy.node(nodeIndex).find('polygon').should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polyline').should('have.length', 0);
           break;
         case 'radial':
@@ -1069,7 +1069,7 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.node(nodeIndex).find('ellipse').then(ellipse => {
       expect(ellipse).to.have.length(1);
-      expect(ellipse).to.have.attr('stroke', '#000000');
+      expect(ellipse).to.have.attr('stroke', 'black');
       expect(ellipse).to.have.attr('fill', '#123456');
       const expectedFillOpacity = (Math.floor((0x78 / 255) * 1000000) / 1000000).toString();
       expect(ellipse).to.not.have.attr('stroke-opacity');
@@ -1098,7 +1098,7 @@ describe('Insertion of nodes into the graph', function() {
         expect(ellipse).to.not.have.attr('fill-opacity');
         expect(ellipse).to.have.attr('fill');
         expect(ellipse).to.not.have.attr('stroke-opacity');
-        expect(ellipse).to.have.attr('stroke', '#000000');
+        expect(ellipse).to.have.attr('stroke', 'black');
         const {x, y} = positions[positionName];
         const expectedFillColor = rgbToHex(y * 255, (1 - x) * y * 255, (1 - x) * y * 255);
         const actualFillColor = ellipse.attr('fill').replace('#', '');
@@ -1126,7 +1126,7 @@ describe('Insertion of nodes into the graph', function() {
 
       cy.node(nodeIndex).find('ellipse').then(ellipse => {
         expect(ellipse).to.have.length(1);
-        expect(ellipse).to.have.attr('stroke', '#000000');
+        expect(ellipse).to.have.attr('stroke', 'black');
         expect(ellipse).to.have.attr('fill');
         expect(ellipse).to.not.have.attr('stroke-opacity');
         expect(ellipse).to.not.have.attr('fill-opacity');
@@ -1169,7 +1169,7 @@ describe('Insertion of nodes into the graph', function() {
         expect(ellipse).to.have.length(1);
         expect(ellipse).to.have.attr('fill');
         expect(ellipse).to.not.have.attr('stroke-opacity');
-        expect(ellipse).to.have.attr('stroke', '#000000');
+        expect(ellipse).to.have.attr('stroke', 'black');
         const actualFillColor = ellipse.attr('fill').replace('#', '');
         if (expectedFillColor == 'transparent') {
           expect(actualFillColor).to.eq(expectedFillColor);
