@@ -76,7 +76,7 @@ describe('Basic rendering from DOT source', function() {
         case 'patchwork':
           cy.wrap(graph0).invoke('height').should('eq',70.29330444335938);
           // Workaround for difference between Chrome 79 headed and headless:
-          cy.wrap(graph0).invoke('width').should('be.oneOf', [71.2724609375, 70.29669189453125]);
+          cy.wrap(graph0).invoke('width').should('be.oneOf', [71.2724609375, 70.2933349609375]);
           break;
         case 'twopi':
           cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
