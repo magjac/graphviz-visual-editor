@@ -343,7 +343,7 @@ describe('Browser save and open', function() {
         cy.openGraphCancelButton().click();
       });
 
-    cy.wait(40 * 1000);
+    cy.wait(50 * 1000);
 
     cy.typeDotSource('{leftArrow} -> Charlie');
 
