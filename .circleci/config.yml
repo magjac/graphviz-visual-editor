@@ -61,9 +61,36 @@ jobs:
             - ~/.npm
             - ~/.cache
       - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
+  integration-test-firefox:
+    docker:
+      - image: cypress/browsers:node13.6.0-chrome80-ff72
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-deps-{{ .Branch }}
+            - v1-deps
+      - run:
+          name: Install Dependencies
+          no_output_timeout: 30m
+          command: npm ci
+
+      - save_cache:
+          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          # cache NPM modules and the folder with the Cypress binary
+          paths:
+            - ~/.npm
+            - ~/.cache
+      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test-firefox && yarn run codecov
 workflows:
   version: 2
   build-and-integration-test:
     jobs:
       - build
       - integration-test-chrome
+      - integration-test-firefox
