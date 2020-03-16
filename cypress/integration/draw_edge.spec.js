@@ -513,7 +513,7 @@ describe('Draw edges in the graph', function() {
     for (let positionName of Object.keys(positions)) {
       const colorTolerance = 8;
       cy.colorPickerSwatch().click();
-      cy.colorPickerSaturation().click(positionName);
+      cy.colorPickerSaturation().click(positionName, {force: true});
 
       cy.node(1).trigger('contextmenu', {force: true});
       cy.edge(edgeIndex).should('exist');
@@ -685,7 +685,7 @@ describe('Draw edges in the graph', function() {
     for (let positionName of Object.keys(positions)) {
       const colorTolerance = 8;
       cy.fillColorPickerSwatch().click();
-      cy.fillColorPickerSaturation().click(positionName);
+      cy.fillColorPickerSaturation().click(positionName, {force: true});
 
       cy.node(1).trigger('contextmenu', {force: true});
       cy.edge(edgeIndex).should('exist');
