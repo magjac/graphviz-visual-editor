@@ -56,8 +56,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, force: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -93,8 +93,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.style('dotted').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -132,7 +132,7 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.toolbarButton('Insert').click();
     cy.nodeShapeCategory('Basic shapes').click()
-    cy.insertPanels().find('#node1').click();
+    cy.insertPanels().find('#node1').click({force: true});
 
     cy.waitForTransition();
 
@@ -168,7 +168,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.toolbarButton('Insert').click();
     cy.nodeShapeCategory('Basic shapes').click()
     cy.insertPanels().find('#node1')
-      .trigger('dragstart', {dataTransfer: new DataTransfer});
+      .trigger('dragstart', {dataTransfer: new DataTransfer, force: true});
     cy.get('#canvas #graph0')
       .trigger('dragover', {force: true})
       .trigger('drop', {force: true});
@@ -283,8 +283,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]}');
 
@@ -766,8 +766,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.colorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]}');
 
@@ -794,8 +794,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.colorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]    n3}');
 
@@ -858,7 +858,7 @@ describe('Insertion of nodes into the graph', function() {
     for (let positionName of Object.keys(positions)) {
       const colorTolerance = 8;
       cy.colorPickerSwatch().click();
-      cy.colorPickerSaturation().click(positionName);
+      cy.colorPickerSaturation().click(positionName, {force: true});
 
       cy.toolbarButton('Insert').click();
       cy.nodeShapeCategory('Basic shapes').click()
@@ -986,8 +986,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]}');
 
@@ -1014,8 +1014,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]    n3}');
 
@@ -1081,7 +1081,7 @@ describe('Insertion of nodes into the graph', function() {
     for (let positionName of Object.keys(positions)) {
       const colorTolerance = 8;
       cy.fillColorPickerSwatch().click();
-      cy.fillColorPickerSaturation().click(positionName);
+      cy.fillColorPickerSaturation().click(positionName, {force: true});
 
       cy.toolbarButton('Insert').click();
       cy.nodeShapeCategory('Basic shapes').click()
