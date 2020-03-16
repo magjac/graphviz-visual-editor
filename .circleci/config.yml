@@ -35,7 +35,7 @@ jobs:
 
       # run tests!
       - run: make && yarn test:coverage && yarn run codecov
-  integration-test:
+  integration-test-chrome:
     docker:
       - image: cypress/browsers:node13.6.0-chrome80-ff72
         environment:
@@ -66,4 +66,4 @@ workflows:
   build-and-integration-test:
     jobs:
       - build
-      - integration-test
+      - integration-test-chrome
