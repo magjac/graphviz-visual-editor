@@ -45,7 +45,7 @@ describe('Selection and deselection in graph', function() {
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0').click('topLeft');
+    cy.get('#graph0').click('topLeft', {force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
@@ -74,7 +74,7 @@ describe('Selection and deselection in graph', function() {
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0').trigger('contextmenu', 'topLeft');
+    cy.get('#graph0').trigger('contextmenu', 'topLeft', {force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
@@ -222,14 +222,14 @@ describe('Selection and deselection in graph', function() {
     cy.edge(1).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('click', 'topLeft', {which: 1, shiftKey: true});
+      .trigger('click', 'topLeft', {which: 1, shiftKey: true, force: true});
 
     cy.node(1).shouldBeSelected();
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('click', 'topLeft', {which: 1, shiftKey: false});
+      .trigger('click', 'topLeft', {which: 1, shiftKey: false, force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
@@ -260,14 +260,14 @@ describe('Selection and deselection in graph', function() {
     cy.edge(1).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('click', 'topLeft', {which: 1, ctrlKey: true});
+      .trigger('click', 'topLeft', {which: 1, ctrlKey: true, force: true});
 
     cy.node(1).shouldBeSelected();
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('click', 'topLeft', {which: 1, ctrlKey: false});
+      .trigger('click', 'topLeft', {which: 1, ctrlKey: false, force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
@@ -320,7 +320,7 @@ describe('Selection and deselection in graph', function() {
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldBeSelected();
 
-    cy.get('#graph0').click('topLeft');
+    cy.get('#graph0').click('topLeft', {force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldNotBeSelected();
@@ -454,9 +454,9 @@ describe('Selection and deselection in graph', function() {
     cy.edge(2).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('mousedown', 'bottomLeft', {which: 1})
-      .trigger('mousemove', 'top', {which: 1})
-      .trigger('click', 'top', {which: 1})
+      .trigger('mousedown', 'bottomLeft', {which: 1, force: true})
+      .trigger('mousemove', 'top', {which: 1, force: true})
+      .trigger('click', 'top', {which: 1, force: true})
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldBeSelected();
@@ -489,9 +489,9 @@ describe('Selection and deselection in graph', function() {
     cy.edge(2).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('mousedown', 'bottomLeft', {which: 1})
-      .trigger('mousemove', 'top', {which: 1})
-      .trigger('click', 'top', {which: 1});
+      .trigger('mousedown', 'bottomLeft', {which: 1, force: true})
+      .trigger('mousemove', 'top', {which: 1, force: true})
+      .trigger('click', 'top', {which: 1, force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldBeSelected();
@@ -500,9 +500,9 @@ describe('Selection and deselection in graph', function() {
     cy.edge(2).shouldNotBeSelected();
 
     cy.get('#graph0')
-      .trigger('mousedown', 'bottomRight', {which: 1, shiftKey: true})
-      .trigger('mousemove', 'top', {which: 1, shiftKey: true})
-      .trigger('click', 'top', {which: 1, shiftKey: true});
+      .trigger('mousedown', 'bottomRight', {which: 1, shiftKey: true, force: true})
+      .trigger('mousemove', 'top', {which: 1, shiftKey: true, force: true})
+      .trigger('click', 'top', {which: 1, shiftKey: true, force: true});
 
     cy.node(1).shouldNotBeSelected();
     cy.node(2).shouldBeSelected();
@@ -528,7 +528,7 @@ describe('Selection and deselection in graph', function() {
     cy.node(2).shouldNotBeSelected();
     cy.edge(1).shouldNotBeSelected();
 
-    cy.get('#graph0').click();
+    cy.get('#graph0').click({force: true});
     cy.get('body').type('{ctrl}a');
 
     cy.node(1).shouldBeSelected();
@@ -555,7 +555,7 @@ describe('Selection and deselection in graph', function() {
     cy.edge(1).shouldNotBeSelected();
     cy.edge(2).shouldNotBeSelected();
 
-    cy.get('#graph0').click();
+    cy.get('#graph0').click({force: true});
     cy.get('body').type('{ctrl}A');
 
     cy.node(1).shouldNotBeSelected();
