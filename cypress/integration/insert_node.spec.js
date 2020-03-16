@@ -311,8 +311,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true, force: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]    n3}');
 
