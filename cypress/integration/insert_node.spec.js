@@ -856,7 +856,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.colorPickerInput().type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}ff0000');
 
     for (let positionName of Object.keys(positions)) {
-      const colorTolerance = 8;
+      const colorTolerance = 16;
       cy.colorPickerSwatch().click();
       cy.colorPickerSaturation().click(positionName, {force: true});
 
@@ -1079,7 +1079,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.fillColorPickerInput().type('{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}');
 
     for (let positionName of Object.keys(positions)) {
-      const colorTolerance = 8;
+      const colorTolerance = 16;
       cy.fillColorPickerSwatch().click();
       cy.fillColorPickerSaturation().click(positionName, {force: true});
 
