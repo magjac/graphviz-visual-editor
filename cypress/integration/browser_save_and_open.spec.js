@@ -609,7 +609,8 @@ describe('Browser save and open', function() {
 
     cy.savedGraphs().should('have.length', 0);
 
-    cy.canvasSvg().should('not.exist');
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
   })
 
   it('The graph is renamed in browser local storage through the menu item Rename', function() {
@@ -968,7 +969,8 @@ describe('Browser save and open', function() {
 
     // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
     cy.clearDotSource();
-    cy.canvasGraph().should('not.exist');
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
 
     cy.clearAndRenderDotSource('digraph {Bob}');
 
@@ -1101,7 +1103,8 @@ describe('Browser save and open', function() {
 
     // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
     cy.clearDotSource();
-    cy.canvasGraph().should('not.exist');
+    cy.nodes().should('have.length', 0);
+    cy.edges().should('have.length', 0);
 
     cy.clearAndRenderDotSource('digraph {Alice}');
 
