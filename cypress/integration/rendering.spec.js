@@ -122,31 +122,31 @@ describe('Basic rendering from DOT source', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
     cy.canvasSvg().then(svg => {
-      cy.wrap(svg).invoke('width').should('eq', 469);
+      cy.wrap(svg).invoke('width').should('eq', firefox ? (headed ? 470 : 471) : 469);
       cy.wrap(svg).invoke('height').should('eq', 572);
-      cy.wrap(svg).should('have.attr', 'viewBox', '0 0 351.75 429');
-      cy.wrap(svg).should('have.attr', 'width', '469');
+      cy.wrap(svg).should('have.attr', 'viewBox', firefox ? (headed ? '0 0 352.5 429' : '0 0 353.25 429') : '0 0 351.75 429');
+      cy.wrap(svg).should('have.attr', 'width', firefox ? (headed ? '470' : '471') : '469');
       cy.wrap(svg).should('have.attr', 'height', '572');
     });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('eq', firefox ? 101.23333740234375 : 95.86669921875);
+      cy.wrap(graph0).invoke('height').should('eq', firefox ? 160 : 154.66665649414062);
     });
 
     cy.viewport(1000 * 2, 660 * 2);
 
     cy.canvasSvg().then(svg => {
-      cy.wrap(svg).invoke('width').should('eq', 469);
+      cy.wrap(svg).invoke('width').should('eq', firefox ? (headed ? 470 : 471) : 469);
       cy.wrap(svg).invoke('height').should('eq', 572);
-      cy.wrap(svg).should('have.attr', 'viewBox', '0 0 351.75 429');
+      cy.wrap(svg).should('have.attr', 'viewBox', firefox ? (headed ? '0 0 352.5 429' : '0 0 353.25 429') : '0 0 351.75 429');
       cy.wrap(svg).should('have.attr', 'width', '976');
       cy.wrap(svg).should('have.attr', 'height', '1232');
     });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('eq', firefox ? 101.23333740234375 : 95.86669921875);
+      cy.wrap(graph0).invoke('height').should('eq', firefox ? 160 : 154.66665649414062);
     });
 
   })
