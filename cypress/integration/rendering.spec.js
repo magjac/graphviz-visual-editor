@@ -94,8 +94,8 @@ describe('Basic rendering from DOT source', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
+      cy.wrap(graph0).invoke('height').should('eq', firefox ? 160 : 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('eq', firefox ? 101.23333740234375 : 95.86669921875);
     });
 
     cy.settingsButton().click();
@@ -103,8 +103,8 @@ describe('Basic rendering from DOT source', function() {
     cy.get('body').type('{esc}', { release: false });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('height').should('eq', 572);
-      cy.wrap(graph0).invoke('width').should('eq', 354.5413818359375);
+      cy.wrap(graph0).invoke('height').should('eq', firefox ? 591.7333374023438 : 572);
+      cy.wrap(graph0).invoke('width').should('eq', firefox ? 374.3499755859375 : 354.5413818359375);
     });
 
     cy.settingsButton().click();
@@ -112,8 +112,8 @@ describe('Basic rendering from DOT source', function() {
     cy.get('body').type('{esc}', { release: false });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
+      cy.wrap(graph0).invoke('height').should('eq', firefox ? 160 : 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('eq', firefox ? 101.23333740234375 : 95.86669921875);
     });
 
   })
