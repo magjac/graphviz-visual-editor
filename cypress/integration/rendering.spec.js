@@ -1,5 +1,7 @@
 describe('Basic rendering from DOT source', function() {
 
+  const headed = Cypress.browser.isHeaded;
+
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
     cy.startApplication();
     cy.checkDefaultGraph();
@@ -75,8 +77,7 @@ describe('Basic rendering from DOT source', function() {
           break;
         case 'patchwork':
           cy.wrap(graph0).invoke('height').should('eq',70.29330444335938);
-          // Workaround for difference between Chrome 79 headed and headless:
-          cy.wrap(graph0).invoke('width').should('be.oneOf', [71.2724609375, 70.2933349609375]);
+          cy.wrap(graph0).invoke('width').should('eq', headed ? 71.2724609375 : 70.2933349609375);
           break;
         case 'twopi':
           cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
