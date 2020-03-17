@@ -15,8 +15,8 @@ describe('Undo and redo of last DOT source change', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, force: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -63,8 +63,8 @@ describe('Undo and redo of last DOT source change', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, force: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -129,8 +129,8 @@ describe('Undo and redo of last DOT source change', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, force: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -177,8 +177,8 @@ describe('Undo and redo of last DOT source change', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, force: true});
+    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, force: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
