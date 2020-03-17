@@ -60,7 +60,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
+      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test-chrome && yarn run codecov
   integration-test-firefox:
     docker:
       - image: cypress/browsers:node13.6.0-chrome80-ff72
