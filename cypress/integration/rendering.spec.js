@@ -1,5 +1,6 @@
 describe('Basic rendering from DOT source', function() {
 
+  const firefox = Cypress.browser.name == 'firefox';
   const headed = Cypress.browser.isHeaded;
 
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
@@ -56,32 +57,32 @@ describe('Basic rendering from DOT source', function() {
       cy.canvasGraph().then(graph0 => {
         switch (engine) {
         case 'circo':
-          cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 264.21337890625);
+          cy.wrap(graph0).invoke('height').should('eq', firefox ? 64 : 58.666656494140625);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 269.566650390625 : 264.21337890625);
           break;
         case 'dot':
-          cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
-          cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
+          cy.wrap(graph0).invoke('height').should('eq', firefox ? 160 : 154.66665649414062);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 101.23333740234375 : 95.86669921875);
           break;
         case 'fdp':
-          cy.wrap(graph0).invoke('height').should('eq', 73.33331298828125);
-          cy.wrap(graph0).invoke('width').should('eq', 185.3333740234375);
+          cy.wrap(graph0).invoke('height').should('eq', firefox ? 78.68333435058594 : 73.33331298828125);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 190.68333435058594 : 185.3333740234375);
           break;
         case 'neato':
-          cy.wrap(graph0).invoke('height').should('eq', 72.85330200195312);
-          cy.wrap(graph0).invoke('width').should('eq', 184.38671875);
+            cy.wrap(graph0).invoke('height').should('eq', firefox ? (headed ? 78.21665954589844 : 78.2166748046875) : 72.85330200195312);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 189.75 : 184.38671875);
           break;
         case 'osage':
-          cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 173.693359375);
+          cy.wrap(graph0).invoke('height').should('eq', firefox ? 64 : 58.666656494140625);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 179.0500030517578 : 173.693359375);
           break;
         case 'patchwork':
-          cy.wrap(graph0).invoke('height').should('eq',70.29330444335938);
-          cy.wrap(graph0).invoke('width').should('eq', headed ? 71.2724609375 : 70.2933349609375);
+          cy.wrap(graph0).invoke('height').should('eq', firefox ? 75.66667175292969 : 70.29330444335938);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 77.2166748046875 : (headed ? 71.2724609375 : 70.2933349609375));
           break;
         case 'twopi':
-          cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 185.4400634765625);
+          cy.wrap(graph0).invoke('height').should('eq', firefox ? 64 : 58.666656494140625);
+          cy.wrap(graph0).invoke('width').should('eq', firefox ? 190.78334045410156 : 185.4400634765625);
           break;
         }
       });
