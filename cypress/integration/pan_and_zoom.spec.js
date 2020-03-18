@@ -4,6 +4,12 @@ describe('Pan and zoom of graph', function() {
   const headed = Cypress.browser.isHeaded;
 
   it('Zoom in in graph when zoom in button is clicked', function() {
+    // FIXME: Remove when investigated. Temporary workaround for
+    // transform not updated after transition. This ensures that
+    // clearAndRenderDotSource clears the previous graph before
+    // rendering the new one.
+    localStorage.setItem('holdOff', 0);
+
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
@@ -41,6 +47,12 @@ describe('Pan and zoom of graph', function() {
   })
 
   it('Zoom out in graph when zoom out button is clicked', function() {
+    // FIXME: Remove when investigated. Temporary workaround for
+    // transform not updated after transition. This ensures that
+    // clearAndRenderDotSource clears the previous graph before
+    // rendering the new one.
+    localStorage.setItem('holdOff', 0);
+
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
@@ -80,6 +92,12 @@ describe('Pan and zoom of graph', function() {
   })
 
   it('Reset zoom of graph when zoom reset button is clicked', function() {
+    // FIXME: Remove when investigated. Temporary workaround for
+    // transform not updated after transition. This ensures that
+    // clearAndRenderDotSource clears the previous graph before
+    // rendering the new one.
+    localStorage.setItem('holdOff', 0);
+
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
@@ -131,6 +149,11 @@ describe('Pan and zoom of graph', function() {
   })
 
   it('Reset zoom graph to map to available area when zoom out map button is clicked', function() {
+    // FIXME: Remove when investigated. Temporary workaround for
+    // transform not updated after transition. This ensures that
+    // clearAndRenderDotSource clears the previous graph before
+    // rendering the new one.
+    localStorage.setItem('holdOff', 0);
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
