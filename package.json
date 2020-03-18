@@ -49,7 +49,7 @@
     "test": "react-scripts test --env=jsdom --verbose=false",
     "test:coverage": "react-scripts test --env=jsdom --coverage --coverageDirectory=./coverage-jest",
     "integration-test-chrome": "cypress run --config video=${CI:-false} --browser=chrome --headless --record ${CI:-false} --key a12725d3-851c-4e67-b432-079b4fb1a875",
-    "integration-test-firefox": "cypress run --config video=${CI:-false} --browser=firefox --headless --record ${CI:-false} --key a12725d3-851c-4e67-b432-079b4fb1a875 --spec cypress/integration/pan_and_zoom.spec.js",
+    "integration-test-firefox": "cypress run --config video=${CI:-false} --browser=firefox --headless --record ${CI:-false} --key a12725d3-851c-4e67-b432-079b4fb1a875",
     "merge-coverage": "mkdir -p coverage && cp -p coverage-jest/coverage-final.json coverage/coverage-final-jest.json && cp -p coverage-cypress/coverage-final.json coverage/coverage-final-cypress.json && nyc report --temp-dir coverage --report-dir coverage --reporter lcov --reporter clover --reporter json --reporter text",
     "eject": "react-scripts eject"
   },
