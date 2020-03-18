@@ -31,7 +31,7 @@ describe('Pan and zoom of graph', function() {
           'translate(144.29999923706055,268.5) scale(1)' :
           'translate(144.67499923706055,268.5) scale(1)'
       ) :
-      'translate(148.875,268.5) scale(1)'
+      'translate(143.92499923706055,268.5) scale(1)'
     );
 
     cy.zoomInButton().click();
@@ -42,7 +42,7 @@ describe('Pan and zoom of graph', function() {
           'translate(137.90999908447267,279.3) scale(1.2)' :
           'translate(138.28499908447267,279.3) scale(1.2)'
       ) :
-      'translate(143.47500000000002,279.3) scale(1.2)'
+      'translate(137.53499908447267,279.3) scale(1.2)'
     );
   })
 
@@ -74,7 +74,7 @@ describe('Pan and zoom of graph', function() {
           'translate(144.29999923706055,268.5) scale(1)' :
           'translate(144.67499923706055,268.5) scale(1)'
       ) :
-      'translate(148.875,268.5) scale(1)'
+      'translate(143.92499923706055,268.5) scale(1)'
     );
 
     cy.zoomOutButton().click();
@@ -86,7 +86,7 @@ describe('Pan and zoom of graph', function() {
           'translate(149.62499936421713,259.5) scale(0.8333333333333334)' :
           'translate(149.99999936421713,259.5) scale(0.8333333333333334)'
       ) :
-      'translate(153.375,259.5) scale(0.8333333333333334)'
+      'translate(149.24999936421713,259.5) scale(0.8333333333333334)'
     );
 
   })
@@ -119,7 +119,7 @@ describe('Pan and zoom of graph', function() {
           'translate(144.29999923706055,268.5) scale(1)' :
           'translate(144.67499923706055,268.5) scale(1)'
       ) :
-      'translate(148.875,268.5) scale(1)'
+      'translate(143.92499923706055,268.5) scale(1)'
     );
 
     cy.zoomInButton().click();
@@ -131,7 +131,7 @@ describe('Pan and zoom of graph', function() {
           'translate(137.90999908447267,279.3) scale(1.2)' :
           'translate(138.28499908447267,279.3) scale(1.2)'
       ) :
-      'translate(143.47500000000002,279.3) scale(1.2)'
+      'translate(137.53499908447267,279.3) scale(1.2)'
     );
 
     cy.zoomResetButton().click();
@@ -175,7 +175,7 @@ describe('Pan and zoom of graph', function() {
           'translate(144.29999923706055,268.5) scale(1)' :
           'translate(144.67499923706055,268.5) scale(1)'
       ) :
-      'translate(148.875,268.5) scale(1)'
+      'translate(143.92499923706055,268.5) scale(1)'
     );
 
     cy.zoomOutMapButton().click();
