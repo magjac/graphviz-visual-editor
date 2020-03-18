@@ -110,6 +110,7 @@ class Graph extends React.Component {
     let engine = this.props.engine;
     if (this.props.dotSrc.length === 0) {
       this.graph0.selectAll('*').remove();
+      this.graph0.attr('transform', null);
       this.svg = d3_select(null);
       this.props.onError(null);
       this.renderGraphReady = false;
