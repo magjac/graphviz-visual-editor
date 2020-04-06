@@ -56,8 +56,6 @@ describe('Export as URL', function() {
     cy.edges().should('have.length', 1);
 
     cy.go('back');
-    cy.window().url().should('eq', 'http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
-    cy.go('back');
     cy.window().url().should('eq', 'http://localhost:3000/');
   })
 
