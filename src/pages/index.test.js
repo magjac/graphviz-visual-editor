@@ -81,7 +81,6 @@ describe('<Index />', () => {
       const heightPt = height * 3 / 4;
       const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="translate(4,112) scale(1)">
-<title>%208016</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
 <!-- a -->
 <g id="node1" class="node">
@@ -124,7 +123,6 @@ describe('<Index />', () => {
       const heightPt = height * 3 / 4;
       const expectedSvgString = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="translate(4,112) scale(1)">
-<title>%208016</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
 <!-- a -->
 <g id="node1" class="node">
@@ -161,7 +159,6 @@ describe('<Index />', () => {
         const actualSvgString = index.getSvgString();
         const expectedSvgString2 = `<svg width="${width}" height="${height}" viewBox="0 0 ${widthPt} ${heightPt}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="translate(4,112) scale(1)">
-<title>%208016</title>
 <polygon fill="white" stroke="transparent" points="-4,4 -4,-112 58,-112 58,4 -4,4"/>
 <!-- a -->
 <g id="node1" class="node">
