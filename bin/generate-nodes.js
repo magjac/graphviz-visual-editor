@@ -1,6 +1,25 @@
 #! /usr/bin/env node
 
-Viz = require("../node_modules/viz.js/viz");
+var hpccWasm = require("../node_modules/@hpcc-js/wasm/dist/index");
+var fs_promises = require("fs").promises;
+
+global.fetch = function(filename) {
+    return fs_promises.open(filename, 'r').then((filehandle) => {
+        return filehandle.readFile().then(data => {
+            return {
+                ok: true,
+                arrayBuffer: () => data,
+            };
+        });
+    });
+}
+
+global.document = {
+    "currentScript": {
+        src: './node_modules/@hpcc-js/wasm/dist/index.js'
+    }
+};
+
 
 shapes = [
   "box",
@@ -74,27 +93,29 @@ shapes = [
 
 console.log('const shapes = {');
 
-for (i = 0; i < shapes.length; i++) {
+hpccWasm.graphvizSync().then(graphviz => {
+  for (i = 0; i < shapes.length; i++) {
 
-  shape = shapes[i];
+    shape = shapes[i];
+
+    dotSrc = `digraph "" {
+      ${shape} [shape=${shape} style=filled label=""]
+    }`;
+
+    var svg = graphviz.layout(dotSrc, 'svg', 'dot');
+
+    console.log(`${shape}: \`${svg}\`,`);
+  }
 
   dotSrc = `digraph "" {
-    ${shape} [shape=${shape} style=filled label=""]
+    "(default)" [style="filled, dashed" fillcolor="white" label=""]
   }`;
 
-  var svg = Viz(dotSrc, {format: 'svg'});
+  var svg = graphviz.layout(dotSrc, 'svg' , 'dot');
 
-  console.log(`${shape}: \`${svg}\`,`);
-}
+  console.log(`'(default)': \`${svg}\`,`);
 
-dotSrc = `digraph "" {
-  "(default)" [style="filled, dashed" fillcolor="white" label=""]
-}`;
-
-var svg = Viz(dotSrc, {format: 'svg'});
-
-console.log(`'(default)': \`${svg}\`,`);
-
-console.log('};');
-console.log('');
-console.log('export {shapes};');
+  console.log('};');
+  console.log('');
+  console.log('export {shapes};');
+});

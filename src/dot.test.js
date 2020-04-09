@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import DotGraph from './dot';
+import { readFileSync } from 'fs';
 
 class WrapDot extends React.Component {
   constructor(props) {
@@ -1544,9 +1545,8 @@ c
 });
 
 function readDotFiles() {
-  let fs = require('fs');
   let path = process.cwd();
-  let buffer = fs.readFileSync(path + "/dotfiles.txt");
+  let buffer = readFileSync(path + "/dotfiles.txt");
   let dotFilesString = buffer.toString();
   dotFilesString = dotFilesString.replace(/#.*\n/g, '').trim();
   let dotFiles = dotFilesString.trim().split('\n');
@@ -1557,8 +1557,7 @@ describe('dot.DotGraph.toString() parses Graphviz dot files', () => {
   let dotFiles = readDotFiles();
   dotFiles.forEach((dotFile) => {
 
-    let fs = require('fs');
-    let buffer = fs.readFileSync(dotFile);
+    let buffer = readFileSync(dotFile);
     let dotSrc0 = buffer.toString();
 
     it(`Parses ${dotFile}`, () => {
@@ -1576,8 +1575,7 @@ describe('dot.DotGraph.deleteComponent() transparently processes', () => {
   let dotFiles = readDotFiles();
   dotFiles.forEach((dotFile) => {
 
-    let fs = require('fs');
-    let buffer = fs.readFileSync(dotFile);
+    let buffer = readFileSync(dotFile);
     let dotSrc = buffer.toString();
 
     it(`${dotFile} when attempting to delete a nonexistent node`, () => {
@@ -1595,8 +1593,7 @@ describe('dot.DotGraph.deleteComponent() transparently processes', () => {
 describe('dot.DotGraph.deleteComponent() deletes all nodes', () => {
   let dotFiles = readDotFiles();
   dotFiles.forEach((dotFile) => {
-    let fs = require('fs');
-    let buffer = fs.readFileSync(dotFile);
+    let buffer = readFileSync(dotFile);
     let dotSrc = buffer.toString();
 
     it(`in ${dotFile} without any error (but without checking the actual result).`, () => {
@@ -1608,8 +1605,7 @@ describe('dot.DotGraph.deleteComponent() deletes all nodes', () => {
 describe('dot.DotGraph.deleteComponent() deletes all edges', () => {
   let dotFiles = readDotFiles();
   dotFiles.forEach((dotFile) => {
-    let fs = require('fs');
-    let buffer = fs.readFileSync(dotFile);
+    let buffer = readFileSync(dotFile);
     let dotSrc = buffer.toString();
 
     it(`in ${dotFile} without any error (but without checking the actual result).`, () => {

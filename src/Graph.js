@@ -12,6 +12,7 @@ import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
 import 'd3-graphviz';
 import DotGraph from './dot'
+import { wasmFolder } from "@hpcc-js/wasm";
 
 const styles = {
   root: {
@@ -87,6 +88,7 @@ class Graph extends React.Component {
   }
 
   createGraph() {
+    wasmFolder(process.env.PUBLIC_URL + 'wasm');
     this.graphviz = this.div.graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
