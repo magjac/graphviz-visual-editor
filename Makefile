@@ -49,7 +49,7 @@ clone-test:
 public: clone-test push-tag
 
 push-tag: push
-	git push origin `git rev-parse --abbrev-ref HEAD` : `git tag -l | grep '^v[0-9]*\.[0-9]*\.[0-9]*$$' | tail -1`
+	git push origin `git rev-parse --abbrev-ref HEAD`:`git tag -l | grep '^v[0-9]*\.[0-9]*\.[0-9]*$$' | tail -1`
 
 push:
 	git push origin `git rev-parse --abbrev-ref HEAD`
