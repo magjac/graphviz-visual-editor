@@ -8,6 +8,8 @@
 # Update "version" in package.json
 # Update "version" in package-lock.json by e.g.:
 #   npm install
+# Update CHANGELOG.md
+#   git commit -m "Updated CHANGELOG with 0.6.4 release"
 # Commit with message v<version>, e.g.:
 #   git add -p
 #   git commit -m "v0.1.0"
