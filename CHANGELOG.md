@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.6.2
+Never released
+
 ## [0.6.1]
 ### Fixed
 * Module not found: Can't resolve './DoYouWantToDeleteDialog'. #93
