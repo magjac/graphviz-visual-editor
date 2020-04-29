@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.4]
+### Fixed
+* Drawing edges or inserting nodes does not work in production bundle #139
+
 ## [0.6.3]
 ### Changed
 * Upgraded [d3-graphviz](https://gitlab.com/magjac/d3-graphviz) to version [3.0.5](https://github.com/magjac/d3-graphviz/blob/master/CHANGELOG.md#305) thereby replacing [Viz.js](https://github.com/mdaines/viz.js/) with [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm).
@@ -151,7 +155,8 @@ Never released
   * Keyboard shortcuts
   * Mouse interactions
 
-[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...HEAD
+[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.4...HEAD
+[0.6.4]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...v0.6.3
 [0.6.3]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.1...v0.6.3
 [0.6.1]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.5.0...v0.6.0
