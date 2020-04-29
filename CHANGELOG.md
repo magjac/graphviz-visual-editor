@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3]
+### Changed
+* Upgraded [d3-graphviz](https://gitlab.com/magjac/d3-graphviz) to version [3.0.5](https://github.com/magjac/d3-graphviz/blob/master/CHANGELOG.md#305) thereby replacing [Viz.js](https://github.com/mdaines/viz.js/) with [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm).
+* Upgraded [Graphviz](https://gitlab.com/graphviz/graphviz) to version [2.42.4](https://gitlab.com/graphviz/graphviz/-/releases/2.42.4) through [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm) version [0.3.11](https://github.com/hpcc-systems/hpcc-js-wasm/releases/tag/v0.3.11), including fixes for:
+  * svg output displays TITLE of %3 if graph had no name ([Graphviz issue #1376](https://gitlab.com/graphviz/graphviz/issues/1376))
+  * XML errors in generated SVG when URL attribute contains ampersand (&) ([Graphviz issue #1687](https://gitlab.com/graphviz/graphviz/issues/1687))
+
+### Fixed
+* Changing text editor hold-off time in settings has no effect until application is reloaded #128
+* Selecting opacity with the opacity slider does not work in the node & edge default format color pickers #125
+
 ## 0.6.2
 Never released
 
@@ -140,7 +151,8 @@ Never released
   * Keyboard shortcuts
   * Mouse interactions
 
-[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...HEAD
+[0.6.3]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.1...v0.6.3
 [0.6.1]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.4.0...v0.5.0
