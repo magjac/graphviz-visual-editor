@@ -675,8 +675,7 @@ class Index extends React.Component {
     }
     return (
       <div className={classes.root}>
-        {/* FIXME: Find a way to get @hpcc-js/wasm from the graphviz-visual-editor bundle */}
-        <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js" type="javascript/worker"></script>
+            <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/index.min.js"} type="javascript/worker"></script>
         <ButtonAppBar
           hasUndo={this.state.hasUndo}
           hasRedo={this.state.hasRedo}

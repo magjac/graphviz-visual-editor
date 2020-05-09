@@ -88,7 +88,7 @@ class Graph extends React.Component {
   }
 
   createGraph() {
-    wasmFolder(process.env.PUBLIC_URL.replace(/\.$/, '') + 'wasm');
+    wasmFolder(process.env.PUBLIC_URL.replace(/\.$/, '') + '@hpcc-js/wasm/dist');
     this.graphviz = this.div.graphviz()
       .onerror(this.handleError.bind(this))
       .on('initEnd', () => this.renderGraph.call(this));
