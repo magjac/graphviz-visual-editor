@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+ * Bundle @hpcc-js/wasm instead of loading from unpkg
+ * Upgraded d3-graphviz to version 3.0.6, thereby upgrading @hpcc-js-/wasm to version 0.3.13, thereby upgrading Graphviz to version 2.44.0.
+
 ## [0.6.4]
 ### Fixed
 * Drawing edges or inserting nodes does not work in production bundle #139
