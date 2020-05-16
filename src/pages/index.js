@@ -341,6 +341,23 @@ class Index extends React.Component {
     });
   }
 
+  handleSaveAsSVGBrowserClick = () => {
+    function downloadFile(fileData, fileName, mimeType) {
+      const fileBlob = new Blob([fileData], {type: mimeType})
+      const fileObjectURL = window.URL.createObjectURL(fileBlob)
+      const tempLink = document.createElement('a')
+      tempLink.href = fileObjectURL
+      tempLink.download = fileName
+      document.body.appendChild(tempLink)
+      tempLink.click()
+      document.body.removeChild(tempLink)
+    }
+    const fileData = this.getSvgString()
+    const fileName = `graph-${new Date().toISOString()}.svg`
+    const mimeType = 'image/svg+xml'
+    downloadFile(fileData, fileName, mimeType)
+  }
+
   handleSaveAsToBrowserClose = () => {
     this.setState({
       saveToBrowserAsDialogIsOpen: false,
@@ -693,6 +710,7 @@ class Index extends React.Component {
           onSettingsButtonClick={this.handleSettingsClick}
           onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
           onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
+          onSaveAsSVGButtonClick={this.handleSaveAsSVGBrowserClick}
           onHelpButtonClick={this.handleHelpButtonClick}
         >
         </ButtonAppBar>

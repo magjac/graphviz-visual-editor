@@ -57,6 +57,10 @@ function ButtonAppBar(props) {
     props.onSaveAltButtonClick(event.currentTarget);
   };
 
+  var handleSaveAsSVGButtonClick = (event) => {
+    props.onSaveAsSVGButtonClick(event.currentTarget);
+  }
+
   var handleUndoButtonClick = (event) => {
     props.onUndoButtonClick(event.currentTarget);
   };
@@ -141,6 +145,16 @@ function ButtonAppBar(props) {
             aria-label="SaveAlt"
             onClick={handleSaveAltButtonClick}
           >
+            <SaveAltIcon />
+          </IconButton>
+          <IconButton
+            id="save-as-svg"
+            className={classes.SaveAltButton}
+            color="inherit"
+            aria-label="SaveAsSVG"
+            onClick={handleSaveAsSVGButtonClick}
+          >
+            <div>SVG&nbsp;</div>
             <SaveAltIcon />
           </IconButton>
           <IconButton
@@ -267,6 +281,7 @@ ButtonAppBar.propTypes = {
   onNewButtonClick: PropTypes.func.isRequired,
   onOpenInBrowserButtonClick: PropTypes.func.isRequired,
   onSaveAltButtonClick: PropTypes.func.isRequired,
+  onSaveAsSVGButtonClick: PropTypes.func.isRequired,
   onUndoButtonClick: PropTypes.func.isRequired,
   onRedoButtonClick: PropTypes.func.isRequired,
   onZoomInButtonClick: PropTypes.func.isRequired,
