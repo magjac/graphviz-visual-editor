@@ -39,6 +39,11 @@ class MainMenu extends React.Component {
     this.props.onExportAsUrlClick();
   };
 
+  handleExportAsSvg = () => {
+    this.props.onMenuClose();
+    this.props.onExportAsSvgClick();
+  };
+
   render() {
 
     return (
@@ -54,6 +59,7 @@ class MainMenu extends React.Component {
           <MenuItem onClick={this.handleSaveAsToBrowser} id="save-as">Save as to browser</MenuItem>
           <MenuItem onClick={this.handleRename} id="rename">Rename</MenuItem>
           <MenuItem onClick={this.handleExportAsUrl} id="export-as-url">Export as URL</MenuItem>
+          <MenuItem onClick={this.handleExportAsSvg} id="export-as-svg">Export as SVG</MenuItem>
           <MenuItem onClick={this.handleSettings} id="settings">Settings</MenuItem>
         </Menu>
       </div>
@@ -69,6 +75,7 @@ MainMenu.propTypes = {
   onSaveAsToBrowserClick: PropTypes.func.isRequired,
   onRenameClick: PropTypes.func.isRequired,
   onExportAsUrlClick: PropTypes.func.isRequired,
+  onExportAsSvgClick: PropTypes.func.isRequired,
   anchorEl: PropTypes.object.isRequired,
 };
 
