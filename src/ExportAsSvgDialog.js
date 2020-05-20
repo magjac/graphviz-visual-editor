@@ -102,7 +102,7 @@ class ExportAsSvgDialog extends React.Component {
             <Button id="cancel" onClick={this.handleClose} color="secondary">
               Cancel
             </Button>
-            <Button id="export-svg" onClick={this.handleExportSvg} color="default">
+            <Button id="export-svg" onClick={this.handleExportSvg} color="secondary" variant="contained">
               Export SVG
             </Button>
           </DialogActions>
