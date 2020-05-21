@@ -23,6 +23,7 @@ import AboutDialog from '../AboutDialog';
 import { parse as qs_parse } from 'qs';
 import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
+import ExportAsSvgDialog from '../ExportAsSvgDialog'
 
 const styles = theme => ({
   root: {
@@ -65,6 +66,7 @@ class Index extends React.Component {
       saveToBrowserAsDialogIsOpen: false,
       replaceName: '',
       exportAsUrlDialogIsOpen: false,
+      exportAsSvgDialogIsOpen: false,
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
@@ -185,9 +187,21 @@ class Index extends React.Component {
     });
   }
 
+  handleExportAsSvgClick = () => {
+    this.setState({
+      exportAsSvgDialogIsOpen: true,
+    });
+  }
+
   handleExportAsUrlClose = () => {
     this.setState({
       exportAsUrlDialogIsOpen: false,
+    });
+  }
+
+  handleExportAsSvgClose = () => {
+    this.setState({
+      exportAsSvgDialogIsOpen: false,
     });
   }
 
@@ -706,6 +720,7 @@ class Index extends React.Component {
             onNewClick={this.handleNewClick}
             onRenameClick={this.handleRenameClick}
             onExportAsUrlClick={this.handleExportAsUrlClick}
+            onExportAsSvgClick={this.handleExportAsSvgClick}
           />
         }
         {this.state.settingsDialogIsOpen &&
@@ -757,6 +772,13 @@ class Index extends React.Component {
           <ExportAsUrlDialog
             URL={window.location.href + '?' + qs_stringify({dot: this.state.dotSrc})}
             onClose={this.handleExportAsUrlClose}
+          />
+        }
+        {this.state.exportAsSvgDialogIsOpen &&
+          <ExportAsSvgDialog
+            defaultFilename={(this.state.name || this.createUntitledName(this.state.projects)) + '.svg'}
+            getSvgString={this.getSvgString.bind(this)}
+            onClose={this.handleExportAsSvgClose}
           />
         }
         <Grid container
