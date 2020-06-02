@@ -172,6 +172,30 @@ Cypress.Commands.add("exportGraphAsUrlOpenLinkButton", () => {
   return cy.exportGraphAsUrlDialog().find('#open-link');
 });
 
+Cypress.Commands.add("menuItemExportAsSvg", () => {
+  return cy.get('#main-menu').find('#export-as-svg');
+});
+
+Cypress.Commands.add("exportGraphAsSvgDialog", () => {
+  return cy.get('#export-graph-as-svg-dialog');
+});
+
+Cypress.Commands.add("exportGraphAsSvgExportedSvg", () => {
+  return cy.exportGraphAsSvgDialog().find('#export');
+});
+
+Cypress.Commands.add("exportGraphAsSvgExportSvgButton", () => {
+  return cy.exportGraphAsSvgDialog().find('#export-svg');
+});
+
+Cypress.Commands.add("exportGraphAsSvgCancelButton", () => {
+  return cy.exportGraphAsSvgDialog().find('#cancel');
+});
+
+Cypress.Commands.add("exportGraphAsSvgFilenameInput", () => {
+  return cy.exportGraphAsSvgDialog().find('#export');
+});
+
 Cypress.Commands.add("menuItemSettings", () => {
   return cy.mainMenu().find('#settings');
 });
