@@ -60,7 +60,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: pwd; whoami; ls -l; echo $HOME; mkdir -p $HOME/Downloads; ls -l $HOME/Downloads; ls -l $HOME; make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
+      - run: pwd; whoami; ls -l; echo $HOME; mkdir -p $HOME/Downloads; ls -l $HOME/Downloads; ls -l $HOME; make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test || find $HOME -name "Untitled*" && yarn run codecov
 workflows:
   version: 2
   build-and-integration-test:
