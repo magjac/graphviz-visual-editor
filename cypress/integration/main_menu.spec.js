@@ -8,6 +8,7 @@ describe('Settings', function() {
       'Save as to browser',
       'Rename',
       'Export as URL',
+      'Export as SVG',
       'Settings',
     ];
 

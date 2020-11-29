@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
  * Bundle @hpcc-js/wasm instead of loading from unpkg
  * Upgraded d3-graphviz to version 3.0.6, thereby upgrading @hpcc-js-/wasm to version 0.3.13, thereby upgrading Graphviz to version 2.44.0.
+ * Added "Export as SVG" to main menu (thanks @pRizz).
 
 ## [0.6.4]
 ### Fixed
