@@ -43,6 +43,7 @@ Learn more from the Create React App [README](https://github.com/facebook/create
 * Automatic update of the graph when the DOT source is edited.
 * Animated transition of the graph into a new state when changes are made.
 * Preservation of the DOT source and the application state during page reloads by automatic save and retrieve to/from local storage in the browser.
+* Export graph as URL and import graph from such an URL.
 * Options:
   * Automatically fit the graph to the available drawing area.
   * Select Graphviz layout engine.
