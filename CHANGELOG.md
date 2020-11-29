@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.6.4]
 ### Fixed
 * Drawing edges or inserting nodes does not work in production bundle #139
+* Navigating back to the referring page after URL import requires clicking back twice in the browser #155
 
 ## [0.6.3]
 ### Changed

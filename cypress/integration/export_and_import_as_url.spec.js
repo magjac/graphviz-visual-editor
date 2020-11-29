@@ -1,4 +1,4 @@
-describe('Browser save and open', function() {
+describe('Export as URL', function() {
 
   it('The DOT source is exported as a URL to the application genereated through the menu alternative Export As URL', function() {
     cy.startApplication();
@@ -42,6 +42,7 @@ describe('Browser save and open', function() {
     cy.edges().should('have.length', 0);
 
     cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
+    cy.window().url().should('eq', 'http://localhost:3000/');
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
@@ -54,6 +55,8 @@ describe('Browser save and open', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
+    cy.go('back');
+    cy.window().url().should('eq', 'http://localhost:3000/');
   })
 
   it('The graph is opened in a new tab when visiting the genereated URL by clicking the open link button in the export graph as URL dialog', function() {
