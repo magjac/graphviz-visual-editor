@@ -42,6 +42,9 @@ describe('Export as SVG', function() {
     cy.exec('echo ${HOME}').then((result) => {
       cy.log(result.stdout);
       const home = result.stdout;
+      cy.exec('find $HOME -name "Untitled*" || true').then((result) => {
+        cy.log(result.stdout);
+      });
       cy.readFile(home + '/Downloads/Untitled Graph.svg');
     });
 
