@@ -57,7 +57,7 @@
     "@cypress/code-coverage": "^3.7.2",
     "@cypress/instrument-cra": "^1.1.1",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
-    "codecov": "^3.6.5",
+    "codecov": "^3.7.1",
     "cypress": "^4.5.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.2",
