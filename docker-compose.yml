@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  graphviz-editor:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: graphviz-editor
+    ports:
+      - "5000:5000"
+    restart: always
