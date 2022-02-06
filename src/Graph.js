@@ -291,7 +291,7 @@ class Graph extends React.Component {
 
   }
 
-  handleClickDiv(event, d) {
+  handleClickDiv(event) {
     this.props.onFocus();
     document.activeElement.blur();
     event.preventDefault();
@@ -301,7 +301,7 @@ class Graph extends React.Component {
     }
   }
 
-  handleKeyDownDocument(event, d) {
+  handleKeyDownDocument(event) {
     if (!this.props.hasFocus) {
       return;
     }
@@ -357,7 +357,7 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
   }
 
-  handleMouseMoveDiv(event, d) {
+  handleMouseMoveDiv(event) {
     event.preventDefault();
     event.stopPropagation();
     var [x0, y0] = d3_pointer(event, this.graph0.node());
@@ -377,7 +377,7 @@ class Graph extends React.Component {
     }
   }
 
-  handleClickNode(event, d) {
+  handleClickNode(event) {
     this.props.onFocus();
     document.activeElement.blur();
     event.preventDefault();
@@ -388,7 +388,7 @@ class Graph extends React.Component {
     }
   }
 
-  handleDblClickNode(event, d) {
+  handleDblClickNode(event) {
     this.props.onFocus();
     document.activeElement.blur();
     event.preventDefault();
@@ -407,7 +407,7 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
   }
 
-  handleRightClickNode(event, d) {
+  handleRightClickNode(event) {
     this.props.onFocus();
     document.activeElement.blur();
     event.preventDefault();
@@ -429,7 +429,7 @@ class Graph extends React.Component {
     this.isDrawingEdge = true;
   }
 
-  handleClickEdge(event, d) {
+  handleClickEdge(event) {
     this.props.onFocus();
     document.activeElement.blur();
     event.preventDefault();
@@ -438,7 +438,7 @@ class Graph extends React.Component {
     this.selectComponents(d3_select(event.currentTarget), extendSelection);
   }
 
-  handleRightClickDiv(event, d) {
+  handleRightClickDiv(event) {
     this.props.onFocus();
     document.activeElement.blur();
     event.preventDefault();
@@ -446,7 +446,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
   }
 
-  handleMouseDownSvg(event, d) {
+  handleMouseDownSvg(event) {
     this.props.onFocus();
     document.activeElement.blur();
     if (event.which !== 1) {
@@ -471,7 +471,7 @@ class Graph extends React.Component {
       .style('fill-opacity', 0.3);
   }
 
-  handleMouseMoveSvg(event, d) {
+  handleMouseMoveSvg(event) {
     if (this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
@@ -489,7 +489,7 @@ class Graph extends React.Component {
     }
   }
 
-  handleClickSvg(event, d) {
+  handleClickSvg(event) {
     this.props.onFocus();
     document.activeElement.blur();
     if (event.which === 1 && this.selectArea) {
@@ -524,7 +524,7 @@ class Graph extends React.Component {
     }
   }
 
-  handleMouseUpSvg(event, d) {
+  handleMouseUpSvg(event) {
     this.props.onFocus();
     document.activeElement.blur();
     if (event.which === 2) {
