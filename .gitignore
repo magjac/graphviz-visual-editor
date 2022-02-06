@@ -25,3 +25,6 @@ yarn.lock
 # generated files
 src/shapes.js
 src/dotParser.js
+
+coverage-cypress
+coverage-jest
