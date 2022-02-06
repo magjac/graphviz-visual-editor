@@ -8,7 +8,7 @@ import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
 import { zoomIdentity as d3_zoomIdentity} from 'd3-zoom';
 import { zoomTransform as d3_zoomTransform} from 'd3-zoom';
-import { mouse as d3_mouse} from 'd3-selection';
+import { pointer as d3_pointer} from 'd3-selection';
 import 'd3-graphviz';
 import DotGraph from './dot'
 import { wasmFolder } from "@hpcc-js/wasm";
@@ -360,7 +360,7 @@ class Graph extends React.Component {
   handleMouseMoveDiv(event, d, i, nodes) {
     event.preventDefault();
     event.stopPropagation();
-    var [x0, y0] = d3_mouse(this.graph0.node());
+    var [x0, y0] = d3_pointer(event, this.graph0.node());
     var penwidth = 1;
     if (this.latestEdgeAttributes.penwidth != null) {
       if (isNumeric(this.latestEdgeAttributes.penwidth)) {
@@ -415,7 +415,7 @@ class Graph extends React.Component {
     this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
     this.startNode = d3_select(event.currentTarget);
-    var [x0, y0] = d3_mouse(this.graph0.node());
+    var [x0, y0] = d3_pointer(event, this.graph0.node());
     if (this.edgeIndex === null) {
       this.edgeIndex = d3_selectAll('.edge').size();
     } else {
@@ -457,7 +457,7 @@ class Graph extends React.Component {
     if (this.selectArea) {
       return;
     }
-    var [x0, y0] = d3_mouse(this.graph0.node());
+    var [x0, y0] = d3_pointer(event, this.graph0.node());
     this.selectArea = {x0: x0, y0: y0};
     let offset = 1;  // avoid covering the svg at click in Chrome
     this.selectArea.selection = this.graph0.append("rect")
@@ -476,7 +476,7 @@ class Graph extends React.Component {
       event.preventDefault();
       event.stopPropagation();
       let {x0, y0} = this.selectArea;
-      var [x1, y1] = d3_mouse(this.graph0.node());
+      var [x1, y1] = d3_pointer(event, this.graph0.node());
       let x = Math.min(x0, x1);
       let y = Math.min(y0, y1);
       let width = Math.abs(x1 - x0);
@@ -497,7 +497,7 @@ class Graph extends React.Component {
       event.stopPropagation();
       this.selectArea.selection.remove();
       let {x0, y0} = this.selectArea;
-      var [x1, y1] = d3_mouse(this.graph0.node());
+      var [x1, y1] = d3_pointer(event, this.graph0.node());
       let x = Math.min(x0, x1);
       let y = Math.min(y0, y1);
       let width = Math.abs(x1 - x0);
@@ -528,7 +528,7 @@ class Graph extends React.Component {
     this.props.onFocus();
     document.activeElement.blur();
     if (event.which === 2) {
-      var [x0, y0] = d3_mouse(this.graph0.node());
+      var [x0, y0] = d3_pointer(event, this.graph0.node());
       if (event.shiftKey) {
         this.insertNodeWithDefaultAttributes(x0, y0, {shape: this.latestInsertedNodeShape});
       } else {
