@@ -8,7 +8,6 @@ import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
 import { zoomIdentity as d3_zoomIdentity} from 'd3-zoom';
 import { zoomTransform as d3_zoomTransform} from 'd3-zoom';
-import { event as d3_event} from 'd3-selection';
 import { mouse as d3_mouse} from 'd3-selection';
 import 'd3-graphviz';
 import DotGraph from './dot'
@@ -261,8 +260,8 @@ class Graph extends React.Component {
     */
 
     let self = this;
-    this.graphviz.zoomBehavior().filter(function () {
-      if (d3_event.type === 'mousedown' && !d3_event.ctrlKey) {
+    this.graphviz.zoomBehavior().filter(function (event) {
+      if (event.type === 'mousedown' && !event.ctrlKey) {
         if (self.isDrawingEdge) {
           return true;
         } else {
@@ -292,10 +291,9 @@ class Graph extends React.Component {
 
   }
 
-  handleClickDiv(d, i, nodes) {
+  handleClickDiv(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
     if (!(event.which === 1 && (event.ctrlKey || event.shiftKey))) {
@@ -303,11 +301,10 @@ class Graph extends React.Component {
     }
   }
 
-  handleKeyDownDocument(d, i, nodes) {
+  handleKeyDownDocument(event, d, i, nodes) {
     if (!this.props.hasFocus) {
       return;
     }
-    var event = d3_event;
     if (event.target.nodeName !== 'BODY') {
       return;
     }
@@ -360,8 +357,7 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
   }
 
-  handleMouseMoveDiv(d, i, nodes) {
-    var event = d3_event;
+  handleMouseMoveDiv(event, d, i, nodes) {
     event.preventDefault();
     event.stopPropagation();
     var [x0, y0] = d3_mouse(this.graph0.node());
@@ -381,27 +377,25 @@ class Graph extends React.Component {
     }
   }
 
-  handleClickNode(d, i, nodes) {
+  handleClickNode(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
     if (!this.isDrawingEdge && event.which === 1) {
       let extendSelection = event.ctrlKey || event.shiftKey;
-      this.selectComponents(d3_select(nodes[i]), extendSelection);
+      this.selectComponents(d3_select(event.currentTarget), extendSelection);
     }
   }
 
-  handleDblClickNode(d, i, nodes) {
+  handleDblClickNode(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
     this.unSelectComponents();
     if (this.isDrawingEdge) {
-      var endNode = d3_select(nodes[i]);
+      var endNode = d3_select(event.currentTarget);
       var startNodeName = this.startNode.selectWithoutDataPropagation("title").text();
       var endNodeName = endNode.selectWithoutDataPropagation("title").text();
       this.graphviz
@@ -413,15 +407,14 @@ class Graph extends React.Component {
     this.isDrawingEdge = false;
   }
 
-  handleRightClickNode(d, i, nodes) {
+  handleRightClickNode(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
     this.unSelectComponents();
     this.graphviz.removeDrawnEdge();
-    this.startNode = d3_select(nodes[i]);
+    this.startNode = d3_select(event.currentTarget);
     var [x0, y0] = d3_mouse(this.graph0.node());
     if (this.edgeIndex === null) {
       this.edgeIndex = d3_selectAll('.edge').size();
@@ -436,29 +429,26 @@ class Graph extends React.Component {
     this.isDrawingEdge = true;
   }
 
-  handleClickEdge(d, i, nodes) {
+  handleClickEdge(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
     let extendSelection = event.ctrlKey || event.shiftKey;
-    this.selectComponents(d3_select(nodes[i]), extendSelection);
+    this.selectComponents(d3_select(event.currentTarget), extendSelection);
   }
 
-  handleRightClickDiv(d, i, nodes) {
+  handleRightClickDiv(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     event.preventDefault();
     event.stopPropagation();
     this.unSelectComponents();
   }
 
-  handleMouseDownSvg(d, i, nodes) {
+  handleMouseDownSvg(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     if (event.which !== 1) {
       return;
     }
@@ -481,8 +471,7 @@ class Graph extends React.Component {
       .style('fill-opacity', 0.3);
   }
 
-  handleMouseMoveSvg(d, i, nodes) {
-    var event = d3_event;
+  handleMouseMoveSvg(event, d, i, nodes) {
     if (this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
@@ -500,10 +489,9 @@ class Graph extends React.Component {
     }
   }
 
-  handleClickSvg(d, i, nodes) {
+  handleClickSvg(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     if (event.which === 1 && this.selectArea) {
       event.preventDefault();
       event.stopPropagation();
@@ -536,10 +524,9 @@ class Graph extends React.Component {
     }
   }
 
-  handleMouseUpSvg(d, i, nodes) {
+  handleMouseUpSvg(event, d, i, nodes) {
     this.props.onFocus();
     document.activeElement.blur();
-    var event = d3_event;
     if (event.which === 2) {
       var [x0, y0] = d3_mouse(this.graph0.node());
       if (event.shiftKey) {
