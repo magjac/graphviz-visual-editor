@@ -818,6 +818,7 @@ class Index extends React.Component {
                 <TextEditor
                   // allocated viewport width - 2 * padding
                   width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                  height={`calc(100vh - 64px - 2 * 12px)`}
                   dotSrc={this.state.dotSrc}
                   onTextChange={this.handleTextChange}
                   onFocus={this.handleTextEditorFocus}
