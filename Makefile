@@ -1,5 +1,6 @@
 GENERATED_FILES = \
 	src/shapes.js \
+	src/versions.json \
 	readme.html \
 	changelog.html \
 	src/dotParser.js \
@@ -10,6 +11,10 @@ main: $(GENERATED_FILES)
 
 src/shapes.js: bin/generate-nodes.js
 	bin/generate-nodes.js > tmp.js
+	mv tmp.js $@
+
+src/versions.json: CHANGELOG.md bin/generate-versions.py
+	bin/generate-versions.py CHANGELOG.md > tmp.js
 	mv tmp.js $@
 
 src/dotParser.js: src/dotGrammar.pegjs
