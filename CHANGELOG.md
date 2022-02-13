@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Upgraded d3-graphviz to version 3.0.6, thereby upgrading @hpcc-js-/wasm to version 0.3.13, thereby upgrading Graphviz to version 2.44.0.
  * Added "Export as SVG" to main menu (thanks @pRizz).
 
-## [0.6.4]
+## [0.6.4] - 2020-04-29
 ### Fixed
 * Drawing edges or inserting nodes does not work in production bundle #139
 * Navigating back to the referring page after URL import requires clicking back twice in the browser #155
