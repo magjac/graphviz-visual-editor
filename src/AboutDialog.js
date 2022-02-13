@@ -48,7 +48,15 @@ class AboutDialog extends React.Component {
           </div>
           <DialogContent>
             <DialogContentText>
-              Version {packageJSON.version}
+              Version
+              {' '}
+              <a
+                href={"https://github.com/magjac/graphviz-visual-editor/blob/master/CHANGELOG.md#" + packageJSON.version.replace(/\./g, '')}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                 {packageJSON.version}
+              </a>
             </DialogContentText>
             <br/>
             <DialogContentText>
