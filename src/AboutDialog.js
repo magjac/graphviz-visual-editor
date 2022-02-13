@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import graphvizVersions from './graphviz-versions.json';
 import packageJSON from '../package.json';
 import versions from './versions.json';
 import IconButton from '@material-ui/core/IconButton';
@@ -39,6 +40,9 @@ class AboutDialog extends React.Component {
         return version.replace(/\./g, '') + "---" + releaseDate;
       }
     })();
+    const graphvizVersion = this.props.graphvizVersion;
+    const graphvizReleaseDate = graphvizVersions[graphvizVersion].release_date;
+    const graphvizChangelogHeaderId = graphvizVersion.replace(/\./g, '') + "-" + graphvizReleaseDate;
     return (
       <div>
         <Dialog id="about-dialog"
@@ -128,6 +132,18 @@ class AboutDialog extends React.Component {
               </a>
               {' '}
               for more information.
+            </DialogContentText>
+            <br/>
+            <DialogContentText>
+              Based on Graphviz version
+              {' '}
+              <a
+                href={"https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md#" + graphvizChangelogHeaderId}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                 {graphvizVersion}
+              </a>
             </DialogContentText>
             <DialogContentText variant='caption' className={classes.copyright}>
               &copy; 2018-2022 Magnus Jacobsson Interactive AB
