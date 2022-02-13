@@ -11,12 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  * Upgraded d3-graphviz to version 3.0.6, thereby upgrading @hpcc-js-/wasm to version 0.3.13, thereby upgrading Graphviz to version 2.44.0.
  * Added "Export as SVG" to main menu (thanks @pRizz).
 
-## [0.6.4]
+## [0.6.4] - 2020-04-29
 ### Fixed
 * Drawing edges or inserting nodes does not work in production bundle #139
 * Navigating back to the referring page after URL import requires clicking back twice in the browser #155
 
-## [0.6.3]
+## [0.6.3] - 2020-04-09
 ### Changed
 * Upgraded [d3-graphviz](https://gitlab.com/magjac/d3-graphviz) to version [3.0.5](https://github.com/magjac/d3-graphviz/blob/master/CHANGELOG.md#305) thereby replacing [Viz.js](https://github.com/mdaines/viz.js/) with [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm).
 * Upgraded [Graphviz](https://gitlab.com/graphviz/graphviz) to version [2.42.4](https://gitlab.com/graphviz/graphviz/-/releases/2.42.4) through [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm) version [0.3.11](https://github.com/hpcc-systems/hpcc-js-wasm/releases/tag/v0.3.11), including fixes for:
@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.6.2
 Never released
 
-## [0.6.1]
+## [0.6.1] - 2020-01-03
 ### Fixed
 * Module not found: Can't resolve './DoYouWantToDeleteDialog'. #93
 * Stuck at "Starting the development server". #95
@@ -40,7 +40,7 @@ Never released
 * Ctrl- or Shift-click the canvas deselects already selected components. #107
 * Unselected components are not cleared in text editor. #108
 
-## [0.6.0]
+## [0.6.0] - 2018-10-01
 ### Added
 * Export as URL. Generates a link to the application with the DOT source code as an URL parameter.
 * Specification of the DOT source code through a URL parameter. #69
@@ -162,7 +162,7 @@ Never released
   * Mouse interactions
 
 [Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.4...HEAD
-[0.6.4]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...v0.6.3
+[0.6.4]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.1...v0.6.3
 [0.6.1]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.5.0...v0.6.0
