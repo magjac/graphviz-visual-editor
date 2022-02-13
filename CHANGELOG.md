@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.6.2
 Never released
 
-## [0.6.1]
+## [0.6.1] - 2020-01-03
 ### Fixed
 * Module not found: Can't resolve './DoYouWantToDeleteDialog'. #93
 * Stuck at "Starting the development server". #95
