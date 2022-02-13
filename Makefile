@@ -1,5 +1,6 @@
 GENERATED_FILES = \
 	src/graphvizVersion.js \
+	src/graphviz-versions.json \
 	src/shapes.js \
 	src/versions.json \
 	readme.html \
@@ -22,13 +23,17 @@ src/versions.json: CHANGELOG.md bin/generate-versions.py
 	bin/generate-versions.py CHANGELOG.md > tmp.js
 	mv tmp.js $@
 
+src/graphviz-versions.json: graphviz/CHANGELOG.md bin/generate-versions.py
+	bin/generate-versions.py graphviz/CHANGELOG.md > tmp.js
+	mv tmp.js $@
+
 src/dotParser.js: src/dotGrammar.pegjs
 	node_modules/.bin/pegjs $< tmp.js
 	echo "/* eslint-disable */" | cat - tmp.js > tmp2.js
 	mv tmp2.js $@
 	rm tmp.js
 
-graphviz:
+graphviz graphviz/CHANGELOG.md:
 	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git
 
 dots parse-all-graphviz-dots: dotfiles.txt
