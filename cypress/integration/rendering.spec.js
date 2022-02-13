@@ -55,7 +55,7 @@ describe('Basic rendering from DOT source', function() {
         switch (engine) {
         case 'circo':
           cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 264.21337890625);
+          cy.wrap(graph0).invoke('width').should('eq', 264.2266845703125);
           break;
         case 'dot':
           cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
@@ -71,7 +71,7 @@ describe('Basic rendering from DOT source', function() {
           break;
         case 'osage':
           cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 173.693359375);
+          cy.wrap(graph0).invoke('width').should('eq', 172.3599853515625);
           break;
         case 'patchwork':
           cy.wrap(graph0).invoke('height').should('eq',70.29330444335938);

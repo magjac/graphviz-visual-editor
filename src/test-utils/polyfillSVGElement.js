@@ -150,4 +150,19 @@ export default function polyfillSVGElement() {
           },
       });
   }
+    if (!('viewBox' in window.SVGElement.prototype)) {
+        Object.defineProperty(window.SVGElement.prototype, 'viewBox', {
+            get: function() {
+                let viewBox = this.getAttribute('viewBox').split(' ');
+                return {
+                    baseVal: {
+                        x: +viewBox[0],
+                        y: +viewBox[1],
+                        width: +viewBox[2],
+                        height: +viewBox[3],
+                    },
+                };
+            },
+        });
+    }
 }
