@@ -40,7 +40,7 @@ Never released
 * Ctrl- or Shift-click the canvas deselects already selected components. #107
 * Unselected components are not cleared in text editor. #108
 
-## [0.6.0]
+## [0.6.0] - 2018-10-01
 ### Added
 * Export as URL. Generates a link to the application with the DOT source code as an URL parameter.
 * Specification of the DOT source code through a URL parameter. #69
