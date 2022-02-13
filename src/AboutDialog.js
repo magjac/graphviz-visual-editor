@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import packageJSON from '../package.json';
+import versions from './versions.json';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -28,6 +29,16 @@ class AboutDialog extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const version = packageJSON.version;
+    const changelogHeaderId = (() => {
+      if (versions[version] == null) {
+        return version;
+      }
+      else {
+        const releaseDate = versions[version].release_date;
+        return version.replace(/\./g, '') + "---" + releaseDate;
+      }
+    })();
     return (
       <div>
         <Dialog id="about-dialog"
@@ -48,7 +59,15 @@ class AboutDialog extends React.Component {
           </div>
           <DialogContent>
             <DialogContentText>
-              Version {packageJSON.version}
+              Version
+              {' '}
+              <a
+                href={"https://github.com/magjac/graphviz-visual-editor/blob/master/CHANGELOG.md#" + changelogHeaderId}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                 {packageJSON.version}
+              </a>
             </DialogContentText>
             <br/>
             <DialogContentText>
