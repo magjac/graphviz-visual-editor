@@ -836,16 +836,16 @@ class Index extends React.Component {
             </Paper>
           </Grid>
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
-              <Grid item xs={columns.insertPanels}>
-                <Paper elevation={midPaneElevation} className={classes.paper}>
-                  <InsertPanels
+            <Grid item xs={columns.insertPanels}>
+              <Paper elevation={midPaneElevation} className={classes.paper}>
+                <InsertPanels
                     onClick={this.handleInsertPanelsClick}
                     onNodeShapeClick={this.handleNodeShapeClick}
                     onNodeShapeDragStart={this.handleNodeShapeDragStart}
                     onNodeShapeDragEnd={this.handleNodeShapeDragEnd}
-                  />
-                </Paper>
-              </Grid>
+                />
+              </Paper>
+            </Grid>
           )}
           <Grid item xs={columns.graph}>
             <Paper elevation={rightPaneElevation} className={classes.paper}>
