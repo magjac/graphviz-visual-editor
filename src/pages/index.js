@@ -689,6 +689,7 @@ class Index extends React.Component {
         graph: 6,
       }
     }
+    const paperClass = classes.paper
     return (
       <div className={classes.root}>
             <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/index.min.js"} type="javascript/worker"></script>
@@ -791,7 +792,7 @@ class Index extends React.Component {
           }}
         >
           <Grid item xs={columns.textEditor}>
-            <Paper elevation={leftPaneElevation} className={classes.paper}>
+            <Paper elevation={leftPaneElevation} className={paperClass}>
               {this.state.nodeFormatDrawerIsOpen &&
                 <FormatDrawer
                   type='node'
@@ -837,7 +838,7 @@ class Index extends React.Component {
           </Grid>
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
             <Grid item xs={columns.insertPanels}>
-              <Paper elevation={midPaneElevation} className={classes.paper}>
+              <Paper elevation={midPaneElevation} className={paperClass}>
                 <InsertPanels
                     onClick={this.handleInsertPanelsClick}
                     onNodeShapeClick={this.handleNodeShapeClick}
@@ -848,7 +849,7 @@ class Index extends React.Component {
             </Grid>
           )}
           <Grid item xs={columns.graph}>
-            <Paper elevation={rightPaneElevation} className={classes.paper}>
+            <Paper elevation={rightPaneElevation} className={paperClass}>
               <Graph
                 hasFocus={graphHasFocus}
                 dotSrc={this.state.dotSrc}
