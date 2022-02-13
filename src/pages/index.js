@@ -25,6 +25,8 @@ import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
 import ExportAsSvgDialog from '../ExportAsSvgDialog'
 import { graphvizVersion } from '../graphvizVersion';
+import UpdatedSnackbar from '../UpdatedSnackbar';
+import packageJSON from '../../package.json';
 
 const styles = theme => ({
   root: {
@@ -33,6 +35,10 @@ const styles = theme => ({
   paper: {
     // viewport height - app bar - 2 * padding
     height: "calc(100vh - 64px - 2 * 12px)",
+  },
+  paperWhenUpdatedSnackbarIsOpen: {
+    "margin-top": "64px",
+    height: "calc(100vh - 64px - 64px - 2 * 12px)",
   }
 });
 
@@ -89,6 +95,7 @@ class Index extends React.Component {
       selectedGraphComponents: [],
       test: JSON.parse(localStorage.getItem('test')) || {},
       graphvizVersion: graphvizVersion,
+      updatedSnackbarIsOpen: packageJSON.version !== localStorage.getItem('version'),
     };
   }
 
@@ -642,6 +649,13 @@ class Index extends React.Component {
     this.setFocusIf('edgeFormatDrawerIsOpen', 'EdgeFormatDrawer', null)
   }
 
+  handleUpdatedSnackbarClose = () => {
+    this.setState({ "updatedSnackbarIsOpen": false });
+    this.setPersistentState({
+      "version": packageJSON.version,
+    })
+  }
+
   setFocus = (focusedPane) => {
     this.setState((state) => (state.focusedPane !== focusedPane && {
       focusedPane: focusedPane,
@@ -689,7 +703,7 @@ class Index extends React.Component {
         graph: 6,
       }
     }
-    const paperClass = classes.paper
+    const paperClass = this.state.updatedSnackbarIsOpen ? classes.paperWhenUpdatedSnackbarIsOpen : classes.paper;
     return (
       <div className={classes.root}>
             <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/index.min.js"} type="javascript/worker"></script>
@@ -784,6 +798,11 @@ class Index extends React.Component {
             onClose={this.handleExportAsSvgClose}
           />
         }
+        {this.state.updatedSnackbarIsOpen &&
+          <UpdatedSnackbar
+            onUpdatedSnackbarClose={this.handleUpdatedSnackbarClose}
+          />
+        }
         <Grid container
           spacing={24}
           style={{
@@ -819,7 +838,7 @@ class Index extends React.Component {
                 <TextEditor
                   // allocated viewport width - 2 * padding
                   width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
-                  height={`calc(100vh - 64px - 2 * 12px)`}
+                  height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
                   dotSrc={this.state.dotSrc}
                   onTextChange={this.handleTextChange}
                   onFocus={this.handleTextEditorFocus}
