@@ -111,7 +111,7 @@ class AboutDialog extends React.Component {
               for more information.
             </DialogContentText>
             <DialogContentText variant='caption' className={classes.copyright}>
-              &copy; 2018-2020 Magnus Jacobsson Interactive AB
+              &copy; 2018-2022 Magnus Jacobsson Interactive AB
             </DialogContentText>
           </DialogContent>
         </Dialog>
