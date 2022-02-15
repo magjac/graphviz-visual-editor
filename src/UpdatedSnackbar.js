@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import withRoot from './withRoot';
 import packageJSON from '../package.json';
 import versions from './versions.json';
+import graphvizVersions from './graphviz-versions.json';
 
 const styles = theme => ({
   snackbar: {
@@ -41,6 +42,9 @@ class UpdatedSnackbar extends React.Component {
         return version.replace(/\./g, '') + "---" + releaseDate;
       }
     })();
+    const graphvizVersion = this.props.graphvizVersion;
+    const graphvizReleaseDate = graphvizVersions[graphvizVersion].release_date;
+    const graphvizChangelogHeaderId = graphvizVersion.replace(/\./g, '') + "-" + graphvizReleaseDate;
     return (
       <Snackbar
         className={classes.snackbar}
@@ -65,6 +69,19 @@ class UpdatedSnackbar extends React.Component {
                 style={{ "color": "white" }}
               >
                 {version}
+              </a>
+              . The underlying Graphviz software
+              {this.props.newGraphvizVersion && ` has been updated to `}
+              {!this.props.newGraphvizVersion && ` is still `}
+              version
+              {' '}
+              <a
+                href={"https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md#" + graphvizChangelogHeaderId}
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{ "color": "white" }}
+              >
+                {graphvizVersion}
               </a>
               .
             </span>}
