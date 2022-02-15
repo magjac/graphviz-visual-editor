@@ -95,6 +95,7 @@ class Index extends React.Component {
       selectedGraphComponents: [],
       test: JSON.parse(localStorage.getItem('test')) || {},
       graphvizVersion: graphvizVersion,
+      newGraphvizVersion: graphvizVersion !== localStorage.getItem('graphvizVersion'),
       updatedSnackbarIsOpen: packageJSON.version !== localStorage.getItem('version'),
     };
   }
@@ -653,6 +654,7 @@ class Index extends React.Component {
     this.setState({ "updatedSnackbarIsOpen": false });
     this.setPersistentState({
       "version": packageJSON.version,
+      "graphvizVersion": this.state.graphvizVersion,
     })
   }
 
@@ -800,6 +802,8 @@ class Index extends React.Component {
         }
         {this.state.updatedSnackbarIsOpen &&
           <UpdatedSnackbar
+            newGraphvizVersion={this.state.newGraphvizVersion}
+            graphvizVersion={this.state.graphvizVersion}
             onUpdatedSnackbarClose={this.handleUpdatedSnackbarClose}
           />
         }
