@@ -27,7 +27,7 @@ dots parse-all-graphviz-dots: dotfiles.txt
 	  ./bin/dotparser.js < $$dotfile > `dirname $$dotfile`/`basename $$dotfile .dot`.json; \
 	done
 
-dotfiles.txt:
+dotfiles.txt: graphviz
 	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/rtest/.*)$$" > $@
 
 readme: readme.html
