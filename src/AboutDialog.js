@@ -6,7 +6,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import graphvizVersions from './graphviz-versions.json';
 import packageJSON from '../package.json';
+import versions from './versions.json';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -28,6 +30,19 @@ class AboutDialog extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const version = packageJSON.version;
+    const changelogHeaderId = (() => {
+      if (versions[version] == null) {
+        return version;
+      }
+      else {
+        const releaseDate = versions[version].release_date;
+        return version.replace(/\./g, '') + "---" + releaseDate;
+      }
+    })();
+    const graphvizVersion = this.props.graphvizVersion;
+    const graphvizReleaseDate = graphvizVersions[graphvizVersion].release_date;
+    const graphvizChangelogHeaderId = graphvizVersion.replace(/\./g, '') + "-" + graphvizReleaseDate;
     return (
       <div>
         <Dialog id="about-dialog"
@@ -48,7 +63,15 @@ class AboutDialog extends React.Component {
           </div>
           <DialogContent>
             <DialogContentText>
-              Version {packageJSON.version}
+              Version
+              {' '}
+              <a
+                href={"https://github.com/magjac/graphviz-visual-editor/blob/master/CHANGELOG.md#" + changelogHeaderId}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                 {packageJSON.version}
+              </a>
             </DialogContentText>
             <br/>
             <DialogContentText>
@@ -110,8 +133,20 @@ class AboutDialog extends React.Component {
               {' '}
               for more information.
             </DialogContentText>
+            <br/>
+            <DialogContentText>
+              Based on Graphviz version
+              {' '}
+              <a
+                href={"https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md#" + graphvizChangelogHeaderId}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                 {graphvizVersion}
+              </a>
+            </DialogContentText>
             <DialogContentText variant='caption' className={classes.copyright}>
-              &copy; 2018-2020 Magnus Jacobsson Interactive AB
+              &copy; 2018-2022 Magnus Jacobsson Interactive AB
             </DialogContentText>
           </DialogContent>
         </Dialog>

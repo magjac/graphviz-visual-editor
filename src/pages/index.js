@@ -24,6 +24,7 @@ import { parse as qs_parse } from 'qs';
 import { stringify as qs_stringify } from 'qs';
 import ExportAsUrlDialog from '../ExportAsUrlDialog';
 import ExportAsSvgDialog from '../ExportAsSvgDialog'
+import { graphvizVersion } from '../graphvizVersion';
 
 const styles = theme => ({
   root: {
@@ -87,6 +88,7 @@ class Index extends React.Component {
       tabSize: +localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
       test: JSON.parse(localStorage.getItem('test')) || {},
+      graphvizVersion: graphvizVersion,
     };
   }
 
@@ -899,6 +901,7 @@ class Index extends React.Component {
         }
         {this.state.aboutDialogIsOpen &&
           <AboutDialog
+            graphvizVersion={this.state.graphvizVersion}
             onAboutDialogClose={this.handleAboutDialogClose}
           />
         }
