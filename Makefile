@@ -1,4 +1,5 @@
 GENERATED_FILES = \
+	src/graphvizVersion.js \
 	src/shapes.js \
 	src/versions.json \
 	readme.html \
@@ -11,6 +12,10 @@ main: $(GENERATED_FILES)
 
 src/shapes.js: bin/generate-nodes.js
 	bin/generate-nodes.js > tmp.js
+	mv tmp.js $@
+
+src/graphvizVersion.js: bin/generate-graphviz-version.js
+	bin/generate-graphviz-version.js > tmp.js
 	mv tmp.js $@
 
 src/versions.json: CHANGELOG.md bin/generate-versions.py
