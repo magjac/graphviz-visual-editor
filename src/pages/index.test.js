@@ -5,6 +5,7 @@ import polyfillElement from '../test-utils/polyfillElement';
 import polyfillSVGElement from '../test-utils/polyfillSVGElement';
 import polyfillXMLSerializer from '../test-utils/polyfillXMLSerializer';
 import polyfillFetch from '../test-utils/polyfillFetch';
+import packageJSON from '../../package.json';
 
 describe('<Index />', () => {
 
@@ -21,6 +22,7 @@ describe('<Index />', () => {
 
   beforeEach(() => {
     localStorage.setItem('holdOff', 0);
+    localStorage.setItem('version', packageJSON.version); // avoid updated snackbar
     mount = createMount();
   });
 
