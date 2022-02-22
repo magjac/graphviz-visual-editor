@@ -60,7 +60,11 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
+      # redirect stdin from /dev/full to avoid the dev server being
+      # closed in CI due to the "feature" added in react-scripts 3.4.1
+      # with https://github.com/facebook/create-react-app/pull/7203
+      # Using env CI=true does not work.
+      - run: make && npm run start:coverage < /dev/full & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
 workflows:
   version: 2
   build-and-integration-test:
