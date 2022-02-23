@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
  * Add a snackbar add a Snackbar showing when the application has been updated and if the underlying Graphviz version has been updated or not.
  * Make the version in the about dialog a link to the version in CHANGELOG.md.
+ * Upgrade d3-graphviz to version 4.1.0 (Graphviz 2.50.0)
  * Bundle @hpcc-js/wasm instead of loading from unpkg
- * Upgraded d3-graphviz to version 3.0.6, thereby upgrading @hpcc-js-/wasm to version 0.3.13, thereby upgrading Graphviz to version 2.44.0.
  * Added "Export as SVG" to main menu (thanks @pRizz).
 
 ## [0.6.4] - 2020-04-29
