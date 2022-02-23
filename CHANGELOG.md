@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.5] - 2022-02-24
+
 ### Changed
  * Add a snackbar add a Snackbar showing when the application has been updated and if the underlying Graphviz version has been updated or not.
  * Make the version in the about dialog a link to the version in CHANGELOG.md.
@@ -163,7 +165,8 @@ Never released
   * Keyboard shortcuts
   * Mouse interactions
 
-[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.4...HEAD
+[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.5...HEAD
+[0.6.5]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.1...v0.6.3
 [0.6.1]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.0...v0.6.1
