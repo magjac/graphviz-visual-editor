@@ -31,7 +31,7 @@
     "d3-selection": "^2.0.0",
     "d3-transition": "^2.0.0",
     "d3-zoom": "^2.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "prop-types": "^15.7.2",
     "qs": "^6.7.0",
     "react": "^16.8.6",
