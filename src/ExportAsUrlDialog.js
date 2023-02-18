@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import withRoot from './withRoot';
+import withRoot from './withRoot.js';
 import CloseIcon from '@mui/icons-material/Close';
 import LinkIcon from '@mui/icons-material/Link';
 import IconButton from '@mui/material/IconButton';

@@ -10,7 +10,7 @@ import { zoomIdentity as d3_zoomIdentity} from 'd3-zoom';
 import { zoomTransform as d3_zoomTransform} from 'd3-zoom';
 import { pointer as d3_pointer} from 'd3-selection';
 import 'd3-graphviz';
-import DotGraph from './dot'
+import DotGraph from './dot.js'
 import { wasmFolder } from "@hpcc-js/wasm";
 
 const styles = {
