@@ -2,10 +2,10 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import { Card } from '@mui/material';
+import { CardContent } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
 
 const previewWidth = 400;
 const previewHeight = 250;

@@ -1,5 +1,5 @@
 import React from 'react';
-import SvgIcon from '@mui/material/SvgIcon';
+import { SvgIcon } from '@mui/material';
 
 function GitHubIcon(props) {
   return (

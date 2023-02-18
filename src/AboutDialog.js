@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import withRoot from './withRoot';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import withRoot from './withRoot.js';
+import { Dialog } from '@mui/material';
+import { DialogContent } from '@mui/material';
+import { DialogContentText } from '@mui/material';
+import { DialogTitle } from '@mui/material';
 import graphvizVersions from './graphviz-versions.json';
 import packageJSON from '../package.json';
 import versions from './versions.json';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 const styles = theme => ({
   title: {
