@@ -4,28 +4,28 @@ import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { withStyles } from 'tss-react/mui';
-import withRoot from '../withRoot';
-import ButtonAppBar from '../ButtonAppBar';
-import Graph from '../Graph';
-import TextEditor from '../TextEditor';
-import MainMenu from '../MainMenu';
-import HelpMenu from '../HelpMenu';
-import SettingsDialog from '../SettingsDialog';
-import OpenFromBrowserDialog from '../OpenFromBrowserDialog';
-import SaveAsToBrowserDialog from '../SaveAsToBrowserDialog';
-import InsertPanels from '../InsertPanels';
-import FormatDrawer from '../FormatDrawer';
+import withRoot from '../withRoot.js';
+import ButtonAppBar from '../ButtonAppBar.js';
+import Graph from '../Graph.js';
+import TextEditor from '../TextEditor.js';
+import MainMenu from '../MainMenu.js';
+import HelpMenu from '../HelpMenu.js';
+import SettingsDialog from '../SettingsDialog.js';
+import OpenFromBrowserDialog from '../OpenFromBrowserDialog.js';
+import SaveAsToBrowserDialog from '../SaveAsToBrowserDialog.js';
+import InsertPanels from '../InsertPanels.js';
+import FormatDrawer from '../FormatDrawer.js';
 import { schemeCategory10 as d3_schemeCategory10} from 'd3-scale-chromatic';
 import { schemePaired as d3_schemePaired} from 'd3-scale-chromatic';
-import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog';
-import MouseOperationsDialog from '../MouseOperationsDialog';
-import AboutDialog from '../AboutDialog';
+import KeyboardShortcutsDialog from '../KeyboardShortcutsDialog.js';
+import MouseOperationsDialog from '../MouseOperationsDialog.js';
+import AboutDialog from '../AboutDialog.js';
 import { parse as qs_parse } from 'qs';
 import { stringify as qs_stringify } from 'qs';
-import ExportAsUrlDialog from '../ExportAsUrlDialog';
-import ExportAsSvgDialog from '../ExportAsSvgDialog'
-import { graphvizVersion } from '../graphvizVersion';
-import UpdatedSnackbar from '../UpdatedSnackbar';
+import ExportAsUrlDialog from '../ExportAsUrlDialog.js';
+import ExportAsSvgDialog from '../ExportAsSvgDialog.js'
+import { graphvizVersion } from '../graphvizVersion.js';
+import UpdatedSnackbar from '../UpdatedSnackbar.js';
 import packageJSON from '../../package.json';
 
 const styles = theme => ({

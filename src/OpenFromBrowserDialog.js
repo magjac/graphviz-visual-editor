@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import withRoot from './withRoot';
+import withRoot from './withRoot.js';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
@@ -19,9 +19,9 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Tooltip from '@mui/material/Tooltip';
 import moment from 'moment';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DoYouWantToDeleteDialog from './DoYouWantToDeleteDialog';
-import SvgPreview from './SvgPreview';
-import DotSrcPreview from './DotSrcPreview';
+import DoYouWantToDeleteDialog from './DoYouWantToDeleteDialog.js';
+import SvgPreview from './SvgPreview.js';
+import DotSrcPreview from './DotSrcPreview.js';
 
 const numLinesPreview = 5;
 

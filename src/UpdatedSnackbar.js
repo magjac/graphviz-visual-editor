@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import { withStyles } from 'tss-react/mui';
-import withRoot from './withRoot';
+import withRoot from './withRoot.js';
 import packageJSON from '../package.json';
 import versions from './versions.json';
 import graphvizVersions from './graphviz-versions.json';

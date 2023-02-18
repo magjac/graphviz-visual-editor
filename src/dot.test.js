@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import DotGraph from './dot';
+import DotGraph from './dot.js';
 import { readFileSync } from 'fs';
 
 class WrapDot extends React.Component {

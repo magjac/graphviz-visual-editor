@@ -14,7 +14,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
-import ColorPicker from './ColorPicker'
+import ColorPicker from './ColorPicker.js'
 
 const drawerWidth = '100%';
 

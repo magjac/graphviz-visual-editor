@@ -17,7 +17,7 @@ import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
-import GitHubIcon from './GitHubIcon'
+import GitHubIcon from './GitHubIcon.js'
 
 const styles = {
   root: {
