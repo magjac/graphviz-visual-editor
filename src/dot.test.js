@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import DotGraph from './dot';
+import DotGraph from './dot.js';
 import { readFileSync } from 'fs';
 
 class WrapDot extends React.Component {
@@ -1083,12 +1083,12 @@ c # baz
   it('deletes the first node and the succeeding whitespace in the same line in a graph with two nodes', () => {
     let dotSrc = `graph {
 
-    a  b 
+    a  b
 
 }`;
     let newDotSrc = `graph {
 
-    b 
+    b
 
 }`;
     render(<WrapDot dotSrc={dotSrc} op="deleteNode" id="a" raw={true}/>);
@@ -1098,7 +1098,7 @@ c # baz
   it('deletes the second node and the succeeding whitespace in the same line in a graph with two nodes', () => {
     let dotSrc = `graph {
 
-    a  b 
+    a  b
 
 }`;
     let newDotSrc = `graph {

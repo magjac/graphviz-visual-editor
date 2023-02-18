@@ -1,10 +1,11 @@
 import React from 'react';
 import { withStyles } from 'tss-react/mui';
-import AceEditor from 'react-ace';
-import 'ace-builds/src-noconflict/mode-dot';
-import 'ace-builds/src-noconflict/theme-github';
-import IconButton from '@mui/material/IconButton';
-import ErrorOutline from '@mui/icons-material/ErrorOutline';
+import ace from 'react-ace';
+import 'ace-builds/src-noconflict/mode-dot.js';
+import 'ace-builds/src-noconflict/theme-github.js';
+import { IconButton } from '@mui/material';
+import { ErrorOutline } from '@mui/icons-material';
+const AceEditor = ace.default;
 
 const styles = {
   errorButton: {
