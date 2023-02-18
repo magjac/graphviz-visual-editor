@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import withRoot from './withRoot';
-import IconButton from '@mui/material/IconButton';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import Switch from '@mui/material/Switch';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import CloseIcon from '@mui/icons-material/Close';
+import withRoot from './withRoot.js';
+import { IconButton } from '@mui/material';
+import { Dialog } from '@mui/material';
+import { DialogContent } from '@mui/material';
+import { DialogContentText } from '@mui/material';
+import { DialogTitle } from '@mui/material';
+import { FormGroup } from '@mui/material';
+import { FormControlLabel } from '@mui/material';
+import { FormLabel } from '@mui/material';
+import { RadioGroup } from '@mui/material';
+import { Radio } from '@mui/material';
+import { Switch } from '@mui/material';
+import { Input } from '@mui/material';
+import { InputAdornment } from '@mui/material';
+import { InputLabel } from '@mui/material';
+import { MenuItem } from '@mui/material';
+import { FormHelperText } from '@mui/material';
+import { FormControl } from '@mui/material';
+import { Select } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 const engines = [
   'circo',
