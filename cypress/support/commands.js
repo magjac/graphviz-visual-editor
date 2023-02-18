@@ -607,6 +607,7 @@ Cypress.Commands.add("insertDotSource", (dotSrc) => {
 
 Cypress.Commands.add("clearAndRenderDotSource", (dotSrc) => {
   cy.clearDotSource();
+  cy.textEditorContent().should('have.text', '');
   cy.insertDotSource(dotSrc);
   cy.waitForTransition();
 });

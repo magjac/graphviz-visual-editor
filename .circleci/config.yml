@@ -37,7 +37,7 @@ jobs:
       - run: make && yarn test:coverage && yarn run codecov
   integration-test:
     docker:
-      - image: cypress/browsers:node13.6.0-chrome80-ff72
+      - image: cypress/browsers:node-16.18.1-chrome-109.0.5414.74-1-ff-109.0-edge-109.0.1518.52-1
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -60,7 +60,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
+      - run: apt update && apt install make && make && npm run start:coverage & $(npm bin)/wait-on http://localhost:3000/ && npm run integration-test && yarn run codecov
 workflows:
   version: 2
   build-and-integration-test:
