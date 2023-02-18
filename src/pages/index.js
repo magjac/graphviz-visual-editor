@@ -716,7 +716,7 @@ class Index extends React.Component {
     const paperClass = this.state.updatedSnackbarIsOpen ? classes.paperWhenUpdatedSnackbarIsOpen : classes.paper;
     return (
       <div className={classes.root}>
-            <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/index.min.js"} type="javascript/worker"></script>
+        <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/index.min.js"} type="javascript/worker"></script>
         <ButtonAppBar
           hasUndo={this.state.hasUndo}
           hasRedo={this.state.hasRedo}
