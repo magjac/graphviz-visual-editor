@@ -13,6 +13,9 @@ const theme = createMuiTheme({
       main: "#99ccff",
     },
   },
+  typography: {
+    useNextVariants: true,
+  },
 });
 
 function withRoot(Component) {
