@@ -13,9 +13,6 @@ const theme = createTheme({
       main: "#99ccff",
     },
   },
-  typography: {
-    useNextVariants: true,
-  },
 });
 
 function withRoot(Component) {
