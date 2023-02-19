@@ -33,6 +33,10 @@ class SvgPreview extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.componentDidUpdate();
+  }
+
   componentDidUpdate() {
     const svgThumbnail = this.divThumbnail.querySelector('svg');
     if (svgThumbnail) {
