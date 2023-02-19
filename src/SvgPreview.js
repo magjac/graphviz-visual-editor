@@ -13,11 +13,11 @@ const styles = theme => ({
   card: {
     position: 'fixed',
     zIndex: 1,
-    width: previewWidth + theme.spacing.unit * previewPadUnits * 2,
-    height: previewHeight + theme.spacing.unit * previewPadUnits * 2,
+    width: previewWidth + theme.spacing(previewPadUnits * 2),
+    height: previewHeight + theme.spacing(previewPadUnits * 2),
   },
   cardContent: {
-    padding: theme.spacing.unit * previewPadUnits,
+    padding: theme.spacing(previewPadUnits),
 
   },
 });
@@ -66,7 +66,7 @@ class SvgPreview extends React.Component {
   render() {
     const { classes } = this.props;
     const { theme } = this.props;
-    const previewMargin = theme.spacing.unit * previewMarginUnits;
+    const previewMargin = theme.spacing(previewMarginUnits);
     return (
       <React.Fragment>
         <div

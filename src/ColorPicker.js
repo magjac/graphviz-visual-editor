@@ -27,7 +27,7 @@ const styles = theme => ({
     zIndex: '2',
   },
   input: {
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
     verticalAlign: 'middle',
     width: 100,
   },

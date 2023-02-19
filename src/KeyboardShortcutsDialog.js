@@ -32,7 +32,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   table: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
 });
 
