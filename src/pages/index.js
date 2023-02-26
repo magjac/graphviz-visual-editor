@@ -58,7 +58,7 @@ class Index extends React.Component {
 }`;
     }
     this.state = {
-      projects: JSON.parse(localStorage.getItem('projects')) || {},
+      projects: JSON.parse(localStorage.getItem('projects') || "{}"),
       initialized: false,
       name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
@@ -86,14 +86,14 @@ class Index extends React.Component {
       tweenShapes : localStorage.getItem('tweenShapes') !== 'false',
       tweenPrecision : localStorage.getItem('tweenPrecision') || '1%',
       engine : localStorage.getItem('engine') || 'dot',
-      defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes')) || {},
-      defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes')) || {},
+      defaultNodeAttributes: JSON.parse(localStorage.getItem('defaultNodeAttributes') || '{}'),
+      defaultEdgeAttributes: JSON.parse(localStorage.getItem('defaultEdgeAttributes') || '{}'),
       error: null,
       holdOff: localStorage.getItem('holdOff') || 0.2,
       fontSize: localStorage.getItem('fontSize') || 12,
       tabSize: +localStorage.getItem('tabSize') || 4,
       selectedGraphComponents: [],
-      test: JSON.parse(localStorage.getItem('test')) || {},
+      test: JSON.parse(localStorage.getItem('test') || '{}'),
       graphvizVersion: graphvizVersion,
       newGraphvizVersion: graphvizVersion !== localStorage.getItem('graphvizVersion'),
       updatedSnackbarIsOpen: packageJSON.version !== localStorage.getItem('version'),
