@@ -808,7 +808,7 @@ class Index extends React.Component {
           />
         }
         <Grid container
-          spacing={24}
+          spacing={3}
           style={{
             margin: 0,
             width: '100%',

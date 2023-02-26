@@ -32,7 +32,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   table: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
 });
 
@@ -71,7 +71,7 @@ class KeyboardShortcutsDialog extends React.Component {
                       <TableCell component="th" scope="row" padding="none">
                         {keyboardShortcut.key}
                       </TableCell>
-                      <TableCell padding="dense">
+                      <TableCell size="small">
                         {keyboardShortcut.description}
                       </TableCell>
                     </TableRow>

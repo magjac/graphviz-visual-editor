@@ -18,7 +18,7 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   copyright: {
-    marginTop: theme.spacing.unit * 5,
+    marginTop: theme.spacing(5),
   },
 });
 

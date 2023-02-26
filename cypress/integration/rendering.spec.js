@@ -54,33 +54,38 @@ describe('Basic rendering from DOT source', function() {
       cy.canvasGraph().then(graph0 => {
         switch (engine) {
         case 'circo':
-          cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 264.2266845703125);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 58.667, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 264.227, 0.0005);
           break;
         case 'dot':
-          cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
-          cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 154.667, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 95.867, 0.0005);
           break;
         case 'fdp':
-          cy.wrap(graph0).invoke('height').should('eq', 73.33331298828125);
-          cy.wrap(graph0).invoke('width').should('eq', 185.3333740234375);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 73.333, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 185.333, 0.0005);
           break;
         case 'neato':
-          cy.wrap(graph0).invoke('height').should('eq', 72.85330200195312);
-          cy.wrap(graph0).invoke('width').should('eq', 184.38671875);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 72.853, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 184.387, 0.0005);
           break;
         case 'osage':
-          cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 172.3599853515625);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 58.667, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 172.360, 0.0005);
           break;
         case 'patchwork':
-          cy.wrap(graph0).invoke('height').should('eq',70.29330444335938);
-          // Workaround for difference between Chrome 79 headed and headless:
-          cy.wrap(graph0).invoke('width').should('be.oneOf', [71.2724609375, 70.2933349609375]);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 70.293, 0.0005);
+          // Workaround for difference between Chrome 110 headed and Chrome 109 headless:
+          if (Cypress.browser.isHeadless) {
+            cy.wrap(graph0).invoke('width').should('be.closeTo', 70.756, 0.0005);
+          }
+          else {
+            cy.wrap(graph0).invoke('width').should('be.closeTo', 70.766, 0.0005);
+          }
           break;
         case 'twopi':
-          cy.wrap(graph0).invoke('height').should('eq', 58.666656494140625);
-          cy.wrap(graph0).invoke('width').should('eq', 185.4400634765625);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 58.667, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 185.440, 0.0005);
           break;
         }
       });
@@ -92,8 +97,8 @@ describe('Basic rendering from DOT source', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
+      cy.wrap(graph0).invoke('height').should('be.closeTo', 154.667, 0.0005);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 95.867, 0.0005);
     });
 
     cy.settingsButton().click();
@@ -102,7 +107,7 @@ describe('Basic rendering from DOT source', function() {
 
     cy.canvasGraph().then(graph0 => {
       cy.wrap(graph0).invoke('height').should('eq', 572);
-      cy.wrap(graph0).invoke('width').should('eq', 354.5413818359375);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 354.541, 0.0005);
     });
 
     cy.settingsButton().click();
@@ -110,8 +115,8 @@ describe('Basic rendering from DOT source', function() {
     cy.get('body').type('{esc}', { release: false });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
+      cy.wrap(graph0).invoke('height').should('be.closeTo', 154.667, 0.0005);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 95.867, 0.0005);
     });
 
   })
@@ -128,8 +133,8 @@ describe('Basic rendering from DOT source', function() {
     });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 95.867, 0.0005);
+      cy.wrap(graph0).invoke('height').should('be.closeTo', 154.667, 0.0005);
     });
 
     cy.viewport(1000 * 2, 660 * 2);
@@ -143,8 +148,8 @@ describe('Basic rendering from DOT source', function() {
     });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('width').should('eq', 95.86669921875);
-      cy.wrap(graph0).invoke('height').should('eq', 154.66665649414062);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 95.867, 0.0005);
+      cy.wrap(graph0).invoke('height').should('be.closeTo', 154.667, 0.0005);
     });
 
   })
@@ -165,7 +170,7 @@ describe('Basic rendering from DOT source', function() {
     });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('width').should('eq', 354.5413818359375);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 354.541, 0.0005);
       cy.wrap(graph0).invoke('height').should('eq', 572);
     });
 
@@ -180,7 +185,7 @@ describe('Basic rendering from DOT source', function() {
     });
 
     cy.canvasGraph().then(graph0 => {
-      cy.wrap(graph0).invoke('width').should('eq', 763.6275634765625);
+      cy.wrap(graph0).invoke('width').should('be.closeTo', 763.628, 0.0005);
       cy.wrap(graph0).invoke('height').should('eq', 1232);
     });
 

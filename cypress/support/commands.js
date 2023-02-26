@@ -406,7 +406,7 @@ Cypress.Commands.add("fitSwitch", () => {
 });
 
 Cypress.Commands.add("engineSelector", () => {
-  return cy.settingsDialog().find('#select-engine');
+  return cy.settingsDialog().find('#engine-selector');
 });
 
 Cypress.Commands.add("engineMenu", () => {

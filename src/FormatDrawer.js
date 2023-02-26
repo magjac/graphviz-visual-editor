@@ -40,18 +40,18 @@ const styles = theme => ({
   styleFormControl: {
   },
   styleSwitch: {
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
   },
   styleCheckbox: {
-    marginLeft: theme.spacing.unit * 0,
-    marginTop: theme.spacing.unit * -2,
+    marginLeft: theme.spacing(0),
+    marginTop: theme.spacing(-2),
   },
   colorFormControl: {
-    marginLeft: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit * 1,
+    marginLeft: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   colorSwitch: {
-    marginLeft: theme.spacing.unit * 0,
+    marginLeft: theme.spacing(0),
   },
 });
 

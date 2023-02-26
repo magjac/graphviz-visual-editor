@@ -37,11 +37,11 @@ const styles = theme => ({
     overflowY: 'visible',
   },
   formControl: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     minWidth: 120,
   },
   formControlLabel: {
-    margin: theme.spacing.unit * -0.5,
+    margin: theme.spacing(-0.5),
   },
   title: {
     display: 'flex',
@@ -51,17 +51,17 @@ const styles = theme => ({
     width: '7.6em',
   },
   group: {
-    marginTop: theme.spacing.unit * 1,
-    marginLeft: theme.spacing.unit * 0,
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(0),
   },
   tweenPrecisionAbsoluteInput: {
-    marginTop: theme.spacing.unit * 1,
-    marginLeft: theme.spacing.unit * 1.5,
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1.5),
     width: '6.9em',
   },
   tweenPrecisionRelativeInput: {
-    marginTop: theme.spacing.unit * 1,
-    marginLeft: theme.spacing.unit * 1.5,
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1.5),
     width: '4.8em',
   },
   holdOffInput: {
