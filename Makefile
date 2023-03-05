@@ -28,7 +28,7 @@ src/graphviz-versions.json: graphviz/CHANGELOG.md bin/generate-versions.py
 	mv tmp.js $@
 
 src/dotParser.js: src/dotGrammar.pegjs
-	node_modules/.bin/pegjs --format umd --output tmp.js $<
+	node_modules/.bin/peggy --format es --output tmp.js $<
 	echo "/* eslint-disable */" | cat - tmp.js > tmp2.js
 	mv tmp2.js $@
 	rm tmp.js
