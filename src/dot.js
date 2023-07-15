@@ -23,7 +23,7 @@ export default class DotGraph {
 
   insertEdge(startNodeName, endNodeName, attributes) {
     var attributesString = toAttributesString(attributes);
-    var newEdgeString = '    ' + startNodeName + ' -> ' + endNodeName + attributesString;
+    var newEdgeString = '    ' + quoteIdIfNecessary(startNodeName) + ' -> ' + quoteIdIfNecessary(endNodeName) + attributesString;
     this.insertAtEndOfGraph(newEdgeString + '\n');
   }
 
