@@ -546,6 +546,10 @@ Cypress.Commands.add("nodeShouldHaveName", (index, label) => {
   return cy.canvasGraph().find('> #node' + index + ">title").should('have.text', label);
 });
 
+Cypress.Commands.add("edgeShouldHaveName", (index, label) => {
+  return cy.canvasGraph().find('> #edge' + index + ">title").should('have.text', label);
+});
+
 Cypress.Commands.add("shouldHaveLabel", {prevSubject: true}, (subject, label) => {
   cy.wrap(subject).find('text').should('have.text', label);
   return cy.wrap(subject);
