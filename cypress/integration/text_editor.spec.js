@@ -257,4 +257,27 @@ describe('Text editor', function() {
 
   })
 
+  it.only('A graph is rendered when DOT source code is typed slowly in the text editor', function() {
+    const dotSrc = '{leftArrow}{enter}Alice->Bob';
+    const delays = [0, 10, 20, 50, 100, 200, 300, 400, 500];
+
+    cy.wrap(delays).each((delay) => {
+      cy.startCleanApplication();
+      cy.textEditorContent().type(dotSrc, {delay: delay, timeout: delay * dotSrc.length + 10000});
+
+      cy.nodes().should('have.length', 2);
+      cy.edges().should('have.length', 1);
+
+      cy.node(1).should('exist');
+      cy.node(2).should('exist');
+      cy.edge(1).should('exist');
+
+      cy.nodeShouldHaveName(1, 'Alice');
+      cy.nodeShouldHaveName(2, 'Bob');
+      cy.edgeShouldHaveName(1, 'Alice->Bob');
+
+      cy.nodes().should('have.length', 2);
+      cy.edges().should('have.length', 1);
+    });
+  });
 })
