@@ -601,6 +601,10 @@ Cypress.Commands.add("waitForTransition", () => {
   cy.waitForNotBusy();
 });
 
+Cypress.Commands.add("waitForEmptyCanvas", () => {
+  cy.canvasSvg().should('not.exist');
+});
+
 Cypress.Commands.add("typeDotSource", (dotSrc) => {
   cy.textEditorContent().type(dotSrc);
 });
