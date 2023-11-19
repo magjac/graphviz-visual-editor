@@ -836,7 +836,7 @@ describe('Browser save and open', function() {
     cy.savedGraphPreview(1).should('have.text', '\n\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
   })
 
-  it('The menu iten New creates a new empty graph', function() {
+  it('The menu item New creates a new empty graph', function() {
     cy.startApplication();
     cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
 
