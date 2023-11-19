@@ -56,8 +56,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -93,8 +93,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.style('dotted').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -283,8 +283,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]}');
 
@@ -311,8 +311,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]    n3}');
 
@@ -766,8 +766,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.colorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]}');
 
@@ -794,8 +794,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.colorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]    n3}');
 
@@ -986,8 +986,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]}');
 
@@ -1014,8 +1014,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]    n3}');
 
