@@ -74,6 +74,7 @@ class Index extends React.Component {
       replaceName: '',
       exportAsUrlDialogIsOpen: false,
       exportAsSvgDialogIsOpen: false,
+      fullscreen: true,
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
@@ -681,7 +682,7 @@ class Index extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen;
+    const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen && !this.state.fullscreen;
     const textEditorHasFocus = this.state.focusedPane === 'TextEditor';
     const nodeFormatDrawerHasFocus = this.state.focusedPane === 'NodeFormatDrawer';
     const edgeFormatDrawerHasFocus = this.state.focusedPane === 'EdgeFormatDrawer';
@@ -698,6 +699,12 @@ class Index extends React.Component {
         insertPanels: 3,
         graph: 6,
       }
+    } else if (this.state.fullscreen) { /* browse */
+      columns = {
+        textEditor: false,
+        insertPanels: false,
+        graph: 12,
+      }
     } else { /* browse */
       columns = {
         textEditor: 6,
@@ -709,26 +716,28 @@ class Index extends React.Component {
     return (
       <div className={classes.root}>
             <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/index.min.js"} type="javascript/worker"></script>
-        <ButtonAppBar
-          hasUndo={this.state.hasUndo}
-          hasRedo={this.state.hasRedo}
-          onMenuButtonClick={this.handleMainMenuButtonClick}
-          onNewButtonClick={this.handleNewClick}
-          onUndoButtonClick={this.handleUndoButtonClick}
-          onRedoButtonClick={this.handleRedoButtonClick}
-          onInsertClick={this.handleInsertButtonClick}
-          onNodeFormatClick={this.handleNodeFormatButtonClick}
-          onEdgeFormatClick={this.handleEdgeFormatButtonClick}
-          onZoomInButtonClick={this.handleZoomInButtonClick}
-          onZoomOutButtonClick={this.handleZoomOutButtonClick}
-          onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
-          onZoomResetButtonClick={this.handleZoomResetButtonClick}
-          onSettingsButtonClick={this.handleSettingsClick}
-          onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
-          onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
-          onHelpButtonClick={this.handleHelpButtonClick}
-        >
-        </ButtonAppBar>
+        {!this.state.fullscreen &&
+          <ButtonAppBar
+            hasUndo={this.state.hasUndo}
+            hasRedo={this.state.hasRedo}
+            onMenuButtonClick={this.handleMainMenuButtonClick}
+            onNewButtonClick={this.handleNewClick}
+            onUndoButtonClick={this.handleUndoButtonClick}
+            onRedoButtonClick={this.handleRedoButtonClick}
+            onInsertClick={this.handleInsertButtonClick}
+            onNodeFormatClick={this.handleNodeFormatButtonClick}
+            onEdgeFormatClick={this.handleEdgeFormatButtonClick}
+            onZoomInButtonClick={this.handleZoomInButtonClick}
+            onZoomOutButtonClick={this.handleZoomOutButtonClick}
+            onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
+            onZoomResetButtonClick={this.handleZoomResetButtonClick}
+            onSettingsButtonClick={this.handleSettingsClick}
+            onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
+            onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
+            onHelpButtonClick={this.handleHelpButtonClick}
+          >
+          </ButtonAppBar>
+        }
         {this.state.mainMenuIsOpen &&
           <MainMenu
             anchorEl={this.state.mainMenuAnchorEl}
@@ -814,51 +823,53 @@ class Index extends React.Component {
             width: '100%',
           }}
         >
-          <Grid item xs={columns.textEditor}>
-            <Paper elevation={leftPaneElevation} className={paperClass}>
-              {this.state.nodeFormatDrawerIsOpen &&
-                <FormatDrawer
-                  type='node'
-                  defaultAttributes={this.state.defaultNodeAttributes}
-                  onClick={this.handleNodeFormatDrawerClick}
-                  onFormatDrawerClose={this.handleNodeFormatDrawerClose}
-                  onStyleChange={this.handleNodeStyleChange}
-                  onColorChange={this.handleNodeColorChange}
-                  onFillColorChange={this.handleNodeFillColorChange}
-                />
-              }
-              {this.state.edgeFormatDrawerIsOpen &&
-                <FormatDrawer
-                  type='edge'
-                  defaultAttributes={this.state.defaultEdgeAttributes}
-                  onClick={this.handleEdgeFormatDrawerClick}
-                  onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
-                  onStyleChange={this.handleEdgeStyleChange}
-                  onColorChange={this.handleEdgeColorChange}
-                  onFillColorChange={this.handleEdgeFillColorChange}
-                />
-              }
-              <div style={{display: editorIsOpen ? 'block' : 'none'}}>
-                <TextEditor
-                  // allocated viewport width - 2 * padding
-                  width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
-                  height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
-                  dotSrc={this.state.dotSrc}
-                  onTextChange={this.handleTextChange}
-                  onFocus={this.handleTextEditorFocus}
-                  onBlur={this.handleTextEditorBlur}
-                  error={this.state.error}
-                  selectedGraphComponents={this.state.selectedGraphComponents}
-                  holdOff={this.state.holdOff}
-                  fontSize={this.state.fontSize}
-                  tabSize={this.state.tabSize}
-                  registerUndo={this.registerUndo}
-                  registerRedo={this.registerRedo}
-                  registerUndoReset={this.registerUndoReset}
-                />
-              </div>
-            </Paper>
-          </Grid>
+          {!this.state.fullscreen &&
+            <Grid id="grid1" item xs={columns.textEditor}>
+              <Paper elevation={leftPaneElevation} className={paperClass}>
+                {this.state.nodeFormatDrawerIsOpen &&
+                  <FormatDrawer
+                    type='node'
+                    defaultAttributes={this.state.defaultNodeAttributes}
+                    onClick={this.handleNodeFormatDrawerClick}
+                    onFormatDrawerClose={this.handleNodeFormatDrawerClose}
+                    onStyleChange={this.handleNodeStyleChange}
+                    onColorChange={this.handleNodeColorChange}
+                    onFillColorChange={this.handleNodeFillColorChange}
+                  />
+                }
+                {this.state.edgeFormatDrawerIsOpen &&
+                  <FormatDrawer
+                    type='edge'
+                    defaultAttributes={this.state.defaultEdgeAttributes}
+                    onClick={this.handleEdgeFormatDrawerClick}
+                    onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
+                    onStyleChange={this.handleEdgeStyleChange}
+                    onColorChange={this.handleEdgeColorChange}
+                    onFillColorChange={this.handleEdgeFillColorChange}
+                  />
+                }
+                <div style={{display: editorIsOpen ? 'block' : 'none'}}>
+                  <TextEditor
+                    // allocated viewport width - 2 * padding
+                    width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                    height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
+                    dotSrc={this.state.dotSrc}
+                    onTextChange={this.handleTextChange}
+                    onFocus={this.handleTextEditorFocus}
+                    onBlur={this.handleTextEditorBlur}
+                    error={this.state.error}
+                    selectedGraphComponents={this.state.selectedGraphComponents}
+                    holdOff={this.state.holdOff}
+                    fontSize={this.state.fontSize}
+                    tabSize={this.state.tabSize}
+                    registerUndo={this.registerUndo}
+                    registerRedo={this.registerRedo}
+                    registerUndoReset={this.registerUndoReset}
+                  />
+                </div>
+              </Paper>
+            </Grid>
+          }
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
             <Grid item xs={columns.insertPanels}>
               <Paper elevation={midPaneElevation} className={paperClass}>
