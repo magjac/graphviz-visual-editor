@@ -1,4 +1,4 @@
-describe('Settings', function() {
+describe('Main menu', function() {
 
   it('The main menu is opened by clicking the menu button', function() {
 
