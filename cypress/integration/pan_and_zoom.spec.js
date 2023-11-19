@@ -15,11 +15,11 @@ describe('Pan and zoom of graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
 
     cy.zoomInButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(143.47500000000002,279.3) scale(1.2)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(143.47500000000002,279.3) scale(1.2)');
 
   })
 
@@ -38,11 +38,11 @@ describe('Pan and zoom of graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
 
     cy.zoomOutButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(153.375,259.5) scale(0.8333333333333334)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(153.375,259.5) scale(0.8333333333333334)');
 
   })
 
@@ -61,15 +61,15 @@ describe('Pan and zoom of graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
 
     cy.zoomInButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(143.47500000000002,279.3) scale(1.2)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(143.47500000000002,279.3) scale(1.2)');
 
     cy.zoomResetButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(143.92499923706055,268.5) scale(1)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(143.92499923706055,268.5) scale(1)');
 
   })
 
@@ -88,11 +88,11 @@ describe('Pan and zoom of graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(148.875,268.5) scale(1)');
 
     cy.zoomOutMapButton().click();
 
-    cy.get('#graph0').should('have.attr', 'transform', 'translate(57.715083385336,414.2068965517241) scale(3.6982758620689653)');
+    cy.canvasGraph().should('have.attr', 'transform', 'translate(57.715083385336,414.2068965517241) scale(3.6982758620689653)');
   })
 
 })
