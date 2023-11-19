@@ -39,7 +39,11 @@ const styles = theme => ({
   paperWhenUpdatedSnackbarIsOpen: {
     "margin-top": "64px",
     height: "calc(100vh - 64px - 64px - 2 * 12px)",
-  }
+  },
+  paperWhenFullscreen: {
+    height: "calc(100vh)",
+    overflow: "hidden"
+  },
 });
 
 const defaultElevation = 2;
@@ -75,6 +79,7 @@ class Index extends React.Component {
       replaceName: '',
       exportAsUrlDialogIsOpen: false,
       exportAsSvgDialogIsOpen: false,
+      fullscreen: false,
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
@@ -680,6 +685,12 @@ class Index extends React.Component {
     })
   }
 
+  handleToggleFullscreen = () => {
+    this.setState((state) => ({
+      fullscreen: !state.fullscreen,
+    }));
+  }
+
   setFocus = (focusedPane) => {
     this.setState((state) => (state.focusedPane !== focusedPane && {
       focusedPane: focusedPane,
@@ -703,14 +714,14 @@ class Index extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen;
+    const editorIsOpen = !this.state.nodeFormatDrawerIsOpen && !this.state.edgeFormatDrawerIsOpen && !this.state.fullscreen;
     const textEditorHasFocus = this.state.focusedPane === 'TextEditor';
     const nodeFormatDrawerHasFocus = this.state.focusedPane === 'NodeFormatDrawer';
     const edgeFormatDrawerHasFocus = this.state.focusedPane === 'EdgeFormatDrawer';
     const insertPanelsHaveFocus = this.state.focusedPane === 'InsertPanels';
     const graphHasFocus = this.state.focusedPane === 'Graph';
     const leftPaneElevation = textEditorHasFocus || nodeFormatDrawerHasFocus || edgeFormatDrawerHasFocus? focusedElevation : defaultElevation;
-    const rightPaneElevation = graphHasFocus ? focusedElevation : defaultElevation;
+    const rightPaneElevation = this.state.fullscreen ? 0 : graphHasFocus ? focusedElevation : defaultElevation;
     const midPaneElevation = insertPanelsHaveFocus ? focusedElevation : defaultElevation;
 
     var columns;
@@ -720,6 +731,12 @@ class Index extends React.Component {
         insertPanels: 3,
         graph: 6,
       }
+    } else if (this.state.fullscreen) {
+      columns = {
+        textEditor: false,
+        insertPanels: false,
+        graph: 12,
+      }
     } else { /* browse */
       columns = {
         textEditor: 6,
@@ -727,30 +744,32 @@ class Index extends React.Component {
         graph: 6,
       }
     }
-    const paperClass = this.state.updatedSnackbarIsOpen ? classes.paperWhenUpdatedSnackbarIsOpen : classes.paper;
+    const paperClass = this.state.updatedSnackbarIsOpen ? classes.paperWhenUpdatedSnackbarIsOpen : this.state.fullscreen ? classes.paperWhenFullscreen : classes.paper ;
     return (
       <div className={classes.root}>
         <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/graphviz.umd.js"} type="javascript/worker"></script>
-        <ButtonAppBar
-          hasUndo={this.state.hasUndo}
-          hasRedo={this.state.hasRedo}
-          onMenuButtonClick={this.handleMainMenuButtonClick}
-          onNewButtonClick={this.handleNewClick}
-          onUndoButtonClick={this.handleUndoButtonClick}
-          onRedoButtonClick={this.handleRedoButtonClick}
-          onInsertClick={this.handleInsertButtonClick}
-          onNodeFormatClick={this.handleNodeFormatButtonClick}
-          onEdgeFormatClick={this.handleEdgeFormatButtonClick}
-          onZoomInButtonClick={this.handleZoomInButtonClick}
-          onZoomOutButtonClick={this.handleZoomOutButtonClick}
-          onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
-          onZoomResetButtonClick={this.handleZoomResetButtonClick}
-          onSettingsButtonClick={this.handleSettingsClick}
-          onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
-          onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
-          onHelpButtonClick={this.handleHelpButtonClick}
-        >
-        </ButtonAppBar>
+        {!this.state.fullscreen &&
+          <ButtonAppBar
+            hasUndo={this.state.hasUndo}
+            hasRedo={this.state.hasRedo}
+            onMenuButtonClick={this.handleMainMenuButtonClick}
+            onNewButtonClick={this.handleNewClick}
+            onUndoButtonClick={this.handleUndoButtonClick}
+            onRedoButtonClick={this.handleRedoButtonClick}
+            onInsertClick={this.handleInsertButtonClick}
+            onNodeFormatClick={this.handleNodeFormatButtonClick}
+            onEdgeFormatClick={this.handleEdgeFormatButtonClick}
+            onZoomInButtonClick={this.handleZoomInButtonClick}
+            onZoomOutButtonClick={this.handleZoomOutButtonClick}
+            onZoomOutMapButtonClick={this.handleZoomOutMapButtonClick}
+            onZoomResetButtonClick={this.handleZoomResetButtonClick}
+            onSettingsButtonClick={this.handleSettingsClick}
+            onOpenInBrowserButtonClick={this.handleOpenFromBrowserClick}
+            onSaveAltButtonClick={this.handleSaveAsToBrowserClick}
+            onHelpButtonClick={this.handleHelpButtonClick}
+          >
+          </ButtonAppBar>
+        }
         {this.state.mainMenuIsOpen &&
           <MainMenu
             anchorEl={this.state.mainMenuAnchorEl}
@@ -830,57 +849,60 @@ class Index extends React.Component {
           />
         }
         <Grid container
-          rowSpacing={1.5}
+          spacing={this.state.fullscreen ? 0 : 1.5}
           style={{
             margin: 0,
+            padding: 0,
             width: '100%',
           }}
         >
-          <Grid item xs={columns.textEditor} padding={1.5}>
-            <Paper elevation={leftPaneElevation} className={paperClass}>
-              {this.state.nodeFormatDrawerIsOpen &&
-                <FormatDrawer
-                  type='node'
-                  defaultAttributes={this.state.defaultNodeAttributes}
-                  onClick={this.handleNodeFormatDrawerClick}
-                  onFormatDrawerClose={this.handleNodeFormatDrawerClose}
-                  onStyleChange={this.handleNodeStyleChange}
-                  onColorChange={this.handleNodeColorChange}
-                  onFillColorChange={this.handleNodeFillColorChange}
-                />
-              }
-              {this.state.edgeFormatDrawerIsOpen &&
-                <FormatDrawer
-                  type='edge'
-                  defaultAttributes={this.state.defaultEdgeAttributes}
-                  onClick={this.handleEdgeFormatDrawerClick}
-                  onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
-                  onStyleChange={this.handleEdgeStyleChange}
-                  onColorChange={this.handleEdgeColorChange}
-                  onFillColorChange={this.handleEdgeFillColorChange}
-                />
-              }
-              <div style={{display: editorIsOpen ? 'block' : 'none'}}>
-                <TextEditor
-                  // allocated viewport width - 2 * padding
-                  width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
-                  height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
-                  dotSrc={this.state.forceNewDotSrc ? this.state.dotSrc : null}
-                  onTextChange={this.handleTextChange}
-                  onFocus={this.handleTextEditorFocus}
-                  onBlur={this.handleTextEditorBlur}
-                  error={this.state.error}
-                  selectedGraphComponents={this.state.selectedGraphComponents}
-                  holdOff={this.state.holdOff}
-                  fontSize={this.state.fontSize}
-                  tabSize={this.state.tabSize}
-                  registerUndo={this.registerUndo}
-                  registerRedo={this.registerRedo}
-                  registerUndoReset={this.registerUndoReset}
-                />
-              </div>
-            </Paper>
-          </Grid>
+          {!this.state.fullscreen &&
+            <Grid item xs={columns.textEditor} padding={1.5}>
+              <Paper elevation={leftPaneElevation} className={paperClass}>
+                {this.state.nodeFormatDrawerIsOpen &&
+                  <FormatDrawer
+                    type='node'
+                    defaultAttributes={this.state.defaultNodeAttributes}
+                    onClick={this.handleNodeFormatDrawerClick}
+                    onFormatDrawerClose={this.handleNodeFormatDrawerClose}
+                    onStyleChange={this.handleNodeStyleChange}
+                    onColorChange={this.handleNodeColorChange}
+                    onFillColorChange={this.handleNodeFillColorChange}
+                  />
+                }
+                {this.state.edgeFormatDrawerIsOpen &&
+                  <FormatDrawer
+                    type='edge'
+                    defaultAttributes={this.state.defaultEdgeAttributes}
+                    onClick={this.handleEdgeFormatDrawerClick}
+                    onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
+                    onStyleChange={this.handleEdgeStyleChange}
+                    onColorChange={this.handleEdgeColorChange}
+                    onFillColorChange={this.handleEdgeFillColorChange}
+                  />
+                }
+                <div style={{display: editorIsOpen ? 'block' : 'none'}}>
+                  <TextEditor
+                    // allocated viewport width - 2 * padding
+                    width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                    height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
+                    dotSrc={this.state.forceNewDotSrc ? this.state.dotSrc : null}
+                    onTextChange={this.handleTextChange}
+                    onFocus={this.handleTextEditorFocus}
+                    onBlur={this.handleTextEditorBlur}
+                    error={this.state.error}
+                    selectedGraphComponents={this.state.selectedGraphComponents}
+                    holdOff={this.state.holdOff}
+                    fontSize={this.state.fontSize}
+                    tabSize={this.state.tabSize}
+                    registerUndo={this.registerUndo}
+                    registerRedo={this.registerRedo}
+                    registerUndoReset={this.registerUndoReset}
+                  />
+                </div>
+              </Paper>
+            </Grid>
+          }
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
             <Grid item xs={columns.insertPanels} padding={1.5}>
               <Paper elevation={midPaneElevation} className={paperClass}>
@@ -893,7 +915,7 @@ class Index extends React.Component {
               </Paper>
             </Grid>
           )}
-          <Grid item xs={columns.graph} padding={1.5}>
+          <Grid item xs={columns.graph} padding={this.state.fullscreen ? 0 : 1.5}>
             <Paper elevation={rightPaneElevation} className={paperClass}>
               <Graph
                 hasFocus={graphHasFocus}
@@ -912,6 +934,7 @@ class Index extends React.Component {
                 onSelect={this.handleGraphComponentSelect}
                 onUndo={this.undo}
                 onRedo={this.redo}
+                onToggleFullscreen={this.handleToggleFullscreen}
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}
