@@ -3,7 +3,7 @@ import packageJSON from '../../package.json';
 Cypress.Commands.add("startApplication", (options) => {
   localStorage.setItem('version', packageJSON.version);
   cy.visit('http://localhost:3000/', options);
-  cy.waitForTransition();
+  cy.canvasGraph().should('exist');
 });
 
 Cypress.Commands.add("startCleanApplication", (options) => {
