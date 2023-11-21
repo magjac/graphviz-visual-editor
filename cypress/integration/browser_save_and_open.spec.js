@@ -1075,7 +1075,7 @@ describe('Browser save and open', function() {
 
   })
 
-  it('A DOT source that is imported from the dot parameter in the URL and is equal to a saved graph in browser local storage even if that graph is not the current graph', function() {
+  it('A DOT source that is imported from the dot parameter in the URL and is equal to a saved graph in browser local storage does not create a new graph even if that graph is not the current graph', function() {
     cy.startApplicationWithNamedDotSource('digraph {Alice -> Bob}', 'My first graph');
 
     cy.openButton().click();
