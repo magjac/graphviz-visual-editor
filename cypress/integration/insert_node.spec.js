@@ -348,7 +348,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
 
     let numberOfVisibleNodes = 0;
-    styles.forEach((style, i) => {
+    cy.wrap(styles).each((style, i) => {
       const nodeIndex = i + 1;
 
       cy.style(style).click();
@@ -483,7 +483,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
 
     let numberOfVisibleNodes = 0;
-    styles.forEach((style, i) => {
+    cy.wrap(styles).each((style, i) => {
       const nodeIndex = i + 1;
 
       cy.style(style).click();
@@ -624,16 +624,16 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.styleSwitch().click();
 
-    styles.filter(style => style != 'invis').forEach((style, i) => {
+    cy.wrap(styles.filter(style => style != 'invis')).each((style, i) => {
       cy.style(style).click();
     });
 
-    styles.filter(style => style != 'invis').forEach((style, i) => {
+    cy.wrap(styles.filter(style => style != 'invis')).each((style, i) => {
       cy.style(style).should('be.checked');
     });
 
     let numberOfVisibleNodes = 0;
-    styles.forEach((style, i) => {
+    cy.wrap(styles).each((style, i) => {
       const nodeIndex = i + 1;
       cy.style(style).click();
 
