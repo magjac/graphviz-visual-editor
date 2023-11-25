@@ -1046,8 +1046,24 @@ describe('Browser save and open', function() {
         cy.openGraphCancelButton().click();
       });
 
+    cy.wait(45 * 1000); // Moment.js starts to show "a minute ago" after 45 seconds
+
+    cy.openButton().click();
+    cy.openFromBrowserDialog()
+      .should('exist')
+      .savedGraphs()
+      .should('have.length', 1)
+      .then(savedGraphs => {
+        cy.wrap(savedGraphs).savedGraph(0).then(savedGraph => {
+          cy.wrap(savedGraph).savedGraphName().should('have.text', 'My graph');
+          cy.wrap(savedGraph).savedGraphDotSource().should('have.text', 'digraph {Alice -> Bob}');
+          cy.wrap(savedGraph).savedGraphTime().should('have.text', 'a minute ago');
+          cy.wrap(savedGraph).savedGraphPreview().should('have.text', '\n\n\n\n\nAlice\n\nAlice\n\n\n\nBob\n\nBob\n\n\n\nAlice->Bob\n\n\n\n\n');
+        });
+        cy.openGraphCancelButton().click();
+      });
+
     cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
-    cy.waitForTransition();
 
     cy.node(1).should('exist');
     cy.node(2).should('exist');
