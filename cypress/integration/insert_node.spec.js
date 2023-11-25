@@ -1033,6 +1033,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 3);
     cy.edges().should('have.length', 1);
 
+    // now disable fillcolor and check that no fillcolor is used
+
     cy.toolbarButton('Node format').click();
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
@@ -1042,6 +1044,27 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]    n3}');
 
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.node(4).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.node(3).shouldHaveName('n2');
+    cy.node(4).shouldHaveName('n3');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(2).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(3).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(4).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+
+    cy.nodes().should('have.length', 4);
+    cy.edges().should('have.length', 1);
   })
 
   it('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
