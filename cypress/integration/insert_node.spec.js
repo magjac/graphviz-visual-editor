@@ -56,8 +56,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -93,8 +93,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.style('dotted').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
     cy.waitForTransition();
 
     cy.node(1).should('exist');
@@ -283,8 +283,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]}');
 
@@ -307,15 +307,38 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 3);
     cy.edges().should('have.length', 1);
 
+    // now disable style and check that no style is used
+
     cy.toolbarButton('Node format').click();
     cy.styleSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ style=""]    n3}');
 
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.node(4).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.node(3).shouldHaveName('n2');
+    cy.node(4).shouldHaveName('n3');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(2).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(3).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(4).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+
+    cy.nodes().should('have.length', 4);
+    cy.edges().should('have.length', 1);
   })
 
   it('Default node style is seleced from one of the styles in the node format drawer', function() {
@@ -348,7 +371,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
 
     let numberOfVisibleNodes = 0;
-    styles.forEach((style, i) => {
+    cy.wrap(styles).each((style, i) => {
       const nodeIndex = i + 1;
 
       cy.style(style).click();
@@ -483,7 +506,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.styleSwitch().click();
 
     let numberOfVisibleNodes = 0;
-    styles.forEach((style, i) => {
+    cy.wrap(styles).each((style, i) => {
       const nodeIndex = i + 1;
 
       cy.style(style).click();
@@ -624,16 +647,16 @@ describe('Insertion of nodes into the graph', function() {
 
     cy.styleSwitch().click();
 
-    styles.filter(style => style != 'invis').forEach((style, i) => {
+    cy.wrap(styles.filter(style => style != 'invis')).each((style, i) => {
       cy.style(style).click();
     });
 
-    styles.filter(style => style != 'invis').forEach((style, i) => {
+    cy.wrap(styles.filter(style => style != 'invis')).each((style, i) => {
       cy.style(style).should('be.checked');
     });
 
     let numberOfVisibleNodes = 0;
-    styles.forEach((style, i) => {
+    cy.wrap(styles).each((style, i) => {
       const nodeIndex = i + 1;
       cy.style(style).click();
 
@@ -766,8 +789,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.colorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]}');
 
@@ -790,15 +813,38 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 3);
     cy.edges().should('have.length', 1);
 
+    // now disable color and check that no color is used
+
     cy.toolbarButton('Node format').click();
     cy.colorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ color=""]    n3}');
 
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.node(4).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.node(3).shouldHaveName('n2');
+    cy.node(4).shouldHaveName('n3');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(2).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(3).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(4).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+
+    cy.nodes().should('have.length', 4);
+    cy.edges().should('have.length', 1);
   })
 
   it('Default node color is seleced from the color picker in the node format drawer', function() {
@@ -986,8 +1032,8 @@ describe('Insertion of nodes into the graph', function() {
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]}');
 
@@ -1010,15 +1056,38 @@ describe('Insertion of nodes into the graph', function() {
     cy.nodes().should('have.length', 3);
     cy.edges().should('have.length', 1);
 
+    // now disable fillcolor and check that no fillcolor is used
+
     cy.toolbarButton('Node format').click();
     cy.fillColorSwitch().click();
     cy.toolbarButton('Node format').click();
 
-    cy.get('#graph0').trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
-    cy.get('#graph0').trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mousedown', 'topLeft', {which: 2, shiftKey: true});
+    cy.canvasGraph().trigger('mouseup', 'topLeft', {which: 2, shiftKey: true});
 
     cy.textEditorVisibleLines().should('have.text', 'digraph {Alice -> Bob    n2 [ fillcolor=""]    n3}');
 
+    cy.waitForTransition();
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.node(3).should('exist');
+    cy.node(4).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.node(3).shouldHaveName('n2');
+    cy.node(4).shouldHaveName('n3');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.node(1).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(2).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(3).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+    cy.node(4).find('ellipse').should('not.have.attr', 'stroke-dasharray');
+
+    cy.nodes().should('have.length', 4);
+    cy.edges().should('have.length', 1);
   })
 
   it('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
