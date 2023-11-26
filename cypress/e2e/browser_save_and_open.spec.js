@@ -1116,7 +1116,7 @@ describe('Browser save and open', function() {
 
     // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
     cy.clearDotSource();
-    cy.canvasGraph().should('not.exist');
+    cy.canvasSvg().should('not.exist');
 
     cy.clearAndRenderDotSource('digraph {Alice}');
 
