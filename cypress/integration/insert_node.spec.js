@@ -594,7 +594,6 @@ describe('Insertion of nodes into the graph', function() {
         case 'rounded':
           cy.node(nodeIndex).find('polygon').should('have.length', 2);
           cy.node(nodeIndex).find('path').should('have.length', 0);
-          cy.node(nodeIndex).find('path').should('not.have.attr', 'stroke-dasharray');
           cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'stroke-width', '0.5');
           cy.node(nodeIndex).find('polygon').eq(0).should('have.attr', 'fill', 'lightgrey');
           cy.node(nodeIndex).find('polygon').eq(1).should('have.attr', 'stroke-width', '2');
