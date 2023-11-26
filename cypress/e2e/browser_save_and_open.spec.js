@@ -995,7 +995,6 @@ describe('Browser save and open', function() {
       });
 
     cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
-    cy.waitForTransition();
 
     cy.openButton().click();
     cy.openFromBrowserDialog()
