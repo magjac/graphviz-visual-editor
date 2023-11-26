@@ -54,7 +54,7 @@
   },
   "homepage": ".",
   "devDependencies": {
-    "@cypress/code-coverage": "^3.7.2",
+    "@cypress/code-coverage": "^3.8.8",
     "@cypress/instrument-cra": "^1.1.1",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
     "codecov": "^3.7.1",
