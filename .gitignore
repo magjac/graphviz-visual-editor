@@ -28,3 +28,5 @@ src/dotParser.js
 
 coverage-cypress
 coverage-jest
+
+/graphviz
