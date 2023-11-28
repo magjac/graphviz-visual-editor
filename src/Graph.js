@@ -60,6 +60,7 @@ class Graph extends React.Component {
     this.prevFit = null;
     this.prevEngine = null;
     this.prevDotSrc = '';
+    this.prevFullscreen = false;
   }
 
   componentDidMount() {
@@ -110,6 +111,11 @@ class Graph extends React.Component {
       this.props.onError(null);
       this.renderGraphReady = false;
       return;
+    }
+    if (this.props.fullscreen !== this.prevFullscreen)
+    {
+      this.resizeSVG();
+      this.prevFullscreen = this.props.fullscreen;
     }
     if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine && this.props.fit === this.prevFit) {
       return;
