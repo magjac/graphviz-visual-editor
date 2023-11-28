@@ -79,7 +79,7 @@ class Index extends React.Component {
       replaceName: '',
       exportAsUrlDialogIsOpen: false,
       exportAsSvgDialogIsOpen: false,
-      fullscreen: true,
+      fullscreen: false,
       insertPanelsAreOpen: (localStorage.getItem('insertPanelsAreOpen') || 'false') === 'true',
       nodeFormatDrawerIsOpen: (localStorage.getItem('nodeFormatDrawerIsOpen') || 'false') === 'true',
       edgeFormatDrawerIsOpen: (localStorage.getItem('edgeFormatDrawerIsOpen') || 'false') === 'true',
