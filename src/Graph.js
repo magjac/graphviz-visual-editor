@@ -348,6 +348,9 @@ class Graph extends React.Component {
     else if (event.key === '?') {
       this.props.onHelp();
     }
+    else if (event.key === 'f') {
+      this.props.onToggleFullscreen();
+    }
     else {
       return;
     }
