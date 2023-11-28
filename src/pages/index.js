@@ -674,6 +674,12 @@ class Index extends React.Component {
     })
   }
 
+  handleToggleFullscreen = () => {
+    this.setState((state) => ({
+      fullscreen: !state.fullscreen,
+    }));
+  }
+
   setFocus = (focusedPane) => {
     this.setState((state) => (state.focusedPane !== focusedPane && {
       focusedPane: focusedPane,
@@ -917,6 +923,7 @@ class Index extends React.Component {
                 onSelect={this.handleGraphComponentSelect}
                 onUndo={this.undo}
                 onRedo={this.redo}
+                onToggleFullscreen={this.handleToggleFullscreen}
                 registerNodeShapeClick={this.registerNodeShapeClick}
                 registerNodeShapeDragStart={this.registerNodeShapeDragStart}
                 registerNodeShapeDragEnd={this.registerNodeShapeDragEnd}
