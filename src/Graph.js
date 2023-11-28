@@ -61,6 +61,7 @@ class Graph extends React.Component {
     this.prevFit = null;
     this.prevEngine = null;
     this.prevDotSrc = '';
+    this.prevFullscreen = false;
   }
 
   componentDidMount() {
@@ -113,7 +114,7 @@ class Graph extends React.Component {
       this.renderGraphReady = false;
       return;
     }
-    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine && this.props.fit === this.prevFit) {
+    if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine && this.props.fit === this.prevFit && this.prevFullscreen === this.props.fullscreen) {
       return;
     }
     if (this.rendering) {
@@ -131,6 +132,11 @@ class Graph extends React.Component {
         }
       }
       this.prevFit = this.props.fit;
+    }
+    if (this.props.fullscreen !== this.prevFullscreen)
+    {
+      this.resizeSVG();
+      this.prevFullscreen = this.props.fullscreen;
     }
     this.prevDotSrc = this.props.dotSrc;
     this.prevEngine = this.props.engine;
