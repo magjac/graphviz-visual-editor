@@ -917,6 +917,7 @@ class Index extends React.Component {
                 tweenPrecision={this.state.tweenPrecision}
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
+                fullscreen={this.state.fullscreen}
                 onFocus={this.handleGraphFocus}
                 onTextChange={this.handleTextChangeFromGraph}
                 onHelp={this.handleKeyboardShortcutsClick}
