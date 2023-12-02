@@ -56,7 +56,7 @@
   "homepage": ".",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@cypress/code-coverage": "^3.11.0",
+    "@cypress/code-coverage": "^3.12.12",
     "@cypress/instrument-cra": "^1.4.0",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
