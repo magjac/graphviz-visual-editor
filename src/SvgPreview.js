@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
 
 const previewWidth = 400;
@@ -101,4 +101,4 @@ SvgPreview.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SvgPreview);
+export default withStyles(SvgPreview, styles);

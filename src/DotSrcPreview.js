@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/system';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -33,4 +33,4 @@ DotSrcPreview.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(DotSrcPreview);
+export default withStyles(DotSrcPreview, styles);

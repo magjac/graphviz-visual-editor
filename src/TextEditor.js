@@ -1,5 +1,5 @@
 import React from 'react';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-dot';
 import 'ace-builds/src-noconflict/theme-github';
@@ -160,4 +160,4 @@ class TextEditor extends React.Component {
   }
 }
 
-export default withStyles(styles)(TextEditor);
+export default withStyles(TextEditor, styles);
