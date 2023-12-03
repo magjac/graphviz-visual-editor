@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 // A theme with custom primary and secondary color.
 // It's optional.
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#ffffcc",
@@ -30,7 +30,7 @@ const theme = createTheme(adaptV4Theme({
       },
     },
   },
-}));
+});
 
 function withRoot(Component) {
   function WithRoot(props) {
