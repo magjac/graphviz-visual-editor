@@ -36,3 +36,5 @@ coverage-jest
 
 /graphviz
 dotfiles.txt
+
+cypress/screenshots
