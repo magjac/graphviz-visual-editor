@@ -19,6 +19,11 @@ const theme = createTheme({
         color: "secondary",
       },
     },
+    MuiRadio: {
+      defaultProps: {
+        color: "secondary",
+      },
+    },
     MuiSwitch: {
       defaultProps: {
         color: "secondary",
