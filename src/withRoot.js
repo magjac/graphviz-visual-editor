@@ -13,6 +13,13 @@ const theme = createTheme({
       main: "#99ccff",
     },
   },
+  components: {
+    MuiSwitch: {
+      defaultProps: {
+        color: "secondary",
+      },
+    },
+  },
 });
 
 function withRoot(Component) {
