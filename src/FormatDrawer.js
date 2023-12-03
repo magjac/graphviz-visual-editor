@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -286,4 +286,4 @@ FormatDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FormatDrawer);
+export default withStyles(FormatDrawer, styles);
