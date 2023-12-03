@@ -1,6 +1,6 @@
 describe('Help menu', function() {
 
-  it('A keybboard shortcuts help dialog is shown when keyboard shortcuts is clicked in the help menu', function() {
+  it('A keyboard shortcuts help dialog is shown when keyboard shortcuts is clicked in the help menu', function() {
     cy.startCleanApplication();
     cy.helpButton().click();
     cy.helpMenuItemKeyboardShortcuts().click();

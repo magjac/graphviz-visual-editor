@@ -968,7 +968,7 @@ describe('Browser save and open', function() {
 
     // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
     cy.clearDotSource();
-    cy.canvasGraph().should('not.exist');
+    cy.canvasSvg().should('not.exist');
 
     cy.clearAndRenderDotSource('digraph {Bob}');
 
@@ -995,7 +995,6 @@ describe('Browser save and open', function() {
       });
 
     cy.visit('http://localhost:3000/?dot=digraph%20%7BAlice%20-%3E%20Bob%7D');
-    cy.waitForTransition();
 
     cy.openButton().click();
     cy.openFromBrowserDialog()
@@ -1117,7 +1116,7 @@ describe('Browser save and open', function() {
 
     // FIXME: Temporary workaround to ensure that the new SVG will be stored in localStorage
     cy.clearDotSource();
-    cy.canvasGraph().should('not.exist');
+    cy.canvasSvg().should('not.exist');
 
     cy.clearAndRenderDotSource('digraph {Alice}');
 
