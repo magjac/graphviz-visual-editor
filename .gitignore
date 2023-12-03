@@ -25,8 +25,12 @@ yarn.lock
 # generated files
 src/shapes.js
 src/dotParser.js
+src/graphviz-versions.json
+src/graphvizVersion.js
+src/versions.json
 
 coverage-cypress
 coverage-jest
 
 /graphviz
+dotfiles.txt
