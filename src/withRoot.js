@@ -14,6 +14,11 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiCheckbox: {
+      defaultProps: {
+        color: "secondary",
+      },
+    },
     MuiSwitch: {
       defaultProps: {
         color: "secondary",
