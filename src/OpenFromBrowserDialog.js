@@ -254,6 +254,7 @@ class OpenFromBrowserDialog extends React.Component {
                     </TableCell>
                     <TableCell>
                       <SvgPreview
+                        theme={this.props.theme}
                         svg={project.svg}
                         width="200px"
                         height={Math.ceil(numLinesPreview * 1.2, 1) + "em"}

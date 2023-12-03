@@ -818,6 +818,7 @@ class Index extends React.Component {
             <Paper elevation={leftPaneElevation} className={paperClass}>
               {this.state.nodeFormatDrawerIsOpen &&
                 <FormatDrawer
+                  theme={this.props.theme}
                   type='node'
                   defaultAttributes={this.state.defaultNodeAttributes}
                   onClick={this.handleNodeFormatDrawerClick}
@@ -829,6 +830,7 @@ class Index extends React.Component {
               }
               {this.state.edgeFormatDrawerIsOpen &&
                 <FormatDrawer
+                  theme={this.props.theme}
                   type='edge'
                   defaultAttributes={this.state.defaultEdgeAttributes}
                   onClick={this.handleEdgeFormatDrawerClick}
