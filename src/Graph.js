@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import Fade from '@mui/material/Fade';
 import CircularProgress from '@mui/material/CircularProgress';
 import { select as d3_select} from 'd3-selection';
@@ -790,4 +790,4 @@ Graph.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Graph);
+export default withStyles(Graph, styles);

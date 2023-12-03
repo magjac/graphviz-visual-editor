@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -194,4 +194,4 @@ InsertPanels.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InsertPanels);
+export default withStyles(InsertPanels, styles);

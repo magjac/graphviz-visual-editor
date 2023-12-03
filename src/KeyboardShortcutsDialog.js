@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot';
 import IconButton from '@mui/material/IconButton';
 import Dialog from '@mui/material/Dialog';
@@ -93,4 +93,4 @@ KeyboardShortcutsDialog.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRoot(withStyles(styles)(KeyboardShortcutsDialog));
+export default withRoot(withStyles(KeyboardShortcutsDialog, styles));
