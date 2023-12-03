@@ -3,7 +3,7 @@ import 'typeface-roboto';
 import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import withRoot from '../withRoot';
 import ButtonAppBar from '../ButtonAppBar';
 import Graph from '../Graph';
@@ -941,4 +941,4 @@ Index.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRoot(withStyles(styles)(Index));
+export default withRoot(withStyles(Index, styles));

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot';
 import CloseIcon from '@mui/icons-material/Close';
 import LinkIcon from '@mui/icons-material/Link';
@@ -113,4 +113,4 @@ ExportAsUrlDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withRoot(withStyles(styles)(ExportAsUrlDialog));
+export default withRoot(withStyles(ExportAsUrlDialog, styles));

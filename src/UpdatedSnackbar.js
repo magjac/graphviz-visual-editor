@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot';
 import packageJSON from '../package.json';
 import versions from './versions.json';
@@ -107,4 +107,4 @@ UpdatedSnackbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRoot(withStyles(styles)(UpdatedSnackbar));
+export default withRoot(withStyles(UpdatedSnackbar, styles));

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import Drawer from '@mui/material/Drawer';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
@@ -303,4 +303,4 @@ FormatDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(FormatDrawer);
+export default withStyles(FormatDrawer, styles, { withTheme: true });
