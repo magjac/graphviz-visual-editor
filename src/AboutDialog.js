@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import withRoot from './withRoot';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import graphvizVersions from './graphviz-versions.json';
 import packageJSON from '../package.json';
 import versions from './versions.json';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const styles = theme => ({
   title: {
@@ -57,7 +57,7 @@ class AboutDialog extends React.Component {
               id="close-button"
               aria-label="Close"
               onClick={this.handleClose}
-            >
+              size="large">
               <CloseIcon />
             </IconButton>
           </div>

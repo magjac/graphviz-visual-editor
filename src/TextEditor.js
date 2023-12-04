@@ -1,10 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-dot';
 import 'ace-builds/src-noconflict/theme-github';
-import IconButton from '@material-ui/core/IconButton';
-import ErrorOutline from '@material-ui/icons/ErrorOutline';
+import IconButton from '@mui/material/IconButton';
+import ErrorOutline from '@mui/icons-material/ErrorOutline';
 
 const styles = {
   errorButton: {
@@ -152,7 +152,7 @@ class TextEditor extends React.Component {
           color="inherit"
           aria-label="Error"
           onClick={this.handleErrorButtonClick}
-        >
+          size="large">
           <ErrorOutline color="error" />
         </IconButton>
       </div>

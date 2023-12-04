@@ -1,10 +1,10 @@
 import React from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider, StyledEngineProvider, createTheme, adaptV4Theme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 // A theme with custom primary and secondary color.
 // It's optional.
-const theme = createMuiTheme({
+const theme = createTheme(adaptV4Theme({
   palette: {
     primary: {
       main: "#ffffcc",
@@ -30,18 +30,20 @@ const theme = createMuiTheme({
       },
     },
   },
-});
+}));
 
 function withRoot(Component) {
   function WithRoot(props) {
     // ThemeProvider makes the theme available down the React tree
     // thanks to React context.
     return (
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...props} />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Component {...props} />
+        </ThemeProvider>
+      </StyledEngineProvider>
     );
   }
 

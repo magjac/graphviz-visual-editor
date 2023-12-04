@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import withStyles from '@mui/styles/withStyles';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {shapes} from './shapes';
 
 const nodeShapeCategories = [
@@ -160,15 +160,15 @@ class InsertPanels extends React.Component {
     return (
       <div id="insert-panels" className={classes.root} onClick={this.handleClick}>
         {nodeShapeCategories.map((nodeShapeCategory) =>
-          <ExpansionPanel
+          <Accordion
             key={nodeShapeCategory.name}
             expanded={expanded === nodeShapeCategory}
             onChange={this.handleChange(nodeShapeCategory)}
           >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>{nodeShapeCategory.name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.columns}>
+            </AccordionSummary>
+            <AccordionDetails className={classes.columns}>
               {nodeShapeCategory.shapes.map((shape) =>
                 <div
                   id={shape}
@@ -182,8 +182,8 @@ class InsertPanels extends React.Component {
                 >
                 </div>
               )}
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            </AccordionDetails>
+          </Accordion>
         )}
       </div>
     );

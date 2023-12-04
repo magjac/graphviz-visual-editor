@@ -1,22 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AddIcon from '@material-ui/icons/Add';
-import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import UndoIcon from '@material-ui/icons/Undo';
-import RedoIcon from '@material-ui/icons/Redo';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
-import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
-import SettingsIcon from '@material-ui/icons/Settings';
-import HelpIcon from '@material-ui/icons/Help';
+import withStyles from '@mui/styles/withStyles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import AddIcon from '@mui/icons-material/Add';
+import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import ZoomOutIcon from '@mui/icons-material/ZoomOut';
+import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HelpIcon from '@mui/icons-material/Help';
 import GitHubIcon from './GitHubIcon'
 
 const styles = {
@@ -113,7 +113,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="Menu"
             onClick={handleMenuButtonClick}
-          >
+            size="large">
             <MenuIcon />
           </IconButton>
           <IconButton
@@ -122,7 +122,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="New"
             onClick={handleNewButtonClick}
-          >
+            size="large">
             <AddIcon />
           </IconButton>
           <IconButton
@@ -131,7 +131,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="OpenInBrowser"
             onClick={handleOpenInBrowserButtonClick}
-          >
+            size="large">
             <OpenInBrowserIcon />
           </IconButton>
           <IconButton
@@ -140,7 +140,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="SaveAlt"
             onClick={handleSaveAltButtonClick}
-          >
+            size="large">
             <SaveAltIcon />
           </IconButton>
           <IconButton
@@ -150,7 +150,7 @@ function ButtonAppBar(props) {
             disabled={!props.hasUndo}
             aria-label="Undo"
             onClick={handleUndoButtonClick}
-          >
+            size="large">
             <UndoIcon />
           </IconButton>
           <IconButton
@@ -160,7 +160,7 @@ function ButtonAppBar(props) {
             disabled={!props.hasRedo}
             aria-label="Redo"
             onClick={handleRedoButtonClick}
-          >
+            size="large">
             <RedoIcon />
           </IconButton>
           <Typography
@@ -176,7 +176,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="ZoomIn"
             onClick={handleZoomInButtonClick}
-          >
+            size="large">
             <ZoomInIcon />
           </IconButton>
           <IconButton
@@ -185,7 +185,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="ZoomOut"
             onClick={handleZoomOutButtonClick}
-          >
+            size="large">
             <ZoomOutIcon />
           </IconButton>
           <IconButton
@@ -194,7 +194,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="ZoomOutMap"
             onClick={handleZoomOutMapButtonClick}
-          >
+            size="large">
             <ZoomOutMapIcon />
           </IconButton>
           <Button
@@ -227,7 +227,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="Settings"
             onClick={handleSettingsButtonClick}
-          >
+            size="large">
             <SettingsIcon />
           </IconButton>
           <a
@@ -237,20 +237,18 @@ function ButtonAppBar(props) {
             target="_blank"
             rel="noreferrer noopener"
           >
-            <IconButton
-              color="inherit"
-              aria-label="GitHub"
-            >
+            <IconButton color="inherit" aria-label="GitHub" size="large">
               <GitHubIcon
                 viewBox='-2.4 -2.4 28.8 28.8'
               />
             </IconButton>
           </a>
-          <IconButton id="help"
+          <IconButton
+            id="help"
             color="inherit"
             aria-label="Help"
             onClick={handleHelpButtonClick}
-          >
+            size="large">
             <HelpIcon />
           </IconButton>
         </Toolbar>
