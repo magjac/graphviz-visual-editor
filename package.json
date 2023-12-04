@@ -26,6 +26,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
+    "ace-builds": "^1.32.0",
     "d3-graphviz": "4.1.0",
     "d3-scale-chromatic": "^1.5.0",
     "d3-selection": "^2.0.0",
@@ -33,14 +34,14 @@
     "d3-zoom": "^2.0.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.7.0",
-    "react": "^16.14.0",
-    "react-ace": "^6.6.0",
-    "react-color": "^2.17.3",
-    "react-dom": "^16.8.6",
-    "react-perfect-scrollbar": "^1.5.3",
-    "react-scripts": "^4.0.3",
-    "typeface-roboto": "0.0.54"
+    "qs": "^6.11.2",
+    "react": "^17.0.2",
+    "react-ace": "^10.1.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^17.0.2",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-scripts": "^5.0.1",
+    "typeface-roboto": "^1.1.13"
   },
   "scripts": {
     "start": "react-scripts --max_old_space_size=4096 start",
@@ -55,20 +56,18 @@
   "homepage": ".",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@cypress/code-coverage": "^3.11.0",
+    "@cypress/code-coverage": "^3.12.12",
     "@cypress/instrument-cra": "^1.4.0",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
-    "codecov": "^3.7.1",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
+    "codecov": "^3.8.3",
     "cypress": "^13.6.0",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.13.2",
-    "istanbul-lib-coverage": "^3.0.0",
-    "jest-localstorage-mock": "^2.4.0",
+    "enzyme": "^3.11.0",
+    "istanbul-lib-coverage": "^3.2.2",
     "markdown-to-html": "0.0.13",
     "nyc": "^15.0.0",
-    "pegjs": "^0.9.0",
-    "react-test-renderer": "^16.8.6",
-    "wait-on": "^3.3.0"
+    "pegjs": "^0.10.0",
+    "wait-on": "^7.2.0"
   },
   "browserslist": {
     "production": [
