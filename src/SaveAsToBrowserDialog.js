@@ -100,6 +100,7 @@ class SaveAsToBrowserDialog extends React.Component {
               }
             </DialogContentText>
             <TextField
+              variant="standard"
               autoFocus
               margin="dense"
               id="name"
@@ -108,8 +109,7 @@ class SaveAsToBrowserDialog extends React.Component {
               placeholder={this.props.defaultNewName}
               fullWidth
               onChange={this.handleChange}
-              onKeyPress={this.handleKeyPress}
-            />
+              onKeyPress={this.handleKeyPress} />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose} color="secondary">

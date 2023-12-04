@@ -202,7 +202,7 @@ class FormatDrawer extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <FormControl className={classes.styleFormControl}>
+          <FormControl variant="standard" className={classes.styleFormControl}>
             <FormGroup row>
               <FormControlLabel
                 className={classes.styleSwitch}
@@ -235,7 +235,10 @@ class FormatDrawer extends React.Component {
               )}
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl} id="color-picker-form">
+          <FormControl
+            variant="standard"
+            className={classes.colorFormControl}
+            id="color-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}
@@ -261,7 +264,10 @@ class FormatDrawer extends React.Component {
               />
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl} id="fillcolor-picker-form">
+          <FormControl
+            variant="standard"
+            className={classes.colorFormControl}
+            id="fillcolor-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}

@@ -157,14 +157,14 @@ class SettingsDialog extends React.Component {
             <DialogContentText>
               These settings affects how the graph is rendered.
             </DialogContentText>
-            <FormControl className={classes.formControl}>
+            <FormControl variant="standard" className={classes.formControl}>
               <InputLabel htmlFor="engine-simple">Engine</InputLabel>
               <Select
+                variant="standard"
                 id="engine-selector"
                 value={this.props.engine}
                 onChange={this.handleEngineSelectChange}
-                input={<Input name="engine" id="engine-helper" />}
-              >
+                input={<Input name="engine" id="engine-helper" />}>
                 {engines.map((engine) =>
                   <MenuItem
                     id={engine}
@@ -197,9 +197,9 @@ class SettingsDialog extends React.Component {
               />
             </FormGroup>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="transition-duration-helper-text"
-            >
+              aria-describedby="transition-duration-helper-text">
               <InputLabel shrink={true}>Transition duration</InputLabel>
               <Input
                 className={classes.transitionDuration}
@@ -242,7 +242,11 @@ class SettingsDialog extends React.Component {
                 label="Enable shape tweening during transitions"
               />
             </FormGroup>
-            <FormControl id="tween-precision-form" component="fieldset" className={classes.formControl}>
+            <FormControl
+              variant="standard"
+              id="tween-precision-form"
+              component="fieldset"
+              className={classes.formControl}>
               <FormLabel component="legend">Tweening precision</FormLabel>
               <RadioGroup
                 id="tween-precision-radio-group"
@@ -286,9 +290,9 @@ class SettingsDialog extends React.Component {
           <DialogTitle id="form-dialog-title">Text Editor</DialogTitle>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="font-size-helper-text"
-            >
+              aria-describedby="font-size-helper-text">
               <InputLabel shrink={true}>Font size</InputLabel>
               <Input
                 className={classes.fontSizeInput}
@@ -308,9 +312,9 @@ class SettingsDialog extends React.Component {
           </DialogContent>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="tab-size-helper-text"
-            >
+              aria-describedby="tab-size-helper-text">
               <InputLabel shrink={true}>Tab size</InputLabel>
               <Input
                 className={classes.tabSizeInput}
@@ -330,9 +334,9 @@ class SettingsDialog extends React.Component {
           </DialogContent>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="holdoff-helper-text"
-            >
+              aria-describedby="holdoff-helper-text">
               <InputLabel shrink={true}>Hold-off time</InputLabel>
               <Input
                 className={classes.holdOffInput}

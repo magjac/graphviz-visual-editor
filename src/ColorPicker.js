@@ -64,7 +64,7 @@ class ColorPicker extends React.Component {
         <div id="color-picker-swatch" className={classes.swatch} style={{background: borderBackground}} onClick={this.handleClick}>
           <div className={classes.color} style={{background: contentBackground}} />
         </div>
-        <FormControl>
+        <FormControl variant="standard">
           <Input style={{color: this.props.color}}
             className={classes.input}
             id="color-input"
@@ -80,7 +80,6 @@ class ColorPicker extends React.Component {
           null
         }
       </div>
-
     );
   }
 }
