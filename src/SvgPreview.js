@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import { withStyles } from '@material-ui/core/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import withStyles from '@mui/styles/withStyles';
 
 const previewWidth = 400;
 const previewHeight = 250;
@@ -13,8 +13,8 @@ const styles = theme => ({
   card: {
     position: 'fixed',
     zIndex: 1,
-    width: previewWidth + theme.spacing(previewPadUnits * 2),
-    height: previewHeight + theme.spacing(previewPadUnits * 2),
+    width: previewWidth + theme.spacing(previewPadUnits * 2).replace('px', ''),
+    height: previewHeight + theme.spacing(previewPadUnits * 2).replace('px', ''),
   },
   cardContent: {
     padding: theme.spacing(previewPadUnits),
@@ -70,7 +70,8 @@ class SvgPreview extends React.Component {
   render() {
     const { classes } = this.props;
     const { theme } = this.props;
-    const previewMargin = theme.spacing(previewMarginUnits);
+    const previewMargin = +theme.spacing(previewMarginUnits).replace('px', '');
+
     return (
       <React.Fragment>
         <div

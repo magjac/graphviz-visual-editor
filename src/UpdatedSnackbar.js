@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import { withStyles } from '@material-ui/core/styles';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import Snackbar from '@mui/material/Snackbar';
+import SnackbarContent from '@mui/material/SnackbarContent';
+import withStyles from '@mui/styles/withStyles';
 import withRoot from './withRoot';
 import packageJSON from '../package.json';
 import versions from './versions.json';
@@ -92,7 +92,7 @@ class UpdatedSnackbar extends React.Component {
               color="inherit"
               className={classes.close}
               onClick={this.handleClose}
-            >
+              size="large">
               <CloseIcon />
             </IconButton>,
           ]

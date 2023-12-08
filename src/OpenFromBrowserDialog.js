@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import withRoot from './withRoot';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Tooltip from '@material-ui/core/Tooltip';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
+import TableBody from '@mui/material/TableBody';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Tooltip from '@mui/material/Tooltip';
 import moment from 'moment';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 import DoYouWantToDeleteDialog from './DoYouWantToDeleteDialog';
 import SvgPreview from './SvgPreview';
 import DotSrcPreview from './DotSrcPreview';
@@ -214,10 +214,7 @@ class OpenFromBrowserDialog extends React.Component {
         >
           <div className={classes.title}>
             <DialogTitle id="form-dialog-title">Open graph from browser</DialogTitle>
-            <IconButton
-              aria-label="Close"
-              onClick={this.handleClose}
-            >
+            <IconButton aria-label="Close" onClick={this.handleClose} size="large">
               <CloseIcon />
             </IconButton>
           </div>
@@ -236,42 +233,42 @@ class OpenFromBrowserDialog extends React.Component {
                 .map((project) => {
                   const name = project.name;
                   return (
-                      <TableRow
-                        key={name}
-                        selected={name === selectedName}
-                        hover
-                        onClick={this.handleClick(name)}
-                        onDoubleClick={this.handleDoubleClick(name)}
-                      >
-                      <TableCell component="th" scope="project">
-                        {name}
-                      </TableCell>
-                      <TableCell>
-                        <DotSrcPreview
-                          dotSrc={project.dotSrc}
-                          numLines={numLinesPreview}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {project.dotSrcLastChangeTime ? moment(project.dotSrcLastChangeTime).fromNow() : ''}
-                      </TableCell>
-                      <TableCell>
-                        <SvgPreview
-                          svg={project.svg}
-                          width="200px"
-                          height={Math.ceil(numLinesPreview * 1.2, 1) + "em"}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <IconButton
-                          id="delete"
-                          aria-label="Delete"
-                          onClick={this.handleDelete(name)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
+                    <TableRow
+                      key={name}
+                      selected={name === selectedName}
+                      hover
+                      onClick={this.handleClick(name)}
+                      onDoubleClick={this.handleDoubleClick(name)}
+                    >
+                    <TableCell component="th" scope="project">
+                      {name}
+                    </TableCell>
+                    <TableCell>
+                      <DotSrcPreview
+                        dotSrc={project.dotSrc}
+                        numLines={numLinesPreview}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {project.dotSrcLastChangeTime ? moment(project.dotSrcLastChangeTime).fromNow() : ''}
+                    </TableCell>
+                    <TableCell>
+                      <SvgPreview
+                        svg={project.svg}
+                        width="200px"
+                        height={Math.ceil(numLinesPreview * 1.2, 1) + "em"}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        id="delete"
+                        aria-label="Delete"
+                        onClick={this.handleDelete(name)}
+                        size="large">
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
                   );
                 })}
               </TableBody>

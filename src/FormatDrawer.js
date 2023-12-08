@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Switch from '@material-ui/core/Switch';
+import withStyles from '@mui/styles/withStyles';
+import Drawer from '@mui/material/Drawer';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Switch from '@mui/material/Switch';
 import ColorPicker from './ColorPicker'
 
 const drawerWidth = '100%';
@@ -197,12 +197,12 @@ class FormatDrawer extends React.Component {
             <DialogTitle id="form-dialog-title">
               Default {this.props.type} attributes
             </DialogTitle>
-            <IconButton id="close-button" onClick={this.handleDrawerClose}>
+            <IconButton id="close-button" onClick={this.handleDrawerClose} size="large">
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>
           <Divider />
-          <FormControl className={classes.styleFormControl}>
+          <FormControl variant="standard" className={classes.styleFormControl}>
             <FormGroup row>
               <FormControlLabel
                 className={classes.styleSwitch}
@@ -235,7 +235,10 @@ class FormatDrawer extends React.Component {
               )}
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl} id="color-picker-form">
+          <FormControl
+            variant="standard"
+            className={classes.colorFormControl}
+            id="color-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}
@@ -261,7 +264,10 @@ class FormatDrawer extends React.Component {
               />
             </FormGroup>
           </FormControl>
-          <FormControl className={classes.colorFormControl} id="fillcolor-picker-form">
+          <FormControl
+            variant="standard"
+            className={classes.colorFormControl}
+            id="fillcolor-picker-form">
             <FormGroup row>
               <FormControlLabel
                 className={classes.colorSwitch}

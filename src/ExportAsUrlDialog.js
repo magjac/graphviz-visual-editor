@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import withRoot from './withRoot';
-import CloseIcon from '@material-ui/icons/Close';
-import LinkIcon from '@material-ui/icons/Link';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Input from '@material-ui/core/Input';
+import CloseIcon from '@mui/icons-material/Close';
+import LinkIcon from '@mui/icons-material/Link';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Input from '@mui/material/Input';
 
 const styles = theme => ({
   title: {
@@ -61,10 +61,7 @@ class ExportAsUrlDialog extends React.Component {
             <DialogTitle id="form-dialog-title">
               Export graph as URL
             </DialogTitle>
-            <IconButton
-              aria-label="Close"
-              onClick={this.handleClose}
-            >
+            <IconButton aria-label="Close" onClick={this.handleClose} size="large">
               <CloseIcon />
             </IconButton>
           </div>

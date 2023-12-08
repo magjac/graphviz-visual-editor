@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Fade from '@material-ui/core/Fade';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import withStyles from '@mui/styles/withStyles';
+import Fade from '@mui/material/Fade';
+import CircularProgress from '@mui/material/CircularProgress';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';

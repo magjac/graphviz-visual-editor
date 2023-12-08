@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import withRoot from './withRoot';
-import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import CloseIcon from '@mui/icons-material/Close';
 
 const mouseOperations = [
   {key: 'Mouse wheel', description: 'Zoom in or out.'},
@@ -57,7 +57,7 @@ class MouseOperationsDialog extends React.Component {
               id="close-button"
               aria-label="Close"
               onClick={this.handleClose}
-            >
+              size="large">
               <CloseIcon />
             </IconButton>
           </div>

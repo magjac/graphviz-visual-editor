@@ -1,26 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import withRoot from './withRoot';
-import IconButton from '@material-ui/core/IconButton';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import Switch from '@material-ui/core/Switch';
-import Input from '@material-ui/core/Input';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import Switch from '@mui/material/Switch';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import CloseIcon from '@mui/icons-material/Close';
 
 const engines = [
   'circo',
@@ -149,10 +149,7 @@ class SettingsDialog extends React.Component {
         >
           <div className={classes.title}>
             <DialogTitle id="form-dialog-title">Graph rendering</DialogTitle>
-              <IconButton
-                aria-label="Close"
-                onClick={this.handleClose}
-              >
+              <IconButton aria-label="Close" onClick={this.handleClose} size="large">
                 <CloseIcon />
               </IconButton>
           </div>
@@ -160,14 +157,14 @@ class SettingsDialog extends React.Component {
             <DialogContentText>
               These settings affects how the graph is rendered.
             </DialogContentText>
-            <FormControl className={classes.formControl}>
+            <FormControl variant="standard" className={classes.formControl}>
               <InputLabel htmlFor="engine-simple">Engine</InputLabel>
               <Select
+                variant="standard"
                 id="engine-selector"
                 value={this.props.engine}
                 onChange={this.handleEngineSelectChange}
-                input={<Input name="engine" id="engine-helper" />}
-              >
+                input={<Input name="engine" id="engine-helper" />}>
                 {engines.map((engine) =>
                   <MenuItem
                     id={engine}
@@ -200,9 +197,9 @@ class SettingsDialog extends React.Component {
               />
             </FormGroup>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="transition-duration-helper-text"
-            >
+              aria-describedby="transition-duration-helper-text">
               <InputLabel shrink={true}>Transition duration</InputLabel>
               <Input
                 className={classes.transitionDuration}
@@ -245,7 +242,11 @@ class SettingsDialog extends React.Component {
                 label="Enable shape tweening during transitions"
               />
             </FormGroup>
-            <FormControl id="tween-precision-form" component="fieldset" className={classes.formControl}>
+            <FormControl
+              variant="standard"
+              id="tween-precision-form"
+              component="fieldset"
+              className={classes.formControl}>
               <FormLabel component="legend">Tweening precision</FormLabel>
               <RadioGroup
                 id="tween-precision-radio-group"
@@ -289,9 +290,9 @@ class SettingsDialog extends React.Component {
           <DialogTitle id="form-dialog-title">Text Editor</DialogTitle>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="font-size-helper-text"
-            >
+              aria-describedby="font-size-helper-text">
               <InputLabel shrink={true}>Font size</InputLabel>
               <Input
                 className={classes.fontSizeInput}
@@ -311,9 +312,9 @@ class SettingsDialog extends React.Component {
           </DialogContent>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="tab-size-helper-text"
-            >
+              aria-describedby="tab-size-helper-text">
               <InputLabel shrink={true}>Tab size</InputLabel>
               <Input
                 className={classes.tabSizeInput}
@@ -333,9 +334,9 @@ class SettingsDialog extends React.Component {
           </DialogContent>
           <DialogContent classes={{root: classes.root}}>
             <FormControl
+              variant="standard"
               className={classes.formControl}
-              aria-describedby="holdoff-helper-text"
-            >
+              aria-describedby="holdoff-helper-text">
               <InputLabel shrink={true}>Hold-off time</InputLabel>
               <Input
                 className={classes.holdOffInput}
