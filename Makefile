@@ -11,8 +11,8 @@ GENERATED_FILES = \
 
 main: $(GENERATED_FILES)
 
-src/shapes.js: bin/generate-nodes.js
-	bin/generate-nodes.js > tmp.js
+src/shapes.js: bin/generate-nodes.mjs
+	bin/generate-nodes.mjs > tmp.js
 	mv tmp.js $@
 
 src/graphvizVersion.js: bin/generate-graphviz-version.mjs
