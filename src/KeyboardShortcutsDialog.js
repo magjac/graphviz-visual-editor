@@ -11,7 +11,7 @@ import { Table } from '@mui/material';
 import { TableBody } from '@mui/material';
 import { TableCell } from '@mui/material';
 import { TableRow } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 const keyboardShortcuts = [
   {key: 'Ctrl-A', description: 'Select all nodes and edges.'},

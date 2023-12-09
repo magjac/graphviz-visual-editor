@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { Snackbar } from '@mui/material';
 import { SnackbarContent } from '@mui/material';
