@@ -1,5 +1,8 @@
 describe('Transitioning when DOT source changes', function() {
 
+  const pathDAttrBefore = 'M31.95,-71.7C31.95,-63.98 31.95,-54.71 31.95,-46.11';
+  const pathDAttrAfter = 'M63.94,-18C72.22,-18 81.23,-18 89.76,-18';
+
   it('Renders a new graph with shape tweening when enabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -112,7 +115,7 @@ describe('Transitioning when DOT source changes', function() {
         .should('exist')
         .shouldHaveName('Alice->Bob')
         .shouldHaveShape('path')
-        .find('> path').should('have.attr', 'd', 'M31.95,-71.7C31.95,-63.98 31.95,-54.71 31.95,-46.11');
+        .find('> path').should('have.attr', 'd', pathDAttrBefore);
     });
 
     cy.typeDotSource('{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow} rankdir=LR ', {force: true});
@@ -137,7 +140,7 @@ describe('Transitioning when DOT source changes', function() {
         .should('exist')
         .shouldHaveName('Alice->Bob')
         .shouldHaveShape('path')
-        .find('> path').should('have.attr', 'd', 'M63.94,-18C72.22,-18 81.23,-18 89.76,-18');
+        .find('> path').should('have.attr', 'd', pathDAttrAfter);
     });
 
   })
@@ -272,7 +275,7 @@ describe('Transitioning when DOT source changes', function() {
         .should('exist')
         .shouldHaveName('Alice->Bob')
         .shouldHaveShape('path')
-        .find('> path').should('have.attr', 'd', 'M31.95,-71.7C31.95,-63.98 31.95,-54.71 31.95,-46.11');
+        .find('> path').should('have.attr', 'd', pathDAttrBefore);
     });
 
     cy.typeDotSource('{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow}{leftArrow} rankdir=LR ', {force: true});
@@ -285,7 +288,7 @@ describe('Transitioning when DOT source changes', function() {
         .shouldHaveName('Alice->Bob')
         .shouldHaveShape('path')
         .find('> path').first()
-        .should('not.have.attr', 'd', 'M31.95,-71.7C31.95,-63.98 31.95,-54.71 31.95,-46.11')
+        .should('not.have.attr', 'd', pathDAttrBefore)
         .then(path => {
           expect(path.attr('d').split(',').length).to.equal(5);
         });
@@ -298,7 +301,7 @@ describe('Transitioning when DOT source changes', function() {
         .should('exist')
         .shouldHaveName('Alice->Bob')
         .shouldHaveShape('path')
-        .find('> path').should('have.attr', 'd', 'M63.94,-18C72.22,-18 81.23,-18 89.76,-18');
+        .find('> path').should('have.attr', 'd', pathDAttrAfter);
     });
 
   })
