@@ -20,7 +20,7 @@ import { MenuItem } from '@mui/material';
 import { FormHelperText } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { Select } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 const engines = [
   'circo',

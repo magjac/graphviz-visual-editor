@@ -6,17 +6,17 @@ import { Toolbar } from '@mui/material';
 import { Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { IconButton } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
-import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import ZoomOutIcon from '@mui/icons-material/ZoomOut';
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HelpIcon from '@mui/icons-material/Help';
+import { Menu as MenuIcon } from '@mui/icons-material';
+import { Add as AddIcon } from '@mui/icons-material';
+import { OpenInBrowser as OpenInBrowserIcon } from '@mui/icons-material';
+import { SaveAlt as SaveAltIcon } from '@mui/icons-material';
+import { Undo as UndoIcon } from '@mui/icons-material';
+import { Redo as RedoIcon } from '@mui/icons-material';
+import { ZoomIn as ZoomInIcon } from '@mui/icons-material';
+import { ZoomOut as ZoomOutIcon }  from '@mui/icons-material';
+import { ZoomOutMap as ZoomOutMapIcon } from '@mui/icons-material';
+import { Settings as SettingsIcon } from '@mui/icons-material';
+import { Help as HelpIcon } from '@mui/icons-material';
 import GitHubIcon from './GitHubIcon.js'
 
 const styles = {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot.js';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close as CloseIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { Button } from '@mui/material';
 import { Dialog } from '@mui/material';
