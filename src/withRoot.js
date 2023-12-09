@@ -1,6 +1,6 @@
 import React from 'react';
-import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 
 // A theme with custom primary and secondary color.
 // It's optional.

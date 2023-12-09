@@ -1,8 +1,8 @@
 import React from 'react';
 import 'typeface-roboto';
 import PropTypes from 'prop-types';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import { Paper } from '@mui/material';
+import { Grid } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 import withRoot from '../withRoot.js';
 import ButtonAppBar from '../ButtonAppBar.js';

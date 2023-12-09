@@ -2,18 +2,18 @@ import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import { useTheme } from '@mui/material/styles';
-import Drawer from '@mui/material/Drawer';
-import DialogTitle from '@mui/material/DialogTitle';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material';
+import { Drawer } from '@mui/material';
+import { DialogTitle } from '@mui/material';
+import { Divider } from '@mui/material';
+import { IconButton } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Switch from '@mui/material/Switch';
+import { FormControl } from '@mui/material';
+import { FormGroup } from '@mui/material';
+import { FormControlLabel } from '@mui/material';
+import { Checkbox } from '@mui/material';
+import { Switch } from '@mui/material';
 import ColorPicker from './ColorPicker.js'
 
 const drawerWidth = '100%';

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import Snackbar from '@mui/material/Snackbar';
-import SnackbarContent from '@mui/material/SnackbarContent';
+import { IconButton } from '@mui/material';
+import { Snackbar } from '@mui/material';
+import { SnackbarContent } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot.js';
 import packageJSON from '../package.json';
