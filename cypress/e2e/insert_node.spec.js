@@ -967,7 +967,7 @@ describe('Insertion of nodes into the graph', function() {
       let expectedStrokeColor;
       let expectedStrokeOpacity;
       if (positionName == 'left') {
-        expectedStrokeColor = 'transparent';
+        expectedStrokeColor = 'none';
         expectedStrokeOpacity = null;
       } else {
         const {x, y} = positions['topRight'];
@@ -993,7 +993,7 @@ describe('Insertion of nodes into the graph', function() {
         expect(ellipse).to.have.attr('fill', 'none');
         expect(ellipse).to.not.have.attr('fill-opacity');
         const actualStrokeColor = ellipse.attr('stroke').replace('#', '');
-        if (expectedStrokeColor == 'transparent') {
+        if (expectedStrokeColor == 'none') {
           expect(actualStrokeColor).to.eq(expectedStrokeColor);
         } else {
           checkColor(actualStrokeColor, expectedStrokeColor, colorTolerance);
@@ -1213,7 +1213,7 @@ describe('Insertion of nodes into the graph', function() {
       let expectedFillColor;
       let expectedFillOpacity;
       if (positionName == 'left') {
-        expectedFillColor = 'transparent';
+        expectedFillColor = 'none';
         expectedFillOpacity = null;
       } else {
         const {x, y} = positions['topRight'];
@@ -1239,7 +1239,7 @@ describe('Insertion of nodes into the graph', function() {
         expect(ellipse).to.not.have.attr('stroke-opacity');
         expect(ellipse).to.have.attr('stroke', 'black');
         const actualFillColor = ellipse.attr('fill').replace('#', '');
-        if (expectedFillColor == 'transparent') {
+        if (expectedFillColor == 'none') {
           expect(actualFillColor).to.eq(expectedFillColor);
         } else {
           checkColor(actualFillColor, expectedFillColor, colorTolerance, 'fill');
