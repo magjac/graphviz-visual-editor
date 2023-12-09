@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from 'tss-react/mui';
-import AceEditor from 'react-ace';
+import ace from 'react-ace';
+const AceEditor = typeof ace == 'function' ? ace : ace.default;
 import 'ace-builds/src-noconflict/mode-dot.js';
 import 'ace-builds/src-noconflict/theme-github.js';
 import { IconButton } from '@mui/material';
