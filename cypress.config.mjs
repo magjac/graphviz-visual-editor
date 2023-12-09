@@ -1,12 +1,13 @@
-const { defineConfig } = require('cypress')
+import { defineConfig } from 'cypress';
+import configCodeCoverage from '@cypress/code-coverage/task.js'
 
-module.exports = defineConfig({
+export default defineConfig({
   projectId: '8wm34o',
   defaultCommandTimeout: 10000,
   video: true,
   e2e: {
     setupNodeEvents(on, config) {
-      require('@cypress/code-coverage/task')(on, config);
+      configCodeCoverage(on, config);
 
       return config;
     },
