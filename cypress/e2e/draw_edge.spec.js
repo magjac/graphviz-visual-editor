@@ -216,7 +216,7 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-width');
-            cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'transparent');
+            cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'none');
             cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', 'black');
             break;
           }
@@ -320,7 +320,7 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have', 'stroke-width');
-            cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'transparent');
+            cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'none');
             cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', 'black');
             break;
           }
@@ -437,7 +437,7 @@ describe('Draw edges in the graph', function() {
             cy.wrap(edge).find('polygon').should('not.have.attr', 'stroke-dasharray');
             cy.wrap(edge).find('polygon').should('have.attr', 'fill', 'black');
             cy.wrap(edge).find('polygon').should('not.have', 'stroke-width');
-            cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'transparent');
+            cy.wrap(edge).find('polygon').eq(0).should('have.attr', 'stroke', 'none');
             cy.wrap(edge).find('polygon').eq(1).should('have.attr', 'stroke', 'black');
             break;
           }
@@ -577,7 +577,7 @@ describe('Draw edges in the graph', function() {
       let expectedStrokeColor;
       let expectedStrokeOpacity;
       if (positionName == 'left') {
-        expectedStrokeColor = 'transparent';
+        expectedStrokeColor = 'none';
         expectedStrokeOpacity = null;
       } else {
         const {x, y} = positions['topRight'];
@@ -603,7 +603,7 @@ describe('Draw edges in the graph', function() {
         expect(path).to.have.attr('fill', 'none');
         expect(path).to.not.have.attr('fill-opacity');
         const actualStrokeColor = path.attr('stroke').replace('#', '');
-        if (expectedStrokeColor == 'transparent') {
+        if (expectedStrokeColor == 'none') {
           expect(actualStrokeColor).to.eq(expectedStrokeColor);
         } else {
           checkColor(actualStrokeColor, expectedStrokeColor, colorTolerance);
@@ -747,7 +747,7 @@ describe('Draw edges in the graph', function() {
       let expectedFillColor;
       let expectedFillOpacity;
       if (positionName == 'left') {
-        expectedFillColor = 'transparent';
+        expectedFillColor = 'none';
         expectedFillOpacity = null;
       } else {
         const {x, y} = positions['topRight'];
@@ -772,7 +772,7 @@ describe('Draw edges in the graph', function() {
         expect(polygon).to.have.attr('fill');
         expect(polygon).to.have.attr('stroke', 'black');
         const actualFillColor = polygon.attr('fill').replace('#', '');
-        if (expectedFillColor == 'transparent') {
+        if (expectedFillColor == 'none') {
           expect(actualFillColor).to.eq(expectedFillColor);
         } else {
           checkColor(actualFillColor, expectedFillColor, colorTolerance);
