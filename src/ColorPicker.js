@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot.js';
-import FormControl from '@mui/material/FormControl';
-import Input from '@mui/material/Input';
+import { FormControl } from '@mui/material';
+import { Input } from '@mui/material';
 
 import { ChromePicker } from 'react-color'
 
