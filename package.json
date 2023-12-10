@@ -64,7 +64,7 @@
     "@cypress/instrument-cra": "^1.4.0",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
     "@testing-library/jest-dom": "^6.1.5",
-    "@testing-library/react": "^12.1.5",
+    "@testing-library/react": "^14.1.2",
     "codecov": "^3.8.3",
     "cypress": "^13.6.0",
     "enzyme": "^3.11.0",
