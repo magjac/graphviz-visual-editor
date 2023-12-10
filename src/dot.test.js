@@ -1,5 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import '@testing-library/jest-dom'
 import DotGraph from './dot';
 import { readFileSync } from 'fs';
 
@@ -123,18 +125,18 @@ class WrapDot extends React.Component {
       error.message += '\nOccurred when reparsing after ' + props.op + ' ' + props.id + ' ' + (props.edgeRHSId ? props.edgeRHSId + ' ' : '') + 'at line ' + line + ' column ' + column + ': ' + this.dotGraph.dotSrc.slice(offset, offset + 40) + '...';
       throw error;
     }
-    return <p>{string}</p>;
+    return <p data-testid="dot-src">{string}</p>;
   }
 };
 
-describe('dot.DotGraph.toString()', () => {
+describe.only('dot.DotGraph.toString()', () => {
 
   // general
 
-  it('renders an empty graph', () => {
+  it.only('renders an empty graph', () => {
     let dotSrc = 'graph {}';
-    const wrapper = shallow(<WrapDot dotSrc={dotSrc} />);
-    expect(wrapper.find('p').text()).toEqual(dotSrc);
+    render(<WrapDot dotSrc={dotSrc} />);
+    expect(screen.getByTestId('dot-src')).toHaveTextContent(dotSrc);
   });
 
   it('renders an empty digraph', () => {
