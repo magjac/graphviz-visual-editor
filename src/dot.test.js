@@ -469,7 +469,7 @@ describe('dot.DotGraph.toString()', () => {
   it('throws error when trying to render two nodes separated by comma', () => {
     let dotSrc = 'digraph {a,b}';
     expect(() => {
-      shallow(<WrapDot dotSrc={dotSrc} />);
+      render(<WrapDot dotSrc={dotSrc} />);
     }).toThrow();
   });
 
