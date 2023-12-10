@@ -1520,21 +1520,21 @@ c
         a b
     } -> c
 }`;
-    render(<WrapDot dotSrc={dotSrc1} op="deleteNode" id="a" raw={true} />);
+    const {rerender} = render(<WrapDot dotSrc={dotSrc1} op="deleteNode" id="a" raw={true} />);
     let dotSrc2 = `digraph {
     subgraph {
         b
     } -> c
 }`;
     expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc2);
-    wrapper.setProps({op: "deleteNode", id:"c"});
+    rerender(<WrapDot dotSrc={dotSrc2} op="deleteNode" id="c" raw={true} />);
     let dotSrc3 = `digraph {
     subgraph {
         b
     }
 }`;
     expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc3);
-    wrapper.setProps({op: "deleteEdge", id: "a", edgeRHSId: "c"});
+    rerender(<WrapDot dotSrc={dotSrc3} op="deleteEdge" id="a" edgeRHSId="c" raw={true} />);
     let dotSrc4 = `digraph {
     subgraph {
         b
@@ -1563,10 +1563,11 @@ describe('dot.DotGraph.toString() parses Graphviz dot files', () => {
     let dotSrc0 = buffer.toString();
 
     it(`Parses ${dotFile}`, () => {
-      const wrapper1 = shallow(<WrapDot dotSrc={dotSrc0} op="toString" id="a"/>);
-      const dotSrc1 = wrapper1.find('p').text();
-      const wrapper2 = shallow(<WrapDot dotSrc={dotSrc1} op="toString" id="a"/>);
-      const dotSrc2 = wrapper2.find('p').text();
+      render(<WrapDot dotSrc={dotSrc0} op="toString" id="a"/>);
+      const dotSrc1 = screen.getAllByTestId('dot-src');
+      render(<WrapDot dotSrc={dotSrc1} op="toString" id="a"/>);
+      const dotSrcs = screen.getAllByTestId('dot-src');
+      const dotSrc2 = dotSrcs[1].textContent;
       expect(dotSrc2).toEqual(dotSrc1);
     });
 
