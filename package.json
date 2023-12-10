@@ -63,6 +63,7 @@
     "@cypress/code-coverage": "^3.12.12",
     "@cypress/instrument-cra": "^1.4.0",
     "@harrison-ifeanyichukwu/xml-serializer": "^1.2.2",
+    "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^12.1.5",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "codecov": "^3.8.3",
