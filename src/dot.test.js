@@ -1563,11 +1563,10 @@ describe('dot.DotGraph.toString() parses Graphviz dot files', () => {
     let dotSrc0 = buffer.toString();
 
     it(`Parses ${dotFile}`, () => {
-      render(<WrapDot dotSrc={dotSrc0} op="toString" id="a"/>);
+      const { rerender } = render(<WrapDot dotSrc={dotSrc0} op="toString" id="a"/>);
       const dotSrc1 = screen.getAllByTestId('dot-src');
-      render(<WrapDot dotSrc={dotSrc1} op="toString" id="a"/>);
-      const dotSrcs = screen.getAllByTestId('dot-src');
-      const dotSrc2 = dotSrcs[1].textContent;
+      rerender(<WrapDot dotSrc={dotSrc1} op="toString" id="a"/>);
+       const dotSrc2 = screen.getAllByTestId('dot-src');
       expect(dotSrc2).toEqual(dotSrc1);
     });
 
