@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Box } from '@mui/system';
 import withStyles from '@mui/styles/withStyles';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 const styles = {
-  scrollbars: {
-    width: 200,
-    height: '6em',
-  },
   pre: {
     margin: 0,
   }
@@ -19,11 +16,13 @@ class DotSrcPreview extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <PerfectScrollbar className={classes.scrollbars}>
-        <pre className={classes.pre}>
-          {this.props.dotSrc}
-        </pre>
-      </PerfectScrollbar>
+      <Box sx={{ width: 200, height: '6em' }}>
+        <PerfectScrollbar>
+          <pre className={classes.pre}>
+            {this.props.dotSrc}
+          </pre>
+        </PerfectScrollbar>
+      </Box>
     );
   }
 }
