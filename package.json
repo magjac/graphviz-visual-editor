@@ -39,10 +39,10 @@
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "qs": "^6.11.2",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-ace": "^10.1.0",
     "react-color": "^2.19.3",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-scripts": "^5.0.1",
     "typeface-roboto": "^1.1.13"
