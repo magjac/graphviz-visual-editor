@@ -13,7 +13,7 @@ import graphvizVersions from './graphviz-versions.json';
 const styles = theme => ({
   snackbar: {
     "display": "block",
-    "margin-top": "72px",
+    "margin-top": "48px",
     "max-width": "none",
     "width": "100%",
   },
