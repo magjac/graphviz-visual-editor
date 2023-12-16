@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Index from './pages/index';
+import { createRoot } from 'react-dom/client';
+import Index from './pages/index.js';
 
-ReactDOM.render(<Index />, document.querySelector('#root'));
+const root = createRoot(document.querySelector('#root'));
+root.render(<Index tab="home" />);
