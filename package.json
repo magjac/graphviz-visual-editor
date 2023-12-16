@@ -49,7 +49,7 @@
     "typeface-roboto": "^1.1.13"
   },
   "scripts": {
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts --max_old_space_size=4096 start",
+    "start": "react-scripts --max_old_space_size=4096 start",
     "start:coverage": "react-scripts --max_old_space_size=4096 -r @cypress/instrument-cra start",
     "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test --env=jsdom --verbose=false",
