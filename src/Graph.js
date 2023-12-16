@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
 import { Fade } from '@mui/material';
 import { CircularProgress } from '@mui/material';
+import { IconButton } from '@mui/material';
+import { Fullscreen as FullscreenIcon } from '@mui/icons-material';
+import { FullscreenExit as FullscreenExitIcon } from '@mui/icons-material';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
@@ -28,6 +31,16 @@ const styles = {
     position: 'absolute',
     top: 'calc(1 * 12px + 2px)',
     left: 'calc(1 * 12px + 2px)',
+  },
+  fullscreenWhenNotFullscreen: {
+    position: 'absolute',
+    top: 'calc(64px + 1 * 12px + 2px)',
+    left: 'calc(100vw - 2 * 12px - 2 * 12px)',
+  },
+  fullscreenWhenFullscreen: {
+    position: 'absolute',
+    top: 'calc(2px)',
+    left: 'calc(100vw - 2 * 12px - 1 * 12px)',
   },
 };
 
@@ -793,6 +806,18 @@ class Graph extends React.Component {
              />
           </Fade>
         )}
+        <IconButton
+          id="menu"
+          className={this.props.fullscreen ? classes.fullscreenWhenFullscreen : classes.fullscreenWhenNotFullscreen}
+          color="inherit"
+          aria-label="Fullscreen"
+          onClick={this.props.onToggleFullscreen}
+          size="small">
+            {this.props.fullscreen ?
+              <FullscreenExitIcon /> :
+              <FullscreenIcon />
+            }
+        </IconButton>
       </React.Fragment>
     );
   }
