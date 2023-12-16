@@ -129,6 +129,10 @@ class WrapDot extends React.Component {
   }
 };
 
+let console_error = console.error;
+
+afterEach(() => console.error = console_error);
+
 describe('dot.DotGraph.toString()', () => {
 
   // general
@@ -467,6 +471,7 @@ describe('dot.DotGraph.toString()', () => {
   });
 
   it('throws error when trying to render two nodes separated by comma', () => {
+    console.error = jest.fn();
     let dotSrc = 'digraph {a,b}';
     expect(() => {
       render(<WrapDot dotSrc={dotSrc} />);
