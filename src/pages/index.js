@@ -808,13 +808,13 @@ class Index extends React.Component {
           />
         }
         <Grid container
-          spacing={3}
+          rowSpacing={1.5}
           style={{
             margin: 0,
             width: '100%',
           }}
         >
-          <Grid item xs={columns.textEditor}>
+          <Grid item xs={columns.textEditor} padding={1.5}>
             <Paper elevation={leftPaneElevation} className={paperClass}>
               {this.state.nodeFormatDrawerIsOpen &&
                 <FormatDrawer
@@ -860,7 +860,7 @@ class Index extends React.Component {
             </Paper>
           </Grid>
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
-            <Grid item xs={columns.insertPanels}>
+            <Grid item xs={columns.insertPanels} padding={1.5}>
               <Paper elevation={midPaneElevation} className={paperClass}>
                 <InsertPanels
                     onClick={this.handleInsertPanelsClick}
@@ -871,7 +871,7 @@ class Index extends React.Component {
               </Paper>
             </Grid>
           )}
-          <Grid item xs={columns.graph}>
+          <Grid item xs={columns.graph} padding={1.5}>
             <Paper elevation={rightPaneElevation} className={paperClass}>
               <Graph
                 hasFocus={graphHasFocus}
