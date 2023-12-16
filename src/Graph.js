@@ -19,10 +19,15 @@ const styles = {
   flex: {
     flexGrow: 1,
   },
-  progress: {
+  progressWhenNotFullscreen: {
     position: 'absolute',
     top: 'calc(64px + 2 * 12px + 2px)',
-    left: 'calc(100vw - 2 * 12px - 2 * 12px)',
+    left: 'calc(50vw + 2 * 12px + 2px)',
+  },
+  progressWhenFullscreen: {
+    position: 'absolute',
+    top: 'calc(1 * 12px + 2px)',
+    left: 'calc(1 * 12px + 2px)',
   },
 };
 
@@ -781,7 +786,7 @@ class Graph extends React.Component {
           >
              <CircularProgress
                id="busy-indicator"
-               className={classes.progress}
+               className={this.props.fullscreen ? classes.progressWhenFullscreen : classes.progressWhenNotFullscreen}
                color="secondary"
                size={20}
                thickness={4.5}
