@@ -1,8 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
+import { useTheme } from '@mui/material/styles';
 
 const previewWidth = 400;
 const previewHeight = 250;
@@ -22,86 +25,73 @@ const styles = theme => ({
   },
 });
 
-class SvgPreview extends React.Component {
+const SvgPreview = ({ classes, svg, width, height }) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      preview: false,
-      x: 0,
-      y: 0,
-    };
-  }
+  const [preview, setPreview] = useState(false);
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
 
-  componentDidMount() {
-    this.componentDidUpdate();
-  }
+  let divPreview;
+  let divThumbnail;
 
-  componentDidUpdate() {
-    const svgThumbnail = this.divThumbnail.querySelector('svg');
+  useEffect(() => {
+    const svgThumbnail = divThumbnail.querySelector('svg');
     if (svgThumbnail) {
-      svgThumbnail.setAttribute('width', this.props.width);
-      svgThumbnail.setAttribute('height', this.props.height);
+      svgThumbnail.setAttribute('width', width);
+      svgThumbnail.setAttribute('height', height);
       const g = svgThumbnail.querySelector('g');
-      g.addEventListener('mouseenter', this.handleMouseEnter);
-      g.addEventListener('mouseleave', this.handleMouseOut);
+      g.addEventListener('mouseenter', handleMouseEnter);
+      g.addEventListener('mouseleave', handleMouseOut);
     }
-    if (this.divPreview) {
-      const svgPreview = this.divPreview.querySelector('svg');
+    if (divPreview) {
+      const svgPreview = divPreview.querySelector('svg');
       svgPreview.setAttribute('width', previewWidth);
       svgPreview.setAttribute('height', previewHeight);
     }
-  }
+  });
 
-  handleMouseEnter = (event) => {
-    this.setState({
-      preview: true,
-      x: event.clientX,
-      y: event.clientY,
-    });
-  }
+  const handleMouseEnter = (event) => {
+    setPreview(true);
+    setX(event.clientX);
+    setY(event.clientY);
+  };
 
-  handleMouseOut = (event) => {
-    this.setState({
-      preview: false,
-    });
-  }
+  const handleMouseOut = (event) => {
+    setPreview(false);
+  };
 
-  render() {
-    const { classes } = this.props;
-    const { theme } = this.props;
-    const previewMargin = +theme.spacing(previewMarginUnits).replace('px', '');
+  const theme = useTheme();
+  const previewMargin = +theme.spacing(previewMarginUnits).replace('px', '');
 
-    return (
-      <React.Fragment>
-        <div
-          id="svg-wrapper"
-          ref={div => this.divThumbnail = div}
-          dangerouslySetInnerHTML={{__html: this.props.svg}}
+  return (
+    <React.Fragment>
+      <div
+        id="svg-wrapper"
+        ref={div => divThumbnail = div}
+        dangerouslySetInnerHTML={{__html: svg}}
+      >
+      </div>
+      {preview &&
+        <Card
+          id="preview-pop-up"
+          className={classes.card}
+          raised
+          style={{
+            left: x + previewMargin,
+            top: y + previewMargin,
+          }}
         >
-        </div>
-        {this.state.preview &&
-          <Card
-            id="preview-pop-up"
-            className={classes.card}
-            raised
-            style={{
-              left: this.state.x + previewMargin,
-              top: this.state.y + previewMargin,
-            }}
-          >
-            <CardContent className={classes.cardContent}>
-              <div
-                ref={div => this.divPreview = div}
-                dangerouslySetInnerHTML={{__html: this.props.svg}}
-              >
-              </div>
-            </CardContent>
-          </Card>
-        }
-      </React.Fragment>
-    );
-  }
+          <CardContent className={classes.cardContent}>
+            <div
+              ref={div => divPreview = div}
+              dangerouslySetInnerHTML={{__html: svg}}
+            >
+            </div>
+          </CardContent>
+        </Card>
+      }
+    </React.Fragment>
+  );
 }
 
 SvgPreview.propTypes = {
@@ -109,7 +99,6 @@ SvgPreview.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(SvgPreview);
+export default withStyles(SvgPreview, styles);

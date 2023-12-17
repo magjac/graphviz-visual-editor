@@ -29,7 +29,6 @@
     "@mui/codemod": "^5.14.19",
     "@mui/icons-material": "^5.14.19",
     "@mui/material": "^5.14.19",
-    "@mui/styles": "^5.14.19",
     "ace-builds": "^1.32.0",
     "d3-graphviz": "4.1.0",
     "d3-scale-chromatic": "^1.5.0",
@@ -45,6 +44,7 @@
     "react-dom": "^17.0.2",
     "react-perfect-scrollbar": "^1.5.8",
     "react-scripts": "^5.0.1",
+    "tss-react": "^4.9.3",
     "typeface-roboto": "^1.1.13"
   },
   "scripts": {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from 'tss-react/mui';
 import withRoot from './withRoot';
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
@@ -88,4 +88,4 @@ ColorPicker.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withRoot(withStyles(styles)(ColorPicker));
+export default withRoot(withStyles(ColorPicker, styles));
