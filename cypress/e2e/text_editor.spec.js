@@ -91,7 +91,7 @@ describe('Text editor', function() {
     cy.textEditorTooltip().should('have.text', 'Expected "<", "\\"", "edge", "graph", "node", "subgraph", "{", "}", NUMBER or UNICODE_STRING but "-" found.');
   })
 
-  it('The line with the DOT source error is scrolled into view when the error icon in the text edtitor is clicked', function() {
+  it('The line with the DOT source error is scrolled into view when the error icon in the text editor is clicked', function() {
     cy.startCleanApplication();
 
     cy.nodes().should('have.length', 0);
