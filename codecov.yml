@@ -1,0 +1,5 @@
+coverage:
+  status:
+    project:
+      default:
+        removed_code_behavior: adjust_base
