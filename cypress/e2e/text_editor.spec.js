@@ -88,7 +88,7 @@ describe('Text editor', function() {
     cy.textEditorGutter().trigger('mousemove', 40 * 0.5, 12 * 1.5);
 
     cy.textEditorTooltip().should('exist');
-    cy.textEditorTooltip().should('have.text', 'Expected "<", "\\"", "edge", "graph", "node", "subgraph", "{", "}", NUMBER or UNICODE_STRING but "-" found.');
+    cy.textEditorTooltip().should('have.text', '  Expected "<", "\\"", "edge", "graph", "node", "subgraph", "{", "}", NUMBER, or UNICODE_STRING but "-" found.');
   })
 
   it('The line with the DOT source error is scrolled into view when the error icon in the text editor is clicked', function() {
@@ -158,7 +158,7 @@ describe('Text editor', function() {
     cy.textEditorGutter().trigger('mousemove', 40 * 0.5, 12 * 1.5);
 
     cy.textEditorTooltip().should('exist');
-    cy.textEditorTooltip().should('have.text', "syntax error in line 2 near '-'\n");
+    cy.textEditorTooltip().should('have.text', "  syntax error in line 2 near '-'\n");
 
   })
 
