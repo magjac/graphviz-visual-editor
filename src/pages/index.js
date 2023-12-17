@@ -62,6 +62,7 @@ class Index extends React.Component {
       initialized: false,
       name: localStorage.getItem('name') || '',
       dotSrc: dotSrc,
+      forceNewDotSrc: true,
       dotSrcLastChangeTime: +localStorage.getItem('dotSrcLastChangeTime') || Date.now(),
       svg: localStorage.getItem('svg') || '',
       hasUndo: false,
@@ -149,11 +150,18 @@ class Index extends React.Component {
     });
   }
 
-  handleTextChange = (text, undoRedoState) => {
+  handleTextChangeFromGraph = (text) => {
+    const forceNewDotSrc = true;
+    const undoRedoState = null;
+    this.handleTextChange(text, undoRedoState, forceNewDotSrc);
+  }
+
+  handleTextChange = (text, undoRedoState, forceNewDotSrc) => {
     this.setPersistentState((state) => {
       const newState = {
         name: state.name || (text ? this.createUntitledName(state.projects) : ''),
         dotSrc: text,
+        forceNewDotSrc: forceNewDotSrc,
       };
       if (!this.disableDotSrcLastChangeTimeUpdate) {
         newState.dotSrcLastChangeTime = Date.now();
@@ -843,7 +851,7 @@ class Index extends React.Component {
                   // allocated viewport width - 2 * padding
                   width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
                   height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
-                  dotSrc={this.state.dotSrc}
+                  dotSrc={this.state.forceNewDotSrc ? this.state.dotSrc : null}
                   onTextChange={this.handleTextChange}
                   onFocus={this.handleTextEditorFocus}
                   onBlur={this.handleTextEditorBlur}
@@ -885,7 +893,7 @@ class Index extends React.Component {
                 defaultNodeAttributes={this.state.defaultNodeAttributes}
                 defaultEdgeAttributes={this.state.defaultEdgeAttributes}
                 onFocus={this.handleGraphFocus}
-                onTextChange={this.handleTextChange}
+                onTextChange={this.handleTextChangeFromGraph}
                 onHelp={this.handleKeyboardShortcutsClick}
                 onSelect={this.handleGraphComponentSelect}
                 onUndo={this.undo}
