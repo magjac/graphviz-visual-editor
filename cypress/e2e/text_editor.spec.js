@@ -257,7 +257,7 @@ describe('Text editor', function() {
 
   })
 
-  it.only('A graph is rendered when DOT source code is typed slowly in the text editor', function() {
+  it('A graph is rendered when DOT source code is typed slowly in the text editor', function() {
     const dotSrc = '{leftArrow}{enter}Alice->Bob';
     const delays = [0, 10, 20, 50, 100, 200, 300, 400, 500];
 
