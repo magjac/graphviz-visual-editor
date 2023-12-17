@@ -158,9 +158,9 @@ class Index extends React.Component {
       if (!this.disableDotSrcLastChangeTimeUpdate) {
         newState.dotSrcLastChangeTime = Date.now();
       }
+      this.disableDotSrcLastChangeTimeUpdate = false;
       return newState;
     });
-    this.disableDotSrcLastChangeTimeUpdate = false;
     if (this.resetUndoAtNextTextChange) {
       this.resetUndoStack();
       undoRedoState = {
