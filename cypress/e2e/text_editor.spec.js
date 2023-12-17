@@ -88,10 +88,10 @@ describe('Text editor', function() {
     cy.textEditorGutter().trigger('mousemove', 40 * 0.5, 12 * 1.5);
 
     cy.textEditorTooltip().should('exist');
-    cy.textEditorTooltip().should('have.text', 'Expected "<", "\\"", "edge", "graph", "node", "subgraph", "{", "}", NUMBER or UNICODE_STRING but "-" found.');
+    cy.textEditorTooltip().should('have.text', '  Expected "<", "\\"", "edge", "graph", "node", "subgraph", "{", "}", NUMBER, or UNICODE_STRING but "-" found.');
   })
 
-  it('The line with the DOT source error is scrolled into view when the error icon in the text edtitor is clicked', function() {
+  it('The line with the DOT source error is scrolled into view when the error icon in the text editor is clicked', function() {
     cy.startCleanApplication();
 
     cy.nodes().should('have.length', 0);
@@ -158,7 +158,7 @@ describe('Text editor', function() {
     cy.textEditorGutter().trigger('mousemove', 40 * 0.5, 12 * 1.5);
 
     cy.textEditorTooltip().should('exist');
-    cy.textEditorTooltip().should('have.text', "syntax error in line 2 near '-'\n");
+    cy.textEditorTooltip().should('have.text', "  syntax error in line 2 near '-'\n");
 
   })
 
@@ -257,7 +257,7 @@ describe('Text editor', function() {
 
   })
 
-  it.only('A graph is rendered when DOT source code is typed slowly in the text editor', function() {
+  it('A graph is rendered when DOT source code is typed slowly in the text editor', function() {
     const dotSrc = '{leftArrow}{enter}Alice->Bob';
     const delays = [0, 10, 20, 50, 100, 200, 300, 400, 500];
 
