@@ -62,7 +62,6 @@ class TextEditor extends React.Component {
   render() {
     const { classes } = this.props;
     var annotations = null;
-    let dotSrc = this.props.dotSrc;
     if (this.props.error) {
       annotations = [{
         row: this.props.error.line - 1,
@@ -81,12 +80,6 @@ class TextEditor extends React.Component {
         }
       }
       this.prevNumLines = this.props.error.numLines;
-      // If there's an error, the user may have updated the DOT source since
-      // the error occurred, without us yet having gotten an onChange event. We
-      // therefore read out the current text from the editor and feed that back
-      // into it as the "value" prop, instead of the possibly outdated DOT
-      // source, which would otherwise overwrite the user's updates.
-      dotSrc = this.editor.getSession().getDocument().$lines.join("\n");
     }
     this.prevError = this.props.error;
     const locations = this.props.selectedGraphComponents.reduce(
@@ -128,7 +121,7 @@ class TextEditor extends React.Component {
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
           name="text-editor"
-          value={dotSrc}
+          value={this.props.dotSrc}
           // viewport height - app bar - 2 * padding
           height={this.props.height}
           width={this.props.width}
