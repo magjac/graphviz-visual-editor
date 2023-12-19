@@ -1,8 +1,9 @@
 #! /usr/bin/env node
 
-import hpccWasm from "@hpcc-js/wasm";
+import { Graphviz } from "@hpcc-js/wasm/graphviz";
 
-const graphvizVersion = await hpccWasm.graphvizVersion();
+const graphviz = await Graphviz.load();
+const graphvizVersion = graphviz.version();
 
 console.log(`const graphvizVersion = "${graphvizVersion}";`);
 console.log('export {graphvizVersion};');

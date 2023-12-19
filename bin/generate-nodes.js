@@ -1,6 +1,8 @@
 #! /usr/bin/env node
 
-import { graphviz } from "@hpcc-js/wasm";
+import { Graphviz } from "@hpcc-js/wasm/graphviz";
+
+const graphviz = await Graphviz.load();
 
 const shapes = [
   "box",
@@ -82,7 +84,7 @@ for (let i = 0; i < shapes.length; i++) {
     ${shape} [shape=${shape} style=filled label=""]
   }`;
 
-  var svg = await graphviz.layout(dotSrc, 'svg', 'dot');
+  var svg = graphviz.layout(dotSrc, 'svg', 'dot');
 
   console.log(`${shape}: \`${svg}\`,`);
 }
@@ -91,7 +93,7 @@ const dotSrc = `digraph "" {
   "(default)" [style="filled, dashed" fillcolor="white" label=""]
 }`;
 
-var svg = await graphviz.layout(dotSrc, 'svg' , 'dot');
+var svg = graphviz.layout(dotSrc, 'svg' , 'dot');
 
 console.log(`'(default)': \`${svg}\`,`);
 

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+* Updated [Graphviz](https://graphviz.org/) from version [2.50.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#2500-2021-12-04) to version [9.0.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#900-2023-09-11) through [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm) version [2.14.1](https://github.com/hpcc-systems/hpcc-js-wasm/blob/trunk/CHANGELOG.md#2141-2023-10-12), containing a lot of improvements and fixes, including a fix for:
+  * Failure of arrowhead and arrowtail to respect penwidth ([Graphviz issue #372](https://gitlab.com/graphviz/graphviz/issues/372))
+
 ### Fixed
 * Lost characters when typing fast and DOT parsing errors occur #236
 * New nodes created after linking nodes with a space in the label #215 (thanks @ygra)
