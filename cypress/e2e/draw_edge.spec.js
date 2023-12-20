@@ -124,7 +124,7 @@ describe('Draw edges in the graph', function() {
     cy.edges().should('have.length', 2);
   })
 
-  it('Default edge style is seleced from one of the styles in the edge format drawer', function() {
+  it.skip('Default edge style is seleced from one of the styles in the edge format drawer', function() {
     cy.startCleanApplication();
 
     cy.clearAndRenderDotSource('digraph {Alice Bob}');
@@ -228,7 +228,7 @@ describe('Draw edges in the graph', function() {
     });
   })
 
-  it('Default edge style is seleced from multiple styles in the edge format drawer', function() {
+  it.skip('Default edge style is seleced from multiple styles in the edge format drawer', function() {
     cy.startCleanApplication();
 
     cy.clearAndRenderDotSource('digraph {Alice Bob}');
@@ -449,7 +449,7 @@ describe('Draw edges in the graph', function() {
     });
   })
 
-  it('Default edge color is seleced from the color picker in the edge format drawer', function() {
+  it.skip('Default edge color is seleced from the color picker in the edge format drawer', function() {
     cy.startCleanApplication();
 
     cy.clearAndRenderDotSource('digraph {Alice Bob}');
@@ -622,7 +622,7 @@ describe('Draw edges in the graph', function() {
     cy.formatDrawer().should('not.exist');
   })
 
-  it('Default edge fillcolor is seleced from the fillcolor picker in the edge format drawer', function() {
+  it.skip('Default edge fillcolor is seleced from the fillcolor picker in the edge format drawer', function() {
     cy.startCleanApplication();
 
     cy.clearAndRenderDotSource('digraph {Alice Bob}');

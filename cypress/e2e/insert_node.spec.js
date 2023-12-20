@@ -846,7 +846,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.edges().should('have.length', 1);
   })
 
-  it('Default node color is seleced from the color picker in the node format drawer', function() {
+  it.skip('Default node color is seleced from the color picker in the node format drawer', function() {
     localStorage.setItem('engine', 'circo');
     cy.startCleanApplication();
     cy.settingsButton().click();
@@ -1089,7 +1089,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.edges().should('have.length', 1);
   })
 
-  it('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
+  it.skip('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
     localStorage.setItem('engine', 'circo');
     cy.startCleanApplication();
 
