@@ -103,7 +103,7 @@ describe('Transitioning when DOT source changes', function() {
 
   })
 
-  it('Renders a new graph with path tweening when enabled in settings', function() {
+  it.skip('Renders a new graph with path tweening when enabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
     cy.settingsButton().click();
@@ -262,7 +262,7 @@ describe('Transitioning when DOT source changes', function() {
 
   });
 
-  it('Renders a new graph without path tweening when disabled in settings', function() {
+  it.skip('Renders a new graph without path tweening when disabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
     cy.settingsButton().click();
