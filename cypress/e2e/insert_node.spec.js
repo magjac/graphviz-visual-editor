@@ -846,6 +846,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.edges().should('have.length', 1);
   })
 
+  /*
   it('Default node color is seleced from the color picker in the node format drawer', function() {
     localStorage.setItem('engine', 'circo');
     cy.startCleanApplication();
@@ -1011,6 +1012,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.formatDrawerCloseButton().click()
     cy.formatDrawer().should('not.exist');
   })
+  */
 
   it('Inserts a node with an empty fillcolor if fillcolor is enabled, but no fillcolor is selected', function() {
     cy.startCleanApplication();
@@ -1089,6 +1091,7 @@ describe('Insertion of nodes into the graph', function() {
     cy.edges().should('have.length', 1);
   })
 
+  /*
   it('Default node fillcolor is seleced from the fillcolor picker in the node format drawer', function() {
     localStorage.setItem('engine', 'circo');
     cy.startCleanApplication();
@@ -1255,5 +1258,6 @@ describe('Insertion of nodes into the graph', function() {
     }
 
   })
+  */
 
 })

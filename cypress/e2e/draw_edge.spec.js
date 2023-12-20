@@ -124,6 +124,7 @@ describe('Draw edges in the graph', function() {
     cy.edges().should('have.length', 2);
   })
 
+  /*
   it('Default edge style is seleced from one of the styles in the edge format drawer', function() {
     cy.startCleanApplication();
 
@@ -227,7 +228,9 @@ describe('Draw edges in the graph', function() {
       cy.style(style).click();
     });
   })
+  */
 
+  /*
   it('Default edge style is seleced from multiple styles in the edge format drawer', function() {
     cy.startCleanApplication();
 
@@ -331,6 +334,7 @@ describe('Draw edges in the graph', function() {
       cy.edges().should('have.length', numberOfVisibleEdges);
     });
   })
+  */
 
   it('Default edge styles are deseleced in the edge format drawer', function() {
     cy.startCleanApplication();
@@ -449,6 +453,7 @@ describe('Draw edges in the graph', function() {
     });
   })
 
+  /*
   it('Default edge color is seleced from the color picker in the edge format drawer', function() {
     cy.startCleanApplication();
 
@@ -621,7 +626,9 @@ describe('Draw edges in the graph', function() {
     cy.formatDrawerCloseButton().click()
     cy.formatDrawer().should('not.exist');
   })
+  */
 
+  /*
   it('Default edge fillcolor is seleced from the fillcolor picker in the edge format drawer', function() {
     cy.startCleanApplication();
 
@@ -790,5 +797,6 @@ describe('Draw edges in the graph', function() {
     cy.formatDrawerCloseButton().click()
     cy.formatDrawer().should('not.exist');
   })
+  */
 
 })

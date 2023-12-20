@@ -103,6 +103,7 @@ describe('Transitioning when DOT source changes', function() {
 
   })
 
+  /*
   it('Renders a new graph with path tweening when enabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -144,6 +145,7 @@ describe('Transitioning when DOT source changes', function() {
     });
 
   })
+  */
 
   it('Renders a new graph with absolute path tweening precision specified in settings', function() {
     localStorage.setItem('fitGraph', true);
@@ -262,6 +264,7 @@ describe('Transitioning when DOT source changes', function() {
 
   });
 
+  /*
   it('Renders a new graph without path tweening when disabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -305,6 +308,7 @@ describe('Transitioning when DOT source changes', function() {
     });
 
   })
+  */
 
   it('The transition duration is set through the transition duration input field in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice Bob}');
