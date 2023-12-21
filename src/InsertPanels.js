@@ -114,6 +114,7 @@ const styles = theme => ({
     flexShrink: 0,
   },
   columns: {
+    display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
   },
