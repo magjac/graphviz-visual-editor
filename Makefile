@@ -15,8 +15,8 @@ src/shapes.js: bin/generate-nodes.mjs
 	bin/generate-nodes.mjs > tmp.js
 	mv tmp.js $@
 
-src/graphvizVersion.js: bin/generate-graphviz-version.mjs
-	bin/generate-graphviz-version.mjs > tmp.js
+src/graphvizVersion.js: bin/generate-graphviz-version.js
+	bin/generate-graphviz-version.js > tmp.js
 	mv tmp.js $@
 
 src/versions.json: CHANGELOG.md bin/generate-versions.py
