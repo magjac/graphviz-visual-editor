@@ -1,4 +1,4 @@
-import parser from './dotParser';
+import * as parser from './dotParser.js';
 var parse = parser.parse;
 
 const whitespaceWithinLine = ' \t\r';

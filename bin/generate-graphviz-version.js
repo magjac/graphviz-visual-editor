@@ -1,26 +1,8 @@
 #! /usr/bin/env node
 
-var hpccWasm = require("@hpcc-js/wasm/dist");
-var fs_promises = require("fs").promises;
+import hpccWasm from "@hpcc-js/wasm";
 
-global.fetch = function (filename) {
-  return fs_promises.open(filename, 'r').then((filehandle) => {
-    return filehandle.readFile().then(data => {
-      return {
-        ok: true,
-        arrayBuffer: () => data,
-      };
-    });
-  });
-}
+const graphvizVersion = await hpccWasm.graphvizVersion();
 
-global.document = {
-  "currentScript": {
-    src: './node_modules/@hpcc-js/wasm/dist/index.js'
-  }
-};
-
-hpccWasm.graphvizVersion().then(graphvizVersion => {
-  console.log(`const graphvizVersion = "${graphvizVersion}";`);
-  console.log('export {graphvizVersion};');
-});
+console.log(`const graphvizVersion = "${graphvizVersion}";`);
+console.log('export {graphvizVersion};');

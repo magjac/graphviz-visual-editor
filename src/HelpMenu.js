@@ -1,6 +1,6 @@
 import React from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { Menu } from '@mui/material';
+import { MenuItem } from '@mui/material';
 
 class HelpMenu extends React.Component {
 

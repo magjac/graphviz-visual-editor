@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {shapes} from './shapes';
+import { Accordion } from '@mui/material';
+import { AccordionDetails } from '@mui/material';
+import { AccordionSummary } from '@mui/material';
+import { Typography } from '@mui/material';
+import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import {shapes} from './shapes.js';
 
 const nodeShapeCategories = [
   {

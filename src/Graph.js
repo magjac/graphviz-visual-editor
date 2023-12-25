@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
-import Fade from '@mui/material/Fade';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Fade } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
@@ -10,7 +10,7 @@ import { zoomIdentity as d3_zoomIdentity} from 'd3-zoom';
 import { zoomTransform as d3_zoomTransform} from 'd3-zoom';
 import { pointer as d3_pointer} from 'd3-selection';
 import 'd3-graphviz';
-import DotGraph from './dot'
+import DotGraph from './dot.js'
 import { wasmFolder } from "@hpcc-js/wasm";
 
 const styles = {
