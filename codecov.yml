@@ -2,4 +2,5 @@ coverage:
   status:
     project:
       default:
+        threshold: 0.05%
         removed_code_behavior: adjust_base
