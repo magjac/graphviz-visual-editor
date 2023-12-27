@@ -109,6 +109,10 @@ Cypress.Commands.add("edges", () => {
   return cy.canvasGraph().find('> .edge');
 });
 
+Cypress.Commands.add("fullscreenButton", (buttonName) => {
+  return cy.get('#fullscreen');
+});
+
 Cypress.Commands.add("toolbar", (buttonName) => {
   return cy.get('#toolbar');
 });
