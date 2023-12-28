@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 * Lost characters when typing fast and DOT parsing errors occur #236
 * New nodes created after linking nodes with a space in the label #215 (thanks @ygra)
+* Keyboard shortcuts involving the control key in the graph doesn't work in Firefox #260
 
 ## [0.6.5] - 2022-02-24
 

@@ -120,10 +120,21 @@ class Index extends React.Component {
       }
       window.history.replaceState(null, null, window.location.pathname);
     }
+
+    document.documentElement.addEventListener('mouseleave', () => {
+      this.outsideOfDocument = true;
+    });
+
+    document.documentElement.addEventListener('mouseenter', () => {
+      this.outsideOfDocument = false;
+    })
+
     document.onblur = () => {
       // Needed when the user clicks outside the document,
       // e.g. the browser address bar
-      this.setFocus(null);
+      if (this.outsideOfDocument) {
+        this.setFocus(null);
+      }
     }
   }
 
