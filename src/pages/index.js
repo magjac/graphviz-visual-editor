@@ -37,7 +37,7 @@ const styles = theme => ({
     height: "calc(100vh - 64px - 2 * 12px)",
   },
   paperWhenUpdatedSnackbarIsOpen: {
-    "margin-top": "64px",
+    marginTop: "64px",
     height: "calc(100vh - 64px - 64px - 2 * 12px)",
   }
 });
