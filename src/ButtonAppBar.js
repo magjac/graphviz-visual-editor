@@ -6,6 +6,7 @@ import { Toolbar } from '@mui/material';
 import { Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { IconButton } from '@mui/material';
+import { Icon } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { OpenInBrowser as OpenInBrowserIcon } from '@mui/icons-material';
@@ -35,6 +36,15 @@ const styles = {
     '&:visited' : {
       color: 'inherit',
     },
+  },
+  imageIcon: {
+    display: 'block',
+    height: '100%'
+  },
+  iconRoot: {
+    height: '64px',
+    width: '72px',
+    verticalAlign: 'middle',
   },
 };
 
@@ -168,6 +178,9 @@ function ButtonAppBar(props) {
             color="inherit"
             className={classes.flex}
           >
+          <Icon classes={{root: classes.iconRoot}}>
+            <img className={classes.imageIcon} src="graphviz-svgrepo-com.svg"/>
+          </Icon>
             Graphviz Visual Editor
           </Typography>
           <IconButton
