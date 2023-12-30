@@ -725,17 +725,17 @@ class Index extends React.Component {
     const midPaneElevation = insertPanelsHaveFocus ? focusedElevation : defaultElevation;
 
     var columns;
-    if (this.state.insertPanelsAreOpen && this.state.graphInitialized) {
-      columns = {
-        textEditor: 3,
-        insertPanels: 3,
-        graph: 6,
-      }
-    } else if (this.state.fullscreen) {
+    if (this.state.fullscreen) {
       columns = {
         textEditor: false,
         insertPanels: false,
         graph: 12,
+      }
+    } else if (this.state.insertPanelsAreOpen && this.state.graphInitialized) {
+      columns = {
+        textEditor: 3,
+        insertPanels: 3,
+        graph: 6,
       }
     } else { /* browse */
       columns = {
@@ -902,7 +902,7 @@ class Index extends React.Component {
               </Paper>
             </Grid>
           }
-          {this.state.insertPanelsAreOpen && this.state.graphInitialized && (
+          {this.state.insertPanelsAreOpen && this.state.graphInitialized && !this.state.fullscreen && (
             <Grid item xs={columns.insertPanels} padding={1.5}>
               <Paper elevation={midPaneElevation} className={paperClass}>
                 <InsertPanels
