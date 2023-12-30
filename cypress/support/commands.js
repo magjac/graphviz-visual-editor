@@ -109,6 +109,10 @@ Cypress.Commands.add("edges", () => {
   return cy.canvasGraph().find('> .edge');
 });
 
+Cypress.Commands.add("fullscreenButton", (buttonName) => {
+  return cy.get('#fullscreen');
+});
+
 Cypress.Commands.add("toolbar", (buttonName) => {
   return cy.get('#toolbar');
 });
@@ -118,7 +122,7 @@ Cypress.Commands.add("toolbarButton", (buttonName) => {
 });
 
 Cypress.Commands.add("menuButton", () => {
-  return cy.get('#toolbar').find('#menu');
+  return cy.toolbar().find('#menu');
 });
 
 Cypress.Commands.add("mainMenu", () => {
@@ -182,11 +186,11 @@ Cypress.Commands.add("menuItemSettings", () => {
 });
 
 Cypress.Commands.add("newButton", () => {
-  return cy.get('#toolbar').find('#new');
+  return cy.toolbar().find('#new');
 });
 
 Cypress.Commands.add("openButton", () => {
-  return cy.get('#toolbar').find('#open');
+  return cy.toolbar().find('#open');
 });
 
 Cypress.Commands.add("openFromBrowserDialog", () => {
@@ -258,7 +262,7 @@ Cypress.Commands.add("deleteGraphDialog", (index) => {
 });
 
 Cypress.Commands.add("saveAsButton", () => {
-  return cy.get('#toolbar').find('#save-as');
+  return cy.toolbar().find('#save-as');
 });
 
 Cypress.Commands.add("saveToBrowserDialog", () => {
@@ -378,23 +382,23 @@ Cypress.Commands.add("fillColorPickerInput", () => {
 });
 
 Cypress.Commands.add("zoomInButton", () => {
-  return cy.get('#toolbar').find('#zoom-in');
+  return cy.toolbar().find('#zoom-in');
 });
 
 Cypress.Commands.add("zoomOutButton", () => {
-  return cy.get('#toolbar').find('#zoom-out');
+  return cy.toolbar().find('#zoom-out');
 });
 
 Cypress.Commands.add("zoomOutMapButton", () => {
-  return cy.get('#toolbar').find('#zoom-out-map');
+  return cy.toolbar().find('#zoom-out-map');
 });
 
 Cypress.Commands.add("zoomResetButton", () => {
-  return cy.get('#toolbar').find('#zoom-reset');
+  return cy.toolbar().find('#zoom-reset');
 });
 
 Cypress.Commands.add("settingsButton", () => {
-  return cy.get('#toolbar').find('#settings');
+  return cy.toolbar().find('#settings');
 });
 
 Cypress.Commands.add("settingsDialog", () => {
@@ -470,7 +474,7 @@ Cypress.Commands.add("gitHubButton", () => {
 });
 
 Cypress.Commands.add("helpButton", () => {
-  return cy.get('#toolbar').find('#help');
+  return cy.toolbar().find('#help');
 });
 
 Cypress.Commands.add("helpMenu", () => {

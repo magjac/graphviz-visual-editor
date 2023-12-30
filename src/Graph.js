@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'tss-react/mui';
 import { Fade } from '@mui/material';
 import { CircularProgress } from '@mui/material';
+import { IconButton } from '@mui/material';
+import { OpenInFull as OpenInFullIcon } from '@mui/icons-material';
+import { CloseFullscreen as CloseFullscreenIcon } from '@mui/icons-material';
 import { select as d3_select} from 'd3-selection';
 import { selectAll as d3_selectAll} from 'd3-selection';
 import { transition as d3_transition} from 'd3-transition';
@@ -19,10 +22,25 @@ const styles = {
   flex: {
     flexGrow: 1,
   },
-  progress: {
+  progressWhenNotFullscreen: {
     position: 'absolute',
     top: 'calc(64px + 2 * 12px + 2px)',
+    left: 'calc(50vw + 2 * 12px + 2px)',
+  },
+  progressWhenFullscreen: {
+    position: 'absolute',
+    top: 'calc(1 * 12px + 2px)',
+    left: 'calc(1 * 12px + 2px)',
+  },
+  fullscreenWhenNotFullscreen: {
+    position: 'absolute',
+    top: 'calc(64px + 1 * 12px + 2px)',
     left: 'calc(100vw - 2 * 12px - 2 * 12px)',
+  },
+  fullscreenWhenFullscreen: {
+    position: 'absolute',
+    top: 'calc(2px)',
+    left: 'calc(100vw - 2 * 12px - 1 * 12px)',
   },
 };
 
@@ -60,6 +78,7 @@ class Graph extends React.Component {
     this.prevFit = null;
     this.prevEngine = null;
     this.prevDotSrc = '';
+    this.prevFullscreen = false;
   }
 
   componentDidMount() {
@@ -110,6 +129,11 @@ class Graph extends React.Component {
       this.props.onError(null);
       this.renderGraphReady = false;
       return;
+    }
+    if (this.props.fullscreen !== this.prevFullscreen)
+    {
+      this.resizeSVG();
+      this.prevFullscreen = this.props.fullscreen;
     }
     if (this.props.dotSrc === this.prevDotSrc && this.props.engine === this.prevEngine && this.props.fit === this.prevFit) {
       return;
@@ -347,6 +371,9 @@ class Graph extends React.Component {
     }
     else if (event.key === '?') {
       this.props.onHelp();
+    }
+    else if (event.key === 'f') {
+      this.props.onToggleFullscreen();
     }
     else {
       return;
@@ -772,13 +799,25 @@ class Graph extends React.Component {
           >
              <CircularProgress
                id="busy-indicator"
-               className={classes.progress}
+               className={this.props.fullscreen ? classes.progressWhenFullscreen : classes.progressWhenNotFullscreen}
                color="secondary"
                size={20}
                thickness={4.5}
              />
           </Fade>
         )}
+        <IconButton
+          id="fullscreen"
+          className={this.props.fullscreen ? classes.fullscreenWhenFullscreen : classes.fullscreenWhenNotFullscreen}
+          color="inherit"
+          aria-label="Fullscreen"
+          onClick={this.props.onToggleFullscreen}
+          size="small">
+            {this.props.fullscreen ?
+              <CloseFullscreenIcon /> :
+              <OpenInFullIcon />
+            }
+        </IconButton>
       </React.Fragment>
     );
   }
