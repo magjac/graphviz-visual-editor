@@ -24,6 +24,11 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  toolbar: {
+    backgroundSize: '16px 16px',
+    backgroundImage: 'linear-gradient(to right, #4ed1f860 1px, transparent 1px), linear-gradient(to bottom, #4ed1f860 1px, transparent 1px)',
+    backgroundColor: 'white',
+  },
   flex: {
     flexGrow: 1,
   },
@@ -117,7 +122,7 @@ function ButtonAppBar(props) {
       <AppBar
         position="static"
       >
-        <Toolbar id="toolbar">
+        <Toolbar id="toolbar" className={classes.toolbar}>
           <IconButton
             id="menu"
             className={classes.menuButton}
