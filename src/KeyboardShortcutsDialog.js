@@ -23,6 +23,7 @@ const keyboardShortcuts = [
   {key: 'Ctrl-Z', description: 'Undo. Revert the last DOT source change.'},
   {key: 'DEL', description: 'Delete the selected nodes and edges.'},
   {key: 'ESC', description: 'De-select the selected nodes and edges. Abort the current drawing operation.'},
+  {key: 'f', description: 'Toggle fullscreen graph mode.'},
   {key: '?', description: 'Show keyboard shortcuts.'},
 ];
 
