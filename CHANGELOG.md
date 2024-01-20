@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 * Show graph in fullscreen mode by clicking the fullscreen button or pressing the 'f' key in the graph.
+* Editor search box. Opens with Ctrl-F.
 
 ### Changed
 * Updated [Graphviz](https://graphviz.org/) from version [2.50.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#2500-2021-12-04) to version [9.0.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#900-2023-09-11) through [@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm) version [2.14.1](https://github.com/hpcc-systems/hpcc-js-wasm/blob/trunk/CHANGELOG.md#2141-2023-10-12), containing a lot of improvements and fixes, including a fix for:
