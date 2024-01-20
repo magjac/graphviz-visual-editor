@@ -224,6 +224,7 @@ function ButtonAppBar(props) {
             1:1
           </Button>
           <Button
+            size="large"
             color="inherit"
             onClick={handleInsertClick}
           >
@@ -231,12 +232,14 @@ function ButtonAppBar(props) {
           </Button>
           <Button
             color="inherit"
+            size="large"
             onClick={handleNodeFormatClick}
           >
             Node format
           </Button>
           <Button
             color="inherit"
+            size="large"
             onClick={handleEdgeFormatClick}
           >
             Edge format
