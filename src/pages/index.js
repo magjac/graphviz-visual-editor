@@ -855,53 +855,51 @@ class Index extends React.Component {
             width: '100%',
           }}
         >
-          {!this.state.fullscreen &&
-            <Grid item xs={columns.textEditor} padding={1.5}>
-              <Paper elevation={leftPaneElevation} className={paperClass}>
-                {this.state.nodeFormatDrawerIsOpen &&
-                  <FormatDrawer
-                    type='node'
-                    defaultAttributes={this.state.defaultNodeAttributes}
-                    onClick={this.handleNodeFormatDrawerClick}
-                    onFormatDrawerClose={this.handleNodeFormatDrawerClose}
-                    onStyleChange={this.handleNodeStyleChange}
-                    onColorChange={this.handleNodeColorChange}
-                    onFillColorChange={this.handleNodeFillColorChange}
-                  />
-                }
-                {this.state.edgeFormatDrawerIsOpen &&
-                  <FormatDrawer
-                    type='edge'
-                    defaultAttributes={this.state.defaultEdgeAttributes}
-                    onClick={this.handleEdgeFormatDrawerClick}
-                    onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
-                    onStyleChange={this.handleEdgeStyleChange}
-                    onColorChange={this.handleEdgeColorChange}
-                    onFillColorChange={this.handleEdgeFillColorChange}
-                  />
-                }
-                <div style={{display: editorIsOpen ? 'block' : 'none'}}>
-                  <TextEditor
-                    // allocated viewport width - 2 * padding
-                    width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
-                    height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
-                    dotSrc={this.state.forceNewDotSrc ? this.state.dotSrc : null}
-                    onTextChange={this.handleTextChange}
-                    onFocus={this.handleTextEditorFocus}
-                    onBlur={this.handleTextEditorBlur}
-                    error={this.state.error}
-                    selectedGraphComponents={this.state.selectedGraphComponents}
-                    holdOff={this.state.holdOff}
-                    fontSize={this.state.fontSize}
-                    tabSize={this.state.tabSize}
-                    registerUndo={this.registerUndo}
-                    registerRedo={this.registerRedo}
-                    registerUndoReset={this.registerUndoReset}
-                  />
-                </div>
-              </Paper>
-            </Grid>
-          }
+          <Grid item xs={columns.textEditor} padding={1.5} style={{ display: this.state.fullscreen ? 'none' : 'block' }}>
+            <Paper elevation={leftPaneElevation} className={paperClass}>
+              {this.state.nodeFormatDrawerIsOpen &&
+                <FormatDrawer
+                  type='node'
+                  defaultAttributes={this.state.defaultNodeAttributes}
+                  onClick={this.handleNodeFormatDrawerClick}
+                  onFormatDrawerClose={this.handleNodeFormatDrawerClose}
+                  onStyleChange={this.handleNodeStyleChange}
+                  onColorChange={this.handleNodeColorChange}
+                  onFillColorChange={this.handleNodeFillColorChange}
+                />
+              }
+              {this.state.edgeFormatDrawerIsOpen &&
+                <FormatDrawer
+                  type='edge'
+                  defaultAttributes={this.state.defaultEdgeAttributes}
+                  onClick={this.handleEdgeFormatDrawerClick}
+                  onFormatDrawerClose={this.handleEdgeFormatDrawerClose}
+                  onStyleChange={this.handleEdgeStyleChange}
+                  onColorChange={this.handleEdgeColorChange}
+                  onFillColorChange={this.handleEdgeFillColorChange}
+                />
+              }
+              <div style={{display: editorIsOpen ? 'block' : 'none'}}>
+                <TextEditor
+                  // allocated viewport width - 2 * padding
+                  width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                  height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
+                  dotSrc={this.state.forceNewDotSrc ? this.state.dotSrc : null}
+                  onTextChange={this.handleTextChange}
+                  onFocus={this.handleTextEditorFocus}
+                  onBlur={this.handleTextEditorBlur}
+                  error={this.state.error}
+                  selectedGraphComponents={this.state.selectedGraphComponents}
+                  holdOff={this.state.holdOff}
+                  fontSize={this.state.fontSize}
+                  tabSize={this.state.tabSize}
+                  registerUndo={this.registerUndo}
+                  registerRedo={this.registerRedo}
+                  registerUndoReset={this.registerUndoReset}
+                />
+              </div>
+            </Paper>
+          </Grid>
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && !this.state.fullscreen && (
             <Grid item xs={columns.insertPanels} padding={1.5}>
               <Paper elevation={midPaneElevation} className={paperClass}>
