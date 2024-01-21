@@ -7,10 +7,10 @@ import { CssBaseline } from '@mui/material';
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#ffffcc",
+      main: "#4ed1f8", // Blueish
     },
     secondary: {
-      main: "#99ccff",
+      main: "#19ccaa", // Greenish
     },
   },
   components: {

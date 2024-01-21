@@ -6,6 +6,7 @@ import { Toolbar } from '@mui/material';
 import { Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { IconButton } from '@mui/material';
+import { Icon } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { OpenInBrowser as OpenInBrowserIcon } from '@mui/icons-material';
@@ -23,6 +24,11 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  toolbar: {
+    backgroundSize: '16px 16px',
+    backgroundImage: 'linear-gradient(to right, #4ed1f860 1px, transparent 1px), linear-gradient(to bottom, #4ed1f860 1px, transparent 1px)',
+    backgroundColor: 'white',
+  },
   flex: {
     flexGrow: 1,
   },
@@ -35,6 +41,16 @@ const styles = {
     '&:visited' : {
       color: 'inherit',
     },
+  },
+  imageIcon: {
+    display: 'block',
+    height: '100%',
+    verticalAlign: 'middle',
+  },
+  iconRoot: {
+    height: '64px',
+    width: '72px',
+    verticalAlign: 'middle',
   },
 };
 
@@ -106,7 +122,7 @@ function ButtonAppBar(props) {
       <AppBar
         position="static"
       >
-        <Toolbar id="toolbar">
+        <Toolbar id="toolbar" className={classes.toolbar}>
           <IconButton
             id="menu"
             className={classes.menuButton}
@@ -168,6 +184,9 @@ function ButtonAppBar(props) {
             color="inherit"
             className={classes.flex}
           >
+          <Icon classes={{root: classes.iconRoot}}>
+            <img className={classes.imageIcon} src="GraphvizLogo.png"  width="64" height="64"/>
+          </Icon>
             Graphviz Visual Editor
           </Typography>
           <IconButton
@@ -205,6 +224,7 @@ function ButtonAppBar(props) {
             1:1
           </Button>
           <Button
+            size="large"
             color="inherit"
             onClick={handleInsertClick}
           >
@@ -212,12 +232,14 @@ function ButtonAppBar(props) {
           </Button>
           <Button
             color="inherit"
+            size="large"
             onClick={handleNodeFormatClick}
           >
             Node format
           </Button>
           <Button
             color="inherit"
+            size="large"
             onClick={handleEdgeFormatClick}
           >
             Edge format

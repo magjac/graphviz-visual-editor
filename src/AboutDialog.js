@@ -17,9 +17,6 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  copyright: {
-    marginTop: theme.spacing(5),
-  },
 });
 
 class AboutDialog extends React.Component {
@@ -144,9 +141,6 @@ class AboutDialog extends React.Component {
               >
                  {graphvizVersion}
               </a>
-            </DialogContentText>
-            <DialogContentText variant='caption' className={classes.copyright}>
-              &copy; 2018-2022 Magnus Jacobsson Interactive AB
             </DialogContentText>
           </DialogContent>
         </Dialog>

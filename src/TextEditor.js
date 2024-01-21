@@ -15,8 +15,8 @@ const styles = {
   },
   aceSelectedWord: {
     position: 'absolute',
-    background: 'rgb(250, 250, 255)',
-    border: '1px solid rgb(200, 200, 250)',
+    background: '#d8f4fd',
+    border: '1px solid #02c1ff',
   },
 };
 
