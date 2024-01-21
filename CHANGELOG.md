@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2024-01-21
+
 ### Added
 * Show graph in fullscreen mode by clicking the fullscreen button or pressing the 'f' key in the graph.
 * Editor search box. Opens with Ctrl-F.
@@ -180,7 +182,8 @@ Never released
   * Keyboard shortcuts
   * Mouse interactions
 
-[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.5...HEAD
+[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.5...v1.0.0
 [0.6.5]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...v0.6.4
 [0.6.3]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.1...v0.6.3
