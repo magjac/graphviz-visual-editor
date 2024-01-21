@@ -17,19 +17,19 @@ describe('Show graph only mode', function () {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.textEditorWrapper().should('exist');
+    cy.textEditorWrapper().should('be.visible');
     cy.toolbar().should('exist');
     cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
 
     cy.fullscreenButton().click();
 
-    cy.textEditorWrapper().should('not.exist');
+    cy.textEditorWrapper().should('not.be.visible');
     cy.toolbar().should('not.exist');
     cy.canvas().invoke('width').should('be.eq', viewportWidth)
 
     cy.fullscreenButton().click();
 
-    cy.textEditorWrapper().should('exist');
+    cy.textEditorWrapper().should('be.visible');
     cy.toolbar().should('exist');
     cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
   });
@@ -49,20 +49,20 @@ describe('Show graph only mode', function () {
     cy.nodes().should('have.length', 2);
     cy.edges().should('have.length', 1);
 
-    cy.textEditorWrapper().should('exist');
+    cy.textEditorWrapper().should('be.visible');
     cy.toolbar().should('exist');
     cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
 
     cy.canvas().click();
     cy.get('body').type('f');
 
-    cy.textEditorWrapper().should('not.exist');
+    cy.textEditorWrapper().should('not.be.visible');
     cy.toolbar().should('not.exist');
     cy.canvas().invoke('width').should('be.eq', viewportWidth)
 
     cy.get('body').type('f');
 
-    cy.textEditorWrapper().should('exist');
+    cy.textEditorWrapper().should('be.visible');
     cy.toolbar().should('exist');
     cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
   });
