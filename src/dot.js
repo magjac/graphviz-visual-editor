@@ -77,7 +77,7 @@ export default class DotGraph {
       }
       else if (child.type === 'node_id') {
         const nodeId = child.id;
-        if (this.nodes[nodeId] == null) {
+        if (!Object.hasOwn(this.nodes, nodeId)) {
           this.nodes[nodeId] = {
             locations: [],
             attributes: {},

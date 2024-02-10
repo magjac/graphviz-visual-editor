@@ -16,6 +16,10 @@ through
 version
 [5.3.0](https://github.com/magjac/d3-graphviz/blob/master/CHANGELOG.md#530--2024-02-11).
 
+### Fixed
+* Entering a node named 'constructor' causes error and no graph rendered #265
+* Having a node called toString hard crashes the editor #272
+
 ## [1.0.0] - 2024-01-21
 
 ### Added
