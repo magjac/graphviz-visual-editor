@@ -1,3 +1,9 @@
+function getAllPropertyNames(obj) {
+  const proto     = Object.getPrototypeOf(obj);
+  const inherited = (proto) ? getAllPropertyNames(proto) : [];
+  return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
+}
+
 describe('Basic rendering from DOT source', function() {
 
   it('Selects the current DOT source, clears it, enters a simple graph and checks that it renders', function() {
@@ -187,6 +193,32 @@ describe('Basic rendering from DOT source', function() {
     cy.canvasGraph().then(graph0 => {
       cy.wrap(graph0).invoke('width').should('be.closeTo', 763.628, 0.0005);
       cy.wrap(graph0).invoke('height').should('eq', 1232);
+    });
+
+  })
+
+  it('Renders nodes with names equal to properties of the JavaScript Object type, and edges between them', function() {
+    const nodeNames = getAllPropertyNames({});
+    const dotSrc = `digraph {\n${nodeNames.join('-> \n')}\n}`;
+    cy.startApplicationWithDotSource(dotSrc);
+
+    const numNodes = nodeNames.length;
+    const numEdges = nodeNames.length - 1;
+
+    cy.nodes().should('have.length', numNodes);
+    cy.edges().should('have.length', numEdges);
+
+    cy.wrap(nodeNames).each((nodeName, i) => {
+      const nodeIndex = i + 1;
+      cy.node(nodeIndex).should('exist');
+      cy.node(nodeIndex).shouldHaveName(nodeName);
+      if (i > 0) {
+        const prevNodeName = nodeNames[i - 1];
+        const edgeIndex = nodeIndex - 1;
+        cy.edge(edgeIndex).should('exist');
+        cy.edge(edgeIndex).shouldHaveName(`${prevNodeName}->${nodeName}`);
+
+      }
     });
 
   })
