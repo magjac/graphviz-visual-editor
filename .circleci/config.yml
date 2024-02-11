@@ -37,7 +37,7 @@ jobs:
       - run: make && yarn test:coverage && yarn run codecov
   integration-test:
     docker:
-      - image: cypress/browsers:node-16.18.1-chrome-109.0.5414.74-1-ff-109.0-edge-109.0.1518.52-1
+      - image: cypress/browsers:node-18.16.1-chrome-114.0.5735.133-1-ff-114.0.2-edge-114.0.1823.51-1
         environment:
           ## this enables colors in the output
           TERM: xterm
