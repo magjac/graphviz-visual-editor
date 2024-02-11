@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2024-02-11
+
 ### Changed
 * Updated [Graphviz](https://graphviz.org/) from version
 [9.0.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#900-2023-09-11)
@@ -196,7 +198,8 @@ Never released
   * Keyboard shortcuts
   * Mouse interactions
 
-[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/magjac/graphviz-visual-editor/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/magjac/graphviz-visual-editor/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.5...v1.0.0
 [0.6.5]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.4...v0.6.5
 [0.6.4]: https://github.com/magjac/graphviz-visual-editor/compare/v0.6.3...v0.6.4
