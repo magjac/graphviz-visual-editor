@@ -68,7 +68,7 @@ class Graph extends React.Component {
     this.latestEdgeAttributes = {
     }
     // latestInsertedNodeShape is not necessarily the same as
-    // latestNodeAttributes.shape with is also set on node copy
+    // latestNodeAttributes.shape which is also set on node copy
     this.latestInsertedNodeShape = null;
     this.drawnNodeName = null;
     this.nodeIndex = null;

@@ -129,6 +129,12 @@ class WrapDot extends React.Component {
   }
 };
 
+function getAllPropertyNames(obj) {
+  const proto     = Object.getPrototypeOf(obj);
+  const inherited = (proto) ? getAllPropertyNames(proto) : [];
+  return [...new Set(Object.getOwnPropertyNames(obj).concat(inherited))];
+}
+
 let console_error = console.error;
 
 afterEach(() => console.error = console_error);
@@ -231,6 +237,13 @@ describe('dot.DotGraph.toString()', () => {
 
   it('renders a single node with a port and compass point', () => {
     let dotSrc = 'digraph {a:p1:n}';
+    render(<WrapDot dotSrc={dotSrc} />);
+    expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc);
+  });
+
+  it('renders nodes with names equal to properties of the Javascript Object', () => {
+    const nodeNames = getAllPropertyNames({});
+    const dotSrc = `digraph {${nodeNames.join(' ')}}`;
     render(<WrapDot dotSrc={dotSrc} />);
     expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc);
   });
