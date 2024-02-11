@@ -67,7 +67,7 @@ jobs:
             apt install make
             make
             npm run start:coverage &
-            $(npm bin)/wait-on http://localhost:3000/
+            npm exec wait-on http://localhost:3000/
             npm run integration-test
             yarn run codecov
 workflows:
