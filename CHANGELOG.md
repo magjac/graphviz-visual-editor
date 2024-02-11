@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* Updated [Graphviz](https://graphviz.org/) from version
+[9.0.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#900-2023-09-11)
+to version
+[10.0.1](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md?ref_type=heads#1001-2024-02-11)
+through
+[d3-graphviz](https://github.com/magjac/d3-graphviz)
+version
+[5.3.0](https://github.com/magjac/d3-graphviz/blob/master/CHANGELOG.md#530--2024-02-11).
+
 ## [1.0.0] - 2024-01-21
 
 ### Added
