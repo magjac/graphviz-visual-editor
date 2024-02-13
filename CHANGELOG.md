@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+ *  Drawing an edge always inserts a directed edge even if the graph is not a directed graph, which results in "syntax error" #237
+
 ## [1.1.0] - 2024-02-11
 
 ### Changed
