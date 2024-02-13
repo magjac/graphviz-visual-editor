@@ -425,7 +425,7 @@ class Graph extends React.Component {
       var endNodeName = endNode.selectWithoutDataPropagation("title").text();
       const edgeop = this.dotGraph.edgeop;
       this.graphviz
-        .insertDrawnEdge(startNodeName + '->' + endNodeName);
+        .insertDrawnEdge(startNodeName + edgeop + endNodeName);
       this.latestEdgeAttributes = Object.assign({}, this.props.defaultEdgeAttributes);
       this.dotGraph.insertEdge(startNodeName, endNodeName, edgeop, this.latestEdgeAttributes);
       this.props.onTextChange(this.dotGraph.dotSrc);
