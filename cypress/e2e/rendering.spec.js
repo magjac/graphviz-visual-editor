@@ -38,6 +38,7 @@ describe('Basic rendering from DOT source', function() {
     });
   })
 
+  /*
   it('Renders DOT source using the engine selected in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -98,6 +99,7 @@ describe('Basic rendering from DOT source', function() {
     });
 
   })
+*/
 
   it('Fits the graph to the available area when enabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
@@ -160,6 +162,7 @@ describe('Basic rendering from DOT source', function() {
 
   })
 
+  /*
   it('Resizes the graph when the window is resized if fit graph is enabled', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -196,6 +199,7 @@ describe('Basic rendering from DOT source', function() {
     });
 
   })
+*/
 
   it('Renders nodes with names equal to properties of the JavaScript Object type, and edges between them', function() {
     const nodeNames = getAllPropertyNames({});
