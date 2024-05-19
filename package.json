@@ -72,7 +72,7 @@
     "istanbul-lib-coverage": "^3.2.2",
     "markdown-to-html": "0.0.13",
     "nyc": "^15.0.0",
-    "peggy": "^3.0.2",
+    "peggy": "^4.0.2",
     "wait-on": "^7.2.0"
   },
   "browserslist": {
