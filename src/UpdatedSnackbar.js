@@ -44,7 +44,7 @@ class UpdatedSnackbar extends React.Component {
     })();
     const graphvizVersion = this.props.graphvizVersion;
     const graphvizReleaseDate = graphvizVersions[graphvizVersion].release_date;
-    const graphvizChangelogHeaderId = graphvizVersion.replace(/\./g, '') + "-" + graphvizReleaseDate;
+    const graphvizChangelogHeaderId = graphvizVersion.replace(/\./g, '') + "--" + graphvizReleaseDate;
     return (
       <Snackbar
         className={classes.snackbar}
