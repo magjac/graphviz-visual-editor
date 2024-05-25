@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+* Updated [Graphviz](https://graphviz.org/) from version
+[10.0.1](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md#1001--2024-02-11)
+to version
+[11.0.0](https://gitlab.com/graphviz/graphviz/-/blob/main/CHANGELOG.md#1100--2024-04-28)
+through
+[d3-graphviz](https://github.com/magjac/d3-graphviz)
+version
+[5.4.0](https://github.com/magjac/d3-graphviz/blob/master/CHANGELOG.md#540--2024-05-05).
+
 ### Fixed
  *  Drawing an edge always inserts a directed edge even if the graph is not a directed graph, which results in "syntax error" #237
 
