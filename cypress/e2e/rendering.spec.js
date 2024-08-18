@@ -38,7 +38,6 @@ describe('Basic rendering from DOT source', function() {
     });
   })
 
-/*
   it('Renders DOT source using the engine selected in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -69,8 +68,8 @@ describe('Basic rendering from DOT source', function() {
           cy.wrap(graph0).invoke('width').should('be.closeTo', 95.867, 0.0005);
           break;
         case 'fdp':
-          cy.wrap(graph0).invoke('height').should('be.closeTo', 71.707, 0.0005);
-          cy.wrap(graph0).invoke('width').should('be.closeTo', 184.000, 0.0005);
+          cy.wrap(graph0).invoke('height').should('be.closeTo', 72.907, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 184.720, 0.0005);
           break;
         case 'neato':
           cy.wrap(graph0).invoke('height').should('be.closeTo', 72.853, 0.0005);
@@ -78,7 +77,7 @@ describe('Basic rendering from DOT source', function() {
           break;
         case 'osage':
           cy.wrap(graph0).invoke('height').should('be.closeTo', 58.667, 0.0005);
-          cy.wrap(graph0).invoke('width').should('be.closeTo', 172.360, 0.0005);
+          cy.wrap(graph0).invoke('width').should('be.closeTo', 173.693, 0.0005);
           break;
         case 'patchwork':
           cy.wrap(graph0).invoke('height').should('be.closeTo', 70.293, 0.0005);
@@ -99,7 +98,6 @@ describe('Basic rendering from DOT source', function() {
     });
 
   })
-*/
 
   it('Fits the graph to the available area when enabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
