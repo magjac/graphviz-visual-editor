@@ -160,7 +160,6 @@ describe('Basic rendering from DOT source', function() {
 
   })
 
-  /*
   it('Resizes the graph when the window is resized if fit graph is enabled', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -197,7 +196,6 @@ describe('Basic rendering from DOT source', function() {
     });
 
   })
-*/
 
   it('Renders nodes with names equal to properties of the JavaScript Object type, and edges between them', function() {
     const nodeNames = getAllPropertyNames({});
