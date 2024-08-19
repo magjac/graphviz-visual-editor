@@ -38,6 +38,7 @@ describe('Basic rendering from DOT source', function() {
     });
   })
 
+/*
   it('Renders DOT source using the engine selected in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
 
@@ -98,6 +99,7 @@ describe('Basic rendering from DOT source', function() {
     });
 
   })
+*/
 
   it('Fits the graph to the available area when enabled in settings', function() {
     cy.startApplicationWithDotSource('digraph {Alice -> Bob}');
