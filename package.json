@@ -71,7 +71,7 @@
     "enzyme": "^3.11.0",
     "istanbul-lib-coverage": "^3.2.2",
     "markdown-to-html": "0.0.13",
-    "nyc": "^15.0.0",
+    "nyc": "^17.0.0",
     "peggy": "^4.0.3",
     "wait-on": "^8.0.0"
   },
