@@ -40,7 +40,7 @@
     "prop-types": "^15.8.1",
     "qs": "^6.13.0",
     "react": "^18.3.1",
-    "react-ace": "^11.0.1",
+    "react-ace": "^12.0.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.3.1",
     "react-perfect-scrollbar": "^1.5.8",
