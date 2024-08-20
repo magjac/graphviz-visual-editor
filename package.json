@@ -73,7 +73,7 @@
     "markdown-to-html": "0.0.13",
     "nyc": "^15.0.0",
     "peggy": "^4.0.3",
-    "wait-on": "^7.2.0"
+    "wait-on": "^8.0.0"
   },
   "browserslist": {
     "production": [
