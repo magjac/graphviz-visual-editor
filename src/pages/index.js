@@ -686,6 +686,10 @@ class Index extends React.Component {
   }
 
   handleToggleFullscreen = () => {
+    // return focus to the document body. This remove focus from the fullscreen
+    // icon button and allows keyboard shortcuts in the graph to continue to
+    // work.
+    document.activeElement.blur();
     this.setState((state) => ({
       fullscreen: !state.fullscreen,
     }));
