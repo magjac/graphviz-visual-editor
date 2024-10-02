@@ -66,4 +66,37 @@ describe('Show graph only mode', function () {
     cy.toolbar().should('exist');
     cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
   });
+
+  it('Shows the graph only when the open in full button is clicked and shows the full application again when the \'f\' key is pressed', function () {
+    cy.startCleanApplication();
+    cy.clearAndRenderDotSource('digraph {Alice -> Bob}');
+
+    cy.node(1).should('exist');
+    cy.node(2).should('exist');
+    cy.edge(1).should('exist');
+
+    cy.node(1).shouldHaveName('Alice');
+    cy.node(2).shouldHaveName('Bob');
+    cy.edge(1).shouldHaveName('Alice->Bob');
+
+    cy.nodes().should('have.length', 2);
+    cy.edges().should('have.length', 1);
+
+    cy.textEditorWrapper().should('be.visible');
+    cy.toolbar().should('exist');
+    cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
+
+    cy.canvas().click();
+    cy.fullscreenButton().click();
+
+    cy.textEditorWrapper().should('not.be.visible');
+    cy.toolbar().should('not.exist');
+    cy.canvas().invoke('width').should('be.eq', viewportWidth)
+
+    cy.get('body').type('f');
+
+    cy.textEditorWrapper().should('be.visible');
+    cy.toolbar().should('exist');
+    cy.canvas().invoke('width').should('be.lt', viewportWidth / 2)
+  });
 });
