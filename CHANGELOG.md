@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Clicking the fullscreen button steals keyboard focus away from the canvas #300
+
 ## [1.3.0] - 2024-08-20
 
 ### Changed
