@@ -11,7 +11,7 @@ def main(args: List[str]) -> int: # pylint: disable=missing-function-docstring
 
   with open(args[1]) as fp:
     versions = {}
-    for  line in fp:
+    for line in fp:
       mo = re.match("## \\[([0-9][^\\]]*)] [-–] (.*)$", line)
       if mo:
         version = mo.group(1)
