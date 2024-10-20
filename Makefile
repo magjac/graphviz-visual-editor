@@ -46,7 +46,8 @@ dots parse-all-graphviz-dots: dotfiles.txt
 	done
 
 dotfiles.txt: graphviz
-	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@
+	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
+	mv $@.tmp $@
 
 readme: readme.html
 
