@@ -33,7 +33,9 @@ src/dotParser.js: src/dotGrammar.pegjs
 	mv tmp2.js $@
 	rm tmp.js
 
-graphviz graphviz/CHANGELOG.md:
+graphviz/CHANGELOG.md: graphviz
+
+graphviz:
 	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git
 
 dots parse-all-graphviz-dots: dotfiles.txt
