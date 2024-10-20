@@ -3,7 +3,6 @@ GENERATED_FILES = \
 	src/graphviz-versions.json \
 	src/shapes.js \
 	src/versions.json \
-	readme.html \
 	changelog.html \
 	src/dotParser.js \
 	graphviz \
@@ -42,11 +41,6 @@ graphviz:
 dotfiles.txt: graphviz
 	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
 	mv $@.tmp $@
-
-readme: readme.html
-
-readme.html: README.md
-	./node_modules/markdown-to-html/bin/github-markdown README.md -h >readme.html
 
 changelog: changelog.html
 
