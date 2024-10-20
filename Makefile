@@ -3,7 +3,6 @@ GENERATED_FILES = \
 	src/graphviz-versions.json \
 	src/shapes.js \
 	src/versions.json \
-	changelog.html \
 	src/dotParser.js \
 	graphviz \
 	dotfiles.txt \
@@ -41,11 +40,6 @@ graphviz:
 dotfiles.txt: graphviz
 	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
 	mv $@.tmp $@
-
-changelog: changelog.html
-
-changelog.html: CHANGELOG.md
-	./node_modules/markdown-to-html/bin/github-markdown CHANGELOG.md -h >changelog.html
 
 clone-build:
 	rm -rf /tmp/`basename \`pwd\`` && git clone `pwd`/.git /tmp/`basename \`pwd\`` && cd /tmp/`basename \`pwd\`` && npm install && make && npm run build
