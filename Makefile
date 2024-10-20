@@ -12,26 +12,26 @@ GENERATED_FILES = \
 main: $(GENERATED_FILES)
 
 src/shapes.js: bin/generate-nodes.js
-	bin/generate-nodes.js > tmp.js
-	mv tmp.js $@
+	bin/generate-nodes.js > $@.tmp
+	mv $@.tmp $@
 
 src/graphvizVersion.js: bin/generate-graphviz-version.js
-	bin/generate-graphviz-version.js > tmp.js
-	mv tmp.js $@
+	bin/generate-graphviz-version.js > $@.tmp
+	mv $@.tmp $@
 
 src/versions.json: CHANGELOG.md bin/generate-versions.py
-	bin/generate-versions.py CHANGELOG.md > tmp.js
-	mv tmp.js $@
+	bin/generate-versions.py CHANGELOG.md > $@.tmp
+	mv $@.tmp $@
 
 src/graphviz-versions.json: graphviz/CHANGELOG.md bin/generate-versions.py
-	bin/generate-versions.py graphviz/CHANGELOG.md > tmp.js
-	mv tmp.js $@
+	bin/generate-versions.py graphviz/CHANGELOG.md > $@.tmp
+	mv $@.tmp $@
 
 src/dotParser.js: src/dotGrammar.pegjs
-	npx peggy --format es --output tmp.js $<
-	echo "/* eslint-disable */" | cat - tmp.js > tmp2.js
-	mv tmp2.js $@
-	rm tmp.js
+	npx peggy --format es --output $@.tmp $<
+	echo "/* eslint-disable */" | cat - $@.tmp > $@.tmp2
+	mv $@.tmp2 $@
+	rm $@.tmp
 
 graphviz/CHANGELOG.md: graphviz
 
