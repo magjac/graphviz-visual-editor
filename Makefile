@@ -38,7 +38,7 @@ graphviz:
 	mv $@.tmp $@
 
 dotfiles.txt: graphviz
-	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
+	find graphviz -name '*.dot' | grep -E -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
 	mv $@.tmp $@
 
 clone-build:
