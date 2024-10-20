@@ -39,12 +39,6 @@ graphviz:
 	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git $@.tmp
 	mv $@.tmp $@
 
-dots parse-all-graphviz-dots: dotfiles.txt
-	for dotfile in `cat dotfiles.txt`; do \
-	  echo $$dotfile; \
-	  ./bin/dotparser.js < $$dotfile > `dirname $$dotfile`/`basename $$dotfile .dot`.json; \
-	done
-
 dotfiles.txt: graphviz
 	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
 	mv $@.tmp $@
