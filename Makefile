@@ -3,8 +3,6 @@ GENERATED_FILES = \
 	src/graphviz-versions.json \
 	src/shapes.js \
 	src/versions.json \
-	readme.html \
-	changelog.html \
 	src/dotParser.js \
 	graphviz \
 	dotfiles.txt \
@@ -12,48 +10,36 @@ GENERATED_FILES = \
 main: $(GENERATED_FILES)
 
 src/shapes.js: bin/generate-nodes.js
-	bin/generate-nodes.js > tmp.js
-	mv tmp.js $@
+	bin/generate-nodes.js > $@.tmp
+	mv $@.tmp $@
 
 src/graphvizVersion.js: bin/generate-graphviz-version.js
-	bin/generate-graphviz-version.js > tmp.js
-	mv tmp.js $@
+	bin/generate-graphviz-version.js > $@.tmp
+	mv $@.tmp $@
 
 src/versions.json: CHANGELOG.md bin/generate-versions.py
-	bin/generate-versions.py CHANGELOG.md > tmp.js
-	mv tmp.js $@
+	bin/generate-versions.py CHANGELOG.md > $@.tmp
+	mv $@.tmp $@
 
 src/graphviz-versions.json: graphviz/CHANGELOG.md bin/generate-versions.py
-	bin/generate-versions.py graphviz/CHANGELOG.md > tmp.js
-	mv tmp.js $@
+	bin/generate-versions.py graphviz/CHANGELOG.md > $@.tmp
+	mv $@.tmp $@
 
 src/dotParser.js: src/dotGrammar.pegjs
-	node_modules/.bin/peggy --format es --output tmp.js $<
-	echo "/* eslint-disable */" | cat - tmp.js > tmp2.js
-	mv tmp2.js $@
-	rm tmp.js
+	npx peggy --format es --output $@.tmp $<
+	echo "/* eslint-disable */" | cat - $@.tmp > $@.tmp2
+	mv $@.tmp2 $@
+	rm $@.tmp
 
-graphviz graphviz/CHANGELOG.md:
-	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git
+graphviz/CHANGELOG.md: graphviz
 
-dots parse-all-graphviz-dots: dotfiles.txt
-	for dotfile in `cat dotfiles.txt`; do \
-	  echo $$dotfile; \
-	  ./bin/dotparser.js < $$dotfile > `dirname $$dotfile`/`basename $$dotfile .dot`.json; \
-	done
+graphviz:
+	git clone --depth 1 https://gitlab.com/graphviz/graphviz.git $@.tmp
+	mv $@.tmp $@
 
 dotfiles.txt: graphviz
-	find graphviz -name '*.dot' | egrep -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@
-
-readme: readme.html
-
-readme.html: README.md
-	./node_modules/markdown-to-html/bin/github-markdown README.md -h >readme.html
-
-changelog: changelog.html
-
-changelog.html: CHANGELOG.md
-	./node_modules/markdown-to-html/bin/github-markdown CHANGELOG.md -h >changelog.html
+	find graphviz -name '*.dot' | grep -E -v "(nullderefrebuildlist\.dot|^graphviz/tests/.*)$$" > $@.tmp
+	mv $@.tmp $@
 
 clone-build:
 	rm -rf /tmp/`basename \`pwd\`` && git clone `pwd`/.git /tmp/`basename \`pwd\`` && cd /tmp/`basename \`pwd\`` && npm install && make && npm run build

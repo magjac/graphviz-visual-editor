@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * Clicking the fullscreen button steals keyboard focus away from the canvas #300
+* Running `make` on Windows fails.
+* Unable to create generated files using make with parallel job execution #295
 
 ## [1.3.0] - 2024-08-20
 
