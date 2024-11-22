@@ -27,6 +27,17 @@ npm run build
 
 Learn more from the Create React App [README](https://github.com/facebook/create-react-app#npm-run-build-or-yarn-build) and [User Guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment).
 
+## Docker ##
+To run this on a system without `make` and `node` you can use Docker.
+The provided `docker-compose.yml` file builds a Docker image from the latest master commit of the current repository, starts the server and exposes port 3000.
+
+To use it:
+
+```
+git clone --depth 1 https://github.com/magjac/graphviz-visual-editor
+cd graphviz-visual-editor
+docker-compose up -d
+```
 ## Implemented Features ##
 
 * Rendering of a graph from a textual [DOT](https://www.graphviz.org/doc/info/lang.html) representation.
