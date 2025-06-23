@@ -241,6 +241,12 @@ describe('dot.DotGraph.toString()', () => {
     expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc);
   });
 
+  it('accepts "c" as a compass point on nodes', () => {
+    let dotSrc = 'digraph {a:p1:c}';
+    render(<WrapDot dotSrc={dotSrc} />);
+    expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc);
+  });
+
   it('renders nodes with names equal to properties of the Javascript Object', () => {
     const nodeNames = getAllPropertyNames({});
     const dotSrc = `digraph {${nodeNames.join(' ')}}`;
@@ -282,6 +288,12 @@ describe('dot.DotGraph.toString()', () => {
 
   it('renders an edge between ports and compass points on two nodes in a directed graph', () => {
     let dotSrc = 'digraph {a:p1:n -> b:p2:e}';
+    render(<WrapDot dotSrc={dotSrc} />);
+    expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc);
+  });
+
+  it('renders an edge directed at the center point of two nodes', () => {
+    let dotSrc = 'digraph {a:p1:c -> b:p2:c}';
     render(<WrapDot dotSrc={dotSrc} />);
     expect(screen.getByTestId('dot-src').textContent).toBe(dotSrc);
   });

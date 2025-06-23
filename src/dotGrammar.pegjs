@@ -151,7 +151,7 @@ subgraph
       }
 
 compass_pt
-  = 'n'/'ne'/'e'/'se'/'s'/'sw'/'w'/'nw'
+  = 'n'/'ne'/'e'/'se'/'s'/'sw'/'w'/'nw'/'c'
 
 ID
   = STRING
