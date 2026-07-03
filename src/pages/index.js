@@ -1,8 +1,7 @@
 import React from 'react';
 import 'typeface-roboto';
 import PropTypes from 'prop-types';
-import { Paper } from '@mui/material';
-import { Grid } from '@mui/material';
+import { Paper, Grid } from '@mui/material';
 import { withStyles } from 'tss-react/mui';
 import withRoot from '../withRoot.js';
 import ButtonAppBar from '../ButtonAppBar.js';
@@ -102,6 +101,9 @@ class Index extends React.Component {
       test: JSON.parse(localStorage.getItem('test')) || {},
       graphvizVersion: graphvizVersion,
       newGraphvizVersion: graphvizVersion !== localStorage.getItem('graphvizVersion'),
+      leftWidthPercent: parseFloat(localStorage.getItem('leftWidthPercent')) || 50,
+      isDragging: false,
+      isSeparatorHovered: false,
       updatedSnackbarIsOpen: packageJSON.version !== localStorage.getItem('version'),
     };
   }
@@ -141,6 +143,81 @@ class Index extends React.Component {
         this.setFocus(null);
       }
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mouseup', this.handleMouseUp);
+    document.removeEventListener('touchmove', this.handleTouchMove);
+    document.removeEventListener('touchend', this.handleTouchEnd);
+  }
+
+  handleMouseDown = (e) => {
+    e.preventDefault();
+    this.setState({ isDragging: true });
+    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  handleMouseMove = (e) => {
+    const containerWidth = window.innerWidth;
+    if (containerWidth > 0) {
+      let newLeftWidthPercent = (e.clientX / containerWidth) * 100;
+      if (newLeftWidthPercent < 15) newLeftWidthPercent = 15;
+      if (newLeftWidthPercent > 85) newLeftWidthPercent = 85;
+      this.setPersistentState({
+        leftWidthPercent: newLeftWidthPercent,
+      });
+    }
+  }
+
+  handleMouseUp = () => {
+    this.setState({ isDragging: false });
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mouseup', this.handleMouseUp);
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+
+  handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      this.setState({ isDragging: true });
+      document.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+      document.addEventListener('touchend', this.handleTouchEnd);
+      document.body.style.userSelect = 'none';
+    }
+  }
+
+  handleTouchMove = (e) => {
+    if (e.touches.length === 1) {
+      e.preventDefault();
+      const containerWidth = window.innerWidth;
+      if (containerWidth > 0) {
+        let newLeftWidthPercent = (e.touches[0].clientX / containerWidth) * 100;
+        if (newLeftWidthPercent < 15) newLeftWidthPercent = 15;
+        if (newLeftWidthPercent > 85) newLeftWidthPercent = 85;
+        this.setPersistentState({
+          leftWidthPercent: newLeftWidthPercent,
+        });
+      }
+    }
+  }
+
+  handleTouchEnd = () => {
+    this.setState({ isDragging: false });
+    document.removeEventListener('touchmove', this.handleTouchMove);
+    document.removeEventListener('touchend', this.handleTouchEnd);
+    document.body.style.userSelect = '';
+  }
+
+  handleMouseEnter = () => {
+    this.setState({ isSeparatorHovered: true });
+  }
+
+  handleMouseLeave = () => {
+    this.setState({ isSeparatorHovered: false });
   }
 
   setPersistentState = (updater) => {
@@ -728,29 +805,39 @@ class Index extends React.Component {
     const rightPaneElevation = this.state.fullscreen ? 0 : graphHasFocus ? focusedElevation : defaultElevation;
     const midPaneElevation = insertPanelsHaveFocus ? focusedElevation : defaultElevation;
 
-    var columns;
+    let editorWidthPercent;
+    let insertPanelsWidthPercent;
+    let graphWidthPercent;
     if (this.state.fullscreen) {
-      columns = {
-        textEditor: false,
-        insertPanels: false,
-        graph: 12,
-      }
+      editorWidthPercent = 0;
+      insertPanelsWidthPercent = 0;
+      graphWidthPercent = 100;
     } else if (this.state.insertPanelsAreOpen && this.state.graphInitialized) {
-      columns = {
-        textEditor: 3,
-        insertPanels: 3,
-        graph: 6,
-      }
-    } else { /* browse */
-      columns = {
-        textEditor: 6,
-        insertPanels: false,
-        graph: 6,
-      }
+      editorWidthPercent = this.state.leftWidthPercent / 2;
+      insertPanelsWidthPercent = this.state.leftWidthPercent / 2;
+      graphWidthPercent = 100 - this.state.leftWidthPercent;
+    } else {
+      editorWidthPercent = this.state.leftWidthPercent;
+      insertPanelsWidthPercent = 0;
+      graphWidthPercent = 100 - this.state.leftWidthPercent;
     }
     const paperClass = this.state.updatedSnackbarIsOpen ? classes.paperWhenUpdatedSnackbarIsOpen : this.state.fullscreen ? classes.paperWhenFullscreen : classes.paper ;
     return (
       <div className={classes.root}>
+        {this.state.isDragging && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 9999,
+              cursor: 'col-resize',
+              backgroundColor: 'transparent',
+            }}
+          />
+        )}
         <script src={process.env.PUBLIC_URL.replace(/\.$/, '') + "@hpcc-js/wasm/dist/graphviz.umd.js"} type="javascript/worker"></script>
         {!this.state.fullscreen &&
           <ButtonAppBar
@@ -857,9 +944,18 @@ class Index extends React.Component {
           style={{
             margin: 0,
             width: '100%',
+            flexWrap: 'nowrap',
           }}
         >
-          <Grid item xs={columns.textEditor} padding={1.5} style={{ display: this.state.fullscreen ? 'none' : 'block' }}>
+          <Grid item
+            style={{
+              display: this.state.fullscreen ? 'none' : 'block',
+              width: `${editorWidthPercent}%`,
+              maxWidth: `${editorWidthPercent}%`,
+              flexBasis: `${editorWidthPercent}%`,
+            }}
+            padding={1.5}
+          >
             <Paper elevation={leftPaneElevation} className={paperClass}>
               {this.state.nodeFormatDrawerIsOpen &&
                 <FormatDrawer
@@ -886,7 +982,7 @@ class Index extends React.Component {
               <div style={{display: editorIsOpen ? 'block' : 'none'}}>
                 <TextEditor
                   // allocated viewport width - 2 * padding
-                  width={`calc(${columns.textEditor * 100 / 12}vw - 2 * 12px)`}
+                  width={`calc(${editorWidthPercent}vw - 2 * 12px)`}
                   height={`calc(100vh - 64px - 2 * 12px - ${this.updatedSnackbarIsOpen ? "64px" : "0px"})`}
                   dotSrc={this.state.forceNewDotSrc ? this.state.dotSrc : null}
                   onTextChange={this.handleTextChange}
@@ -905,7 +1001,14 @@ class Index extends React.Component {
             </Paper>
           </Grid>
           {this.state.insertPanelsAreOpen && this.state.graphInitialized && !this.state.fullscreen && (
-            <Grid item xs={columns.insertPanels} padding={1.5}>
+            <Grid item
+              style={{
+                width: `${insertPanelsWidthPercent}%`,
+                maxWidth: `${insertPanelsWidthPercent}%`,
+                flexBasis: `${insertPanelsWidthPercent}%`,
+              }}
+              padding={1.5}
+            >
               <Paper elevation={midPaneElevation} className={paperClass}>
                 <InsertPanels
                     onClick={this.handleInsertPanelsClick}
@@ -916,10 +1019,48 @@ class Index extends React.Component {
               </Paper>
             </Grid>
           )}
-          <Grid item xs={columns.graph} padding={this.state.fullscreen ? 0 : 1.5}>
+          {!this.state.fullscreen && (
+            <div
+              id="layout-separator"
+              style={{
+                width: '8px',
+                cursor: 'col-resize',
+                alignSelf: 'stretch',
+                position: 'relative',
+                zIndex: 10,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                userSelect: 'none',
+                margin: '0 -4px',
+              }}
+              onMouseDown={this.handleMouseDown}
+              onTouchStart={this.handleTouchStart}
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
+            >
+              <div
+                style={{
+                  width: '2px',
+                  height: '100%',
+                  backgroundColor: (this.state.isDragging || this.state.isSeparatorHovered) ? '#1976d2' : 'rgba(0, 0, 0, 0.12)',
+                  transition: 'background-color 0.2s',
+                }}
+              />
+            </div>
+          )}
+          <Grid item
+            style={{
+              width: `${graphWidthPercent}%`,
+              maxWidth: `${graphWidthPercent}%`,
+              flexBasis: `${graphWidthPercent}%`,
+            }}
+            padding={this.state.fullscreen ? 0 : 1.5}
+          >
             <Paper elevation={rightPaneElevation} className={paperClass}>
               <Graph
                 hasFocus={graphHasFocus}
+                width={graphWidthPercent}
                 dotSrc={this.state.dotSrc}
                 engine={this.state.engine}
                 fit={this.state.fitGraph}
