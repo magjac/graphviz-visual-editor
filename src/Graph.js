@@ -85,7 +85,10 @@ class Graph extends React.Component {
     this.createGraph()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps && prevProps.width !== this.props.width) {
+      this.resizeSVG();
+    }
     this.renderGraph()
   }
 
