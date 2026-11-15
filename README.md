@@ -4,7 +4,7 @@ Try it at http://magjac.com/graphviz-visual-editor.
 
 A web application for interactive visual editing of [Graphviz](http://www.graphviz.org) graphs described in the [DOT](https://www.graphviz.org/doc/info/lang.html) language.
 
-[![CircleCI](https://circleci.com/gh/magjac/graphviz-visual-editor.svg?style=svg)](https://circleci.com/gh/magjac/graphviz-visual-editor)
+[![CI](https://github.com/magjac/graphviz-visual-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/magjac/graphviz-visual-editor/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/magjac/graphviz-visual-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/magjac/graphviz-visual-editor)
 
 ## Installation ##
@@ -26,6 +26,19 @@ npm run build
 ```
 
 Learn more from the Create React App [README](https://github.com/facebook/create-react-app#npm-run-build-or-yarn-build) and [User Guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment).
+
+## Continuous Integration ##
+
+[GitHub Actions](https://github.com/magjac/graphviz-visual-editor/actions/workflows/ci.yml) runs unit tests and Chrome integration tests in parallel on pushes and pull requests. Both jobs use Node.js 22, install dependencies from `package-lock.json` with `npm ci`, generate source files with `make`, and upload coverage to Codecov. Cypress screenshots and videos are retained as workflow artifacts for seven days.
+
+Configure these repository secrets under **Settings → Secrets and variables → Actions**:
+
+* `CODECOV_TOKEN`: the repository's Codecov upload token.
+* `CYPRESS_RECORD_KEY` (optional): enables recording integration test results in Cypress Cloud. Tests still run when the secret is unavailable, including pull requests from forks.
+
+To run integration tests locally, start the instrumented application with `npm run start:coverage`, then run `npm run integration-test` in another terminal. To record a run, set the `CYPRESS_RECORD_KEY` environment variable and append `-- --record` to the test command.
+
+When switching CI providers, update any required branch protection checks to **Build and unit tests** and **Chrome integration tests**, then disable the project in CircleCI.
 
 ## Implemented Features ##
 

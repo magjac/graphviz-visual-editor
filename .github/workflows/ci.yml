@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: true
+
+jobs:
+  build:
+    name: Build and unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+      - name: Generate source files
+        run: make
+      - name: Run unit tests with coverage
+        run: npm run test:coverage -- --watchAll=false --runInBand
+      - name: Upload unit test coverage
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage-jest/lcov.info
+          disable_search: true
+          flags: unittests
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  integration-test:
+    name: Chrome integration tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          # The Cypress action caches npm packages and the Cypress binary.
+          package-manager-cache: false
+      - name: Run integration tests with coverage
+        uses: cypress-io/github-action@v7
+        with:
+          install-command: npm ci
+          build: make
+          start: npm run start:coverage
+          wait-on: http://127.0.0.1:3000
+          wait-on-timeout: 180
+          browser: chrome
+          record: ${{ env.CYPRESS_RECORD_KEY != '' }}
+        env:
+          BROWSER: none
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Upload integration test coverage
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage-cypress/lcov.info
+          disable_search: true
+          flags: integration
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload Cypress screenshots and videos
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: cypress-results
+          path: |
+            cypress/screenshots
+            cypress/videos
+          if-no-files-found: ignore
+          retention-days: 7
